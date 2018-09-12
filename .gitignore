@@ -13,3 +13,5 @@ yarn-error.log
 .env
 .phpunit.result.cache
 /pgdata
+storage/api-docs
+.rnd
