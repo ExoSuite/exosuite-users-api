@@ -15,3 +15,6 @@ yarn-error.log
 /pgdata
 storage/api-docs
 .rnd
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php

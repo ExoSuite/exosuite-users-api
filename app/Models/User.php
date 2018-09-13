@@ -11,12 +11,12 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, Uuids;
+    use HasApiTokens, Uuids;
 
     /**
      * Indicates if the IDs are auto-incrementing.
      *
-     * @var bool
+     * @var boolean
      */
     public $incrementing = false;
 
@@ -26,7 +26,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'email', 'password',
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'password',
     ];
 
     /**
@@ -34,7 +38,5 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password'
-    ];
+    protected $hidden = [ 'password' ];
 }
