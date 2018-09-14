@@ -5,8 +5,13 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
+/**
+ * Class RouteServiceProvider
+ * @package App\Providers
+ */
 class RouteServiceProvider extends ServiceProvider
 {
+
     /**
      * This namespace is applied to your controller routes.
      *
@@ -14,7 +19,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    protected $_namespace = 'App\Http\Controllers';
+
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -23,10 +29,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+
     }
+
 
     /**
      * Define the routes for the application.
@@ -36,11 +42,9 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapApiRoutes();
-
         $this->mapWebRoutes();
-
-        //
     }
+
 
     /**
      * Define the "web" routes for the application.
@@ -52,9 +56,11 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->_namespace)
+            ->group(base_path('routes/web.php'));
+
     }
+
 
     /**
      * Define the "api" routes for the application.
@@ -68,7 +74,9 @@ class RouteServiceProvider extends ServiceProvider
         // uncomment this line to add api/ on all api routes
         // Route::prefix('api')
         Route::middleware('api')
-            ->namespace($this->namespace)
+            ->namespace($this->_namespace)
             ->group(base_path('routes/api.php'));
     }
+
+
 }

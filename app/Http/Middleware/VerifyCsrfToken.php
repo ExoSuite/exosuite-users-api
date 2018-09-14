@@ -4,12 +4,17 @@ namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
+/**
+ * Class VerifyCsrfToken
+ * @package App\Http\Middleware
+ */
 class VerifyCsrfToken extends Middleware
 {
+
     /**
      * Indicates whether the XSRF-TOKEN cookie should be set on the response.
      *
-     * @var bool
+     * @var boolean
      */
     protected $addHttpCookie = true;
 
@@ -18,7 +23,5 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array
      */
-    protected $except = [
-        //
-    ];
-}
+    protected $except = [];
+}//end class

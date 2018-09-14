@@ -56,6 +56,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Production URL
+    |--------------------------------------------------------------------------
+    |
+    | This URL is used to generate documentation for Confluence
+    |
+    */
+
+    'production_url' => env('PRODUCTION_URL', 'https://api.exosuite.fr'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
@@ -159,7 +170,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        App\Providers\FacadesServiceProvider::class
     ],
 
     /*
