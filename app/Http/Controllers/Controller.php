@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace App\Http\Controllers;
 
@@ -17,19 +17,4 @@ use Laravel\Passport\Client;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
-
-    /**
-     * @var Client
-     */
-    protected $_oauth_client;
-
-
-    /**
-     * Controller constructor.
-     */
-    public function __construct()
-    {
-        $this->_oauth_client = Client::whereId(2)->first();
-    }
 }

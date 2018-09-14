@@ -9,6 +9,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Laravel\Passport\HasApiTokens;
 
+/**
+ * Class User
+ * @package App\Models
+ */
+
+/**
+ * Class User
+ * @package App\Models
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, Uuids;

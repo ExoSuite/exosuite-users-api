@@ -148,9 +148,9 @@ return [
             'scheme' => 'https',
             'flows' => [
                 "password" => [
-                    "authorizationUrl" => config('app.url') . '/oauth/authorize',
-                    "tokenUrl" => config('app.url') . '/oauth/token',
-                    "refreshUrl" => config('app.url') . '/token/refresh',
+                    "authorizationUrl" => config('app.production_url') . '/oauth/authorize',
+                    "tokenUrl" => config('app.production_url') . '/oauth/token',
+                    "refreshUrl" => config('app.production_url') . '/token/refresh',
                     "scopes" => []
                 ],
             ],
@@ -207,7 +207,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'operations_sort' => env('L5_SWAGGER_OPERATIONS_SORT', null),
+    'operations_sort' => env('L5_SWAGGER_OPERATIONS_SORT', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -220,10 +220,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Uncomment to add constants which can be used in anotations
+    | Uncomment to add constants which can be used in annotations
     |--------------------------------------------------------------------------
      */
     'constants' => [
-        'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
+        'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'https://api.exosuite.fr'),
     ],
 ];

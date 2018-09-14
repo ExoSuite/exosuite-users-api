@@ -9,6 +9,10 @@
 namespace App\Contracts;
 
 
+/**
+ * Interface MakesInternalRequests
+ * @package App\Contracts
+ */
 interface MakesInternalRequests
 {
 

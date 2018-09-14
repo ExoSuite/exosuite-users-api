@@ -12,6 +12,10 @@ namespace App\Models\Traits;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Trait Uuids
+ * @package App\Models\Traits
+ */
 trait Uuids
 {
 

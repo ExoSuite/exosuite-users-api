@@ -3,7 +3,12 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
+/**
+ * Class AppServiceProvider
+ * @package App\Providers
+ */
 class AppServiceProvider extends ServiceProvider
 {
 
@@ -26,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        Passport::ignoreMigrations();
     }//end register()
 
 

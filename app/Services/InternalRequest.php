@@ -11,7 +11,7 @@ namespace App\Services;
 use Illuminate\Http\Request;
 use App\Contracts\MakesInternalRequests;
 use Illuminate\Foundation\Application;
-use App\Exceptions\FailedInternalRequestException;
+use App\Exceptions\InternalRequestException;
 use Illuminate\Http\Response;
 
 /**
@@ -50,7 +50,7 @@ class InternalRequest implements MakesInternalRequests
      * @param  array $data The request body.
      * @param  array $headers
      * @return \Illuminate\Http\Response
-     * @throws FailedInternalRequestException if statusCode >= Response::HTTP_BAD_REQUEST
+     * @throws InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST
      */
     public function request(
         string $method,
@@ -82,8 +82,11 @@ class InternalRequest implements MakesInternalRequests
 
         // Check if the request was not successful
         if ( $response->getStatusCode() >= Response::HTTP_BAD_REQUEST ) {
-            throw new FailedInternalRequestException($request, $response);
+            throw new InternalRequestException($request, $response);
         }
+
+        if ( $method === Request::METHOD_POST )
+            $response->setStatusCode(Response::HTTP_CREATED);
 
         // Dispatch the request
         return $response;

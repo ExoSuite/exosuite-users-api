@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\FailedInternalRequestException;
+use App\Exceptions\InternalRequestException;
+use App\Facades\ApiHelper;
 use App\Facades\InternalRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUser;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Client;
 use Laravel\Passport\PersonalAccessClient;
@@ -38,7 +40,6 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        parent::__construct();
         $this->middleware('guest');
     }
 
@@ -47,7 +48,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array $data
-     * @return \App\Models\User
+     * @return User
      */
     protected function create(array $data)
     {
@@ -59,7 +60,6 @@ class RegisterController extends Controller
                 'password' => Hash::make($data[ 'password' ]),
             ]
         );
-
     }
 
 
@@ -69,32 +69,23 @@ class RegisterController extends Controller
      */
     public function register(RegisterUser $request)
     {
-        //$user = $this->create($request->validated());
+        $user = $this->create($request->validated());
 
-        return $this->registered($request, []);
+        /** @var Response $response */
+        return $this->registered($request, $user);
+
+        // TODO: define behavior when a user is created but passport:install was not executed
     }
 
     /**
-     * @param Request $request
-     * @param $user
-     * @return \Illuminate\Http\Response
+     * @param RegisterUser $request
+     * @param User $user
+     * @return mixed
      */
-    protected function registered(Request $request, $user)
+    protected function registered(RegisterUser $request, User $user)
     {
-        try {
-            return InternalRequest::request(
-                Request::METHOD_POST, 'oauth/token', [
-                    'grant_type' => 'password',
-                    'client_id' => $this->_oauth_client->id,
-                    'client_secret' => $this->_oauth_client->secret,
-                    'username' => $request->get('email'),
-                    'password' => $request->get('password'),
-                    'scope' => '',
-                ]
-            );
-        } catch ( FailedInternalRequestException $exception ) {
-            return $exception->getResponse();
-        }
+        $user->password = $request->get('password');
+        return ApiHelper::OAuth()->passwordGrant($user);
     }
 
 
