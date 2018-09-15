@@ -12,4 +12,15 @@
 |
 */
 
-Route::post('/register', 'Auth\RegisterController@register');
+Route::group([ 'prefix' => 'auth' ], function () {
+    Route::post('/register', 'Auth\RegisterController@register');
+    Route::post('/login', 'Auth\LoginController@login');
+});
+
+Route::group([ 'middleware' => 'must_have_token' ], function () {
+
+    Route::group([ 'prefix' => 'me' ], function () {
+        Route::get('/', 'Personal\PersonalController@me');
+    });
+
+});
