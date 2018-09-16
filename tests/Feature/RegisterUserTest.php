@@ -16,15 +16,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  */
 class RegisterUserTest extends TestCase
 {
-
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->artisan('passport:install');
-    }
-
     /**
-     * A basic test example.
+     * Register an user
      *
      * @return void
      */
@@ -33,14 +26,11 @@ class RegisterUserTest extends TestCase
         $userData = factory(User::class)->make()->toArray();
         $userData[ 'password' ] = $userData[ 'password_confirmation' ];
 
-        $response = $this->json(Request::METHOD_POST, 'register', $userData);
+        $response = $this->json(Request::METHOD_POST, route('register'), $userData);
 
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure([
-            'token_type',
-            'expires_in',
-            'access_token',
-            'refresh_token'
+            'token_type', 'expires_in', 'access_token', 'refresh_token'
         ]);
 
         $userData = array_except($userData, [ 'password_confirmation', 'password' ]);

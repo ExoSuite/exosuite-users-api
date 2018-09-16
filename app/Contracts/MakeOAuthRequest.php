@@ -18,7 +18,8 @@ interface MakeOAuthRequest
 {
     /**
      * @param User $user
+     * @param int $statusCode
      * @return string|mixed
      */
-    public function passwordGrant(User $user);
+    public function passwordGrant(User $user, int $statusCode);
 }

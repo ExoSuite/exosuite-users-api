@@ -85,7 +85,7 @@ class RegisterController extends Controller
     protected function registered(RegisterUser $request, User $user)
     {
         $user->password = $request->get('password');
-        return ApiHelper::OAuth()->passwordGrant($user);
+        return ApiHelper::OAuth()->passwordGrant($user, Response::HTTP_CREATED);
     }
 
 

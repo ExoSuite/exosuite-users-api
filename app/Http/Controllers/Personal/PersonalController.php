@@ -18,7 +18,6 @@ class PersonalController extends Controller
      */
     public function me()
     {
-        return "coucou";
         return Auth::user();
     }
 }

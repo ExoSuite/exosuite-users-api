@@ -16,7 +16,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class RegisterUserUnitTest extends TestCase
 {
     use WithFaker;
-    use RefreshDatabase;
 
     /**
      * @param $expected
@@ -24,7 +23,7 @@ class RegisterUserUnitTest extends TestCase
      */
     private function request($expected, $data = [])
     {
-        $response = $this->json(Request::METHOD_POST, 'register', $data);
+        $response = $this->json(Request::METHOD_POST, route('register'), $data);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonStructure(
             [
@@ -73,7 +72,7 @@ class RegisterUserUnitTest extends TestCase
         $userData = factory(User::class)->make()->toArray();
         $userData[ 'password' ] = $userData[ 'password_confirmation' ];
 
-        $response = $this->json(Request::METHOD_POST, 'register', $userData);
+        $response = $this->json(Request::METHOD_POST, route('register'), $userData);
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 }

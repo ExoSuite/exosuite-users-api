@@ -67,7 +67,6 @@ class Kernel extends HttpKernel
 
         'must_have_token' => [
             Authenticate::class,
-            CreateFreshApiToken::class,
         ]
     ];
 
