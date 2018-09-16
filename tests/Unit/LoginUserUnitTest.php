@@ -2,14 +2,12 @@
 
 namespace Tests\Unit;
 
+use App\Models\User;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\User;
 
 /**
  * Class LoginUserUnitTest
@@ -59,18 +57,22 @@ class LoginUserUnitTest extends TestCase
      */
     public function testBadCredentialMustFail()
     {
-        $this->request([
-            'email' => $this->faker->email,
-            'password' => $this->faker->password
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->request(
+            [
+                'email' => $this->faker->email,
+                'password' => $this->faker->password
+            ], Response::HTTP_UNPROCESSABLE_ENTITY
+        );
     }
 
     public function testBadPasswordMustFail()
     {
-        $this->request([
-            'email' => $this->user[ 'email' ],
-            'password' => $this->faker->password
-        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->request(
+            [
+                'email' => $this->user[ 'email' ],
+                'password' => $this->faker->password
+            ], Response::HTTP_UNPROCESSABLE_ENTITY
+        );
     }
 
 }

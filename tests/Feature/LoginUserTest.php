@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Http\Request;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
+use Tests\TestCase;
 
 /**
  * Class LoginUserTest
@@ -47,13 +46,17 @@ class LoginUserTest extends TestCase
      */
     public function testLoginMustReturnTokens()
     {
-        $response = $this->json(Request::METHOD_POST, route('login'), [
-            'email' => $this->user[ 'email' ],
-            'password' => $this->user[ 'base_password' ]
-        ]);
+        $response = $this->json(
+            Request::METHOD_POST, route('login'), [
+                'email' => $this->user[ 'email' ],
+                'password' => $this->user[ 'base_password' ]
+            ]
+        );
         $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonStructure([
-            "token_type", "expires_in", "access_token", "refresh_token"
-        ]);
+        $response->assertJsonStructure(
+            [
+                "token_type", "expires_in", "access_token", "refresh_token"
+            ]
+        );
     }
 }
