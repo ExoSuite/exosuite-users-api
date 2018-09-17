@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 /**
@@ -34,7 +33,6 @@ class LoginUserUnitTest extends TestCase
         $user = factory(User::class)->make();
         $this->user = array_merge($user->toArray(), [ 'password' => $user[ 'password_confirmation' ] ]);
         $this->user = array_except($this->user, [ 'password_confirmation' ]);
-        $this->user[ 'password' ] = Hash::make($this->user[ 'password' ]);
         User::create($this->user);
     }
 

@@ -18,9 +18,9 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', 'Auth\LoginController@login')->name('login');
 });
 
-Route::group(['middleware' => 'must_have_token'], function () {
+Route::group(['middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'me'], function () {
-        Route::get('/', 'Personal\PersonalController@me')->name('personal_user');
+        Route::get('/', 'Personal\PersonalController@me')->name('personal_user_infos');
     });
 });

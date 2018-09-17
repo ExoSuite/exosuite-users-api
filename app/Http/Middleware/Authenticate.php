@@ -21,11 +21,10 @@ class Authenticate extends Middleware
      * @param  string[] ...$guards
      * @return mixed
      *
-     * @throws \Illuminate\Auth\AuthenticationException
      */
     public function handle($request, Closure $next, ...$guards)
     {
-        $this->authenticate($request, [ 'api' ]);
+        $this->authenticate($request, $guards);
 
         return $next($request);
     }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Personal;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 
 /**
  * Class PersonalController
@@ -13,11 +15,8 @@ use Illuminate\Support\Facades\Auth;
 class PersonalController extends Controller
 {
 
-    /**
-     * @return \App\Models\User|\Illuminate\Contracts\Auth\Authenticatable|null
-     */
     public function me()
     {
-        return Auth::user();
+        return Auth::user()->toJson();
     }
 }

@@ -6,22 +6,28 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Crypt;
 
 /**
- * Class LoginUserTest
+ * Class UserTest
  * @package Tests\Feature
  */
-class LoginUserTest extends TestCase
+class UserTest extends TestCase
 {
     use WithFaker;
 
 
     /**
-     * @var array
+     * @var User
      */
-    protected $user;
+    private $user;
+
+    /**
+     * @var string
+     */
+    private $userPassword = null;
 
     /**
      *
@@ -30,15 +36,14 @@ class LoginUserTest extends TestCase
     {
         parent::setUp();
         $this->setUpFaker();
-        /** @var User $user */
+        /* @var User $userData */
         $user = factory(User::class)->make();
+        /* @var array $userData */
+        $userData = $user->toArray();
+        $userData['password'] = $user->password;
+        $this->userPassword = $user->password;
 
-        $this->user = array_merge($user->toArray(), [ 'password' => $user[ 'password_confirmation' ] ]);
-        $this->user = array_except($this->user, [ 'password_confirmation' ]);
-        $this->user[ 'base_password' ] = $this->user[ 'password' ];
-        $this->user[ 'password' ] = Hash::make($this->user[ 'password' ]);
-
-        User::create($this->user);
+        $this->user = User::create($userData);
     }
 
     /**
@@ -50,8 +55,8 @@ class LoginUserTest extends TestCase
             Request::METHOD_POST,
             route('login'),
             [
-                'email' => $this->user[ 'email' ],
-                'password' => $this->user[ 'base_password' ]
+                'email' => $this->user->email,
+                'password' => $this->userPassword
             ]
         );
         $response->assertStatus(Response::HTTP_OK);
@@ -60,5 +65,16 @@ class LoginUserTest extends TestCase
                 "token_type", "expires_in", "access_token", "refresh_token"
             ]
         );
+    }
+
+    public function testGetPersonalInfos()
+    {
+        Passport::actingAs(factory(User::class)->create());
+
+        $response = $this->get(
+            route('personal_user_infos')
+        );
+
+        $response->assertStatus(Response::HTTP_OK);
     }
 }

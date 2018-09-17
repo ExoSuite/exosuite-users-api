@@ -20,8 +20,12 @@ class RegisterUserTest extends TestCase
      */
     public function testRegisterUser()
     {
-        $userData = factory(User::class)->make()->toArray();
-        $userData[ 'password' ] = $userData[ 'password_confirmation' ];
+        /* @var User $userData */
+        $user = factory(User::class)->make();
+        /* @var array $userData */
+        $userData = $user->toArray();
+        $userData['password'] = $user->password;
+        $userData['password_confirmation'] = $user->password;
 
         $response = $this->json(Request::METHOD_POST, route('register'), $userData);
 

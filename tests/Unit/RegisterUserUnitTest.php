@@ -48,9 +48,12 @@ class RegisterUserUnitTest extends TestCase
      */
     public function testLoopWithInvalidData()
     {
+        /* @var User $userData */
+        $user = factory(User::class)->make();
         /* @var array $userData */
-        $userData = factory(User::class)->make()->toArray();
-        $userData[ 'password' ] = $userData[ 'password_confirmation' ];
+        $userData = $user->toArray();
+        $userData['password'] = $user->password;
+        $userData['password_confirmation'] = $user->password;
         $userData = array_except($userData, [ 'password_confirmation' ]);
 
         $data = array_keys($userData);
@@ -68,8 +71,12 @@ class RegisterUserUnitTest extends TestCase
 
     public function testRegisterUserWithoutPassport()
     {
-        $userData = factory(User::class)->make()->toArray();
-        $userData[ 'password' ] = $userData[ 'password_confirmation' ];
+        /* @var User $userData */
+        $user = factory(User::class)->make();
+        /* @var array $userData */
+        $userData = $user->toArray();
+        $userData['password'] = $user->password;
+        $userData['password_confirmation'] = $user->password;
 
         $response = $this->json(Request::METHOD_POST, route('register'), $userData);
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);

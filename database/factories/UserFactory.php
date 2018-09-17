@@ -18,11 +18,10 @@ $factory->define(
     function (Faker $faker) {
         $password = $faker->password();
         return [
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password,
-        'password_confirmation' => $password
+            'first_name' => $faker->firstName,
+            'last_name' => $faker->lastName,
+            'email' => $faker->unique()->safeEmail,
+            'password' => $password
         ];
     }
 );
