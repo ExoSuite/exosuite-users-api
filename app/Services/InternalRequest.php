@@ -83,7 +83,7 @@ class InternalRequest implements MakesInternalRequests
         $response = $this->_app->handle($request);
 
         // Check if the request was not successful
-        if ( $response->getStatusCode() >= Response::HTTP_BAD_REQUEST ) {
+        if ($response->getStatusCode() >= Response::HTTP_BAD_REQUEST) {
             throw new InternalRequestException($request, $response);
         }
 

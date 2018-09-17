@@ -61,7 +61,8 @@ class LoginUserUnitTest extends TestCase
             [
                 'email' => $this->faker->email,
                 'password' => $this->faker->password
-            ], Response::HTTP_UNPROCESSABLE_ENTITY
+            ],
+            Response::HTTP_UNPROCESSABLE_ENTITY
         );
     }
 
@@ -71,8 +72,8 @@ class LoginUserUnitTest extends TestCase
             [
                 'email' => $this->user[ 'email' ],
                 'password' => $this->faker->password
-            ], Response::HTTP_UNPROCESSABLE_ENTITY
+            ],
+            Response::HTTP_UNPROCESSABLE_ENTITY
         );
     }
-
 }

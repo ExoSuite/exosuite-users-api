@@ -53,19 +53,20 @@ abstract class OAuth implements MakeOAuthRequest
             'scope' => '',
         ];
 
-        if ( $this->_oauth_client )
+        if ($this->_oauth_client) {
             $data = array_merge(
-                $data, [
+                $data,
+                [
                     'client_id' => $this->_oauth_client->getAttribute('id'),
                     'client_secret' => $this->_oauth_client->getAttribute('secret'),
                 ]
             );
+        }
 
         try {
             return InternalRequest::request(Request::METHOD_POST, 'oauth/token', $data, [], $statusCode);
-        } catch ( InternalRequestException $exception ) {
+        } catch (InternalRequestException $exception) {
             return $exception->getResponse();
         }
     }
-
 }

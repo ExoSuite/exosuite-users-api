@@ -76,6 +76,6 @@
     "post-create-project-cmd": [
       "@php artisan key:generate"
     ],
-    "reformat": "./vendor/bin/phpcbf ./app ./tests ./database ./routes --standard=Zend"
+      "reformat": "./vendor/bin/phpcbf ./app ./tests ./database ./routes --standard=PSR12"
   }
 }

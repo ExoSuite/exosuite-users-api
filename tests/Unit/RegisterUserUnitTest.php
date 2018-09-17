@@ -54,7 +54,7 @@ class RegisterUserUnitTest extends TestCase
         $userData = array_except($userData, [ 'password_confirmation' ]);
 
         $data = array_keys($userData);
-        foreach ( $userData as $key => $value ) {
+        foreach ($userData as $key => $value) {
             $this->request($data, $data);
             $data = array_diff($data, [ $key ]);
         }

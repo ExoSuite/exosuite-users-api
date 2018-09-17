@@ -12,21 +12,15 @@
 |
 */
 
-Route::group(
-    [ 'prefix' => 'auth' ], function () {
+Route::group(['prefix' => 'auth'], function () {
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
+
     Route::post('/login', 'Auth\LoginController@login')->name('login');
-}
-);
+});
 
-Route::group(
-    [ 'middleware' => 'must_have_token' ], function () {
+Route::group(['middleware' => 'must_have_token'], function () {
 
-    Route::group(
-        [ 'prefix' => 'me' ], function () {
+    Route::group(['prefix' => 'me'], function () {
         Route::get('/', 'Personal\PersonalController@me')->name('personal_user');
-    }
-    );
-
-}
-);
+    });
+});

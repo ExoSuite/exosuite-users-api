@@ -33,9 +33,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::routes();
 
-        if ( App::environment('production') )
+        if (App::environment('production')) {
             Passport::tokensExpireIn(now()->addHour());
-        else
+        } else {
             Passport::tokensExpireIn(now()->addMinutes(5));
+        }
     }
 }

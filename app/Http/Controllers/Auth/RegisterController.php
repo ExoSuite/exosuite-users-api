@@ -87,6 +87,4 @@ class RegisterController extends Controller
         $user->password = $request->get('password');
         return ApiHelper::OAuth()->passwordGrant($user, Response::HTTP_CREATED);
     }
-
-
 }

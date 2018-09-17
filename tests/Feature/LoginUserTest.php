@@ -47,7 +47,9 @@ class LoginUserTest extends TestCase
     public function testLoginMustReturnTokens()
     {
         $response = $this->json(
-            Request::METHOD_POST, route('login'), [
+            Request::METHOD_POST,
+            route('login'),
+            [
                 'email' => $this->user[ 'email' ],
                 'password' => $this->user[ 'base_password' ]
             ]
