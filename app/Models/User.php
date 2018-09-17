@@ -51,7 +51,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [ 'password' ];
+    protected $hidden = ['password'];
 
     protected static function boot()
     {
