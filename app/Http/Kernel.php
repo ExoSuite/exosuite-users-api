@@ -6,6 +6,7 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckApiToken;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\Jsonify;
 use App\Http\Middleware\JsonResponse;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
@@ -62,8 +63,9 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            Jsonify::class,
             'throttle:60,1',
-            'bindings',
+            'bindings'
         ],
     ];
 
