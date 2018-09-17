@@ -15,6 +15,7 @@ use App\Facades\InternalRequest;
 use App\Exceptions\InternalRequestException;
 use Laravel\Passport\Client;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Class OAuth
@@ -38,9 +39,10 @@ abstract class OAuth implements MakeOAuthRequest
 
     /**
      * @param User $user
+     * @param int $statusCode
      * @return mixed
      */
-    final public function passwordGrant(User $user)
+    final public function passwordGrant(User $user, int $statusCode = Response::HTTP_OK)
     {
         $data = [
             'grant_type' => 'password',
@@ -51,17 +53,20 @@ abstract class OAuth implements MakeOAuthRequest
             'scope' => '',
         ];
 
-        if ( $this->_oauth_client )
-            $data = array_merge($data, [
-                'client_id' => $this->_oauth_client->getAttribute('id'),
-                'client_secret' => $this->_oauth_client->getAttribute('secret'),
-            ]);
+        if ($this->_oauth_client) {
+            $data = array_merge(
+                $data,
+                [
+                    'client_id' => $this->_oauth_client->getAttribute('id'),
+                    'client_secret' => $this->_oauth_client->getAttribute('secret'),
+                ]
+            );
+        }
 
         try {
-            return InternalRequest::request(Request::METHOD_POST, 'oauth/token', $data);
-        } catch ( InternalRequestException $exception ) {
+            return InternalRequest::request(Request::METHOD_POST, 'oauth/token', $data, [], $statusCode);
+        } catch (InternalRequestException $exception) {
             return $exception->getResponse();
         }
     }
-
 }

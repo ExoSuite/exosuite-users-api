@@ -3,7 +3,6 @@
 /public/storage
 /storage/*.key
 /vendor
-/.idea
 /.vscode
 /.vagrant
 Homestead.json
@@ -18,3 +17,7 @@ storage/api-docs
 .phpstorm.meta.php
 _ide_helper.php
 _ide_helper_models.php
+
+.idea/datasources.xml
+.idea/modules.xml
+.idea/dictionaries

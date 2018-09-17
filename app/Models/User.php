@@ -7,6 +7,7 @@ use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 
 /**
@@ -20,7 +21,10 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Uuids;
+    use HasApiTokens;
+    use Uuids {
+        boot as UuidBoot;
+    }
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -48,4 +52,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [ 'password' ];
+
+    protected static function boot()
+    {
+        self::UuidBoot();
+        static::creating(
+            function (User $model) {
+                $model->password = Hash::make($model->password);
+            }
+        );
+    }
 }

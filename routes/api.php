@@ -12,4 +12,19 @@
 |
 */
 
-Route::post('/register', 'Auth\RegisterController@register');
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('/register', 'Auth\RegisterController@register')->name('register');
+
+    Route::post('/login', 'Auth\LoginController@login')->name('login');
+});
+
+Route::group(['middleware' => 'auth:api'], function () {
+
+    Route::group(['prefix' => 'user'], function () {
+
+        Route::group(['prefix' => 'me'], function () {
+
+            Route::get('/', 'Personal\PersonalController@me')->name('personal_user_infos');
+        });
+    });
+});

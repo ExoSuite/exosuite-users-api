@@ -30,7 +30,6 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
     }
 
 
@@ -58,7 +57,6 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->_namespace)
             ->group(base_path('routes/web.php'));
-
     }
 
 
@@ -77,6 +75,4 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->_namespace)
             ->group(base_path('routes/api.php'));
     }
-
-
 }

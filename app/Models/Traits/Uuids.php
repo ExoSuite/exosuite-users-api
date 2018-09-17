@@ -32,8 +32,5 @@ trait Uuids
                 $model->{$model->getKeyName()} = Uuid::generate()->string;
             }
         );
-
     }//end boot()
-
-
 }
