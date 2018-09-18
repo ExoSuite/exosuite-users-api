@@ -74,7 +74,6 @@ class UserTest extends TestCase
         $response = $this->get(
             route('personal_user_infos')
         );
-
         $response->assertStatus(Response::HTTP_OK);
     }
 }

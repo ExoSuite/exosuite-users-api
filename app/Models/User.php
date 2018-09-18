@@ -51,15 +51,20 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = ['password'];
+    protected $hidden = [ 'password' ];
 
     protected static function boot()
     {
         self::UuidBoot();
         static::creating(
             function (User $model) {
-                $model->password = Hash::make($model->password);
+                $model->password = Hash::make( $model->password );
             }
         );
+    }
+
+    public function profile()
+    {
+        $this->hasOne( UserProfile::class );
     }
 }

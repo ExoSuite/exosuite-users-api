@@ -19,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $policies = ['App\Model' => 'App\Policies\ModelPolicy'];
+    protected $policies = [ 'App\Model' => 'App\Policies\ModelPolicy' ];
 
 
     /**
@@ -33,10 +33,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::routes();
 
-        if (App::environment('production')) {
-            Passport::tokensExpireIn(now()->addHour());
+        if ( App::environment( 'production' ) ) {
+            Passport::tokensExpireIn( now()->addHour() );
         } else {
-            Passport::tokensExpireIn(now()->addMinutes(5));
+            Passport::tokensExpireIn( now()->addMinutes( 5 ) );
         }
     }
 }

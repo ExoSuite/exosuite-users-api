@@ -34,7 +34,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware( 'guest' )->except( 'logout' );
     }
 
     /**
@@ -47,27 +47,27 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        $this->validateLogin($request);
+        $this->validateLogin( $request );
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
-        if ($this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
+        if ( $this->hasTooManyLoginAttempts( $request ) ) {
+            $this->fireLockoutEvent( $request );
 
-            return $this->sendLockoutResponse($request);
+            return $this->sendLockoutResponse( $request );
         }
 
-        if ($this->attemptLogin($request)) {
-            return $this->sendLoginResponse($request);
+        if ( $this->attemptLogin( $request ) ) {
+            return $this->sendLoginResponse( $request );
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
-        $this->incrementLoginAttempts($request);
+        $this->incrementLoginAttempts( $request );
 
-        return $this->sendFailedLoginResponse($request);
+        return $this->sendFailedLoginResponse( $request );
     }
 
     /**
@@ -78,7 +78,7 @@ class LoginController extends Controller
      */
     protected function attemptLogin(Request $request)
     {
-        return $this->guard()->attempt($this->credentials($request));
+        return $this->guard()->attempt( $this->credentials( $request ) );
     }
 
     /**
@@ -89,9 +89,9 @@ class LoginController extends Controller
      */
     protected function sendLoginResponse(Request $request)
     {
-        $this->clearLoginAttempts($request);
+        $this->clearLoginAttempts( $request );
 
-        return $this->authenticated($request, $this->guard()->user());
+        return $this->authenticated( $request, $this->guard()->user() );
     }
 
     /**
@@ -103,7 +103,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, User $user)
     {
-        $user->password = $request->get('password');
-        return ApiHelper::OAuth()->passwordGrant($user);
+        $user->password = $request->get( 'password' );
+        return ApiHelper::OAuth()->passwordGrant( $user );
     }
 }//end class

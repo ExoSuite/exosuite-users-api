@@ -40,8 +40,8 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__ . '/Commands');
+        $this->load( __DIR__ . '/Commands' );
 
-        include base_path('routes/console.php');
+        include base_path( 'routes/console.php' );
     }//end commands()
 }//end class

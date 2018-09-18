@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Personal;
+namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,8 +15,11 @@ use Illuminate\Support\Facades\Response;
 class PersonalController extends Controller
 {
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function me()
     {
-        return Auth::user()->toJson();
+        return $this->ok( Auth::user() );
     }
 }
