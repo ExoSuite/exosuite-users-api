@@ -43,7 +43,7 @@ class TokenResponse
 /**
  * @OA\Schema(
  *     schema="NewUser",
- *     required={"first_name","last_name", "nick_name", "email", "password","password_confirmation"}
+ *     required={"first_name","last_name", "email", "password","password_confirmation"}
  *  )
  */
 class NewUser
@@ -112,4 +112,26 @@ class ErrorResponse
      * )
      */
     public $errors;
+}
+
+/**
+ * @OA\Schema(
+ *     schema="Login",
+ *     required={"email", "password"},
+ *  )
+ */
+class Login
+{
+
+    /**
+     * @var string
+     * @OA\Property(example="foo@bar.com")
+     */
+    public $email;
+
+    /**
+     * @var string
+     * @OA\Property()
+     */
+    public $password;
 }
