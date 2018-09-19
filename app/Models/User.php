@@ -58,13 +58,13 @@ class User extends Authenticatable
         self::UuidBoot();
         static::creating(
             function (User $model) {
-                $model->password = Hash::make( $model->password );
+                $model->password = Hash::make($model->password);
             }
         );
     }
 
     public function profile()
     {
-        $this->hasOne( UserProfile::class );
+        return $this->hasOne(UserProfile::class, 'id');
     }
 }

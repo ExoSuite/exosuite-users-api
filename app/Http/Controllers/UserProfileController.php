@@ -19,7 +19,7 @@ class UserProfileController extends Controller
      */
     public function store(UserProfileRequest $request)
     {
-        UserProfile::create( $request->validated() );
+        UserProfile::create($request->validated());
 
         return $this->created();
     }
@@ -31,7 +31,10 @@ class UserProfileController extends Controller
      */
     public function show()
     {
-        return $this->ok( Auth::user()->load( 'profile' ) );
+        if (Auth::user()->exists) {
+            return $this->ok(UserProfile::whereId(Auth::id())->first());
+        }
+        return $this->ok([]);
     }
 
     /**
@@ -42,8 +45,8 @@ class UserProfileController extends Controller
      */
     public function update(UserProfileRequest $request)
     {
-        $data = $request->validated();
-        UserProfile::whereId( $data[ 'id' ] )->update( array_except( $data, [ 'id' ] ) );
+        $data = array_except($request->validated(), ['id']);
+        UserProfile::whereId(Auth::id())->update($data);
 
         return $this->noContent();
     }

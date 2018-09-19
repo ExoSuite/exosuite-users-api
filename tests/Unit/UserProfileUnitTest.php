@@ -16,8 +16,8 @@ class UserProfileUnitTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->user = factory( User::class )->create();
-        $this->user = Passport::actingAs( $this->user );
+        $this->user = factory(User::class)->create();
+        $this->user = Passport::actingAs($this->user);
     }
 
     /**
@@ -27,15 +27,14 @@ class UserProfileUnitTest extends TestCase
      */
     public function testCreateProfileTwoTimesMustFail()
     {
-        $response = $this->post( route( 'user_profile_create' ), [
+        $response = $this->post(route('user_profile_create'), [
             'description' => str_random()
-        ] );
-        $response->assertStatus( Response::HTTP_CREATED );
+        ]);
+        $response->assertStatus(Response::HTTP_CREATED);
 
-        $response = $this->post( route( 'user_profile_create' ), [
+        $response = $this->post(route('user_profile_create'), [
             'description' => str_random()
-        ] );
-        $response->assertStatus( Response::HTTP_UNPROCESSABLE_ENTITY );
+        ]);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
-
 }

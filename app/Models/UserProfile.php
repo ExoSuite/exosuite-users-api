@@ -12,8 +12,12 @@ class UserProfile extends Model
         'id', 'birthday', 'city', 'description'
     ];
 
+    protected $hidden = [
+        'id'
+    ];
+
     public function user()
     {
-        return $this->belongsTo( User::class );
+        return $this->belongsTo(User::class);
     }
 }

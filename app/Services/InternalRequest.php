@@ -67,7 +67,7 @@ class InternalRequest implements MakesInternalRequests
         ];
 
         // Merge base_headers and headers passed from parameters
-        $headers = array_merge( $base_headers, $headers );
+        $headers = array_merge($base_headers, $headers);
 
         // Create request
         $request = Request::create(
@@ -80,14 +80,14 @@ class InternalRequest implements MakesInternalRequests
         );
 
         // Get response
-        $response = $this->_app->handle( $request );
+        $response = $this->_app->handle($request);
 
         // Check if the request was not successful
-        if ( $response->getStatusCode() >= Response::HTTP_BAD_REQUEST ) {
-            throw new InternalRequestException( $request, $response );
+        if ($response->getStatusCode() >= Response::HTTP_BAD_REQUEST) {
+            throw new InternalRequestException($request, $response);
         }
 
-        $response->setStatusCode( $statusCode );
+        $response->setStatusCode($statusCode);
 
         // Dispatch the request
         return $response;

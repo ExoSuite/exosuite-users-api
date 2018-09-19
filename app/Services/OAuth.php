@@ -34,7 +34,7 @@ abstract class OAuth implements MakeOAuthRequest
      */
     public function __construct()
     {
-        $this->_oauth_client = Client::whereId( 2 )->first();
+        $this->_oauth_client = Client::whereId(2)->first();
     }
 
     /**
@@ -53,19 +53,19 @@ abstract class OAuth implements MakeOAuthRequest
             'scope' => '',
         ];
 
-        if ( $this->_oauth_client ) {
+        if ($this->_oauth_client) {
             $data = array_merge(
                 $data,
                 [
-                    'client_id' => $this->_oauth_client->getAttribute( 'id' ),
-                    'client_secret' => $this->_oauth_client->getAttribute( 'secret' ),
+                    'client_id' => $this->_oauth_client->getAttribute('id'),
+                    'client_secret' => $this->_oauth_client->getAttribute('secret'),
                 ]
             );
         }
 
         try {
-            return InternalRequest::request( Request::METHOD_POST, 'oauth/token', $data, [], $statusCode );
-        } catch ( InternalRequestException $exception ) {
+            return InternalRequest::request(Request::METHOD_POST, 'oauth/token', $data, [], $statusCode);
+        } catch (InternalRequestException $exception) {
             return $exception->getResponse();
         }
     }

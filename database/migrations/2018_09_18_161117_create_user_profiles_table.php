@@ -13,14 +13,14 @@ class CreateUserProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create( 'user_profiles', function (Blueprint $table) {
-            $table->uuid( 'id' )->index();
-            $table->foreign( 'id' )->references( 'id' )->on( 'users' )->onDelete( 'cascade' );
-            $table->date( 'birthday' )->nullable();
-            $table->string( 'city' )->nullable();
-            $table->text( 'description' )->nullable();
+        Schema::create('user_profiles', function (Blueprint $table) {
+            $table->uuid('id')->index();
+            $table->foreign('id')->references('id')->on('users')->onDelete('cascade');
+            $table->date('birthday')->nullable();
+            $table->string('city')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
-        } );
+        });
     }
 
     /**
@@ -30,6 +30,6 @@ class CreateUserProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists( 'user_profiles' );
+        Schema::dropIfExists('user_profiles');
     }
 }

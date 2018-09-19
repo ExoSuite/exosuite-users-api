@@ -33,7 +33,7 @@ class AuthenticationException extends HttpException
      */
     public function __construct($message = 'Unauthenticated.', array $guards = [])
     {
-        parent::__construct( Response::HTTP_UNAUTHORIZED, $message );
+        parent::__construct(Response::HTTP_UNAUTHORIZED, $message);
 
         $this->guards = $guards;
     }

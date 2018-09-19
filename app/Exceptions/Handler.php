@@ -39,7 +39,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        parent::report( $exception );
+        parent::report($exception);
     }//end report()
 
 
@@ -52,6 +52,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render( $request, $exception );
+        return parent::render($request, $exception);
     }//end render()
 }//end class

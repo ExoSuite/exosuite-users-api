@@ -21,18 +21,19 @@ class AppendUserId
      */
     public function handle(Request $request, Closure $next)
     {
-        if ( Auth::user() ) {
+        if (Auth::user()) {
             $append = [ self::$key => Auth::id() ];
 
-            if ( $request->isMethod( Request::METHOD_POST )
-                || $request->isMethod( Request::METHOD_PATCH )
-                || $request->isMethod( Request::METHOD_PUT )
-            )
-                $request->request->add( $append );
-            else
-                $request->query->add( $append );
+            if ($request->isMethod(Request::METHOD_POST)
+                || $request->isMethod(Request::METHOD_PATCH)
+                || $request->isMethod(Request::METHOD_PUT)
+            ) {
+                $request->request->add($append);
+            } else {
+                $request->query->add($append);
+            }
 
-            return $next( $request );
+            return $next($request);
         }
 
         throw new AuthenticationException();

@@ -20,7 +20,7 @@ trait JsonResponses
      */
     protected function noContent()
     {
-        return Response::json()->setStatusCode( HttpResponse::HTTP_NO_CONTENT );
+        return Response::json()->setStatusCode(HttpResponse::HTTP_NO_CONTENT);
     }
 
     /**
@@ -30,9 +30,10 @@ trait JsonResponses
      */
     protected function created($data = [], $location = null)
     {
-        if ( $data instanceof Model )
+        if ($data instanceof Model) {
             $data = $data->toArray();
-        return Response::json( $data )->setStatusCode( HttpResponse::HTTP_CREATED )->header( 'location', $location );
+        }
+        return Response::json($data)->setStatusCode(HttpResponse::HTTP_CREATED)->header('location', $location);
     }
 
     /**
@@ -41,8 +42,9 @@ trait JsonResponses
      */
     protected function ok($data)
     {
-        if ( $data instanceof Model )
+        if ($data instanceof Model) {
             $data = $data->toArray();
-        return Response::json( $data )->setStatusCode( HttpResponse::HTTP_OK );
+        }
+        return Response::json($data)->setStatusCode(HttpResponse::HTTP_OK);
     }
 }

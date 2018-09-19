@@ -20,6 +20,6 @@ class PersonalController extends Controller
      */
     public function me()
     {
-        return $this->ok( Auth::user() );
+        return $this->ok(Auth::user());
     }
 }

@@ -40,7 +40,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware( 'guest' );
+        $this->middleware('guest');
     }
 
 
@@ -69,10 +69,10 @@ class RegisterController extends Controller
      */
     public function register(RegisterUser $request)
     {
-        $user = $this->create( $request->validated() );
+        $user = $this->create($request->validated());
 
         /** @var Response $response */
-        return $this->registered( $request, $user );
+        return $this->registered($request, $user);
 
         // TODO: define behavior when a user is created but passport:install was not executed
     }
@@ -84,7 +84,7 @@ class RegisterController extends Controller
      */
     protected function registered(RegisterUser $request, User $user)
     {
-        $user->password = $request->get( 'password' );
-        return ApiHelper::OAuth()->passwordGrant( $user, Response::HTTP_CREATED );
+        $user->password = $request->get('password');
+        return ApiHelper::OAuth()->passwordGrant($user, Response::HTTP_CREATED);
     }
 }
