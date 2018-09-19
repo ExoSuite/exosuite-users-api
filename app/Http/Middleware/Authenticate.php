@@ -40,7 +40,7 @@ class Authenticate extends Middleware
     protected function authenticate($request, array $guards)
     {
         if (empty($guards)) {
-            $guards = [null];
+            $guards = [ null ];
         }
 
         foreach ($guards as $guard) {

@@ -18,6 +18,10 @@ storage/api-docs
 _ide_helper.php
 _ide_helper_models.php
 
-.idea/datasources.xml
 .idea/modules.xml
 .idea/dictionaries
+.env~
+.idea/dataSources.local.xml
+.idea/dataSources/
+.idea/workspace.xml
+.idea/dataSources.xml

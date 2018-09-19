@@ -51,7 +51,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = ['password'];
+    protected $hidden = [ 'password' ];
 
     protected static function boot()
     {
@@ -61,5 +61,10 @@ class User extends Authenticatable
                 $model->password = Hash::make($model->password);
             }
         );
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class, 'id');
     }
 }

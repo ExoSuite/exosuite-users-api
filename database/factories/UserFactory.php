@@ -16,12 +16,11 @@ use Faker\Generator as Faker;
 $factory->define(
     App\Models\User::class,
     function (Faker $faker) {
-        $password = $faker->password();
         return [
             'first_name' => $faker->firstName,
             'last_name' => $faker->lastName,
             'email' => $faker->unique()->safeEmail,
-            'password' => $password
+            'password' => 'fQemQuB*+AYr6kUx'
         ];
     }
 );

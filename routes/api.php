@@ -24,7 +24,19 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::group(['prefix' => 'me'], function () {
 
-            Route::get('/', 'Personal\PersonalController@me')->name('personal_user_infos');
+            Route::get('/', 'PersonalController@me')->name('personal_user_infos');
+
+            Route::group(['prefix' => 'profile'], function () {
+                Route::post('/', 'UserProfileController@store')
+                    ->name('user_profile_create')
+                    ->middleware('append_user_id');
+
+                Route::patch('/', 'UserProfileController@update')
+                    ->name('user_profile_update')
+                    ->middleware('append_user_id');
+
+                Route::get('/', 'UserProfileController@show')->name('user_profile_get');
+            });
         });
     });
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AppendUserId;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckApiToken;
 use App\Http\Middleware\CheckForMaintenanceMode;
@@ -89,5 +90,6 @@ class Kernel extends HttpKernel
         'client' => CheckClientCredentials::class,
         'scopes' => CheckScopes::class,
         'scope' => CheckForAnyScope::class,
+        'append_user_id' => AppendUserId::class
     ];
-}//end class
+}

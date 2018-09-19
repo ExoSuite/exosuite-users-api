@@ -36,6 +36,7 @@ class RegisterUserTest extends TestCase
             ]
         );
 
+
         $userData = array_except($userData, [ 'password_confirmation', 'password' ]);
         $this->assertDatabaseHas('users', $userData);
     }
