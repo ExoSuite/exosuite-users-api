@@ -135,3 +135,62 @@ class Login
      */
     public $password;
 }
+
+/**
+ * @OA\Schema(
+ *     schema="UserProfile"
+ *  )
+ */
+class UserProfile
+{
+    /**
+     * @var DateTime
+     * @OA\Property(description="Date in UTC Format YYYY-MM-DD")
+     */
+    public $birthday;
+
+    /**
+     * @var string
+     * @OA\Property()
+     */
+    public $description;
+
+    /**
+     * @var string
+     * @OA\Property()
+     */
+    public $city;
+}
+
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     required={"first_name","last_name", "email", "nick_name"}
+ *  )
+ */
+class User
+{
+    /**
+     * @var string
+     * @OA\Property()
+     */
+    public $email;
+
+    /**
+     * @var string
+     * @OA\Property()
+     */
+    public $first_name;
+
+    /**
+     * @var string
+     * @OA\Property()
+     */
+    public $last_name;
+
+    /**
+     * @var string
+     * @OA\Property()
+     */
+    public $nick_name;
+}

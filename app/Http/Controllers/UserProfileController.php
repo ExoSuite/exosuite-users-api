@@ -31,10 +31,7 @@ class UserProfileController extends Controller
      */
     public function show()
     {
-        if (Auth::user()->exists) {
-            return $this->ok(UserProfile::whereId(Auth::id())->first());
-        }
-        return $this->ok([]);
+        return $this->ok(UserProfile::whereId(Auth::id())->first());
     }
 
     /**
