@@ -49,14 +49,16 @@ class InternalRequest implements MakesInternalRequests
      * @param  string $uri The API uri to look up.
      * @param  array $data The request body.
      * @param  array $headers
+     * @param int $statusCode
      * @return \Illuminate\Http\Response
-     * @throws InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST
+     * @throws InternalRequestException if statusCode >= Response::HTTP_BAD_REQUEST
      */
     public function request(
         string $method,
         string $uri,
         array $data = [],
-        array $headers = []
+        array $headers = [],
+        int $statusCode = Response::HTTP_OK
     )
     {
         $base_headers = [
@@ -81,12 +83,11 @@ class InternalRequest implements MakesInternalRequests
         $response = $this->_app->handle($request);
 
         // Check if the request was not successful
-        if ( $response->getStatusCode() >= Response::HTTP_BAD_REQUEST ) {
+        if ($response->getStatusCode() >= Response::HTTP_BAD_REQUEST) {
             throw new InternalRequestException($request, $response);
         }
 
-        if ( $method === Request::METHOD_POST )
-            $response->setStatusCode(Response::HTTP_CREATED);
+        $response->setStatusCode($statusCode);
 
         // Dispatch the request
         return $response;

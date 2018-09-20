@@ -20,8 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-    }//end boot()
+    }
 
 
     /**
@@ -32,7 +31,5 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Passport::ignoreMigrations();
-    }//end register()
-
-
-}//end class
+    }
+}

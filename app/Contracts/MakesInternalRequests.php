@@ -32,6 +32,4 @@ interface MakesInternalRequests
         array $data = [],
         array $headers = []
     );
-
-
 }

@@ -57,7 +57,7 @@ class RegisterController extends Controller
                 'first_name' => $data[ 'first_name' ],
                 'last_name' => $data[ 'last_name' ],
                 'email' => $data[ 'email' ],
-                'password' => Hash::make($data[ 'password' ]),
+                'password' => $data[ 'password' ],
             ]
         );
     }
@@ -85,8 +85,6 @@ class RegisterController extends Controller
     protected function registered(RegisterUser $request, User $user)
     {
         $user->password = $request->get('password');
-        return ApiHelper::OAuth()->passwordGrant($user);
+        return ApiHelper::OAuth()->passwordGrant($user, Response::HTTP_CREATED);
     }
-
-
 }

@@ -30,7 +30,6 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         // ->hourly();
-
     }//end schedule()
 
 
@@ -44,8 +43,5 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__ . '/Commands');
 
         include base_path('routes/console.php');
-
     }//end commands()
-
-
 }//end class

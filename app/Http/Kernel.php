@@ -2,9 +2,13 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AppendUserId;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CheckApiToken;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\Jsonify;
+use App\Http\Middleware\JsonResponse;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
@@ -13,6 +17,8 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 use Laravel\Passport\Http\Middleware\CheckForAnyScope;
 use Laravel\Passport\Http\Middleware\CheckScopes;
+use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
+
 
 /**
  * Class Kernel
@@ -58,8 +64,9 @@ class Kernel extends HttpKernel
         ],
 
         'api' => [
+            Jsonify::class,
             'throttle:60,1',
-            'bindings',
+            'bindings'
         ],
     ];
 
@@ -83,5 +90,6 @@ class Kernel extends HttpKernel
         'client' => CheckClientCredentials::class,
         'scopes' => CheckScopes::class,
         'scope' => CheckForAnyScope::class,
+        'append_user_id' => AppendUserId::class
     ];
-}//end class
+}

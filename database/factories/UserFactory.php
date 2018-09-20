@@ -14,14 +14,13 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(
-    App\Models\User::class, function (Faker $faker) {
-    $password = $faker->password();
-    return [
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password,
-        'password_confirmation' => $password
-    ];
-}
+    App\Models\User::class,
+    function (Faker $faker) {
+        return [
+            'first_name' => $faker->firstName,
+            'last_name' => $faker->lastName,
+            'email' => $faker->unique()->safeEmail,
+            'password' => 'fQemQuB*+AYr6kUx'
+        ];
+    }
 );

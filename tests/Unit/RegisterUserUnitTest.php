@@ -3,11 +3,10 @@
 namespace Tests\Unit;
 
 use App\Models\User;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /**
  * Class RegisterUserUnitTest
@@ -16,7 +15,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class RegisterUserUnitTest extends TestCase
 {
     use WithFaker;
-    use RefreshDatabase;
 
     /**
      * @param $expected
@@ -24,7 +22,7 @@ class RegisterUserUnitTest extends TestCase
      */
     private function request($expected, $data = [])
     {
-        $response = $this->json(Request::METHOD_POST, 'register', $data);
+        $response = $this->json(Request::METHOD_POST, route('register'), $data);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonStructure(
             [
@@ -50,13 +48,16 @@ class RegisterUserUnitTest extends TestCase
      */
     public function testLoopWithInvalidData()
     {
+        /* @var User $userData */
+        $user = factory(User::class)->make();
         /* @var array $userData */
-        $userData = factory(User::class)->make()->toArray();
-        $userData[ 'password' ] = $userData[ 'password_confirmation' ];
+        $userData = $user->toArray();
+        $userData['password'] = $user->password;
+        $userData['password_confirmation'] = $user->password;
         $userData = array_except($userData, [ 'password_confirmation' ]);
 
         $data = array_keys($userData);
-        foreach ( $userData as $key => $value ) {
+        foreach ($userData as $key => $value) {
             $this->request($data, $data);
             $data = array_diff($data, [ $key ]);
         }
@@ -70,10 +71,14 @@ class RegisterUserUnitTest extends TestCase
 
     public function testRegisterUserWithoutPassport()
     {
-        $userData = factory(User::class)->make()->toArray();
-        $userData[ 'password' ] = $userData[ 'password_confirmation' ];
+        /* @var User $userData */
+        $user = factory(User::class)->make();
+        /* @var array $userData */
+        $userData = $user->toArray();
+        $userData['password'] = $user->password;
+        $userData['password_confirmation'] = $user->password;
 
-        $response = $this->json(Request::METHOD_POST, 'register', $userData);
+        $response = $this->json(Request::METHOD_POST, route('register'), $userData);
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 }

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "bensampo/laravel-enum",
-            "version": "1.12.0",
+            "version": "1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BenSampo/laravel-enum.git",
-                "reference": "723e17f0a1d8f37cf9bffc45cfeee4f794d317ad"
+                "reference": "f1d1daf265f1aab81a22de145e9d7076509310c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BenSampo/laravel-enum/zipball/723e17f0a1d8f37cf9bffc45cfeee4f794d317ad",
-                "reference": "723e17f0a1d8f37cf9bffc45cfeee4f794d317ad",
+                "url": "https://api.github.com/repos/BenSampo/laravel-enum/zipball/f1d1daf265f1aab81a22de145e9d7076509310c4",
+                "reference": "f1d1daf265f1aab81a22de145e9d7076509310c4",
                 "shasum": ""
             },
             "require": {
@@ -66,7 +66,7 @@
                 "package",
                 "validation"
             ],
-            "time": "2018-09-06T10:35:48+00:00"
+            "time": "2018-09-16T21:57:37+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -1416,26 +1416,26 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.46",
+            "version": "1.0.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2"
+                "reference": "a11e4a75f256bdacf99d20780ce42d3b8272975c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
-                "reference": "f3e0d925c18b92cf3ce84ea5cc58d62a1762a2b2",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/a11e4a75f256bdacf99d20780ce42d3b8272975c",
+                "reference": "a11e4a75f256bdacf99d20780ce42d3b8272975c",
                 "shasum": ""
             },
             "require": {
+                "ext-fileinfo": "*",
                 "php": ">=5.5.9"
             },
             "conflict": {
                 "league/flysystem-sftp": "<1.0.6"
             },
             "require-dev": {
-                "ext-fileinfo": "*",
                 "phpspec/phpspec": "^3.4",
                 "phpunit/phpunit": "^5.7.10"
             },
@@ -1496,7 +1496,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2018-08-22T07:45:22+00:00"
+            "time": "2018-09-14T15:30:29+00:00"
         },
         {
             "name": "league/oauth2-server",
@@ -5885,16 +5885,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.18.4",
+            "version": "v3.19.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "987a609fdc2a157ee8b4860c8167a71020bbc8bd"
+                "reference": "6f43bf11e939d06acafdc2f5ffe495a37f70f247"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/987a609fdc2a157ee8b4860c8167a71020bbc8bd",
-                "reference": "987a609fdc2a157ee8b4860c8167a71020bbc8bd",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/6f43bf11e939d06acafdc2f5ffe495a37f70f247",
+                "reference": "6f43bf11e939d06acafdc2f5ffe495a37f70f247",
                 "shasum": ""
             },
             "type": "library",
@@ -5938,7 +5938,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2018-09-13T21:39:07+00:00"
+            "time": "2018-09-15T05:49:16+00:00"
         },
         {
             "name": "symfony/filesystem",
