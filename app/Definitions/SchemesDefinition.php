@@ -165,7 +165,7 @@ class UserProfile
 /**
  * @OA\Schema(
  *     schema="User",
- *     required={"first_name","last_name", "email", "nick_name"}
+ *     required={"first_name","last_name", "email", "nick_name", "id"}
  *  )
  */
 class User
@@ -193,4 +193,10 @@ class User
      * @OA\Property()
      */
     public $nick_name;
+
+    /**
+     * @var Uuid
+     * @OA\Property()
+     */
+    public $id;
 }
