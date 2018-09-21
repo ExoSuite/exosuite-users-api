@@ -25,3 +25,4 @@ _ide_helper_models.php
 .idea/dataSources/
 .idea/workspace.xml
 .idea/dataSources.xml
+**.index
