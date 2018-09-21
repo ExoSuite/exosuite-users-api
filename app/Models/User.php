@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Scout\Searchable;
 
 /**
  * Class User
@@ -22,6 +23,7 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens;
+    use Searchable;
     use Uuids {
         boot as UuidBoot;
     }
@@ -52,8 +54,11 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = ['password', 'id'];
+    protected $hidden = ['password', 'email_verified_at'];
 
+    /**
+     * @return void
+     */
     protected static function boot()
     {
         self::UuidBoot();
@@ -64,6 +69,9 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function profile()
     {
         return $this->hasOne(UserProfile::class, 'id');
