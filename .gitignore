@@ -25,4 +25,5 @@ _ide_helper_models.php
 .idea/dataSources/
 .idea/workspace.xml
 .idea/dataSources.xml
+.idea/deployment.xml
 **.index
