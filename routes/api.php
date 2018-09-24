@@ -39,6 +39,6 @@ Route::group(['middleware' => 'auth:api'], function () {
             });
         });
 
-        Route::get('search', 'UserController@search');
+        Route::get('search', 'UserController@search')->name('user_search');
     });
 });
