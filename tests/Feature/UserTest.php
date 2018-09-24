@@ -76,4 +76,29 @@ class UserTest extends TestCase
         );
         $response->assertStatus(Response::HTTP_OK);
     }
+
+    public function testSearchUser()
+    {
+        Passport::actingAs($this->user);
+        $route = route('user_search');
+        $queries = http_build_query(['text' => $this->user->first_name]);
+
+        $uri = "$route?$queries";
+
+        $response = $this->json(
+            Request::METHOD_GET,
+            $uri
+        );
+
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJsonStructure([
+            [
+                'id',
+                'first_name',
+                'last_name',
+                'email',
+                'nick_name'
+            ]
+        ]);
+    }
 }
