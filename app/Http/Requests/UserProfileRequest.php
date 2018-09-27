@@ -44,7 +44,7 @@ class UserProfileRequest extends FormRequest
     public function validated()
     {
         $data = parent::validated();
-        $data[ 'id' ] = $data[ AppendUserId::$key ];
+        $data['id'] = $data[AppendUserId::$key];
         unset($data[AppendUserId::$key]);
         return $data;
     }

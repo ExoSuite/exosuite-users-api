@@ -22,7 +22,7 @@ class AppendUserId
     public function handle(Request $request, Closure $next)
     {
         if (Auth::user()) {
-            $append = [ self::$key => Auth::id() ];
+            $append = [self::$key => Auth::id()];
 
             if ($request->isMethod(Request::METHOD_POST)
                 || $request->isMethod(Request::METHOD_PATCH)
