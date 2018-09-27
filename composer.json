@@ -64,13 +64,12 @@
     "scripts": {
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan ide-helper:generate",
-            "php artisan ide-helper:meta",
-            "php artisan ide-helper:models"
+            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:generate; fi",
+            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:meta; fi",
+            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi"
         ],
         "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover"
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
