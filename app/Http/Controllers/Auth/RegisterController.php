@@ -2,17 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\InternalRequestException;
-use App\Facades\ApiHelper;
-use App\Facades\InternalRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUser;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
-use Laravel\Passport\Client;
-use Laravel\Passport\PersonalAccessClient;
 
 /**
  * Class RegisterController

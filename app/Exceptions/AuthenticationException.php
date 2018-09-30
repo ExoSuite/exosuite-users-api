@@ -8,7 +8,6 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 

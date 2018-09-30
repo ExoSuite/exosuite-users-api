@@ -17,7 +17,6 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 use Laravel\Passport\Http\Middleware\CheckForAnyScope;
 use Laravel\Passport\Http\Middleware\CheckScopes;
-use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 
 
 /**

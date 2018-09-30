@@ -2,8 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class UserSearch
+ * @package App\Http\Requests
+ */
 class UserSearch extends QueryParamRequest
 {
     /**
