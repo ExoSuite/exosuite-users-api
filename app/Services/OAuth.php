@@ -13,7 +13,6 @@ use App\Contracts\MakeOAuthRequest;
 use App\Models\User;
 use App\Facades\InternalRequest;
 use App\Exceptions\InternalRequestException;
-use Laravel\Passport\Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -23,45 +22,29 @@ use Illuminate\Http\Response;
  */
 abstract class OAuth implements MakeOAuthRequest
 {
-    /**
-     * @var Client
-     */
-    protected $_oauth_client = null;
-
-
-    /**
-     * Controller constructor.
-     */
-    public function __construct()
-    {
-        $this->_oauth_client = Client::whereId(2)->first();
-    }
 
     /**
      * @param User $user
+     * @param int $client_id
+     * @param string $client_secret
      * @param int $statusCode
      * @return mixed
      */
-    final public function passwordGrant(User $user, int $statusCode = Response::HTTP_OK)
+    final public function passwordGrant(
+        User $user,
+        int $client_id,
+        string $client_secret,
+        int $statusCode = Response::HTTP_OK
+    )
     {
         $data = [
             'grant_type' => 'password',
-            'client_id' => 0,
-            'client_secret' => null,
+            'client_id' => $client_id,
+            'client_secret' => $client_secret,
             'username' => $user->email,
             'password' => $user->password,
             'scope' => '',
         ];
-
-        if ($this->_oauth_client) {
-            $data = array_merge(
-                $data,
-                [
-                    'client_id' => $this->_oauth_client->getAttribute('id'),
-                    'client_secret' => $this->_oauth_client->getAttribute('secret'),
-                ]
-            );
-        }
 
         try {
             return InternalRequest::request(Request::METHOD_POST, 'oauth/token', $data, [], $statusCode);
