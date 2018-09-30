@@ -38,6 +38,22 @@ class LoginController extends Controller
     }
 
     /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return void
+     */
+    protected function validateLogin(Request $request)
+    {
+        $this->validate($request, [
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+            'client_id' => 'required|integer',
+            'client_secret' => 'required|string'
+        ]);
+    }
+
+    /**
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request $request
@@ -104,6 +120,10 @@ class LoginController extends Controller
     protected function authenticated(Request $request, User $user)
     {
         $user->password = $request->get('password');
-        return ApiHelper::OAuth()->passwordGrant($user);
+        return ApiHelper::OAuth()->passwordGrant(
+            $user,
+            $request->get('client_id'),
+            $request->get('client_secret')
+        );
     }
-}//end class
+}

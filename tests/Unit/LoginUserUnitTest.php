@@ -18,7 +18,7 @@ class LoginUserUnitTest extends TestCase
 
 
     /**
-     * @var array
+     * @var User
      */
     protected $user;
 
@@ -28,12 +28,8 @@ class LoginUserUnitTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->setUpFaker();
-        /** @var User $user */
-        $user = factory(User::class)->make();
-        $this->user = array_merge($user->toArray(), [ 'password' => $user[ 'password_confirmation' ] ]);
-        $this->user = array_except($this->user, [ 'password_confirmation' ]);
-        User::create($this->user);
+        $this->user = factory(User::class)->make();
+        User::create($this->user->toArray());
     }
 
     /**
@@ -70,6 +66,19 @@ class LoginUserUnitTest extends TestCase
             [
                 'email' => $this->user[ 'email' ],
                 'password' => $this->faker->password
+            ],
+            Response::HTTP_UNPROCESSABLE_ENTITY
+        );
+    }
+
+    public function testInvalidOAuthClient()
+    {
+        $this->request(
+            [
+                'email' => $this->user->email,
+                'password' => $this->user->getAuthPassword(),
+                'client_id' => rand(0, 10),
+                'client_secret' => str_random()
             ],
             Response::HTTP_UNPROCESSABLE_ENTITY
         );

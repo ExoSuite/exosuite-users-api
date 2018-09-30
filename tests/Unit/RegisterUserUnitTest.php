@@ -68,17 +68,4 @@ class RegisterUserUnitTest extends TestCase
         $userData[ 'password_confirmation' ] = str_random();
         $this->request([ 'password' ], $userData);
     }
-
-    public function testRegisterUserWithoutPassport()
-    {
-        /* @var User $userData */
-        $user = factory(User::class)->make();
-        /* @var array $userData */
-        $userData = $user->toArray();
-        $userData['password'] = $user->password;
-        $userData['password_confirmation'] = $user->password;
-
-        $response = $this->json(Request::METHOD_POST, route('register'), $userData);
-        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
-    }
 }

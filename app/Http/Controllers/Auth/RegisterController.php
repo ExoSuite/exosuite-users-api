@@ -52,39 +52,23 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create(
-            [
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-                'email' => $data['email'],
-                'password' => $data['password'],
-            ]
-        );
+        return User::create(array_except($data, ['with_user']));
     }
 
 
     /**
      * @param RegisterUser $request see App\Http\Requests\RegisterUser
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(RegisterUser $request)
     {
         $user = $this->create($request->validated());
 
         /** @var Response $response */
-        return $this->registered($request, $user);
+        if ($request->exists('with_user') && $request->get('with_user')) {
+            return $this->created($user);
+        }
 
-        // TODO: define behavior when a user is created but passport:install was not executed
-    }
-
-    /**
-     * @param RegisterUser $request
-     * @param User $user
-     * @return mixed
-     */
-    protected function registered(RegisterUser $request, User $user)
-    {
-        $user->password = $request->get('password');
-        return ApiHelper::OAuth()->passwordGrant($user, Response::HTTP_CREATED);
+        return $this->created();
     }
 }

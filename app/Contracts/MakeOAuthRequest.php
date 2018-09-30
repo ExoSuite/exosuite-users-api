@@ -18,8 +18,15 @@ interface MakeOAuthRequest
 {
     /**
      * @param User $user
+     * @param int $client_id
+     * @param string $client_secret
      * @param int $statusCode
      * @return string|mixed
      */
-    public function passwordGrant(User $user, int $statusCode);
+    public function passwordGrant(
+        User $user,
+        int $client_id,
+        string $client_secret,
+        int $statusCode = Response::HTTP_OK
+    );
 }

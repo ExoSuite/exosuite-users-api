@@ -3,12 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Crypt;
+use Laravel\Passport\Client;
 
 /**
  * Class UserTest
@@ -16,8 +15,6 @@ use Illuminate\Support\Facades\Crypt;
  */
 class UserTest extends TestCase
 {
-    use WithFaker;
-
 
     /**
      * @var User
@@ -35,7 +32,6 @@ class UserTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->setUpFaker();
         /* @var User $userData */
         $user = factory(User::class)->make();
         /* @var array $userData */
@@ -56,7 +52,9 @@ class UserTest extends TestCase
             route('login'),
             [
                 'email' => $this->user->email,
-                'password' => $this->userPassword
+                'password' => $this->userPassword,
+                'client_id' => 2,
+                'client_secret' => Client::whereId(2)->first()->secret
             ]
         );
         $response->assertStatus(Response::HTTP_OK);
