@@ -44,4 +44,4 @@ class Kernel extends ConsoleKernel
 
         include base_path('routes/console.php');
     }//end commands()
-}//end class
+}
