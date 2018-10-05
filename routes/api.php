@@ -42,3 +42,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('search', 'UserController@search')->name('user_search');
     });
 });
+
+if (\Illuminate\Support\Facades\App::environment("staging")) {
+    Route::get('/client/default');
+}
