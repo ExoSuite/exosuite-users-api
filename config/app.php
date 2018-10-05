@@ -235,7 +235,8 @@ return [
             'MAIL_PORT',
             'DB_HOST',
             'DB_USERNAME',
-            'DB_CONNECTION'
+            'DB_CONNECTION',
+            'DB_DATABASE'
         ],
         '_SERVER' => [
             'APP_KEY',
@@ -249,7 +250,8 @@ return [
             'MAIL_PORT',
             'DB_HOST',
             'DB_USERNAME',
-            'DB_CONNECTION'
+            'DB_CONNECTION',
+            'DB_DATABASE'
         ]
     ]
 
