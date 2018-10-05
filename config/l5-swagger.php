@@ -98,7 +98,7 @@ return [
         |--------------------------------------------------------------------------
         */
 
-        'base' => env('L5_SWAGGER_BASE_PATH', 'https://api.exosuite.fr'),
+        'base' => env('L5_SWAGGER_BASE_PATH', 'https://api.dev.exosuite.fr'),
 
         /*
         |--------------------------------------------------------------------------
@@ -224,6 +224,6 @@ return [
     |--------------------------------------------------------------------------
      */
     'constants' => [
-        'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'https://api.exosuite.fr'),
+        'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'https://api.dev.exosuite.fr'),
     ],
 ];
