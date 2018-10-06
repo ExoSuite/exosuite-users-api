@@ -10,9 +10,9 @@ namespace App\Services;
 
 
 use App\Contracts\MakeOAuthRequest;
-use App\Models\User;
-use App\Facades\InternalRequest;
 use App\Exceptions\InternalRequestException;
+use App\Facades\InternalRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

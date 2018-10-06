@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
-use Closure;
 use App\Exceptions\AuthenticationException;
+use Closure;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 /**
  * Class Authenticate

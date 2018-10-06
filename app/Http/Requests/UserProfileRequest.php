@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Middleware\AppendUserId;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\Request;
 
 class UserProfileRequest extends FormRequest
 {

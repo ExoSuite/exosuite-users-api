@@ -9,9 +9,8 @@
 namespace App\Http\Controllers\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-
-use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\Response;
 
 trait JsonResponses
 {
