@@ -8,10 +8,10 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Request;
 use App\Contracts\MakesInternalRequests;
-use Illuminate\Foundation\Application;
 use App\Exceptions\InternalRequestException;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
