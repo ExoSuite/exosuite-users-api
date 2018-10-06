@@ -44,5 +44,5 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 if (!\Illuminate\Support\Facades\App::environment("production")) {
-    Route::get('staging/client', 'StagingController@get');
+    Route::get('staging/client', 'StagingController@get')->name('staging-client');
 }
