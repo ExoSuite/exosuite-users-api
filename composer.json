@@ -63,13 +63,14 @@
     "prefer-stable": true,
     "scripts": {
         "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:generate; fi",
-            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:meta; fi",
-            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi"
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate"
         ],
         "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:generate; fi",
+            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:meta; fi",
+            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi",
+            "@php artisan package:discover"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
