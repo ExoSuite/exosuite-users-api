@@ -40,9 +40,17 @@ Route::group(['middleware' => 'auth:api'], function () {
         });
 
         Route::get('search', 'UserController@search')->name('user_search');
+
+        Route::group(['prefix' => 'friendship'], function () {
+            Route::post('/sendFriendshipRequest', 'RelationsController@sendFriendshipRequest')->name('sendRequest');
+            Route::post('/accept', 'RelationsController@acceptRequest')->name('accept');
+            Route::post('/decline', 'RelationsController@declineRequest')->name('decline');
+            Route::get('/myFriendlist', 'RelationsController@getMyFriendships')->name('myFriendList');
+            Route::get('/friendList/{target_id}', 'RelationsController@getFriendships')->name('friendList');
+        });
     });
 });
 
 if (!\Illuminate\Support\Facades\App::environment("production")) {
-    Route::get('staging/client', 'StagingController@get')->name('staging-client');
+    Route::get('staging/R', 'StagingController@get')->name('staging-client');
 }
