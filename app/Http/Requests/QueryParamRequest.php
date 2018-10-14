@@ -11,7 +11,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class QueryParamRequest extends FormRequest
+abstract class QueryParamRequest extends FormRequest
 {
     public function all($keys = null)
     {
