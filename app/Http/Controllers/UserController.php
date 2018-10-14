@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserSearch;
+use App\Http\Requests\UserSearchRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +21,7 @@ class UserController extends Controller
         return $this->ok(Auth::user());
     }
 
-    public function search(UserSearch $request)
+    public function search(UserSearchRequest $request)
     {
         return User::search($request->query('text'))->get();
     }
