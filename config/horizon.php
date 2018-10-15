@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\Queue;
+
 return [
 
     /*
@@ -40,7 +42,7 @@ return [
     */
 
     'waits' => [
-        'redis:default' => 60,
+        'redis:horizon' => 60,
     ],
 
     /*
@@ -74,18 +76,56 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['default'],
+                'queue' => ['horizon'],
                 'balance' => 'simple',
                 'processes' => 10,
                 'tries' => 3,
             ],
         ],
 
-        'local' => [
-            'supervisor-1' => [
+        'staging' => [
+            'supervisor-mail' => [
                 'connection' => 'redis',
-                'queue' => ['default'],
-                'balance' => 'simple',
+                'queue' => [Queue::MAIL],
+                'balance' => 'auto',
+                'processes' => 5,
+                'tries' => 3,
+            ],
+            'supervisor-notifications' => [
+                'connection' => 'redis',
+                'queue' => [Queue::NOTIFICATION],
+                'balance' => 'auto',
+                'processes' => 10,
+                'tries' => 3,
+            ],
+            'supervisor-messages' => [
+                'connection' => 'redis',
+                'queue' => [Queue::MESSAGE],
+                'balance' => 'auto',
+                'processes' => 10,
+                'tries' => 3,
+            ],
+        ],
+
+        'local' => [
+            'supervisor-mail' => [
+                'connection' => 'redis',
+                'queue' => [Queue::MAIL],
+                'balance' => 'auto',
+                'processes' => 3,
+                'tries' => 3,
+            ],
+            'supervisor-notifications' => [
+                'connection' => 'redis',
+                'queue' => [Queue::NOTIFICATION],
+                'balance' => 'auto',
+                'processes' => 3,
+                'tries' => 3,
+            ],
+            'supervisor-messages' => [
+                'connection' => 'redis',
+                'queue' => [Queue::MESSAGE],
+                'balance' => 'auto',
                 'processes' => 3,
                 'tries' => 3,
             ],
