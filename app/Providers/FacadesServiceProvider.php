@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\ApiHelper;
+use App\Services\Horizon;
 use App\Services\InternalRequest;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
@@ -30,18 +31,16 @@ class FacadesServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        App::singleton(
-            'InternalRequest',
-            function ($app) {
-                return new InternalRequest($app);
-            }
-        );
+        App::singleton('InternalRequest', function ($app) {
+            return new InternalRequest($app);
+        });
 
-        App::singleton(
-            'ApiHelper',
-            function () {
-                return new ApiHelper();
-            }
-        );
+        App::singleton('ApiHelper', function () {
+            return new ApiHelper();
+        });
+
+        App::singleton('Horizon', function () {
+            return new Horizon();
+        });
     }
 }
