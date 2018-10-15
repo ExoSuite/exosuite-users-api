@@ -48,6 +48,11 @@ if (!\Illuminate\Support\Facades\App::environment("production")) {
 }
 
 Route::get('test', function () {
-    \Illuminate\Support\Facades\Notification::send(App\Models\User::all(), new \App\Notifications\FollowNotification());
+    for ($i = 0; $i < 10000; $i++) {
+        \Illuminate\Support\Facades\Notification::send(
+            App\Models\User::all(),
+            new \App\Notifications\FollowNotification()
+        );
+    }
     return ["SENT!"];
 });
