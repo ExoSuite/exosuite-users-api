@@ -46,3 +46,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 if (!\Illuminate\Support\Facades\App::environment("production")) {
     Route::get('staging/client', 'StagingController@get')->name('staging-client');
 }
+
+Route::get('test', function () {
+    \Illuminate\Support\Facades\Notification::send(App\Models\User::all(), new \App\Notifications\FollowNotification());
+    return ["SENT!"];
+});

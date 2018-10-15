@@ -4,14 +4,10 @@ namespace App\Models;
 
 use App\Models\Traits\Uuids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
-
-/**
- * Class User
- * @package App\Models
- */
 
 /**
  * Class User
@@ -24,6 +20,7 @@ class User extends Authenticatable
     use Uuids {
         boot as UuidBoot;
     }
+    use Notifiable;
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -73,5 +70,15 @@ class User extends Authenticatable
     public function profile()
     {
         return $this->hasOne(UserProfile::class, 'id');
+    }
+
+    /**
+     * The channels the user receives notification broadcasts on.
+     *
+     * @return string
+     */
+    public function receivesBroadcastNotificationsOn()
+    {
+        return "users.{$this->id}";
     }
 }
