@@ -77,7 +77,6 @@
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:meta; fi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi"
         ],
-
         "reformat": "./vendor/bin/phpcbf ./app ./tests ./database ./routes --standard=PSR12"
     }
 }

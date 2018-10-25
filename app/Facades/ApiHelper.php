@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * Class ApiHelper
  * @package App\Facades
  * @method \App\Services\OAuth OAuth()
+ * @method string getDomain()
  */
 class ApiHelper extends Facade
 {
