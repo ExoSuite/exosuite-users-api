@@ -30,6 +30,6 @@ class Horizon
             return $request->user()->inRole(Roles::ADMINISTRATOR);
         }
 
-        return ApiHelper::redirectToLogin('/horizon');
+        return ApiHelper::redirectToLogin();
     }
 }

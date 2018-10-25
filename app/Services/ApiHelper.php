@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 use App\Contracts\ApiHelperInterface;
+use Illuminate\Support\Facades\URL;
 
 /**
  * Class ApiHelper
@@ -71,12 +72,16 @@ class ApiHelper implements ApiHelperInterface
      * @param $redirectUrl
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function redirectToLogin($redirectUrl)
+    public function redirectToLogin($redirectUrl = null)
     {
         $scheme = ApiHelper::getHttpScheme();
         $domain = ApiHelper::getDomain();
 
-        $redirectBack = url($redirectUrl);
+        if ($redirectUrl) {
+            $redirectBack = url($redirectUrl);
+        } else {
+            $redirectBack = URL::full();
+        }
 
         return redirect()
             ->to("{$scheme}://{$domain}/login?redirect_uri={$redirectBack}");
