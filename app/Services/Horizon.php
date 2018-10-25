@@ -8,8 +8,10 @@
 
 namespace App\Services;
 
+use App\Enums\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Facades\ApiHelper;
 
 /**
  * Class Horizon
@@ -19,11 +21,15 @@ class Horizon
 {
     /**
      * @param Request $request
-     * @return bool
+     * @return boolean|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function handleAuth(Request $request): bool
+    public function handleAuth(Request $request)
     {
-        dd($request->cookies, $request->user('web'), Auth::user());
-        return true;
+        // if user is authenticated
+        if (Auth::check()) {
+            return $request->user()->inRole(Roles::ADMINISTRATOR);
+        }
+
+        return ApiHelper::redirectToLogin('/horizon');
     }
 }

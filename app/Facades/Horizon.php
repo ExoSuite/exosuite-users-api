@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Class Horizon
  * @package App\Services
- * @method bool handleAuth(Request $request)
+ * @method boolean|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse handleAuth(Request $request)
  */
 class Horizon extends Facade
 {

@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'encrypt' => false,
+    'encrypt' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -150,7 +150,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', ApiHelper::getDomain()),
+    'domain' => env('SESSION_DOMAIN', ApiHelper::getSessionDomain()),
 
     /*
     |--------------------------------------------------------------------------

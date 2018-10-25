@@ -6,8 +6,6 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Laravel\Passport\Passport;
-use Laravel\Horizon\Horizon;
-use App\Facades\Horizon as HorizonService;
 
 /**
  * Class AuthServiceProvider
@@ -40,9 +38,5 @@ class AuthServiceProvider extends ServiceProvider
         } else {
             Passport::tokensExpireIn(now()->addMinutes(5));
         }
-
-        Horizon::auth(function (Request $request) {
-            return HorizonService::handleAuth($request);
-        });
     }
 }

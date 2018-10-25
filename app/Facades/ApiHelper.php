@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * Class ApiHelper
  * @package App\Facades
  * @method \App\Services\OAuth OAuth()
- * @method string getDomain()
+ * @method \Illuminate\Http\RedirectResponse redirectToLogin($redirectUrl)
  */
 class ApiHelper extends Facade
 {

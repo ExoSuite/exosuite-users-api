@@ -61,6 +61,9 @@ return [
         'failed' => 10080,
     ],
 
+
+    'middleware' => ['web', 'horizon'],
+
     /*
     |--------------------------------------------------------------------------
     | Queue Worker Configuration
