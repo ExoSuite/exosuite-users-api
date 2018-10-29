@@ -32,7 +32,7 @@ class UserProfileTest extends TestCase
             'description' => str_random()
         ];
 
-        $response = $this->post(route('user_profile_create'), $data);
+        $response = $this->post(route('post_user_profile'), $data);
         $response->assertStatus(Response::HTTP_CREATED);
 
         $this->assertDatabaseHas('user_profiles', $data);
@@ -42,7 +42,7 @@ class UserProfileTest extends TestCase
     {
         $this->testCreateProfile();
 
-        $response = $this->get(route('user_profile_get'));
+        $response = $this->get(route('get_user_profile'));
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure([
             'birthday', 'city', 'description'
@@ -57,7 +57,7 @@ class UserProfileTest extends TestCase
             'description' => str_random()
         ];
 
-        $response = $this->patch(route('user_profile_update'), $data);
+        $response = $this->patch(route('patch_user_profile'), $data);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 }
