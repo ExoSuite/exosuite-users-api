@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Webpatser\Uuid\Uuid;
 
 /**
  * Class RouteServiceProvider
@@ -30,6 +33,13 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Route::bind('id', function ($uuid) {
+            if (Uuid::validate($uuid)) {
+                return Uuid::import($uuid);
+            }
+            throw new UnprocessableEntityHttpException("Bad uuid");
+        });
     }
 
 
