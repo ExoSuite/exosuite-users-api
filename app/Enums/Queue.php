@@ -9,4 +9,5 @@ final class Queue extends Enum
     const NOTIFICATION = "notifications";
     const MAIL = 'mail';
     const MESSAGE = 'messages';
+    const DEFAULT = 'default';
 }
