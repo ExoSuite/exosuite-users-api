@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 class UserProfileController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('append_user_id')->only(['store', 'update']);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

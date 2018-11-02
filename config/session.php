@@ -1,5 +1,7 @@
 <?php
 
+use App\Services\ApiHelper;
+
 return [
 
     /*
@@ -44,7 +46,7 @@ return [
     |
     */
 
-    'encrypt' => false,
+    'encrypt' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -122,10 +124,7 @@ return [
     |
     */
 
-    'cookie' => env(
-        'SESSION_COOKIE',
-        str_slug(env('APP_NAME', 'laravel'), '_') . '_session'
-    ),
+    'cookie' => env('SESSION_COOKIE', 'exosuite_session'),
 
     /*
     |--------------------------------------------------------------------------
@@ -151,7 +150,7 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', null),
+    'domain' => env('SESSION_DOMAIN', ApiHelper::getSessionDomain()),
 
     /*
     |--------------------------------------------------------------------------

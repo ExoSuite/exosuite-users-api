@@ -6,13 +6,20 @@
  * Time: 13:01
  */
 
-namespace App\Http\Requests;
-
+namespace App\Http\Requests\Abstracts;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-abstract class QueryParamRequest extends FormRequest
+/**
+ * Class RouteParamRequest
+ * @package App\Http\Requests\Abstracts
+ */
+abstract class RouteParamRequest extends FormRequest
 {
+    /**
+     * @param null $keys
+     * @return array
+     */
     public function all($keys = null)
     {
         return array_replace_recursive(

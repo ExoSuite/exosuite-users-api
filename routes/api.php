@@ -24,25 +24,33 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::group(['prefix' => 'me'], function () {
 
-            Route::get('/', 'UserController@me')->name('personal_user_infos');
+            Route::get('/', 'UserController@me')->name('get_user');
 
             Route::group(['prefix' => 'profile'], function () {
                 Route::post('/', 'UserProfileController@store')
-                    ->name('user_profile_create')
-                    ->middleware('append_user_id');
+                    ->name('post_user_profile');
 
                 Route::patch('/', 'UserProfileController@update')
-                    ->name('user_profile_update')
-                    ->middleware('append_user_id');
+                    ->name('patch_user_profile');
 
-                Route::get('/', 'UserProfileController@show')->name('user_profile_get');
+                Route::get('/', 'UserProfileController@show')->name('get_user_profile');
             });
         });
 
-        Route::get('search', 'UserController@search')->name('user_search');
+        Route::get('search', 'UserController@search')->name('get_users');
     });
 });
 
 if (!\Illuminate\Support\Facades\App::environment("production")) {
-    Route::get('staging/client', 'StagingController@get')->name('staging-client');
+    Route::get('staging/client', 'StagingController@get');
 }
+
+Route::get('test', function () {
+    for ($i = 0; $i < 10000; $i++) {
+        \Illuminate\Support\Facades\Notification::send(
+            App\Models\User::all(),
+            new \App\Notifications\FollowNotification()
+        );
+    }
+    return ["SENT!"];
+});

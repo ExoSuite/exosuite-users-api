@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 use App\Contracts\ApiHelperInterface;
+use Illuminate\Support\Facades\URL;
 
 /**
  * Class ApiHelper
@@ -38,5 +39,51 @@ class ApiHelper implements ApiHelperInterface
     public function OAuth()
     {
         return $this->_OAuth;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getDomain(): string
+    {
+        $parsed_url = parse_url(env('APP_URL') ?? config('app.url'));
+        $domain = substr($parsed_url['host'], strpos($parsed_url['host'], '.') + 1);
+        return $domain;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getSessionDomain(): string
+    {
+        return '.' . self::getDomain();
+    }
+
+    /**
+     * @return string
+     */
+    public static function getHttpScheme(): string
+    {
+        $parsed_url = parse_url(env('APP_URL') ?? config('app.url'));
+        return $parsed_url["scheme"];
+    }
+
+    /**
+     * @param $redirectUrl
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function redirectToLogin($redirectUrl = null)
+    {
+        $scheme = ApiHelper::getHttpScheme();
+        $domain = ApiHelper::getDomain();
+
+        if ($redirectUrl) {
+            $redirectBack = url($redirectUrl);
+        } else {
+            $redirectBack = URL::full();
+        }
+
+        return redirect()
+            ->to("{$scheme}://{$domain}/login?redirect_uri={$redirectBack}");
     }
 }

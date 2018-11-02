@@ -70,7 +70,7 @@ class UserTest extends TestCase
         Passport::actingAs(factory(User::class)->create());
 
         $response = $this->get(
-            route('personal_user_infos')
+            route('get_user')
         );
         $response->assertStatus(Response::HTTP_OK);
     }
@@ -78,7 +78,7 @@ class UserTest extends TestCase
     public function testSearchUser()
     {
         Passport::actingAs($this->user);
-        $route = route('user_search');
+        $route = route('get_users');
         $queries = http_build_query(['text' => $this->user->first_name]);
 
         $uri = "$route?$queries";

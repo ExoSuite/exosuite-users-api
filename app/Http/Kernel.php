@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AppendUserId;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\AuthenticateHorizon;
 use App\Http\Middleware\CheckApiToken;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
@@ -67,6 +68,10 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings'
         ],
+
+        'horizon' => [
+            AuthenticateHorizon::class
+        ]
     ];
 
     /**
