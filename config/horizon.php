@@ -77,16 +77,44 @@ return [
 
     'environments' => [
         'production' => [
-            'supervisor-1' => [
+            'supervisor-default' => [
                 'connection' => 'redis',
-                'queue' => ['horizon'],
-                'balance' => 'simple',
+                'queue' => [Queue::DEFAULT],
+                'balance' => 'auto',
+                'processes' => 5,
+                'tries' => 3,
+            ],
+            'supervisor-mail' => [
+                'connection' => 'redis',
+                'queue' => [Queue::MAIL],
+                'balance' => 'auto',
+                'processes' => 5,
+                'tries' => 3,
+            ],
+            'supervisor-notifications' => [
+                'connection' => 'redis',
+                'queue' => [Queue::NOTIFICATION],
+                'balance' => 'auto',
+                'processes' => 10,
+                'tries' => 3,
+            ],
+            'supervisor-messages' => [
+                'connection' => 'redis',
+                'queue' => [Queue::MESSAGE],
+                'balance' => 'auto',
                 'processes' => 10,
                 'tries' => 3,
             ],
         ],
 
         'staging' => [
+            'supervisor-default' => [
+                'connection' => 'redis',
+                'queue' => [Queue::DEFAULT],
+                'balance' => 'auto',
+                'processes' => 5,
+                'tries' => 3,
+            ],
             'supervisor-mail' => [
                 'connection' => 'redis',
                 'queue' => [Queue::MAIL],
@@ -111,6 +139,13 @@ return [
         ],
 
         'local' => [
+            'supervisor-default' => [
+                'connection' => 'redis',
+                'queue' => [Queue::DEFAULT],
+                'balance' => 'auto',
+                'processes' => 3,
+                'tries' => 3,
+            ],
             'supervisor-mail' => [
                 'connection' => 'redis',
                 'queue' => [Queue::MAIL],

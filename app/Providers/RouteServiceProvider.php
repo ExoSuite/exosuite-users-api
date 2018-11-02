@@ -34,7 +34,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        Route::bind('id', function ($uuid) {
+        Route::bind('uuid', function ($uuid) {
             if (Uuid::validate($uuid)) {
                 return Uuid::import($uuid);
             }
