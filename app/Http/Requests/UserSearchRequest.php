@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 
 /**
  * Class UserSearchRequest
- * @property string text
+ * @property string $text
  * @package App\Http\Requests
  */
 class UserSearchRequest extends Abstracts\RouteParamRequest

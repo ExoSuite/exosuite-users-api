@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Laravel\Horizon\Horizon;
-use App\Facades\Horizon as HorizonService;
+use App\Facades\AdministratorServices;
 
 /**
  * Class AuthenticateHorizon
@@ -21,8 +21,8 @@ class AuthenticateHorizon
      */
     public function handle($request, Closure $next)
     {
-        /** @var boolean| $authenticated */
-        $authenticated = HorizonService::handleAuth($request);
+        /** @var boolean $authenticated */
+        $authenticated = AdministratorServices::handleAuth($request);
 
         // check if HorizonService::handleAuth has return a boolean
         if (is_bool($authenticated)) {

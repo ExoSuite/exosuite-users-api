@@ -1,0 +1,11 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+parameters:
+    excludes_analyse:
+        - /*/Definitions/*
+    level: 5
+    paths:
+        - app
+        - routes
+        - tests
+        - database

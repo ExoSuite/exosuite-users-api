@@ -69,7 +69,7 @@ class ApiHelper implements ApiHelperInterface
     }
 
     /**
-     * @param $redirectUrl
+     * @param string|null $redirectUrl
      * @return \Illuminate\Http\RedirectResponse
      */
     public function redirectToLogin($redirectUrl = null)

@@ -9,27 +9,34 @@
 namespace App\Services;
 
 use App\Enums\Roles;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Facades\ApiHelper;
 
 /**
- * Class Horizon
+ * Class AdministratorServices
  * @package App\Services
  */
-class Horizon
+class AdministratorServices
 {
     /**
-     * @param Request $request
+     * @param User|Request $data
      * @return boolean|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function handleAuth(Request $request)
+    public function handleAuth($data)
     {
+        $user = $data instanceof User ? $data : $data->user();
         // if user is authenticated
         if (Auth::check()) {
-            return $request->user()->inRole(Roles::ADMINISTRATOR);
+            return $this->isAdministrator($user);
         }
 
         return ApiHelper::redirectToLogin();
+    }
+
+    private function isAdministrator(User $user): bool
+    {
+        return $user->inRole(Roles::ADMINISTRATOR);
     }
 }

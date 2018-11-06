@@ -8,7 +8,8 @@
 
 namespace App\Contracts;
 
-use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Response;
 
 /**
  * Interface MakeOAuthRequest
@@ -17,14 +18,14 @@ use App\Models\User;
 interface MakeOAuthRequest
 {
     /**
-     * @param User $user
+     * @param Authenticatable $user
      * @param int $client_id
      * @param string $client_secret
      * @param int $statusCode
      * @return string|mixed
      */
     public function passwordGrant(
-        User $user,
+        Authenticatable $user,
         int $client_id,
         string $client_secret,
         int $statusCode = Response::HTTP_OK

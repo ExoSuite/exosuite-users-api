@@ -5,11 +5,23 @@ use App\Enums\Queue;
 return [
 
     /*
+   |--------------------------------------------------------------------------
+   | Route Prefix
+   |--------------------------------------------------------------------------
+   |
+   | This is the name of the route prefix, and will define the base URL
+   | where your installation of AdministratorServices will live. If you would like
+   | AdministratorServices to live at the webroot, you can use a forward slash.
+   |
+   */
+    'uri' => 'monitoring/horizon/',
+
+    /*
     |--------------------------------------------------------------------------
-    | Horizon Redis Connection
+    | AdministratorServices Redis Connection
     |--------------------------------------------------------------------------
     |
-    | This is the name of the Redis connection where Horizon will store the
+    | This is the name of the Redis connection where AdministratorServices will store the
     | meta information required for it to function. It includes the list
     | of supervisors, failed jobs, job metrics, and other information.
     |
@@ -19,12 +31,12 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Horizon Redis Prefix
+    | AdministratorServices Redis Prefix
     |--------------------------------------------------------------------------
     |
-    | This prefix will be used when storing all Horizon data in Redis. You
+    | This prefix will be used when storing all AdministratorServices data in Redis. You
     | may modify the prefix when you are running multiple installations
-    | of Horizon on the same server so that they don't have problems.
+    | of AdministratorServices on the same server so that they don't have problems.
     |
     */
 
@@ -50,7 +62,7 @@ return [
     | Job Trimming Times
     |--------------------------------------------------------------------------
     |
-    | Here you can configure for how long (in minutes) you desire Horizon to
+    | Here you can configure for how long (in minutes) you desire AdministratorServices to
     | persist the recent and failed jobs. Typically, recent jobs are kept
     | for one hour while all failed jobs are stored for an entire week.
     |
@@ -71,7 +83,7 @@ return [
     |
     | Here you may define the queue worker settings used by your application
     | in all environments. These supervisors and settings handle all your
-    | queued jobs and will be provisioned by Horizon during deployment.
+    | queued jobs and will be provisioned by AdministratorServices during deployment.
     |
     */
 

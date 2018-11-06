@@ -3,33 +3,43 @@
 namespace App\Http\Controllers;
 
 use Artisan;
+use Laravel\Passport\ClientRepository;
 
+/**
+ * Class StagingController
+ * @package App\Http\Controllers
+ */
 class StagingController extends Controller
 {
+    /**
+     * @var ClientRepository
+     */
+    private $clientRepository;
+
+    /**
+     * StagingController constructor.
+     * @param ClientRepository $clientRepository
+     */
+    public function __construct(ClientRepository $clientRepository)
+    {
+        $this->clientRepository = $clientRepository;
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get()
     {
         // create new passport client
-        Artisan::call('passport:client', ['--name' => 'Exosuite Website', '--password' => true]);
-        // get output from previous Artisan::call
-        $output = Artisan::output();
-        // remove \n and split output into an array
-        $parsedOutput = explode(PHP_EOL, $output);
-        array_filter($parsedOutput, function ($item) use (&$client_id, &$client_secret) {
-            // check if $item includes Client ID
-            if (strpos($item, 'Client ID') !== false) {
-                // get client id from array string
-                list($junk, $client_id) = explode(": ", $item);
-            }
-            // check if $item includes Client Secret
-            if (strpos($item, 'Client Secret') !== false) {
-                // get client secret from array string
-                list($junk, $client_secret) = explode(": ", $item);
-            }
-        });
+        $client = $this->clientRepository->createPasswordGrantClient(
+            null,
+            'Exosuite Website',
+            'http://localhost'
+        );
 
         return $this->created([
-            'client_id' => $client_id,
-            'client_secret' => $client_secret
+            'client_id' => $client->id,
+            'client_secret' => $client->secret
         ]);
     }
 }

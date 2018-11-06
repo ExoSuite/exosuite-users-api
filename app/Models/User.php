@@ -98,7 +98,9 @@ class User extends Authenticatable
     public function hasAccess(array $permissions): bool
     {
         // check if the permission is available in any role
-        foreach ($this->roles() as $role) {
+        $roles = $this->roles()->getModels();
+        /** @var Role $role */
+        foreach ($roles as $role) {
             if ($role->hasAccess($permissions)) {
                 return true;
             }

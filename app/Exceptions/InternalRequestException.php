@@ -22,31 +22,31 @@ class InternalRequestException extends Exception
     /**
      * Request instance
      *
-     * @var $_request
+     * @var Request $request
      */
-    private $_request;
+    private $request;
 
     /**
      * Response instance
      *
-     * @var $_response
+     * @var mixed $response
      */
-    private $_response;
+    private $response;
 
 
     /**
      * Constructor
      *
      * @param Request $request The request object.
-     * @param Response $response The response object.
+     * @param mixed $response The response object.
      *
      * @return void
      */
     public function __construct(Request $request, $response)
     {
         parent::__construct();
-        $this->_request = $request;
-        $this->_response = $response;
+        $this->request = $request;
+        $this->response = $response;
     }
 
 
@@ -57,7 +57,7 @@ class InternalRequestException extends Exception
      */
     public function getRequest()
     {
-        return $this->_request;
+        return $this->request;
     }
 
 
@@ -68,6 +68,6 @@ class InternalRequestException extends Exception
      */
     public function getResponse()
     {
-        return $this->_response;
+        return $this->response;
     }
 }

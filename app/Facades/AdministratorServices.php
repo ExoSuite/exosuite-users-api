@@ -12,17 +12,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Class Horizon
+ * Class AdministratorServices
  * @package App\Services
- * @method boolean|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse handleAuth(Request $request)
+ * @method boolean|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse handleAuth($request)
  */
-class Horizon extends Facade
+class AdministratorServices extends Facade
 {
     /**
      * @return string
      */
     protected static function getFacadeAccessor()
     {
-        return 'Horizon';
+        return 'AdministratorServices';
     }
 }
