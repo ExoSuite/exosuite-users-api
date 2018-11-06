@@ -54,6 +54,7 @@ class Role extends Model
         return $this->permissions[$permission] ?? false;
     }
 
+
     /**
      *
      */
@@ -67,6 +68,10 @@ class Role extends Model
         );
     }
 
+    /**
+     * @param string $roleName
+     * @return Role|Model|null|object
+     */
     public function getIdFromRoleName(string $roleName)
     {
         return self::where('name', $roleName)->first(['id']);
