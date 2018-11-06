@@ -11,6 +11,7 @@ namespace App\Services;
 use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Facades\ApiHelper;
 
@@ -26,6 +27,10 @@ class AdministratorServices
      */
     public function handleAuth($data)
     {
+        if (App::isLocal()) {
+            return true;
+        }
+
         $user = $data instanceof User ? $data : $data->user();
         // if user is authenticated
         if (Auth::check()) {
