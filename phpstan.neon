@@ -4,6 +4,9 @@ parameters:
     excludes_analyse:
         - /*/Definitions/*
     level: 5
+    ignoreErrors:
+        - '#Laravel\\Passport\\ClientRepository::createPasswordGrantClient()#'
+        - '#Illuminate\\Database\\Query\\Builder::dynamicWhere()#'
     paths:
         - app
         - routes
