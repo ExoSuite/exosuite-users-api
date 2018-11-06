@@ -4,10 +4,11 @@ namespace App\Http\Requests;
 
 
 /**
- * Class UserSearch
+ * Class UserSearchRequest
+ * @property string text
  * @package App\Http\Requests
  */
-class UserSearch extends QueryParamRequest
+class UserSearchRequest extends Abstracts\RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -27,12 +27,12 @@ class UserProfileUnitTest extends TestCase
      */
     public function testCreateProfileTwoTimesMustFail()
     {
-        $response = $this->post(route('user_profile_create'), [
+        $response = $this->post(route('post_user_profile'), [
             'description' => str_random()
         ]);
         $response->assertStatus(Response::HTTP_CREATED);
 
-        $response = $this->post(route('user_profile_create'), [
+        $response = $this->post(route('post_user_profile'), [
             'description' => str_random()
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);

@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\App;
 use Laravel\Passport\Console\ClientCommand;
 
 /**
@@ -31,9 +32,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        // ->hourly();
-    }//end schedule()
+        if (App::environment("production") or App::environment("staging")) {
+            $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        } else {
+            $schedule->command('horizon:snapshot')->everyMinute();
+        }
+    }
 
 
     /**
@@ -46,5 +50,5 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__ . '/Commands');
 
         include base_path('routes/console.php');
-    }//end commands()
+    }
 }

@@ -17,9 +17,11 @@
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
+        "laravel/horizon": "^1.4",
         "laravel/passport": "^7.0",
         "laravel/scout": "^5.0",
         "laravel/tinker": "^1.0",
+        "predis/predis": "^1.1",
         "teamtnt/laravel-scout-tntsearch-driver": "^3.2",
         "webpatser/laravel-uuid": "^3.0"
     },
@@ -75,7 +77,6 @@
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:meta; fi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi"
         ],
-
         "reformat": "./vendor/bin/phpcbf ./app ./tests ./database ./routes --standard=PSR12"
     }
 }

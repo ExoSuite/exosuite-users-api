@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserSearch;
+use App\Http\Requests\Abstracts\GetRouteParamRequest;
+use App\Http\Requests\Abstracts\RouteParamRequest;
+use App\Http\Requests\GetTimeRequest;
+use App\Http\Requests\UserSearchRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+
 
 /**
  * Class UserController
@@ -21,8 +25,13 @@ class UserController extends Controller
         return $this->ok(Auth::user());
     }
 
-    public function search(UserSearch $request)
+    /**
+     * @param UserSearchRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search(UserSearchRequest $request)
     {
-        return User::search($request->query('text'))->get();
+        $users = User::search($request->text)->get();
+        return $this->ok($users);
     }
 }

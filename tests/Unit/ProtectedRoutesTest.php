@@ -15,7 +15,7 @@ class ProtectedRoutesTest extends TestCase
      */
     public function testAuthException()
     {
-        $response = $this->json(Request::METHOD_GET, route('personal_user_infos'));
+        $response = $this->json(Request::METHOD_GET, route('get_user'));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 }
