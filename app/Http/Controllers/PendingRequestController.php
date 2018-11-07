@@ -2,26 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePendingRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\PendingRequest;
 
 class PendingRequestController extends Controller
 {
-    public function createPendingRequest(Request $request)
+    public function create(array $data)
     {
-        $validator = Validator::make($request->all(), [
-            'type' => 'required|string',
-            'target_id' => 'required|exists:users'
-        ]);
-        if ($validator->fails())
-            return $validator->errors();
-        PendingRequest::create($request->all());
+        return PendingRequest::create($data);
+    }
+
+    public function store(CreatePendingRequest $request)
+    {
+        $pending = $this->create($request->validated());
+        return $this->created($pending);
     }
 
     public function getMyPendings()
     {
-        return PendingRequest::whereTargetId(auth()->user()->user_id)->get();
+        return PendingRequest::whereTargetId(auth()->user()->id)->get();
     }
 
 }

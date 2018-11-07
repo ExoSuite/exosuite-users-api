@@ -6,6 +6,8 @@
  * Time: 15:40
  */
 
+namespace App\Constants;
+
 class RequestTypes
 {
     const FRIENDSHIP_REQUEST = 'friendship_request';

@@ -46,11 +46,16 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::get('/myFriendlist', 'RelationsController@getMyFriendships')->name('myFriendList');
             Route::get('/friendList/{target_id}', 'RelationsController@getFriendships')->name('friendList');
         });
+
+        Route::group(['prefix' => 'pending_requests'], function () {
+            Route::post('/store', 'PendingRequestController@store')->name('create');
+            Route::get('/mine', 'PendingRequestController@getMyPendings')->name('getMine');
+        });
     });
 });
 
 if (!\Illuminate\Support\Facades\App::environment("production")) {
-    Route::get('staging/client', 'StagingController@get');
+    Route::get('staging/R', 'StagingController@get')->name('staging-client');
 }
 
 Route::get('test', function () {
