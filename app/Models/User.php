@@ -58,7 +58,7 @@ class User extends Authenticatable
     {
         self::UuidBoot();
         static::creating(
-            function (User $model) {
+            function (self $model) {
                 $model->password = Hash::make($model->password);
             }
         );

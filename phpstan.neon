@@ -1,14 +1,12 @@
 includes:
     - ./vendor/nunomaduro/larastan/extension.neon
 parameters:
+    paths:
+        - ./app
+        - ./tests
     excludes_analyse:
         - /*/Definitions/*
-    level: 5
+    level: max
     ignoreErrors:
         - '#Laravel\\Passport\\ClientRepository::createPasswordGrantClient()#'
         - '#Illuminate\\Database\\Query\\Builder::dynamicWhere()#'
-    paths:
-        - app
-        - routes
-        - tests
-        - database
