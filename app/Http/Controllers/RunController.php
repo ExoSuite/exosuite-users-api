@@ -52,11 +52,12 @@ class RunController extends Controller
      *
      * @param UpdateRunRequest $request
      * @param Uuid $id
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateRunRequest $request, Uuid $id)
     {
-        //
+        Run::whereId($id)->update($request->validated());
+        return $this->noContent();
     }
 
     /**
