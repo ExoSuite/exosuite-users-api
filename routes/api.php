@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::group(['prefix' => 'run'], function () {
         Route::post('/', 'RunController@store');
+        Route::patch('/{uuid}', 'RunController@update');
         Route::get('/id/{uuid}', 'RunController@show');
         Route::get('/', 'RunController@index');
     });

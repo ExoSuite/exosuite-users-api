@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Run\CreateRunRequest;
 use App\Http\Requests\Run\GetRunRequest;
+use App\Http\Requests\Run\UpdateRunRequest;
 use App\Models\Run;
-use Illuminate\Http\Request;
 use Webpatser\Uuid\Uuid;
 
 class RunController extends Controller
@@ -50,11 +50,11 @@ class RunController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateRunRequest $request
+     * @param Uuid $id
+     * @return void
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRunRequest $request, Uuid $id)
     {
         //
     }
