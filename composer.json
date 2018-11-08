@@ -21,6 +21,7 @@
         "laravel/passport": "^7.0",
         "laravel/scout": "^5.0",
         "laravel/tinker": "^1.0",
+        "phaza/laravel-postgis": "^3.5",
         "predis/predis": "^1.1",
         "teamtnt/laravel-scout-tntsearch-driver": "^3.2",
         "webpatser/laravel-uuid": "^3.0"
@@ -28,11 +29,14 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.5",
         "beyondcode/laravel-dump-server": "^1.0",
+        "beyondcode/laravel-er-diagram-generator": "^1.2",
         "darkaonline/l5-swagger": "5.7.*",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
+        "laravel/telescope": "^0.1.6",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
+        "nunomaduro/larastan": "^0.3.8",
         "phpunit/phpunit": "^7.0",
         "squizlabs/php_codesniffer": "3.*"
     },

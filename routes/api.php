@@ -39,13 +39,20 @@ Route::group(['middleware' => 'auth:api'], function () {
 
         Route::get('search', 'UserController@search')->name('get_users');
     });
+
+    Route::group(['prefix' => 'run'], function () {
+        Route::post('/', 'RunController@store');
+        Route::patch('/{uuid}', 'RunController@update');
+        Route::get('/id/{uuid}', 'RunController@show');
+        Route::get('/', 'RunController@index');
+    });
 });
 
 if (!\Illuminate\Support\Facades\App::environment("production")) {
     Route::get('staging/client', 'StagingController@get');
 }
 
-Route::get('test', function () {
+/*Route::get('test', function () {
     for ($i = 0; $i < 10000; $i++) {
         \Illuminate\Support\Facades\Notification::send(
             App\Models\User::all(),
@@ -53,4 +60,4 @@ Route::get('test', function () {
         );
     }
     return ["SENT!"];
-});
+});*/

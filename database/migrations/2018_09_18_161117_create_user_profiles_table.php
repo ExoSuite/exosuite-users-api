@@ -15,7 +15,13 @@ class CreateUserProfilesTable extends Migration
     {
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->uuid('id')->index();
-            $table->foreign('id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->foreign('id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
             $table->date('birthday')->nullable();
             $table->string('city')->nullable();
             $table->text('description')->nullable();

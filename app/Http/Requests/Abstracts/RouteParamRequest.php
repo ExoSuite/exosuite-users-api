@@ -17,14 +17,25 @@ use Illuminate\Foundation\Http\FormRequest;
 abstract class RouteParamRequest extends FormRequest
 {
     /**
-     * @param null $keys
+     * Get all of the input and files for the request.
+     *
+     * @param  array|mixed $keys
      * @return array
      */
     public function all($keys = null)
     {
+        // get route params
+        $parameters = $this->route()->parameters();
+        // swap to id instead of uuid
+        if (array_key_exists('uuid', $parameters)) {
+            $parameters['id'] = $parameters['uuid'];
+            // remove uuid key from $parameters
+            unset($parameters['uuid']);
+        }
+
         return array_replace_recursive(
             parent::all(),
-            $this->route()->parameters()
+            $parameters
         );
     }
 }

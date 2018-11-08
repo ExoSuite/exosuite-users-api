@@ -36,7 +36,7 @@ class AuthServiceProvider extends ServiceProvider
         if (App::environment('production')) {
             Passport::tokensExpireIn(now()->addHour());
         } else {
-            Passport::tokensExpireIn(now()->addMinutes(5));
+            Passport::tokensExpireIn(now()->addMonth());
         }
     }
 }

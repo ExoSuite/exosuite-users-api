@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Facades\ApiHelper;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use \Illuminate\Contracts\Auth\Authenticatable;
 
 /**
  * Class LoginController
@@ -42,6 +43,7 @@ class LoginController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return void
+     * @throws \Illuminate\Validation\ValidationException
      */
     protected function validateLogin(Request $request)
     {
@@ -57,7 +59,7 @@ class LoginController extends Controller
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|void
+     * @return JsonResponse|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response|void
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -101,7 +103,7 @@ class LoginController extends Controller
      * Send the response after the user was authenticated.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function sendLoginResponse(Request $request)
     {
@@ -114,10 +116,10 @@ class LoginController extends Controller
      * The user has been authenticated.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  mixed $user
-     * @return mixed
+     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
+     * @return JsonResponse
      */
-    protected function authenticated(Request $request, User $user)
+    protected function authenticated(Request $request, Authenticatable $user)
     {
         $user->password = $request->get('password');
         return ApiHelper::OAuth()->passwordGrant(

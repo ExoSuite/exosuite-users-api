@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
+use App\Pivots\RoleUser;
+use App\Pivots\RunUser;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -58,7 +60,7 @@ class User extends Authenticatable
     {
         self::UuidBoot();
         static::creating(
-            function (User $model) {
+            function (self $model) {
                 $model->password = Hash::make($model->password);
             }
         );
@@ -87,7 +89,7 @@ class User extends Authenticatable
      */
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_users');
+        return $this->belongsToMany(Role::class)->using(RoleUser::class);
     }
 
     /**
@@ -98,7 +100,9 @@ class User extends Authenticatable
     public function hasAccess(array $permissions): bool
     {
         // check if the permission is available in any role
-        foreach ($this->roles() as $role) {
+        $roles = $this->roles()->getModels();
+        /** @var Role $role */
+        foreach ($roles as $role) {
             if ($role->hasAccess($permissions)) {
                 return true;
             }
@@ -125,5 +129,10 @@ class User extends Authenticatable
         /** @var Role $roleModel */
         $roleModel = $this->roles()->getRelated();
         $this->roles()->attach($roleModel->getIdFromRoleName($role));
+    }
+
+    public function runs()
+    {
+        return $this->belongsToMany(Run::class)->using(RunUser::class);
     }
 }

@@ -8,11 +8,10 @@
 
 namespace App\Services;
 
-
 use App\Contracts\MakeOAuthRequest;
 use App\Exceptions\InternalRequestException;
 use App\Facades\InternalRequest;
-use App\Models\User;
+use \Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -24,19 +23,18 @@ abstract class OAuth implements MakeOAuthRequest
 {
 
     /**
-     * @param User $user
+     * @param Authenticatable $user
      * @param int $client_id
      * @param string $client_secret
      * @param int $statusCode
      * @return mixed
      */
     final public function passwordGrant(
-        User $user,
+        Authenticatable $user,
         int $client_id,
         string $client_secret,
         int $statusCode = Response::HTTP_OK
-    )
-    {
+    ) {
         $data = [
             'grant_type' => 'password',
             'client_id' => $client_id,

@@ -6,7 +6,6 @@ use BenSampo\Enum\Enum;
 
 final class AdministratorPermissions extends Enum
 {
-    // Horizon Dashboard
+    // AdministratorServices Dashboard
     const VIEW_HORIZON = 'VIEW_HORIZON';
-
 }

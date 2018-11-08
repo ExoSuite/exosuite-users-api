@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Services\ApiHelper;
-use App\Services\Horizon;
+use App\Services\AdministratorServices;
 use App\Services\InternalRequest;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
@@ -39,8 +39,8 @@ class FacadesServiceProvider extends ServiceProvider
             return new ApiHelper();
         });
 
-        App::singleton('Horizon', function () {
-            return new Horizon();
+        App::singleton('AdministratorServices', function () {
+            return new AdministratorServices();
         });
     }
 }

@@ -24,7 +24,7 @@ class InternalRequest implements MakesInternalRequests
     /**
      * The app instance
      *
-     * @var $_app
+     * @var Application $_app
      */
     private $_app;
 
@@ -59,8 +59,7 @@ class InternalRequest implements MakesInternalRequests
         array $data = [],
         array $headers = [],
         int $statusCode = Response::HTTP_OK
-    )
-    {
+    ) {
         $base_headers = [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json'
@@ -80,6 +79,7 @@ class InternalRequest implements MakesInternalRequests
         );
 
         // Get response
+        /** @var Response $response */
         $response = $this->_app->handle($request);
 
         // Check if the request was not successful

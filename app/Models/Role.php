@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Pivots\RoleUser;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -28,7 +29,7 @@ class Role extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'role_users');
+        return $this->belongsToMany(User::class)->using(RoleUser::class);
     }
 
     /**
@@ -54,6 +55,7 @@ class Role extends Model
         return $this->permissions[$permission] ?? false;
     }
 
+
     /**
      *
      */
@@ -67,6 +69,10 @@ class Role extends Model
         );
     }
 
+    /**
+     * @param string $roleName
+     * @return Role|Model|null|object
+     */
     public function getIdFromRoleName(string $roleName)
     {
         return self::where('name', $roleName)->first(['id']);
