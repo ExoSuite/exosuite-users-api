@@ -27,9 +27,11 @@ abstract class RouteParamRequest extends FormRequest
         // get route params
         $parameters = $this->route()->parameters();
         // swap to id instead of uuid
-        $parameters['id'] = $parameters['uuid'];
-        // remove uuid key from $parameters
-        unset($parameters['uuid']);
+        if (array_key_exists('uuid', $parameters)) {
+            $parameters['id'] = $parameters['uuid'];
+            // remove uuid key from $parameters
+            unset($parameters['uuid']);
+        }
 
         return array_replace_recursive(
             parent::all(),
