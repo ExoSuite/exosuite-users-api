@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
+use App\Pivots\RoleUser;
+use App\Pivots\RunUser;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -87,7 +89,7 @@ class User extends Authenticatable
      */
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_users');
+        return $this->belongsToMany(Role::class)->using(RoleUser::class);
     }
 
     /**
@@ -127,5 +129,10 @@ class User extends Authenticatable
         /** @var Role $roleModel */
         $roleModel = $this->roles()->getRelated();
         $this->roles()->attach($roleModel->getIdFromRoleName($role));
+    }
+
+    public function runs()
+    {
+        return $this->belongsToMany(Run::class)->using(RunUser::class);
     }
 }

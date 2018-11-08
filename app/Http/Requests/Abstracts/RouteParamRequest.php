@@ -22,9 +22,16 @@ abstract class RouteParamRequest extends FormRequest
      */
     public function all($keys = null)
     {
+        // get route params
+        $parameters = $this->route()->parameters();
+        // swap to id instead of uuid
+        $parameters['id'] = $parameters['uuid'];
+        // remove uuid key from $parameters
+        unset($parameters['uuid']);
+
         return array_replace_recursive(
             parent::all(),
-            $this->route()->parameters()
+            $parameters
         );
     }
 }

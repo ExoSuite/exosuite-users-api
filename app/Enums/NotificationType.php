@@ -6,6 +6,6 @@ use BenSampo\Enum\Enum;
 
 final class NotificationType extends Enum
 {
-    const FOLLOW = 0;
-    const NEW_MESSAGE = 1;
+    const FOLLOW = "follow";
+    const NEW_MESSAGE = "new_message";
 }

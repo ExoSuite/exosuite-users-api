@@ -132,6 +132,11 @@
       <path value="$PROJECT_DIR$/vendor/squizlabs/php_codesniffer" />
       <path value="$PROJECT_DIR$/vendor/filp/whoops" />
       <path value="$PROJECT_DIR$/vendor/darkaonline/l5-swagger" />
+      <path value="$PROJECT_DIR$/vendor/bosnadev/database" />
+      <path value="$PROJECT_DIR$/vendor/geo-io/interface" />
+      <path value="$PROJECT_DIR$/vendor/jmikola/geojson" />
+      <path value="$PROJECT_DIR$/vendor/phaza/laravel-postgis" />
+      <path value="$PROJECT_DIR$/vendor/geo-io/wkb-parser" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
