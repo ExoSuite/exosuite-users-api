@@ -24,6 +24,9 @@ abstract class RouteParamRequestUuidToId extends RouteParamRequest
         return array_except($data, 'id');
     }
 
+    /**
+     * @return mixed
+     */
     protected function id()
     {
         return $this->all(['uuid'])['id'];

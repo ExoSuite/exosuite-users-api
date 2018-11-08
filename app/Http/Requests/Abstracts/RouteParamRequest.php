@@ -17,7 +17,9 @@ use Illuminate\Foundation\Http\FormRequest;
 abstract class RouteParamRequest extends FormRequest
 {
     /**
-     * @param null $keys
+     * Get all of the input and files for the request.
+     *
+     * @param  array|mixed $keys
      * @return array
      */
     public function all($keys = null)

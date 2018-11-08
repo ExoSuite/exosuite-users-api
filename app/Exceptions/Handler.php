@@ -49,6 +49,10 @@ class Handler extends ExceptionHandler
     }
 
 
+    /**
+     * @param ModelNotFoundException $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
     private function modelNotFound(ModelNotFoundException $exception)
     {
         $data = [
@@ -69,7 +73,7 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Exception $exception
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $exception)
     {
