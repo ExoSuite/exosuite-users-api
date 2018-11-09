@@ -45,6 +45,19 @@ Route::group(['middleware' => 'auth:api'], function () {
             Route::get('/followers', 'FollowsController@WhoIsFollowing')->name('followers');
             Route::delete('/unFollow', 'FollowsController@delete')->name('unFollow');
         });
+
+        Route::group(['prefix' => 'friendship'], function () {
+            Route::post('/sendFriendshipRequest', 'RelationsController@sendFriendshipRequest')->name('sendRequest');
+            Route::post('/accept', 'RelationsController@acceptRequest')->name('accept');
+            Route::post('/decline', 'RelationsController@declineRequest')->name('decline');
+            Route::get('/myFriendlist', 'RelationsController@getMyFriendships')->name('myFriendList');
+            Route::get('/friendList/{target_id}', 'RelationsController@getFriendships')->name('friendList');
+        });
+
+        Route::group(['prefix' => 'pending_requests'], function () {
+            Route::post('/store', 'PendingRequestController@store')->name('create');
+            Route::get('/mine', 'PendingRequestController@getMyPendings')->name('getMine');
+        });
     });
 
     Route::group(['prefix' => 'run'], function () {
@@ -57,7 +70,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 });
 
 if (!\Illuminate\Support\Facades\App::environment("production")) {
-    Route::get('staging/client', 'StagingController@get');
+    Route::get('staging/R', 'StagingController@get')->name('staging-client');
 }
 
 /*Route::get('test', function () {
