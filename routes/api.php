@@ -38,6 +38,13 @@ Route::group(['middleware' => 'auth:api'], function () {
         });
 
         Route::get('search', 'UserController@search')->name('get_users');
+
+        Route::group(['prefix' => 'follows'], function () {
+            Route::post('/', 'FollowsController@store')->name('newFollow');
+            Route::get('/amIFollowing', 'FollowsController@AmIFollowing')->name('amIFollowing');
+            Route::get('/followers', 'FollowsController@WhoIsFollowing')->name('followers');
+            Route::delete('/unFollow', 'FollowsController@delete')->name('unFollow');
+        });
     });
 
     Route::group(['prefix' => 'run'], function () {
@@ -46,6 +53,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/id/{uuid}', 'RunController@show');
         Route::get('/', 'RunController@index');
     });
+
 });
 
 if (!\Illuminate\Support\Facades\App::environment("production")) {
