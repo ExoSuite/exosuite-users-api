@@ -20,7 +20,7 @@ $factory->define(
             'first_name' => $faker->firstName,
             'last_name' => $faker->lastName,
             'email' => $faker->unique()->safeEmail,
-            'password' => "{$faker->password}C0"
+            'password' => "{$faker->password}Cz0"
         ];
     }
 );
