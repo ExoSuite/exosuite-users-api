@@ -38,9 +38,6 @@ class RegisterUserTest extends TestCase
         }
 
         $response = $this->json(Request::METHOD_POST, route('register'), $userData);
-        if ($with_user) {
-            dd($response->json(), $response->getStatusCode(), $userData['password']);
-        }
         $response->assertStatus(Response::HTTP_CREATED);
         $userData = array_except($userData, ['password_confirmation', 'password', 'with_user']);
 
