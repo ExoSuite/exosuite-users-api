@@ -11407,6 +11407,7 @@ https://highlightjs.org/
             var rsingleTag = (/^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i);
 
 
+
 // Implement the identical functionality for filter and not
             function winnow(elements, qualifier, not) {
                 if (isFunction(qualifier)) {
@@ -11787,6 +11788,7 @@ https://highlightjs.org/
                 };
             });
             var rnothtmlwhite = (/[^\x20\t\r\n\f]+/g);
+
 
 
 // Convert String-formatted options into Object-formatted ones
@@ -12427,6 +12429,8 @@ https://highlightjs.org/
             };
 
 
+
+
 // The deferred used on DOM ready
             var readyList = jQuery.Deferred();
 
@@ -12502,6 +12506,8 @@ https://highlightjs.org/
                 // A fallback to window.onload, that will always work
                 window.addEventListener("load", completed);
             }
+
+
 
 
 // Multifunctional method to get and set values of a collection
@@ -12747,6 +12753,7 @@ https://highlightjs.org/
             var dataPriv = new Data();
 
             var dataUser = new Data();
+
 
 
 //	Implementation Summary
@@ -13263,6 +13270,7 @@ https://highlightjs.org/
             var rtagName = (/<([a-z][^\/\0>\x20\t\r\n\f]+)/i);
 
             var rscriptType = (/^$|^module$|\/(?:java|ecma)script/i);
+
 
 
 // We have to close these tags to support XHTML (#13200)
@@ -16727,6 +16735,8 @@ https://highlightjs.org/
             });
 
 
+
+
 // Return jQuery for attributes-only inclusion
 
 
@@ -16964,6 +16974,7 @@ https://highlightjs.org/
             var nonce = Date.now();
 
             var rquery = (/\?/);
+
 
 
 // Cross-browser xml parsing
@@ -18196,6 +18207,8 @@ https://highlightjs.org/
             });
 
 
+
+
 // Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
             jQuery.ajaxPrefilter(function (s) {
                 if (s.crossDomain) {
@@ -18358,6 +18371,8 @@ https://highlightjs.org/
             });
 
 
+
+
 // Support: Safari 8 only
 // In Safari 8 documents created via document.implementation.createHTMLDocument
 // collapse sibling forms: the second one becomes a child of the first one.
@@ -18483,6 +18498,8 @@ https://highlightjs.org/
 
                 return this;
             };
+
+
 
 
 // Attach a bunch of functions for handling common AJAX events
@@ -18869,6 +18886,8 @@ https://highlightjs.org/
                     // subtraction forces infinities to NaN
                     !isNaN(obj - parseFloat(obj));
             };
+
+
 
 
 // Register as a named AMD module, since jQuery can be concatenated with other
@@ -58725,6 +58744,34 @@ https://highlightjs.org/
                                 _vm._v(" "),
                                 _c("tr", [
                                     _c("td", {staticClass: "table-fit font-weight-bold"}, [
+                                        _vm._v("Controller Action")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                        _vm._v(
+                                            "\n            " +
+                                            _vm._s(slotProps.entry.content.controller_action) +
+                                            "\n        "
+                                        )
+                                    ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                    _c("td", {staticClass: "table-fit font-weight-bold"}, [
+                                        _vm._v("Middleware")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                        _vm._v(
+                                            "\n            " +
+                                            _vm._s(slotProps.entry.content.middleware.join(", ")) +
+                                            "\n        "
+                                        )
+                                    ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                    _c("td", {staticClass: "table-fit font-weight-bold"}, [
                                         _vm._v("Path")
                                     ]),
                                     _vm._v(" "),
@@ -58747,6 +58794,20 @@ https://highlightjs.org/
                                             "\n            " +
                                             _vm._s(slotProps.entry.content.response_status) +
                                             "\n        "
+                                        )
+                                    ])
+                                ]),
+                                _vm._v(" "),
+                                _c("tr", [
+                                    _c("td", {staticClass: "table-fit font-weight-bold"}, [
+                                        _vm._v("Duration")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                        _vm._v(
+                                            "\n            " +
+                                            _vm._s(slotProps.entry.content.duration || "-") +
+                                            " ms\n        "
                                         )
                                     ])
                                 ])
@@ -66699,6 +66760,8 @@ type StyleObjectPart = {
             /*  */
 
 
+
+
 // Register the component hook to weex native render engine.
 // The hook will be triggered by native, not javascript.
 
@@ -73891,7 +73954,9 @@ type StyleObjectPart = {
                         confirmationCancel: null
                     },
 
-                    autoLoadsNewEntries: localStorage.autoLoadsNewEntries === '1'
+                    autoLoadsNewEntries: localStorage.autoLoadsNewEntries === '1',
+
+                    recording: Telescope.recording
                 };
             },
 
@@ -73905,6 +73970,12 @@ type StyleObjectPart = {
                         this.autoLoadsNewEntries = false;
                         localStorage.autoLoadsNewEntries = 0;
                     }
+                },
+                toggleRecording: function toggleRecording() {
+                    __WEBPACK_IMPORTED_MODULE_2_axios___default.a.post('/' + Telescope.path + '/telescope-api/toggle-recording');
+
+                    window.Telescope.recording = !Telescope.recording;
+                    this.recording = !this.recording;
                 }
             }
         });
