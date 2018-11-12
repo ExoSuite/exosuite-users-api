@@ -36,7 +36,7 @@ class FollowsController extends Controller
         $data = $request->validated();
 
         if (Follow::whereFollowedId($data['id'])->exists())
-            return Follow::whereFollowedId($data['id'])->get();
+            return Follow::whereFollowedId($data['id'])->get()->pluck('user_id');
     }
 
     public function delete(CreateFollowRequest $request)
