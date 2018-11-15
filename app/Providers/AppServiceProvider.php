@@ -31,5 +31,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Passport::ignoreMigrations();
+        if ($this->app->isLocal() or $this->app->environment() === 'staging') {
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 }
