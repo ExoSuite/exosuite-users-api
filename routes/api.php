@@ -52,12 +52,12 @@ if (!\Illuminate\Support\Facades\App::environment("production")) {
     Route::get('staging/client', 'StagingController@get');
 }
 
-/*Route::get('test', function () {
-    for ($i = 0; $i < 10000; $i++) {
+Route::get('test', function () {
+    for ($i = 0; $i < 100; $i++) {
         \Illuminate\Support\Facades\Notification::send(
             App\Models\User::all(),
             new \App\Notifications\FollowNotification()
         );
     }
     return ["SENT!"];
-});*/
+});
