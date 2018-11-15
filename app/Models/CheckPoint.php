@@ -16,11 +16,6 @@ class CheckPoint extends UuidModel
     use PostgisTrait;
 
     /**
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
      * @var array
      */
     protected $fillable = ['id', 'type', 'location'];

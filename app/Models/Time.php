@@ -10,7 +10,12 @@ use App\Models\Abstracts\UuidModel;
  */
 class Time extends UuidModel
 {
-    protected $fillable = ['id', 'interval'];
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'id', 'interval'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
