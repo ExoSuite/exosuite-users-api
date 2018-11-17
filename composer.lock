@@ -2007,16 +2007,16 @@
         },
         {
             "name": "league/oauth2-server",
-            "version": "7.3.0",
+            "version": "7.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "a61c6a318acc155769ae9afc693fd18d91475587"
+                "reference": "f2cd3646ffe92a5ce83942cb487702e34b0cf504"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/a61c6a318acc155769ae9afc693fd18d91475587",
-                "reference": "a61c6a318acc155769ae9afc693fd18d91475587",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/f2cd3646ffe92a5ce83942cb487702e34b0cf504",
+                "reference": "f2cd3646ffe92a5ce83942cb487702e34b0cf504",
                 "shasum": ""
             },
             "require": {
@@ -2080,7 +2080,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2018-11-13T20:17:20+00:00"
+            "time": "2018-11-15T22:37:18+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -5269,16 +5269,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v1.0.1",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "feaf48bf4162ea0b7613ec4a2944342cd1a84dca"
+                "reference": "e04797a31dffb0285b12231140e0f755d578705b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/feaf48bf4162ea0b7613ec4a2944342cd1a84dca",
-                "reference": "feaf48bf4162ea0b7613ec4a2944342cd1a84dca",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/e04797a31dffb0285b12231140e0f755d578705b",
+                "reference": "e04797a31dffb0285b12231140e0f755d578705b",
                 "shasum": ""
             },
             "require": {
@@ -5328,7 +5328,7 @@
                 "laravel",
                 "monitoring"
             ],
-            "time": "2018-11-15T15:28:27+00:00"
+            "time": "2018-11-17T16:34:20+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -6200,7 +6200,7 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "3.7.x-dev",
+            "version": "v3.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
@@ -7780,16 +7780,16 @@
         },
         {
             "name": "swagger-api/swagger-ui",
-            "version": "v3.19.5",
+            "version": "v3.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swagger-api/swagger-ui.git",
-                "reference": "30f3f10bf52ec22bf5278b2e4a3719c2371209ed"
+                "reference": "db9e24541f65bd5d19506277b0869d098f3f704c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/30f3f10bf52ec22bf5278b2e4a3719c2371209ed",
-                "reference": "30f3f10bf52ec22bf5278b2e4a3719c2371209ed",
+                "url": "https://api.github.com/repos/swagger-api/swagger-ui/zipball/db9e24541f65bd5d19506277b0869d098f3f704c",
+                "reference": "db9e24541f65bd5d19506277b0869d098f3f704c",
                 "shasum": ""
             },
             "type": "library",
@@ -7833,7 +7833,7 @@
                 "swagger",
                 "ui"
             ],
-            "time": "2018-11-05T05:26:25+00:00"
+            "time": "2018-11-17T01:13:28+00:00"
         },
         {
             "name": "symfony/filesystem",

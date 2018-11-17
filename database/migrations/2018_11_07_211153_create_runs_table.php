@@ -18,9 +18,12 @@ class CreateRunsTable extends Migration
     {
         Schema::create('runs', function (Blueprint $table) {
             $table->uuid('id')->primary();
+
+            $table->uuid('creator_id');
+            $table->foreign('creator_id')->references('id')->on('users');
+
             $table->string('name');
             $table->text('description')->nullable();
-            $table->uuid('creator_id');
             $table->string('visibility');
             $table->timestamps();
         });

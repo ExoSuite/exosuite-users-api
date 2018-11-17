@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Run;
 
-use App\Rules\RunVisibilityRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRunRequest extends FormRequest
+class CreateShareRunRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +24,8 @@ class CreateRunRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:30',
-            'description' => 'sometimes|string|max:255',
-            'visibility' => ['sometimes', 'string', new RunVisibilityRule()]
+            'id' => 'required|uuid|exists:runs',
+            'user_id' => 'sometimes|uuid|exists:users,id'
         ];
     }
 }
