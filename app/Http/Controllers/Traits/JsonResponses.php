@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
@@ -22,7 +23,7 @@ trait JsonResponses
 {
 
     /**
-     * @param $data
+     * @param array|Model|ResourceCollection|JsonResource $data
      * @return array
      */
     private function toArray($data)

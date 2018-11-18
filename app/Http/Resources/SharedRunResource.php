@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Share;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SharedRunResource extends JsonResource
@@ -22,12 +23,7 @@ class SharedRunResource extends JsonResource
             'creator_id' => $this->creator_id,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
-            'shared' => [
-                'user_id' => $this->pivot->user_id,
-                'id' => $this->pivot->id,
-                'created_at' => $this->pivot->created_at->toDateTimeString(),
-                'updated_at' => $this->pivot->updated_at->toDateTimeString(),
-            ]
+            'shared' => $this->share->first()
         ];
     }
 }

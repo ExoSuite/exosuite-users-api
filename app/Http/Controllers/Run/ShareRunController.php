@@ -7,6 +7,7 @@ use App\Http\Requests\Run\GetShareRunRequest;
 use App\Http\Resources\SharedRunCollection;
 use App\Http\Resources\SharedRunResource;
 use App\Models\Run;
+use App\Models\Share;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -22,10 +23,9 @@ class ShareRunController extends Controller
      */
     public function index()
     {
+        $runs = Auth::user()->sharedRuns()->get();
         return $this->ok(
-            new SharedRunCollection(
-                Auth::user()->sharedRuns()->get()
-            )
+            new SharedRunCollection($runs)
         );
     }
 
@@ -58,7 +58,7 @@ class ShareRunController extends Controller
     public function show(GetShareRunRequest $request, Uuid $id)
     {
         return $this->ok(
-            new SharedRunResource(
+            SharedRunResource::make(
                 Auth::user()->sharedRuns()->whereId($id)
             )
         );

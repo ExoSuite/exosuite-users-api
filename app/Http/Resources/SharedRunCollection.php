@@ -19,8 +19,8 @@ class SharedRunCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->map(function (Run $run) {
-            return new SharedRunResource($run);
+        return $this->collection->map(function (Run $run) use ($request) {
+            return (new SharedRunResource($run))->toArray($request);
         })->toArray();
     }
 }

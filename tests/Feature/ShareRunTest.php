@@ -3,30 +3,63 @@
 namespace Tests\Feature;
 
 use App\Models\Run;
+use App\Models\Share;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Tests\TestCase;
+use Laravel\Passport\Passport;
 
+/**
+ * Class ShareRunTest
+ * @package Tests\Feature
+ */
 class ShareRunTest extends TestCase
 {
+
+    /**
+     * @var Run
+     */
+    private $run;
+
+
     /**
      * A basic test example.
      *
-     * @return void
+     * @return User
      */
     public function testCreateShareOfARun()
     {
-        $run = factory(Run::class)->create();
         $user = factory(User::class)->create();
-        dd($user);
+        Passport::actingAs($user);
+        $this->run = factory(Run::class)->create();
 
-        //Auth::login(Passport::actingAs($user));
         $response = $this->json(
             Request::METHOD_POST,
             route('post_share_run'),
-            ['id' => $run->id]
+            ['id' => $this->run->id]
         );
-        $response->assertStatus(Response::HTTP_CREATED);
+
+        $share = new Share();
+        $expectToSee = collect($share->getFillable())->diff($share->getHidden());
+        $response->assertStatus(Response::HTTP_CREATED)
+            ->assertJsonStructure($expectToSee->toArray());
+
+        return $user;
+    }
+
+    /**
+     * @depends testCreateShareOfARun
+     * @param User $user
+     */
+    public function testGetAllSharedRuns(User $user)
+    {
+        Passport::actingAs($user);
+
+        $response = $this->getJson(
+            route('get_share_run')
+        );
+
+        $response->assertStatus(Response::HTTP_OK);
     }
 }

@@ -159,6 +159,6 @@ class User extends Authenticatable
             Run::class,
             Share::SHARE_RELATION_NAME,
             Share::getTableName()
-        );
+        )->withTimestamps();
     }
 }

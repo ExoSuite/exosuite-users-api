@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class Share extends UuidModel
 {
+
     /**
      * define share relation name
      */
@@ -20,7 +21,12 @@ class Share extends UuidModel
      * @var array
      */
     protected $fillable = [
-        'id', 'user_id', 'target_id', 'shareable_id', 'shareable_type'
+        'id', 'user_id', 'shareable_id', 'shareable_type',
+        'created_at', 'updated_at'
+    ];
+
+    protected $hidden = [
+        'shareable_type', 'shareable_id'
     ];
 
     /**
