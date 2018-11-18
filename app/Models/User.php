@@ -15,14 +15,14 @@ use Webpatser\Uuid\Uuid;
 /**
  * Class User
  * @package App\Models
- * @property Uuid id
- * @property string first_name
- * @property string last_name
- * @property string nick_name
- * @property string email
- * @property string password
- * @property string remember_token
- * @property string email_verified_at
+ * @property Uuid $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $nick_name
+ * @property string $email
+ * @property string $password
+ * @property string $remember_token
+ * @property string $email_verified_at
  */
 class User extends Authenticatable
 {

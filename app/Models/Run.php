@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Auth;
 /**
  * Class Run
  * @package App\Models
- * @property Uuid id
- * @property string description
- * @property Uuid creator_id
- * @property Visibility visibility
- * @property string name
+ * @property Uuid $id
+ * @property string $description
+ * @property Uuid $creator_id
+ * @property Visibility $visibility
+ * @property string $name
  */
 class Run extends UuidModel
 {

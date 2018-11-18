@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\CheckPointType;
 use App\Models\Abstracts\UuidModel;
-use App\Models\Traits\Uuids;
 use Phaza\LaravelPostgis\Eloquent\PostgisTrait;
 use Phaza\LaravelPostgis\Geometries\Polygon;
 use Webpatser\Uuid\Uuid;
@@ -12,9 +11,9 @@ use Webpatser\Uuid\Uuid;
 /**
  * Class CheckPoint
  * @package App\Models
- * @property Uuid id
- * @property CheckPointType type
- * @property Polygon location
+ * @property Uuid $id
+ * @property CheckPointType $type
+ * @property Polygon $location
  */
 class CheckPoint extends UuidModel
 {

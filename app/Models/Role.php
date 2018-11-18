@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Role
  * @package App\Models
- * @property string name
- * @property string slug
- * @property array permissions
+ * @property string $name
+ * @property string $slug
+ * @property array $permissions
  */
 class Role extends Model
 {
