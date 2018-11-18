@@ -24,7 +24,7 @@ Route::middleware('auth:api')->group(function () {
 
         Route::prefix('me')->group(function () {
 
-            Route::get('/', 'UserController@me')
+            Route::get('/', 'User\UserController@me')
                 ->name('get_user');
 
             Route::prefix('profile')->group(function () {
@@ -56,10 +56,15 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', 'Run\RunController@index')
             ->name('get_run');
         ///////////////////////////////////////////////////////////////////
-        Route::prefix('share')->group(function () {
-            Route::post('/', 'Run\ShareRunController@store');
-            Route::get('/', 'Run\ShareRunController@index');
-        });
+        Route::apiResource('share', 'Run\ShareRunController')
+            ->parameters([
+                'share' => 'uuid'
+            ])
+            ->names([
+                'store' => 'post_share_run',
+                'index' => 'get_share_run',
+                'show' => 'get_share_run_by_id'
+            ]);
     });
 });
 

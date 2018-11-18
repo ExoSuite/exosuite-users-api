@@ -8,6 +8,7 @@
 
 namespace App\Models\Traits;
 
+use App\Models\Share;
 
 /**
  * Trait Shareable

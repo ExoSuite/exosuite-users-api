@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Run;
 
 use App\Http\Requests\Run\CreateShareRunRequest;
+use App\Http\Requests\Run\GetShareRunRequest;
 use App\Http\Resources\SharedRunCollection;
+use App\Http\Resources\SharedRunResource;
 use App\Models\Run;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Webpatser\Uuid\Uuid;
 
 class ShareRunController extends Controller
 {
@@ -48,12 +51,17 @@ class ShareRunController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param GetShareRunRequest $request
+     * @param Uuid $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(GetShareRunRequest $request, Uuid $id)
     {
-        //
+        return $this->ok(
+            new SharedRunResource(
+                Auth::user()->sharedRuns()->whereId($id)
+            )
+        );
     }
 
     /**

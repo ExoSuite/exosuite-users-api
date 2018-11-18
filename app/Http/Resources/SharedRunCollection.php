@@ -20,19 +20,7 @@ class SharedRunCollection extends ResourceCollection
     public function toArray($request)
     {
         return $this->collection->map(function (Run $run) {
-            $data = $run->only([
-                'id',
-                'name',
-                'visibility',
-                'visibility',
-                'description',
-                'creator_id'
-            ]);
-
-            $data['created_at'] = $run->created_at->toDateTimeString();
-            $data['updated_at'] = $run->updated_at->toDateTimeString();
-            $data['shared']['user_id'] = $run->pivot->user_id;
-            return $data;
+            return new SharedRunResource($run);
         })->toArray();
     }
 }

@@ -31,10 +31,6 @@ trait JsonResponses
             $data = $data->toArray();
         }
 
-        if ($data instanceof ResourceCollection) {
-            $data = $data->toArray(request());
-        }
-
         return $data;
     }
 
