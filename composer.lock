@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64f3fba219c8b2c9b5a08aa58950970d",
+    "content-hash": "9b3e57d3fea91630bb9cfa5628275bd5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5269,16 +5269,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "e04797a31dffb0285b12231140e0f755d578705b"
+                "reference": "9dfb1b08d3cf30adcfd44c79b5aaaa1f2fe34379"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/e04797a31dffb0285b12231140e0f755d578705b",
-                "reference": "e04797a31dffb0285b12231140e0f755d578705b",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/9dfb1b08d3cf30adcfd44c79b5aaaa1f2fe34379",
+                "reference": "9dfb1b08d3cf30adcfd44c79b5aaaa1f2fe34379",
                 "shasum": ""
             },
             "require": {
@@ -5328,7 +5328,7 @@
                 "laravel",
                 "monitoring"
             ],
-            "time": "2018-11-17T16:34:20+00:00"
+            "time": "2018-11-19T14:58:08+00:00"
         },
         {
             "name": "mockery/mockery",
