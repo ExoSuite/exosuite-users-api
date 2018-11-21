@@ -8,21 +8,24 @@ return [
     'path' => 'monitoring/telescope',
 
     /*
-        |--------------------------------------------------------------------------
-        | Telescope Storage Driver
-        |--------------------------------------------------------------------------
-        |
-        | This configuration options determines the storage driver that will
-        | be used to store Telescope's data. In addition, you may set any
-        | custom options as needed by the particular driver you choose.
-        |
-        */
+    |--------------------------------------------------------------------------
+    | Telescope Storage Driver
+    |--------------------------------------------------------------------------
+    |
+    | This configuration options determines the storage driver that will
+    | be used to store Telescope's data. In addition, you may set any
+    | custom options as needed by the particular driver you choose.
+    |
+    */
+
+
     'driver' => env('TELESCOPE_DRIVER', 'database'),
     'storage' => [
         'database' => [
             'connection' => env('DB_CONNECTION', 'mysql'),
         ],
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Telescope Master Switch
@@ -33,7 +36,9 @@ return [
     | and convenient way to enable or disable Telescope data storage.
     |
     */
+
     'enabled' => env('TELESCOPE_ENABLED', true),
+
     /*
     |--------------------------------------------------------------------------
     | Telescope Route Middleware
@@ -44,10 +49,12 @@ return [
     | the existing middleware. Or, you can simply stick with this list.
     |
     */
+
     'middleware' => [
         'web',
         Authorize::class,
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Ignored Paths & Commands
@@ -58,12 +65,14 @@ return [
     | commands, like migrations and queue commands, are always ignored.
     |
     */
+
     'ignore_paths' => [
         //
     ],
     'ignore_commands' => [
         //
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Telescope Watchers
@@ -74,6 +83,7 @@ return [
     | a request or task is executed. Feel free to customize this list.
     |
     */
+
     'watchers' => [
         Watchers\CacheWatcher::class => env('TELESCOPE_CACHE_WATCHER', true),
         Watchers\CommandWatcher::class => env('TELESCOPE_COMMAND_WATCHER', true),
