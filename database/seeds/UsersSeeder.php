@@ -22,5 +22,14 @@ class UsersSeeder extends Seeder
         ]);
 
         $loic_lopez->addRole(Roles::ADMINISTRATOR);
+
+        $pierre_piazza = User::create([
+            'first_name' => 'Pierre',
+            'last_name' => 'Piazza',
+            'email' => 'pierre.piazza@exosuite.fr',
+            'password' => 'test123'
+        ]);
+
+        $pierre_piazza->addRole(Roles::ADMINISTRATOR);
     }
 }
