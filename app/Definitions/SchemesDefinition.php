@@ -6,6 +6,7 @@
  * Time: 15:51
  */
 
+use Webpatser\Uuid\Uuid;
 
 /**
  * @OA\Schema(
