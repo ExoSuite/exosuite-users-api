@@ -70,7 +70,7 @@ return [
         'labelloc' => 't',
         'concentrate' => false,
         'splines' => 'polyline',
-        'overlap' => true,
+        'overlap' => false,
         'nodesep' => 1,
         'rankdir' => 'LR',
         'pad' => 1,
@@ -87,7 +87,7 @@ return [
 
     'edge' => [
         'color' => '#003049',
-        'penwidth' => 3,
+        'penwidth' => 5,
         'fontname' => 'Helvetica Neue'
     ],
 

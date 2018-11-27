@@ -12,8 +12,9 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-pdo_pgsql": "*",
-        "ext-xml": "*",
         "ext-redis": "*",
+        "ext-xml": "*",
+        "babenkoivan/scout-elasticsearch-driver": "^3.9",
         "barryvdh/laravel-cors": "^0.11.2",
         "bensampo/laravel-enum": "^1.12",
         "doctrine/dbal": "^2.8",
@@ -21,10 +22,9 @@
         "laravel/framework": "5.7.*",
         "laravel/horizon": "^2.0    ",
         "laravel/passport": "^7.0",
-        "laravel/scout": "^5.0",
+        "laravel/scout": "^6.1",
         "laravel/tinker": "^1.0",
         "phaza/laravel-postgis": "^3.5",
-        "teamtnt/laravel-scout-tntsearch-driver": "^3.3",
         "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {

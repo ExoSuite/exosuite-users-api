@@ -16,7 +16,8 @@ return [
     'allowedOrigins' => [
         'app.exosuite.local',
         'app.dev.exosuite.fr',
-        'app.exosuite.fr'
+        'app.exosuite.fr',
+        'confluence.dev.exosuite.fr'
     ],
     'allowedOriginsPatterns' => [],
     'allowedHeaders' => ['*'],

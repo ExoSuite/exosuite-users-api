@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Indexes\UserIndexConfigurator;
+use App\Models\SearchRules\UserSearchRule;
 use App\Models\Traits\Uuids;
 use App\Pivots\RoleUser;
 use App\Pivots\UserShare;
@@ -9,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
-use Laravel\Scout\Searchable;
+use ScoutElastic\Searchable;
 use Webpatser\Uuid\Uuid;
 
 /**
@@ -32,6 +34,35 @@ class User extends Authenticatable
     use Uuids {
         boot as UuidBoot;
     }
+
+    /**
+     * @var string
+     */
+    protected $indexConfigurator = UserIndexConfigurator::class;
+
+    /**
+     * @var array
+     */
+    protected $searchRules = [
+        UserSearchRule::class
+    ];
+
+    /**
+     * @var array
+     */
+    protected $mapping = [
+        'properties' => [
+            'first_name' => [
+                'type' => 'text'
+            ],
+            'last_name' => [
+                'type' => 'text'
+            ],
+            'nick_name' => [
+                'type' => 'text'
+            ],
+        ]
+    ];
 
     /**
      * Indicates if the IDs are auto-incrementing.
