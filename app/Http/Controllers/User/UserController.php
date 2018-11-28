@@ -31,7 +31,6 @@ class UserController extends Controller
     public function search(UserSearchRequest $request)
     {
         $users = User::search($request->text)->get();
-        dd($users, $request->text);
         return $this->ok($users);
     }
 }

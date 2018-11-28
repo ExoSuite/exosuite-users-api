@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,15 +12,11 @@ use Illuminate\Http\Response;
 
 class UserSearchTest extends TestCase
 {
+    use WithFaker;
     /**
      * @var User
      */
     private $user;
-
-    /**
-     * @var string
-     */
-    private $userPassword = null;
 
     /**
      *
@@ -29,21 +24,17 @@ class UserSearchTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        /* @var User $userData */
-        $user = factory(User::class)->make();
-        /* @var array $userData */
-        $userData = $user->toArray();
-        $userData['password'] = $user->password;
-        $this->userPassword = $user->password;
-
-        $this->user = User::create($userData);
+        $this->user = factory(User::class)->make();
+        $this->user->nick_name = $this->faker->company;
+        $user = User::create($this->user->toArray());
+        $user->searchable();
     }
 
 
     public function testSearchUser()
     {
         Passport::actingAs($this->user);
-        $userQueries =  [
+        $userQueries = [
             'first_name',
             'last_name',
             'nick_name',
@@ -60,8 +51,6 @@ class UserSearchTest extends TestCase
                 $uri
             );
 
-            dd($response->decodeResponseJson());
-
             $response->assertStatus(Response::HTTP_OK);
             $response->assertJsonStructure([
                 [
@@ -73,7 +62,5 @@ class UserSearchTest extends TestCase
                 ]
             ]);
         }
-
-
     }
 }

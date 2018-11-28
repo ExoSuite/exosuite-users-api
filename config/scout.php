@@ -1,5 +1,11 @@
 <?php
 
+if (! function_exists('runningUnitTests')) {
+    function runningUnitTests() {
+        return env('APP_ENV') === 'testing';
+    }
+}
+
 return [
 
     /*
@@ -41,7 +47,7 @@ return [
     |
     */
 
-    'queue' => env('SCOUT_QUEUE', true),
+    'queue' => env('SCOUT_QUEUE', !runningUnitTests()), // bug with queue enabled
 
     /*
     |--------------------------------------------------------------------------

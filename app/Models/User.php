@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Models\Indexes\UserIndexConfigurator;
 use App\Models\SearchRules\UserSearchRule;
-use App\Models\Traits\Uuids;
 use App\Pivots\RoleUser;
 use App\Pivots\UserShare;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -31,9 +34,12 @@ class User extends Authenticatable
     use HasApiTokens;
     use Searchable;
     use Notifiable;
-    use Uuids {
-        boot as UuidBoot;
-    }
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     * @var bool
+     */
+    public $incrementing = false;
 
     /**
      * @var string
@@ -53,23 +59,19 @@ class User extends Authenticatable
     protected $mapping = [
         'properties' => [
             'first_name' => [
-                'type' => 'text'
+                'type' => 'text',
+                'analyzer' => 'standard'
             ],
             'last_name' => [
-                'type' => 'text'
+                'type' => 'text',
+                'analyzer' => 'standard'
             ],
             'nick_name' => [
-                'type' => 'text'
+                'type' => 'text',
+                'analyzer' => 'standard'
             ],
         ]
     ];
-
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var boolean
-     */
-    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
@@ -100,10 +102,11 @@ class User extends Authenticatable
      */
     protected static function boot()
     {
-        self::UuidBoot();
+        parent::boot();
         static::creating(
-            function (self $model) {
-                $model->password = Hash::make($model->password);
+            function (self $user) {
+                $user->password = Hash::make($user->password);
+                $user->{$user->getKeyName()} = Uuid::generate()->string;
             }
         );
     }
@@ -111,7 +114,7 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function profile()
+    public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class, $this->primaryKey);
     }
@@ -121,7 +124,7 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function receivesBroadcastNotificationsOn()
+    public function receivesBroadcastNotificationsOn(): string
     {
         return "user.{$this->id}";
     }
@@ -129,7 +132,7 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function roles()
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class)->using(RoleUser::class);
     }
@@ -176,7 +179,7 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function runs()
+    public function runs(): HasMany
     {
         return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY);
     }
@@ -184,7 +187,7 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
      */
-    public function sharedRuns()
+    public function sharedRuns(): MorphToMany
     {
         return $this->morphedByMany(
             Run::class,

@@ -9,8 +9,6 @@ class UserIndexConfigurator extends IndexConfigurator
 {
     use Migratable;
 
-    protected $name = 'user_index';
-
     /**
      * @var array
      */
