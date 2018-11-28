@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Role
  * @package App\Models
+ * @property string $name
+ * @property string $slug
+ * @property array $permissions
  */
 class Role extends Model
 {
@@ -71,10 +74,10 @@ class Role extends Model
 
     /**
      * @param string $roleName
-     * @return Role|Model|null|object
+     * @return Role|\Illuminate\Database\Eloquent\Builder|Model|null|object
      */
     public function getIdFromRoleName(string $roleName)
     {
-        return self::where('name', $roleName)->first(['id']);
+        return self::whereName($roleName)->first([$this->primaryKey]);
     }
 }

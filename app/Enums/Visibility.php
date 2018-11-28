@@ -5,10 +5,10 @@ namespace App\Enums;
 use BenSampo\Enum\Enum;
 
 /**
- * Class RunVisibility define visibility of a \App\Models\Run
+ * Class Visibility define visibility of a resource
  * @package App\Enums
  */
-final class RunVisibility extends Enum
+final class Visibility extends Enum
 {
     /**
      * public run

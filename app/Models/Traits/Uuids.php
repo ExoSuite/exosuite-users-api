@@ -19,7 +19,6 @@ use Webpatser\Uuid\Uuid;
 trait Uuids
 {
 
-
     /**
      * Boot function from laravel.
      */
@@ -32,5 +31,5 @@ trait Uuids
                 $model->{$model->getKeyName()} = Uuid::generate()->string;
             }
         );
-    }//end boot()
+    }
 }

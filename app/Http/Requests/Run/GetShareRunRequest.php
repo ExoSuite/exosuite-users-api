@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Run;
 
-use App\Rules\RunVisibilityRule;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Abstracts\RouteParamRequest;
 
-class CreateRunRequest extends FormRequest
+class GetShareRunRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +24,7 @@ class CreateRunRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:30',
-            'description' => 'sometimes|string|max:255',
-            'visibility' => ['sometimes', 'string', new RunVisibilityRule()]
+            'id' => 'exists:shares'
         ];
     }
 }
