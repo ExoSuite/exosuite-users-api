@@ -13,14 +13,12 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        /** @var User $loic_lopez */
         $loic_lopez = User::create([
             'first_name' => 'Loïc',
             'last_name' => 'Lopez',
             'email' => 'loic.lopez@exosuite.fr',
             'password' => 'azerty'
         ]);
-
         $loic_lopez->addRole(Roles::ADMINISTRATOR);
 
         $pierre_piazza = User::create([
@@ -29,7 +27,38 @@ class UsersSeeder extends Seeder
             'email' => 'pierre.piazza@exosuite.fr',
             'password' => 'test123'
         ]);
-
         $pierre_piazza->addRole(Roles::ADMINISTRATOR);
+
+        $loic_dupil = User::create([
+            'first_name' => 'Loïc',
+            'last_name' => 'Dupil',
+            'email' => 'loic.dupil@exosuite.fr',
+            'password' => 'azerty'
+        ]);
+        $loic_dupil->addRole(Roles::ADMINISTRATOR);
+
+        $yassir = User::create([
+            'first_name' => 'Yassir',
+            'last_name' => 'Jabbari',
+            'email' => 'yassir.jabbari@exosuite.fr',
+            'password' => 'azerty'
+        ]);
+        $yassir->addRole(Roles::ADMINISTRATOR);
+
+        $renaud = User::create([
+            'first_name' => 'renaud',
+            'last_name' => 'juliani',
+            'email' => 'renal.juliani@exosuite.fr',
+            'password' => 'azerty'
+        ]);
+        $renaud->addRole(Roles::ADMINISTRATOR);
+
+        $stan = User::create([
+            'first_name' => 'stan',
+            'last_name' => 'deneubourg',
+            'email' => 'stan.deneubourg@exosuite.fr ',
+            'password' => 'azerty'
+        ]);
+        $stan->addRole(Roles::ADMINISTRATOR);
     }
 }
