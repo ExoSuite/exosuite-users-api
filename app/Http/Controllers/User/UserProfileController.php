@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UserProfileRequest;
 use App\Models\UserProfile;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 
 class UserProfileController extends Controller
 {

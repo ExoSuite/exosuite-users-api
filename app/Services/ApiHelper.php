@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 use App\Contracts\ApiHelperInterface;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 
 /**

@@ -10,10 +10,10 @@ namespace App\Http\Controllers\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Collection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Response;
 
 /**
  * Trait JsonResponses

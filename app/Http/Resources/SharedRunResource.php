@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Share;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SharedRunResource extends JsonResource

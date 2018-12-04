@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Enums\Roles;
+use App\Facades\ApiHelper;
 use Laravel\Telescope\Telescope;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
@@ -21,7 +23,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         $this->hideSensitiveRequestDetails();
 
         Telescope::filter(function (IncomingEntry $entry) {
-            if ($this->app->isLocal()) {
+            if ($this->app->isLocal() or ApiHelper::isStaging()) {
                 return true;
             }
 
@@ -62,9 +64,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewTelescope', function ($user) {
-            return in_array($user->email, [
-                //
-            ]);
+            return $user->inRole(Roles::ADMINISTRATOR);
         });
     }
 }
