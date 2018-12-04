@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Facades\ApiHelper;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\App;
@@ -32,7 +33,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        if (App::environment("production") or App::environment("staging")) {
+        if (ApiHelper::isProduction() or ApiHelper::isStaging()) {
             $schedule->command('horizon:snapshot')->everyFiveMinutes();
         } else {
             $schedule->command('horizon:snapshot')->everyMinute();
