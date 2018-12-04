@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Enums\RunVisibility;
+use App\Enums\Visibility;
 use Illuminate\Contracts\Validation\Rule;
 
 class RunVisibilityRule implements Rule
@@ -26,7 +26,7 @@ class RunVisibilityRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return RunVisibility::hasValue($value);
+        return Visibility::hasValue($value);
     }
 
     /**

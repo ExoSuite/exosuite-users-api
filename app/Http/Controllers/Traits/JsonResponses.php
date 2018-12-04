@@ -9,12 +9,32 @@
 namespace App\Http\Controllers\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * Trait JsonResponses
+ * @package App\Http\Controllers\Traits
+ */
 trait JsonResponses
 {
+
+    /**
+     * @param array|Model|ResourceCollection|JsonResource $data
+     * @return array
+     */
+    private function toArray($data)
+    {
+        if ($data instanceof Model) {
+            $data = $data->toArray();
+        }
+
+        return $data;
+    }
+
     /**
      * @return \Illuminate\Http\JsonResponse
      */
@@ -25,17 +45,13 @@ trait JsonResponses
     }
 
     /**
-     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable
+     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable|ResourceCollection
      * @param string $location
      * @return \Illuminate\Http\JsonResponse
      */
     protected function created($data = [], string $location = null)
     {
-        if ($data instanceof Model) {
-            $data = $data->toArray();
-        }
-
-        return Response::json($data)
+        return Response::json($this->toArray($data))
             ->setStatusCode(HttpResponse::HTTP_CREATED)
             ->header('location', $location);
     }
@@ -46,11 +62,7 @@ trait JsonResponses
      */
     protected function ok($data)
     {
-        if ($data instanceof Model) {
-            $data = $data->toArray();
-        }
-        
-        return Response::json($data)
+        return Response::json($this->toArray($data))
             ->setStatusCode(HttpResponse::HTTP_OK);
     }
 }

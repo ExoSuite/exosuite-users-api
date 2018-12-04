@@ -37,6 +37,8 @@ class Kernel extends ConsoleKernel
         } else {
             $schedule->command('horizon:snapshot')->everyMinute();
         }
+
+        $schedule->command('telescope:prune')->daily();
     }
 
 

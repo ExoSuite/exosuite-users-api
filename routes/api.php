@@ -18,33 +18,52 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', 'Auth\LoginController@login')->name('login');
 });
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::middleware('auth:api')->group(function () {
 
-    Route::group(['prefix' => 'user'], function () {
+    Route::prefix('user')->group(function () {
 
-        Route::group(['prefix' => 'me'], function () {
+        Route::prefix('me')->group(function () {
 
-            Route::get('/', 'UserController@me')->name('get_user');
+            Route::get('/', 'User\UserController@me')
+                ->name('get_user');
 
-            Route::group(['prefix' => 'profile'], function () {
-                Route::post('/', 'UserProfileController@store')
+            Route::prefix('profile')->group(function () {
+                ///////////////////////////////////////////////////////////////////
+                Route::post('/', 'User\UserProfileController@store')
                     ->name('post_user_profile');
-
-                Route::patch('/', 'UserProfileController@update')
+                Route::patch('/', 'User\UserProfileController@update')
                     ->name('patch_user_profile');
-
-                Route::get('/', 'UserProfileController@show')->name('get_user_profile');
+                Route::get('/', 'User\UserProfileController@show')
+                    ->name('get_user_profile');
+                ///////////////////////////////////////////////////////////////////
             });
         });
 
-        Route::get('search', 'UserController@search')->name('get_users');
+        Route::get('search', 'User\UserController@search')->name('get_users');
     });
 
-    Route::group(['prefix' => 'run'], function () {
-        Route::post('/', 'RunController@store');
-        Route::patch('/{uuid}', 'RunController@update');
-        Route::get('/id/{uuid}', 'RunController@show');
-        Route::get('/', 'RunController@index');
+    Route::prefix('run')->group(function () {
+        ///////////////////////////////////////////////////////////////////
+        Route::post('/', 'Run\RunController@store')
+            ->name('post_run');
+
+        Route::patch('/{uuid}', 'Run\RunController@update')
+            ->name('patch_run');
+
+        Route::get('/id/{uuid}', 'Run\RunController@show')
+            ->name('get_run_by_id');
+
+        Route::get('/', 'Run\RunController@index')
+            ->name('get_run');
+        ///////////////////////////////////////////////////////////////////
+        Route::prefix('share')->group(function () {
+            Route::post('/', 'Run\ShareRunController@store')
+                ->name('post_share_run');
+            Route::get('/', 'Run\ShareRunController@index')
+                ->name('get_share_run');
+            Route::get('/id/{uuid}', 'Run\ShareRunController@show')
+                ->name('get_share_run_by_id');
+        });
     });
 });
 
@@ -52,12 +71,10 @@ if (!\Illuminate\Support\Facades\App::environment("production")) {
     Route::get('staging/client', 'StagingController@get');
 }
 
-/*Route::get('test', function () {
-    for ($i = 0; $i < 10000; $i++) {
-        \Illuminate\Support\Facades\Notification::send(
-            App\Models\User::all(),
-            new \App\Notifications\FollowNotification()
-        );
-    }
+Route::get('test', function () {
+    \Illuminate\Support\Facades\Notification::send(
+        App\Models\User::all(),
+        new \App\Notifications\FollowNotification()
+    );
     return ["SENT!"];
-});*/
+});

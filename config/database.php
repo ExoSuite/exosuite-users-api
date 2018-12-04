@@ -106,7 +106,11 @@ return [
 
     'redis' => [
 
-        'client' => 'predis',
+        'client' => 'phpredis',
+
+        'options' => [
+            'cluster' => 'redis',
+        ],
 
         'default' => [
             'host' => env('REDIS_LIVE_HOST', '127.0.0.1'),
