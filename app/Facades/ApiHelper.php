@@ -9,6 +9,7 @@
 namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\App;
 
 
 /**
@@ -16,8 +17,6 @@ use Illuminate\Support\Facades\Facade;
  * @package App\Facades
  * @method \App\Services\OAuth OAuth()
  * @method \Illuminate\Http\RedirectResponse redirectToLogin($redirectUrl = null)
- * @method bool isStaging()
- * @method bool isProduction()
  */
 class ApiHelper extends Facade
 {
@@ -27,5 +26,21 @@ class ApiHelper extends Facade
     protected static function getFacadeAccessor()
     {
         return 'ApiHelper';
+    }
+
+    /**
+     * @return bool
+     */
+    static public function isStaging(): bool
+    {
+        return App::environment() === 'staging';
+    }
+
+    /**
+     * @return bool
+     */
+    static public function isProduction(): bool
+    {
+        return App::environment() === 'production';
     }
 }

@@ -5,7 +5,6 @@ namespace App\Console;
 use App\Facades\ApiHelper;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\App;
 use Laravel\Passport\Console\ClientCommand;
 
 /**

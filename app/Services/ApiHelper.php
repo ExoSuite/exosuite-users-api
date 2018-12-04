@@ -43,22 +43,6 @@ class ApiHelper implements ApiHelperInterface
     }
 
     /**
-     * @return bool
-     */
-    public function isStaging(): bool
-    {
-        return App::environment() === 'staging';
-    }
-
-    /**
-     * @return bool
-     */
-    public function isProduction(): bool
-    {
-        return App::environment() === 'production';
-    }
-
-    /**
      * @return string
      */
     public static function getDomain(): string
