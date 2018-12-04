@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Run;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Run\CreateShareRunRequest;
 use App\Http\Requests\Run\GetShareRunRequest;
 use App\Http\Resources\SharedRunCollection;
 use App\Http\Resources\SharedRunResource;
 use App\Models\Run;
-use App\Models\Share;
-use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Webpatser\Uuid\Uuid;
 

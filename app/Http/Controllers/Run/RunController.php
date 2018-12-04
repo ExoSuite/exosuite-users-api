@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Run;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Run\CreateRunRequest;
 use App\Http\Requests\Run\GetRunRequest;
 use App\Http\Requests\Run\UpdateRunRequest;
 use App\Models\Run;
 use Webpatser\Uuid\Uuid;
-use App\Http\Controllers\Controller;
 
 /**
  * Class RunController

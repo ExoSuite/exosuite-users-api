@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Facade;
  * @package App\Facades
  * @method \App\Services\OAuth OAuth()
  * @method \Illuminate\Http\RedirectResponse redirectToLogin($redirectUrl = null)
+ * @method bool isStaging()
+ * @method bool isProduction()
  */
 class ApiHelper extends Facade
 {

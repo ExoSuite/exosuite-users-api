@@ -74,7 +74,10 @@ return [
     ],
 
 
-    'middleware' => ['web', 'horizon'],
+    'middleware' => [
+        'web',
+        \App\Http\Middleware\AuthenticateHorizon::class
+    ],
 
     /*
     |--------------------------------------------------------------------------

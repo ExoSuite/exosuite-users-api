@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 use App\Contracts\ApiHelperInterface;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 
 /**
@@ -39,6 +40,22 @@ class ApiHelper implements ApiHelperInterface
     public function OAuth()
     {
         return $this->_OAuth;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStaging(): bool
+    {
+        return App::environment() === 'staging';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProduction(): bool
+    {
+        return App::environment() === 'production';
     }
 
     /**

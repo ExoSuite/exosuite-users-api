@@ -8,7 +8,6 @@ class Jsonify
 {
     /**
      * Change the Request headers to accept "application/json" first
-     * in order to make the wantsJson() function return true
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next

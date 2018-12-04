@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Abstracts\GetRouteParamRequest;
 use App\Http\Requests\GetTimeRequest;
 use App\Http\Requests\UserSearchRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 
 /**
  * Class UserController
