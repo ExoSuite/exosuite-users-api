@@ -1756,6 +1756,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             familyHash: '',
             entries: [],
             ready: false,
+            recordingStatus: 'enabled',
             lastEntryIndex: '',
             hasMoreEntries: true,
             hasNewEntries: false,
@@ -1852,6 +1853,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
                 _this3.hasMoreEntries = response.data.entries.length >= _this3.entriesPerRequest;
 
+                _this3.recordingStatus = response.data.status;
+
                 if (__WEBPACK_IMPORTED_MODULE_1_lodash___default.a.isFunction(after)) {
                     after(_this3.familyHash ? response.data.entries : __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.uniqBy(response.data.entries, function (entry) {
                         return entry.family_hash || __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.uniqueId();
@@ -1869,6 +1872,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
             this.newEntriesTimeout = setTimeout(function () {
                 __WEBPACK_IMPORTED_MODULE_2_axios___default.a.post('/' + Telescope.path + '/telescope-api/' + _this4.resource + '?tag=' + _this4.tag + '&take=1' + '&family_hash=' + _this4.familyHash).then(function (response) {
+                    _this4.recordingStatus = response.data.status;
+
                     if (response.data.entries.length && !_this4.entries.length) {
                         _this4.loadNewEntries();
                     } else if (response.data.entries.length && __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.first(response.data.entries).id !== __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.first(_this4.entries).id) {
@@ -1976,6 +1981,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
                     __WEBPACK_IMPORTED_MODULE_2_axios___default.a.post('/' + Telescope.path + '/telescope-api/' + _this9.resource, {
                         uuids: uuids
                     }).then(function (response) {
+                        _this9.recordingStatus = response.data.status;
+
                         _this9.entries = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.map(_this9.entries, function (entry) {
                             if (!__WEBPACK_IMPORTED_MODULE_1_lodash___default.a.includes(uuids, entry.id)) return entry;
 
@@ -2405,7 +2412,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             entries: [],
             ready: false,
             newEntriesTimeout: null,
-            newEntriesTimeoutInSeconds: 2000
+            newEntriesTimeoutInSeconds: 2000,
+            recordingStatus: 'enabled'
         };
     },
 
@@ -2434,6 +2442,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post('/' + Telescope.path + '/telescope-api/dumps').then(function (response) {
                 _this.entries = response.data.entries;
+                _this.recordingStatus = response.data.status;
 
                 _this.ready = true;
 
@@ -50154,6 +50163,14 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
+              _c("td", { staticClass: "table-fit" }, [
+                slotProps.entry.content.duration
+                  ? _c("span", [
+                      _vm._v(_vm._s(slotProps.entry.content.duration) + "ms")
+                    ])
+                  : _c("span", [_vm._v("-")])
+              ]),
+              _vm._v(" "),
               _c(
                 "td",
                 {
@@ -50213,6 +50230,8 @@ var render = function() {
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Path")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Duration")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Happened")]),
         _vm._v(" "),
@@ -50285,6 +50304,58 @@ var render = function() {
           : _vm._e()
       ]
     ),
+    _vm._v(" "),
+    _vm.recordingStatus !== "enabled"
+      ? _c(
+          "p",
+          {
+            staticClass: "mt-0 mb-0 disabled-watcher d-flex align-items-center"
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticClass: "mr-2",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  x: "0px",
+                  y: "0px",
+                  width: "20px",
+                  height: "20px",
+                  viewBox: "0 0 90 90"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    fill: "#FFFFFF",
+                    d:
+                      "M45 0C20.1 0 0 20.1 0 45s20.1 45 45 45 45-20.1 45-45S69.9 0 45 0zM45 74.5c-3.6 0-6.5-2.9-6.5-6.5s2.9-6.5 6.5-6.5 6.5 2.9 6.5 6.5S48.6 74.5 45 74.5zM52.1 23.9l-2.5 29.6c0 2.5-2.1 4.6-4.6 4.6 -2.5 0-4.6-2.1-4.6-4.6l-2.5-29.6c-0.1-0.4-0.1-0.7-0.1-1.1 0-4 3.2-7.2 7.2-7.2 4 0 7.2 3.2 7.2 7.2C52.2 23.1 52.2 23.5 52.1 23.9z"
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _vm.recordingStatus == "disabled"
+              ? _c("span", { staticClass: "ml-1" }, [
+                  _vm._v("Telescope is currently disabled.")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.recordingStatus == "paused"
+              ? _c("span", { staticClass: "ml-1" }, [
+                  _vm._v("Telescope recording is paused.")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.recordingStatus == "off"
+              ? _c("span", { staticClass: "ml-1" }, [
+                  _vm._v("This watcher is turned off.")
+                ])
+              : _vm._e()
+          ]
+        )
+      : _vm._e(),
     _vm._v(" "),
     !_vm.ready
       ? _c(
@@ -51790,6 +51861,51 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
     _vm._m(0),
+    _vm._v(" "),
+    _vm.recordingStatus !== "enabled"
+      ? _c("p", { staticClass: "mt-0 mb-0 disabled-watcher" }, [
+          _c(
+            "svg",
+            {
+              attrs: {
+                xmlns: "http://www.w3.org/2000/svg",
+                x: "0px",
+                y: "0px",
+                width: "20px",
+                height: "20px",
+                viewBox: "0 0 90 90"
+              }
+            },
+            [
+              _c("path", {
+                attrs: {
+                  fill: "#FFFFFF",
+                  d:
+                    "M45 0C20.1 0 0 20.1 0 45s20.1 45 45 45 45-20.1 45-45S69.9 0 45 0zM45 74.5c-3.6 0-6.5-2.9-6.5-6.5s2.9-6.5 6.5-6.5 6.5 2.9 6.5 6.5S48.6 74.5 45 74.5zM52.1 23.9l-2.5 29.6c0 2.5-2.1 4.6-4.6 4.6 -2.5 0-4.6-2.1-4.6-4.6l-2.5-29.6c-0.1-0.4-0.1-0.7-0.1-1.1 0-4 3.2-7.2 7.2-7.2 4 0 7.2 3.2 7.2 7.2C52.2 23.1 52.2 23.5 52.1 23.9z"
+                }
+              })
+            ]
+          ),
+          _vm._v(" "),
+          _vm.recordingStatus == "disabled"
+            ? _c("span", { staticClass: "ml-1" }, [
+                _vm._v("Telescope is currently disabled.")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.recordingStatus == "paused"
+            ? _c("span", { staticClass: "ml-1" }, [
+                _vm._v("Telescope recording is paused.")
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.recordingStatus == "off"
+            ? _c("span", { staticClass: "ml-1" }, [
+                _vm._v("This watcher is turned off.")
+              ])
+            : _vm._e()
+        ])
+      : _vm._e(),
     _vm._v(" "),
     !_vm.ready
       ? _c(
@@ -68601,7 +68717,9 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 relativeTime: {
                     future: "in %s",
                     past: "%s ago",
-                    s: 'Just now',
+                    s: function s(number) {
+                        return number + "s ago";
+                    },
                     ss: '%ds ago',
                     m: "1m ago",
                     mm: "%dm ago",
@@ -68616,7 +68734,16 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 }
             });
 
-            return __WEBPACK_IMPORTED_MODULE_1_moment_timezone___default()(time).fromNow(true);
+            var secondsElapsed = __WEBPACK_IMPORTED_MODULE_1_moment_timezone___default()().diff(time, 'seconds');
+            var dayStart = __WEBPACK_IMPORTED_MODULE_1_moment_timezone___default()("2018-01-01").startOf('day').seconds(secondsElapsed);
+
+            if (secondsElapsed > 300) {
+                return __WEBPACK_IMPORTED_MODULE_1_moment_timezone___default()(time).fromNow(true);
+            } else if (secondsElapsed < 60) {
+                return dayStart.format('s') + 's ago';
+            } else {
+                return dayStart.format('m:ss') + 'm ago';
+            }
         },
 
 
