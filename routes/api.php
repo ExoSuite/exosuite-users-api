@@ -40,6 +40,13 @@ Route::middleware('auth:api')->group(function () {
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');
+
+        Route::group(['prefix' => 'livechat'], function () {
+            Route::post('/', 'LiveChatMessageController@store')->name('newFollow');
+            Route::patch('/editMessage', 'LiveChatMessageController@editMessage')->name('amIFollowing');
+            Route::get('/getMyMessages', 'LiveChatMessageController@getMyMessages')->name('followers');
+            Route::delete('/deleteMessages', 'LiveChatMessageController@delete')->name('unFollow');
+        });
     });
 
     Route::prefix('run')->group(function () {
