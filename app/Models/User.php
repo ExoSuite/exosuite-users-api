@@ -126,7 +126,7 @@ class User extends Authenticatable
      */
     public function receivesBroadcastNotificationsOn(): string
     {
-        return "user.{$this->id}";
+        return "users.{$this->id}";
     }
 
     /**
