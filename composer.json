@@ -20,7 +20,7 @@
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
-        "laravel/horizon": "^2.0    ",
+        "laravel/horizon": "^2.0",
         "laravel/passport": "^7.0",
         "laravel/scout": "^6.1",
         "laravel/tinker": "^1.0",
@@ -80,7 +80,8 @@
             "@php artisan package:discover --ansi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:generate; fi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:meta; fi",
-            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi"
+            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi",
+            "sed -i -e 's/, FILTER_FLAG_SCHEME_REQUIRED//g' vendor/elasticsearch/elasticsearch/src/Elasticsearch/ClientBuilder.php"
         ],
         "reformat": "./vendor/bin/phpcbf ./app ./tests ./database ./routes --standard=PSR12"
     }
