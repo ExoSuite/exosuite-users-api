@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Run\CreateRunRequest;
 use App\Http\Requests\Run\GetRunRequest;
 use App\Http\Requests\Run\UpdateRunRequest;
+use App\Http\Requests\Run\DeleteRunRequest;
 use App\Models\Run;
+use App\Services\OAuth;
+use Illuminate\Support\Facades\Auth;
 use Webpatser\Uuid\Uuid;
 
 /**
@@ -22,7 +25,7 @@ class RunController extends Controller
      */
     public function index()
     {
-        return $this->ok(Run::all());
+        return $this->ok(Auth::user()->runs()->get());
     }
 
     /**
@@ -68,11 +71,14 @@ class RunController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param DeleteRunRequest $request
+     * @param Uuid $id
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(DeleteRunRequest $request, Uuid $id)
     {
+        Run::whereId($id)->delete();
         return $this->noContent();
     }
 }

@@ -31,7 +31,7 @@ class ApiHelper extends Facade
     /**
      * @return bool
      */
-    static public function isStaging(): bool
+    public static function isStaging(): bool
     {
         return App::environment() === 'staging';
     }
@@ -39,7 +39,7 @@ class ApiHelper extends Facade
     /**
      * @return bool
      */
-    static public function isProduction(): bool
+    public static function isProduction(): bool
     {
         return App::environment() === 'production';
     }

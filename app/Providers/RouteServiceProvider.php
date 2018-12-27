@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\CheckPoint;
+use App\Models\Run;
 use App\Enums\BindType;
 use App\Models\Group;
 use App\Models\Message;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Webpatser\Uuid\Uuid;
@@ -45,6 +46,8 @@ class RouteServiceProvider extends ServiceProvider
         });
         Route::bind(BindType::GROUP, Group::class);
         Route::bind(BindType::MESSAGE, Message::class);
+        Route::bind('run_id', Run::class);
+        Route::bind('checkpoint_id', CheckPoint::class);
     }
 
 
