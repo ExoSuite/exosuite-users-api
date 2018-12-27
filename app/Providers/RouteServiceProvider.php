@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\CheckPoint;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,8 @@ class RouteServiceProvider extends ServiceProvider
             }
             throw new UnprocessableEntityHttpException("Bad uuid");
         });
+        Route::bind('run_id', Run::class);
+        Route::bind('checkpoint_id', CheckPoint::class);
     }
 
 

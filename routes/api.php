@@ -55,6 +55,8 @@ Route::middleware('auth:api')->group(function () {
 
         Route::get('/', 'Run\RunController@index')
             ->name('get_run');
+        Route::delete('{uuid}', 'Run\RunController@delete')
+            ->name('delete_run');
         ///////////////////////////////////////////////////////////////////
         Route::prefix('share')->group(function () {
             Route::post('/', 'Run\ShareRunController@store')
@@ -63,6 +65,11 @@ Route::middleware('auth:api')->group(function () {
                 ->name('get_share_run');
             Route::get('/id/{uuid}', 'Run\ShareRunController@show')
                 ->name('get_share_run_by_id');
+        });
+        ///////////////////////////////////////////////////////////////////
+        Route::prefix('{run_id}/checkpoint')->group(function() {
+                Route::prefix('{checkpoint_id}/time')->group(function() {
+                });
         });
     });
 });

@@ -31,7 +31,7 @@ class Run extends UuidModel
      * @var array
      */
     protected $fillable = [
-        'id', 'description', 'creator_id', 'visibility', 'name'
+        'id', 'description', 'creator_id', 'visibility', 'name', 'updated_at', 'created_at'
     ];
 
     /**

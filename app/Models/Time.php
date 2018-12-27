@@ -27,4 +27,8 @@ class Time extends UuidModel
     {
         return $this->belongsTo(CheckPoint::class);
     }
+
+    public function run(){
+        return $this->belongsTo(Run::class);
+    }
 }

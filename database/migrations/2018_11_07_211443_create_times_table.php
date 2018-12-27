@@ -24,6 +24,14 @@ class CreateTimesTable extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
+            $table->uuid('run_id');
+
+            $table->foreign('run_id')
+                ->references('id')
+                ->on('runs')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }
