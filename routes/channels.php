@@ -11,6 +11,7 @@
 |
 */
 
+// private notification channel for a single user
 Broadcast::channel('users.{id}', function ($user, $id) {;
     return $user->id === $id;
 });
