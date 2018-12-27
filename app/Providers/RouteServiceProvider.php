@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Enums\BindType;
+use App\Models\Group;
+use App\Models\Message;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
@@ -34,12 +37,14 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        Route::bind('uuid', function ($uuid) {
+        Route::bind(BindType::UUID, function ($uuid) {
             if (Uuid::validate($uuid)) {
                 return Uuid::import($uuid);
             }
             throw new UnprocessableEntityHttpException("Bad uuid");
         });
+        Route::bind(BindType::GROUP, Group::class);
+        Route::bind(BindType::MESSAGE, Message::class);
     }
 
 

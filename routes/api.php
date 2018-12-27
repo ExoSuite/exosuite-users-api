@@ -41,13 +41,19 @@ Route::middleware('auth:api')->group(function () {
 
         Route::get('search', 'User\UserController@search')->name('get_users');
 
-        Route::group(['prefix' => 'livechat'], function () {
-            Route::post('/', 'LiveChatMessageController@store')->name('newFollow');
-            Route::patch('/editMessage', 'LiveChatMessageController@editMessage')->name('amIFollowing');
-            Route::get('/getMyMessages', 'LiveChatMessageController@getMyMessages')->name('followers');
-            Route::delete('/deleteMessages', 'LiveChatMessageController@delete')->name('unFollow');
+    });
+
+    Route::prefix('group')->group(function () {
+        Route::patch('/{group_id}', 'GroupController@update')->name('patch_group');
+        Route::prefix('/{group_id}/message')->group(function () {
+            Route::post('/', 'MessageController@store')->name('post_message');
+            Route::patch('/{message_id}', 'MessageController@update')->name('patch_message');
+            Route::get('/', 'MessageController@index')->name('get_message');
+            Route::delete('/{message_id}', 'MessageController@destroy')->name('delete_message');
         });
     });
+
+
 
     Route::prefix('run')->group(function () {
         ///////////////////////////////////////////////////////////////////
