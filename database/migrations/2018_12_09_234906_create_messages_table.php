@@ -16,8 +16,10 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->uuid('id');
             $table->longText('contents');
-            $table->uuid('author_id');
-            //$table->uuid('group_id');
+            $table->uuid('user_id');
+            $table->foreign("user_id")->references("id")->on("users");
+            $table->uuid('group_id');
+            $table->foreign("group_id")->references("id")->on("groups");
             $table->timestamps();
         });
     }

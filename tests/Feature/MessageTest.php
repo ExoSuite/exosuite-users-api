@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Message;
+use Illuminate\Http\Response;
 use App\Models\User;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -10,10 +11,10 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
- * Class SendMessageTest
+ * Class MessageTest
  * @package Tests\Feature
  */
-class SendMessageTest extends TestCase
+class MessageTest extends TestCase
 {
     /**
      * @var User
@@ -32,22 +33,11 @@ class SendMessageTest extends TestCase
             route("post_message", [], false),
             ["contents" => str_random()]
         );
+        $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Message())->getFillable());
     }
 
-    /**
-     *
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     protected function setUp()
     {
         parent::setUp();

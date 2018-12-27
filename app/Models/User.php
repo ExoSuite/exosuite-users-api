@@ -195,4 +195,5 @@ class User extends Authenticatable
             Share::getTableName()
         )->withTimestamps();
     }
+
 }

@@ -7,9 +7,14 @@ use App\Http\Requests\Group\CreateGroupRequest;
 use App\Http\Requests\Group\UpdateGroupRequest;
 use App\Models\Group;
 use App\Models\GroupMember;
+use App\Notifications\NewGroupNotification;
 use Elasticsearch\Endpoints\Update;
+use Faker\Factory;
+use Faker\Generator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Faker\Factory as Faker;
+use Illuminate\Support\Facades\Notification;
 
 class GroupController extends Controller
 {
@@ -31,14 +36,30 @@ class GroupController extends Controller
      */
     public function store(CreateGroupRequest $request)
     {
-        $group = Group::create(["name" => $request->get("name")]);
+        if ($request->exists("name"))
+            $name = $request->get("name");
+        else {
+            /** @var Generator $faker */
+            $faker = Faker::create(app()->getLocale());
+            $name = $faker->city;
+        }
+
+        $group = Group::create(["name" => $name]);
         $members = collect();
         foreach ($request->get("users") as $user_id) {
             $members->push(new GroupMember(["user_id" => $user_id]));
         }
-        $members->push(new GroupMember(["user_id" => Auth::id(), "is_admin" => true]));
+        $current_user = Auth::user();
+        $members->push(new GroupMember(["user_id" => $current_user->id, "is_admin" => true]));
         $group->groupMembers()->saveMany($members);
-        return $this->noContent();
+        $group->load("groupMembers");
+        $message = str_replace([":group_name", ":user_name"], [$group->name, "{$current_user->first_name} {$current_user->last_name}"], trans("notification.new_group"));
+        $users = $group->users()->get();
+        $users = $users->filter(function ($user) use ($current_user) {
+            return $user->id != $current_user->id;
+        });
+        Notification::sendNow($users, new NewGroupNotification($message, $group->toArray()));
+        return $this->created($group);
     }
 
     /**

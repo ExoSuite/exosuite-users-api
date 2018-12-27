@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
 
@@ -12,13 +13,17 @@ use Webpatser\Uuid\Uuid;
  * @property Uuid group_id
  * @property Uuid user_id
  */
-class GroupMember extends Model
+class GroupMember extends UuidModel
 {
     /**
      * @var array
      */
     protected $fillable = [
-        'group_id', 'user_id', 'is_admin', 'created_at', 'updated_at'
+        'id', 'group_id', 'user_id', 'is_admin', 'created_at', 'updated_at'
+    ];
+
+    protected $hidden = [
+        'id'
     ];
 
     /**

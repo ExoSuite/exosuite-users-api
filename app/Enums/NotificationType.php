@@ -18,4 +18,5 @@ final class NotificationType extends Enum
      * new message notification
      */
     const NEW_MESSAGE = "new_message";
+    const NEW_GROUP = "new_group";
 }
