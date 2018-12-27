@@ -11,7 +11,8 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-    protected function route($route, $parameters = []){
+    protected function route($route, $parameters = [])
+    {
         return route($route, $parameters, false);
     }
 }

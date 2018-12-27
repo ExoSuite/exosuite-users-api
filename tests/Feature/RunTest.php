@@ -11,17 +11,24 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * Class RunTest
+ * @package Tests\Feature
+ */
 class RunTest extends TestCase
 {
     /**
-     * A basic test example.
-     *
-     * @return void
+     * @var User
      */
-
     private $user;
+    /**
+     * @var Run
+     */
     private $run;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -29,20 +36,31 @@ class RunTest extends TestCase
         $this->user = factory(User::class)->create();
     }
 
+    /**
+     *
+     */
     public function testCreateRun()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route("post_run", [], false), ["name" => str_random(30)]);
+        $response = $this->post(
+            $this->route('post_run'),
+            [
+                "name" => str_random(30)
+            ]
+        );
         $run = new Run();
         $expect = collect($run->getFillable())->diff(["description"]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure($expect->toArray());
     }
 
+    /**
+     *
+     */
     public function testCreateRunWithDescription()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route("post_run", [], false), [
+        $response = $this->post($this->route('post_run'), [
             "name" => str_random(30),
             "description" => str_random(255)
         ]);
@@ -51,10 +69,13 @@ class RunTest extends TestCase
         $response->assertJsonStructure($run->getFillable());
     }
 
+    /**
+     *
+     */
     public function testCreateRunFullFilled()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route("post_run", [], false), [
+        $response = $this->post($this->route('post_run'), [
             "name" => str_random(30),
             "description" => str_random(255),
             "visibility" => Visibility::PUBLIC
@@ -65,6 +86,9 @@ class RunTest extends TestCase
         $response->assertJson(["visibility" => Visibility::PUBLIC]);
     }
 
+    /**
+     *
+     */
     public function testUpdateRun()
     {
         Passport::actingAs($this->user);
@@ -75,6 +99,9 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     public function testUpdateRunDescription()
     {
         Passport::actingAs($this->user);
@@ -85,6 +112,9 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     public function testUpdateRunVisibility()
     {
         Passport::actingAs($this->user);
@@ -95,6 +125,9 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     public function testUpdateRunFullFilled()
     {
         Passport::actingAs($this->user);
@@ -107,6 +140,9 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     public function testGetAllRuns()
     {
         Passport::actingAs($this->user);
@@ -119,12 +155,14 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    public function testGetRunById(){
+    /**
+     *
+     */
+    public function testGetRunById()
+    {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-
         $response = $this->get($this->route("get_run_by_id", [$this->run->id]));
-
         $response->assertStatus(Response::HTTP_OK);
     }
 }

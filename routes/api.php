@@ -67,9 +67,9 @@ Route::middleware('auth:api')->group(function () {
                 ->name('get_share_run_by_id');
         });
         ///////////////////////////////////////////////////////////////////
-        Route::prefix('{run_id}/checkpoint')->group(function() {
-                Route::prefix('{checkpoint_id}/time')->group(function() {
-                });
+        Route::prefix('{run_id}/checkpoint')->group(function () {
+            Route::prefix('{checkpoint_id}/time')->group(function () {
+            });
         });
     });
 });
