@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Models\CheckPoint;
+use App\Models\Run;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Webpatser\Uuid\Uuid;
