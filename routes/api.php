@@ -55,7 +55,7 @@ Route::middleware('auth:api')->group(function () {
 
         Route::get('/', 'Run\RunController@index')
             ->name('get_run');
-        Route::delete('{uuid}', 'Run\RunController@delete')
+        Route::delete('{uuid}', 'Run\RunController@destroy')
             ->name('delete_run');
         ///////////////////////////////////////////////////////////////////
         Route::prefix('share')->group(function () {

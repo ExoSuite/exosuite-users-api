@@ -165,4 +165,11 @@ class RunTest extends TestCase
         $response = $this->get($this->route("get_run_by_id", [$this->run->id]));
         $response->assertStatus(Response::HTTP_OK);
     }
+
+    public function testDeleteRunById(){
+        Passport::actingAs($this->user);
+        $this->run = factory(Run::class)->create();
+        $response = $this->delete($this->route("delete_run", [$this->run->id]));
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
 }
