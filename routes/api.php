@@ -68,6 +68,11 @@ Route::middleware('auth:api')->group(function () {
         });
         ///////////////////////////////////////////////////////////////////
         Route::prefix('{run_id}/checkpoint')->group(function () {
+            Route::post('/', 'CheckPoint\CheckPointController@store')
+                ->name('post_CheckPoint');
+
+            Route::get('/id/{uuid}', 'CheckPoint\CheckPointController@show')
+                ->name('get_checkpoint_by_id');
             Route::prefix('{checkpoint_id}/time')->group(function () {
             });
         });
