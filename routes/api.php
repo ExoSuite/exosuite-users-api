@@ -73,6 +73,13 @@ Route::middleware('auth:api')->group(function () {
 
             Route::get('/id/{uuid}', 'CheckPoint\CheckPointController@show')
                 ->name('get_checkpoint_by_id');
+
+            Route::get('{uuid}', 'CheckPoint\CheckPointController@destroy')
+                ->name('delete_checkpoint');
+
+            Route::patch('/{uuid}', 'Run\RunController@update')
+                ->name('patch_checkpoint');
+
             Route::prefix('{checkpoint_id}/time')->group(function () {
             });
         });

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CheckPoint\GetCheckPointRequest;
 use App\Models\CheckPoint;
+use App\Http\Requests\CheckPoint\DeleteCheckPointRequest;
+use App\Http\Requests\CheckPoint\GetCheckPointRequest;
 use App\Http\Requests\CheckPoint\CreateCheckPointRequest;
 
 use Illuminate\Http\Request;
@@ -36,8 +37,9 @@ class CheckPointController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param GetCheckPointRequest $request
+     * @param Uuid $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(GetCheckPointRequest $request, Uuid $id)
     {
@@ -54,17 +56,21 @@ class CheckPointController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        CheckPoint::whereId($id)->update($request->validated());
+        return $this->noContent();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param DeleteCheckPointRequest $request
+     * @param Uuid $id
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(DeleteCheckPointRequest $request, Uuid $id)
     {
-        //
+        CheckPoint::whereId($id)->delete();
+        return $this->noContent();
     }
 }
