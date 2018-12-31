@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CheckPoint;
-use App\Http\Requests\CheckPoint\DeleteCheckPointRequest;
-use App\Http\Requests\CheckPoint\GetCheckPointRequest;
-use App\Http\Requests\CheckPoint\CreateCheckPointRequest;
-use App\Http\Requests\CheckPoint\UpdateCheckPointRequest;
-
+use App\Http\Requests\Time\DeleteTimeRequest;
+use App\Http\Requests\Time\GetTimeRequest;
+use App\Http\Requests\Time\CreateTimeRequest;
+use App\Http\Requests\Time\UpdateTimeRequest;
+use App\Models\Time;
 use Illuminate\Http\Request;
 
-class CheckPointController extends Controller
+
+class TimeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,6 +19,7 @@ class CheckPointController extends Controller
      */
     public function index()
     {
+        //
     }
 
     /**
@@ -27,25 +28,25 @@ class CheckPointController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateCheckPointRequest $request)
+    public function store(CreateTimeRequest $request)
     {
         $data = $request->validated();
-        $checkpoint = CheckPoint::create($data);
+        $time = Time::create($data);
 
-        return $this->created($checkpoint);
+        return $this->created($time);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param GetCheckPointRequest $request
+     * @param GetTimeRequest $request
      * @param Uuid $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(GetCheckPointRequest $request, Uuid $id)
+    public function show(GetTimeRequest $request, Uuid $id)
     {
-        $checkpoint = CheckPoint::findOrFail($id);
-        return $this->ok($checkpoint);
+        $time = Time::findOrFail($id);
+        return $this->ok($time);
     }
 
     /**
@@ -55,23 +56,23 @@ class CheckPointController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCheckPointRequest $request, Uuid $id)
+    public function update(UpdateTimeRequest $request, Uuid $id)
     {
-        CheckPoint::whereId($id)->update($request->validated());
+        Time::whereId($id)->update($request->validated());
         return $this->noContent();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param DeleteCheckPointRequest $request
+     * @param DeleteTimeRequest $request
      * @param Uuid $id
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(DeleteCheckPointRequest $request, Uuid $id)
+    public function destroy(DeleteTimeRequest $request, Uuid $id)
     {
-        CheckPoint::whereId($id)->delete();
+        Time::whereId($id)->delete();
         return $this->noContent();
     }
 }

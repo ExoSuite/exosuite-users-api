@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Requests\CheckPoint;
+namespace App\Http\Requests\Time;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Requests\Abstracts\RouteParamRequest;
+use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
+use Illuminate\Support\Facades\Auth;
 
 
-class GetCheckPointRequest extends RouteParamRequest
+class DeleteTimeRequest extends RouteParamRequestUuidToId
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +16,8 @@ class GetCheckPointRequest extends RouteParamRequest
      */
     public function authorize()
     {
-        return true;
+        $time = Time::whereId($this->id());
+        return $time->firstOrFail()->creator_id === Auth::id();
     }
 
     /**
@@ -26,7 +28,7 @@ class GetCheckPointRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            'id' => 'exists:check_points'
+            //
         ];
     }
 }

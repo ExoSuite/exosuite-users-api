@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests\CheckPoint;
+namespace App\Http\Requests\Time;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Abstracts\RouteParamRequest;
 
-
-class GetCheckPointRequest extends RouteParamRequest
+class GetTimeRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +25,7 @@ class GetCheckPointRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            'id' => 'exists:check_points'
+            'id' => 'exists:times'
         ];
     }
 }
