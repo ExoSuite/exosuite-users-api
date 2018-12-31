@@ -86,6 +86,6 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', 'exosuite_cache'),
+    'prefix' => env('CACHE_PREFIX', 'exosuite_cache_users_api'),
 
 ];
