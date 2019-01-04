@@ -14,7 +14,7 @@ class CreateGroupMembersTable extends Migration
     public function up()
     {
         Schema::create('group_members', function (Blueprint $table) {
-            $table->uuid("id");
+            $table->uuid("id")->primary();
             $table->uuid('group_id');
             $table->foreign('group_id')->references('id')->on('groups');
             $table->uuid('user_id');

@@ -14,12 +14,12 @@ class CreateMessagesTable extends Migration
     public function up()
     {
         Schema::create('messages', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->longText('contents');
-            $table->uuid('user_id');
-            $table->foreign("user_id")->references("id")->on("users");
             $table->uuid('group_id');
-            $table->foreign("group_id")->references("id")->on("groups");
+            $table->foreign('group_id')->references('id')->on('groups');
+            $table->uuid('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

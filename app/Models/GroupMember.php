@@ -9,6 +9,7 @@ use Webpatser\Uuid\Uuid;
 /**
  * Class GroupMember
  * @package App\Models
+ * @property id
  * @property boolean is_admin
  * @property Uuid group_id
  * @property Uuid user_id
@@ -22,10 +23,12 @@ class GroupMember extends UuidModel
         'id', 'group_id', 'user_id', 'is_admin', 'created_at', 'updated_at'
     ];
 
+    /**
+     * @var array
+     */
     protected $hidden = [
         'id'
     ];
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

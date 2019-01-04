@@ -44,8 +44,8 @@ class RouteServiceProvider extends ServiceProvider
             }
             throw new UnprocessableEntityHttpException("Bad uuid");
         });
-        Route::bind(BindType::GROUP, Group::class);
-        Route::bind(BindType::MESSAGE, Message::class);
+        Route::model(BindType::GROUP, Group::class);
+        Route::model(BindType::MESSAGE, Message::class);
         Route::bind('run_id', Run::class);
         Route::bind('checkpoint_id', CheckPoint::class);
     }

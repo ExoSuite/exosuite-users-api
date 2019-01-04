@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Abstracts\UuidModel;
-use App\Pivots\GroupMembers;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -30,6 +29,17 @@ class Group extends UuidModel
         return $this->hasMany(GroupMember::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
     public function users()
     {
         return $this->hasManyThrough(User::class, GroupMember::class, "group_id", 'id', "id", "user_id");
