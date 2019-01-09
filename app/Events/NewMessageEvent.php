@@ -22,24 +22,24 @@ class NewMessageEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $broadcastQueue = Queue::MESSAGE;
     /**
-     * @var Group
+     * @Group Group
      */
-    private $group;
+    public $group;
     /**
-     * @var Message
+     * @Message Message
      */
-    private $message;
+    public $message;
 
     /**
      * Create a new event instance.
      *
-     * @param Group $group
-     * @param Message $message
+     * @param Group $group_
+     * @param Message $message_
      */
-    public function __construct($group, $message)
+    public function __construct($group_, $message_)
     {
-        $this->group = $group;
-        $this->message = $message;
+        $this->group = $group_;
+        $this->message = $message_;
     }
 
     /**
@@ -57,7 +57,7 @@ class NewMessageEvent implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return "NewMessage";
+        return "New message";
     }
 
     /**
@@ -65,6 +65,6 @@ class NewMessageEvent implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return $this->message;
+        return $this->message->toArray();
     }
 }

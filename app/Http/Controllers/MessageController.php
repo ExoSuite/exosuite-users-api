@@ -8,6 +8,8 @@ use App\Http\Requests\Message\UpdateMessageRequest;
 use App\Models\Message;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
+use Webpatser\Uuid\Uuid;
 
 /**
  * Class MessageController
@@ -26,7 +28,7 @@ class MessageController extends Controller
         $data['user_id'] = auth()->user()->id;
         /** @var Message $message */
         $message = $group->messages()->create($data);
-        //broadcast(new NewMessageEvent($group, $message));
+        broadcast(new NewMessageEvent($group, $message));
         return $this->created($message);
     }
 
