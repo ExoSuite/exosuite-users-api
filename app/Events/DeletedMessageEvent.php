@@ -58,7 +58,7 @@ class NewMessageEvent implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return MessageBroadcastType::CREATED_MESSAGE;
+        return MessageBroadcastType::DELETED_MESSAGE;
     }
 
     /**
@@ -66,6 +66,6 @@ class NewMessageEvent implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return $this->message->toArray();
+        return $this->message->id;
     }
 }

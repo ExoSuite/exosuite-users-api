@@ -11,12 +11,15 @@ use BenSampo\Enum\Enum;
 final class NotificationType extends Enum
 {
     /**
-     * follow notification
+     *
      */
     const FOLLOW = "follow";
     /**
-     * new message notification
+     *
      */
     const NEW_MESSAGE = "new_message";
+    /**
+     *
+     */
     const NEW_GROUP = "new_group";
 }

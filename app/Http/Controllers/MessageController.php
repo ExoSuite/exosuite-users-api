@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ModifyMessageEvent;
 use App\Events\NewMessageEvent;
 use App\Http\Requests\Message\CreateMessageRequest;
 use App\Http\Requests\Message\UpdateMessageRequest;
@@ -39,10 +40,9 @@ class MessageController extends Controller
      */
     public function update(UpdateMessageRequest $request, Group $group, Message $message)
     {
-        // TODO: VERIFIER SI LE GUSSE EST BIEN DANS LE GROUPE DU MESSAGE ? GET GROUP ID DU MESSAGE ET VERIFIER QUE LE CURRENT USER EST DANS LE GROUPE ?
-
         $data = $request->validated();
-        $message->update(['message_contents' => $data['message_contents']]);
+        $message->update($data);
+        broadcast(new ModifyMessageEvent($group, $message));
     }
 
     /**
@@ -52,7 +52,7 @@ class MessageController extends Controller
     public function index(CreateMessageRequest $request)
     {
         $data = $request->validated();
-        $messages = Message::whereAuthorId(auth()->user()->id)->get();
+        $messages = Message::whereUserId(auth()->user()->id)->get();
         return $messages;
     }
 

@@ -58,7 +58,7 @@ class NewMessageEvent implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return MessageBroadcastType::CREATED_MESSAGE;
+        return MessageBroadcastType::MODIFIED_MESSAGE;
     }
 
     /**
