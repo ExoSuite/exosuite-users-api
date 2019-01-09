@@ -27,7 +27,7 @@ class AdministratorServices
      */
     public function handleAuth($data)
     {
-        if (App::isLocal() or ApiHelper::isStaging()) {
+        if (App::isLocal()) {
             return true;
         }
 
