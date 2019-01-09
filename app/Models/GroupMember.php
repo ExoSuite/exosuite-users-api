@@ -9,10 +9,6 @@ use Webpatser\Uuid\Uuid;
 /**
  * Class GroupMember
  * @package App\Models
- * @property id
- * @property boolean is_admin
- * @property Uuid group_id
- * @property Uuid user_id
  */
 class GroupMember extends UuidModel
 {

@@ -58,7 +58,8 @@ class GroupController extends Controller
         $users = $users->filter(function ($user) use ($current_user) {
             return $user->id != $current_user->id;
         });
-        Notification::sendNow($users, new NewGroupNotification($message, $group->toArray()));
+        foreach ($users as $user_notif)
+            Notification::sendNow($user_notif, new NewGroupNotification($message, $group->toArray()));
         return $this->created($group);
     }
 

@@ -61,9 +61,5 @@ class MessageController extends Controller
      */
     public function destroy(CreateMessageRequest $request)
     {
-        $data = $request->validated();
-        $entity = Follow::whereUserId(auth()->user()->id)->whereFollowedId($data['id']);
-        if ($entity->exists())
-            $entity->delete();
     }
 }

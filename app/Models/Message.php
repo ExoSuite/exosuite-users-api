@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Message
  * @package App\Models
- * @property id
- * @property Uuid group_id
- * @property Uuid user_id
  */
 class Message extends UuidModel
 {
