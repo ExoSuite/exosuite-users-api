@@ -71,10 +71,12 @@ if (!\Illuminate\Support\Facades\App::environment("production")) {
     Route::get('staging/client', 'StagingController@get');
 }
 
-Route::get('test', function () {
-    \Illuminate\Support\Facades\Notification::send(
-        App\Models\User::all(),
-        new \App\Notifications\FollowNotification()
-    );
-    return ["SENT!"];
-});
+if (\Illuminate\Support\Facades\App::environment("local")) {
+    Route::get('test', function () {
+        \Illuminate\Support\Facades\Notification::send(
+            App\Models\User::all(),
+            new \App\Notifications\FollowNotification()
+        );
+        return ["SENT!"];
+    });
+}
