@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use Illuminate\Http\Resources\Json\Resource;
+use App\Facades\ApiHelper;
 
 /**
  * Class AppServiceProvider
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Resource::withoutWrapping();
     }
 
 
@@ -31,5 +34,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         Passport::ignoreMigrations();
+        if ($this->app->isLocal() or ApiHelper::isStaging()) {
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace App\Enums;
 use BenSampo\Enum\Enum;
 
 /**
- * Class CheckPointType define type of an \App\Models\CheckPoint
+ * Class CheckPointType define type of a \App\Models\CheckPoint
  * @package App\Enums
  */
 final class CheckPointType extends Enum

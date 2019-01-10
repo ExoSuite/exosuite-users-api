@@ -9,6 +9,7 @@
 namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\Facades\App;
 
 
 /**
@@ -25,5 +26,21 @@ class ApiHelper extends Facade
     protected static function getFacadeAccessor()
     {
         return 'ApiHelper';
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isStaging(): bool
+    {
+        return App::environment() === 'staging';
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isProduction(): bool
+    {
+        return App::environment() === 'production';
     }
 }

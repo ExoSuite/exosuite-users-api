@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Facades\AdministratorServices;
 use Closure;
 use Laravel\Horizon\Horizon;
-use App\Facades\AdministratorServices;
 
 /**
  * Class AuthenticateHorizon

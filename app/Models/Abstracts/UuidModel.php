@@ -23,4 +23,12 @@ abstract class UuidModel extends Model
      * @var bool
      */
     public $incrementing = false;
+
+    /**
+     * @return string
+     */
+    public static function getTableName()
+    {
+        return (new static())->getTable();
+    }
 }

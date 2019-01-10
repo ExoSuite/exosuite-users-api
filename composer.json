@@ -12,19 +12,19 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-pdo_pgsql": "*",
+        "ext-redis": "*",
         "ext-xml": "*",
+        "babenkoivan/scout-elasticsearch-driver": "^3.9",
+        "barryvdh/laravel-cors": "^0.11.2",
         "bensampo/laravel-enum": "^1.12",
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
-        "laravel/horizon": "^1.4",
+        "laravel/horizon": "^2.0",
         "laravel/passport": "^7.0",
-        "laravel/scout": "^5.0",
+        "laravel/scout": "^6.1",
         "laravel/tinker": "^1.0",
-        "moontoast/math": "^1.1",
         "phaza/laravel-postgis": "^3.5",
-        "predis/predis": "^1.1",
-        "teamtnt/laravel-scout-tntsearch-driver": "^3.2",
         "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {
@@ -34,10 +34,10 @@
         "darkaonline/l5-swagger": "5.7.*",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
-        "laravel/telescope": "^0.1.7",
+        "laravel/telescope": "^1.0.5",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
-        "nunomaduro/larastan": "^0.3.8",
+        "nunomaduro/larastan": "^0.3.13",
         "phpunit/phpunit": "^7.0",
         "squizlabs/php_codesniffer": "3.*"
     },
@@ -80,7 +80,8 @@
             "@php artisan package:discover --ansi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:generate; fi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:meta; fi",
-            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi"
+            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi",
+            "sed -i -e 's/, FILTER_FLAG_SCHEME_REQUIRED//g' vendor/elasticsearch/elasticsearch/src/Elasticsearch/ClientBuilder.php"
         ],
         "reformat": "./vendor/bin/phpcbf ./app ./tests ./database ./routes --standard=PSR12"
     }

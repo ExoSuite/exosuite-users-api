@@ -13,14 +13,14 @@
  *      tags={"UserProfile"},
  *      security={{"passport": {}}},
  *      @OA\RequestBody(
- *         required=true,
+ *         required=false,
  *         @OA\MediaType(
  *             mediaType="application/json",
  *             @OA\Schema(ref="#/components/schemas/UserProfile")
  *         )
  *     ),
  *      summary="Create User Profile",
- *      description="Parameters are not mandatory but Bearer token is required",
+ *      description="Request Body is not mandatory but Bearer token is required",
  *      @OA\Response(
  *          response=201,
  *          description="successful operation",
@@ -42,16 +42,16 @@
  *      path="/user/me/profile",
  *      operationId="patchUserProfile",
  *      tags={"UserProfile"},
- *      security={{"passport": {}}},
+ *      security={{"passport": {"*"}}},
  *      @OA\RequestBody(
- *         required=true,
+ *         required=false,
  *         @OA\MediaType(
  *             mediaType="application/json",
  *             @OA\Schema(ref="#/components/schemas/UserProfile")
  *         )
  *     ),
  *      summary="Update User Profile",
- *      description="Parameters are not mandatory but Bearer token is required",
+ *      description="Request Body is not mandatory but Bearer token is required",
  *      @OA\Response(
  *          response=204,
  *          description="successful operation",

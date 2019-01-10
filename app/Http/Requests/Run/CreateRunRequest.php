@@ -25,7 +25,6 @@ class CreateRunRequest extends FormRequest
     public function rules()
     {
         return [
-            'creator_id' => 'required|uuid|exists:users,id',
             'name' => 'required|string|max:30',
             'description' => 'sometimes|string|max:255',
             'visibility' => ['sometimes', 'string', new RunVisibilityRule()]

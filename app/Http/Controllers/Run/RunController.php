@@ -1,13 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Run;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Run\CreateRunRequest;
 use App\Http\Requests\Run\GetRunRequest;
 use App\Http\Requests\Run\UpdateRunRequest;
 use App\Models\Run;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class RunController
+ * @package App\Http\Controllers\Run
+ */
 class RunController extends Controller
 {
     /**
@@ -29,9 +34,9 @@ class RunController extends Controller
     public function store(CreateRunRequest $request)
     {
         $data = $request->validated();
-        $data = Run::create($data);
+        $run = Run::create($data);
 
-        return $this->created($data);
+        return $this->created($run);
     }
 
     /**
@@ -64,10 +69,10 @@ class RunController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
-        //
+        return $this->noContent();
     }
 }

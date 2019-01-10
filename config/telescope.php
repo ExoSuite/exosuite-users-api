@@ -18,13 +18,26 @@ return [
     |
     */
 
-    'driver' => env('TELESCOPE_DRIVER', 'database'),
 
+    'driver' => env('TELESCOPE_DRIVER', 'database'),
     'storage' => [
         'database' => [
             'connection' => env('DB_CONNECTION', 'mysql'),
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Telescope Master Switch
+    |--------------------------------------------------------------------------
+    |
+    | This option may be used to disable all Telescope watchers regardless
+    | of their individual configuration, which simply provides a single
+    | and convenient way to enable or disable Telescope data storage.
+    |
+    */
+
+    'enabled' => env('TELESCOPE_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +52,25 @@ return [
 
     'middleware' => [
         'web',
-        Authorize::class,
+        \App\Http\Middleware\AuthenticateTelescope::class
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ignored Paths & Commands
+    |--------------------------------------------------------------------------
+    |
+    | The following array lists the URI paths and Artisan commands that will
+    | not be watched by Telescope. In addition to this list, some Laravel
+    | commands, like migrations and queue commands, are always ignored.
+    |
+    */
+
+    'ignore_paths' => [
+        //
+    ],
+    'ignore_commands' => [
+        //
     ],
 
     /*
@@ -64,19 +95,15 @@ return [
         Watchers\MailWatcher::class => env('TELESCOPE_MAIL_WATCHER', true),
         Watchers\ModelWatcher::class => env('TELESCOPE_MODEL_WATCHER', true),
         Watchers\NotificationWatcher::class => env('TELESCOPE_NOTIFICATION_WATCHER', true),
-
         Watchers\QueryWatcher::class => [
             'enabled' => env('TELESCOPE_QUERY_WATCHER', true),
             'slow' => 100,
         ],
-
         Watchers\RedisWatcher::class => env('TELESCOPE_REDIS_WATCHER', true),
-
         Watchers\RequestWatcher::class => [
             'enabled' => env('TELESCOPE_REQUEST_WATCHER', true),
-            'size_limit' => env('TELESCOPE_REQUEST_SIZE_LIMIT', 64),
+            'size_limit' => env('TELESCOPE_RESPONSE_SIZE_LIMIT', 64),
         ],
-
         Watchers\ScheduleWatcher::class => env('TELESCOPE_SCHEDULE_WATCHER', true),
     ],
 ];

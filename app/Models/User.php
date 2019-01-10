@@ -2,34 +2,76 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Uuids;
+use App\Models\Indexes\UserIndexConfigurator;
+use App\Models\SearchRules\UserSearchRule;
 use App\Pivots\RoleUser;
-use App\Pivots\RunUser;
+use App\Pivots\UserShare;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
-use Laravel\Scout\Searchable;
+use ScoutElastic\Searchable;
+use Webpatser\Uuid\Uuid;
 
 /**
  * Class User
  * @package App\Models
+ * @property Uuid $id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $nick_name
+ * @property string $email
+ * @property string $password
+ * @property string $remember_token
+ * @property string $email_verified_at
  */
 class User extends Authenticatable
 {
     use HasApiTokens;
     use Searchable;
-    use Uuids {
-        boot as UuidBoot;
-    }
     use Notifiable;
 
     /**
      * Indicates if the IDs are auto-incrementing.
-     *
-     * @var boolean
+     * @var bool
      */
     public $incrementing = false;
+
+    /**
+     * @var string
+     */
+    protected $indexConfigurator = UserIndexConfigurator::class;
+
+    /**
+     * @var array
+     */
+    protected $searchRules = [
+        UserSearchRule::class
+    ];
+
+    /**
+     * @var array
+     */
+    protected $mapping = [
+        'properties' => [
+            'first_name' => [
+                'type' => 'text',
+                'analyzer' => 'standard'
+            ],
+            'last_name' => [
+                'type' => 'text',
+                'analyzer' => 'standard'
+            ],
+            'nick_name' => [
+                'type' => 'text',
+                'analyzer' => 'standard'
+            ],
+        ]
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -51,17 +93,20 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = ['password', 'email_verified_at', 'remember_token'];
+    protected $hidden = [
+        'password', 'email_verified_at', 'remember_token'
+    ];
 
     /**
      * @return void
      */
     protected static function boot()
     {
-        self::UuidBoot();
+        parent::boot();
         static::creating(
-            function (self $model) {
-                $model->password = Hash::make($model->password);
+            function (self $user) {
+                $user->password = Hash::make($user->password);
+                $user->{$user->getKeyName()} = Uuid::generate()->string;
             }
         );
     }
@@ -69,9 +114,9 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function profile()
+    public function profile(): HasOne
     {
-        return $this->hasOne(UserProfile::class, 'id');
+        return $this->hasOne(UserProfile::class, $this->primaryKey);
     }
 
     /**
@@ -79,7 +124,7 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function receivesBroadcastNotificationsOn()
+    public function receivesBroadcastNotificationsOn(): string
     {
         return "users.{$this->id}";
     }
@@ -87,7 +132,7 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function roles()
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class)->using(RoleUser::class);
     }
@@ -117,7 +162,7 @@ class User extends Authenticatable
      */
     public function inRole(string $roleSlug)
     {
-        return $this->roles()->where('slug', strtolower($roleSlug))->exists();
+        return $this->roles()->whereSlug(strtolower($roleSlug))->exists();
     }
 
     /**
@@ -131,8 +176,23 @@ class User extends Authenticatable
         $this->roles()->attach($roleModel->getIdFromRoleName($role));
     }
 
-    public function runs()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function runs(): HasMany
     {
-        return $this->belongsToMany(Run::class)->using(RunUser::class);
+        return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function sharedRuns(): MorphToMany
+    {
+        return $this->morphedByMany(
+            Run::class,
+            Share::SHARE_RELATION_NAME,
+            Share::getTableName()
+        )->withTimestamps();
     }
 }

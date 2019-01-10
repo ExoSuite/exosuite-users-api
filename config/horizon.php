@@ -14,7 +14,7 @@ return [
    | AdministratorServices to live at the webroot, you can use a forward slash.
    |
    */
-    'uri' => 'monitoring/horizon/',
+    'uri' => 'monitoring/horizon',
 
     /*
     |--------------------------------------------------------------------------
@@ -74,7 +74,10 @@ return [
     ],
 
 
-    'middleware' => ['web', 'horizon'],
+    'middleware' => [
+        'web',
+        \App\Http\Middleware\AuthenticateHorizon::class
+    ],
 
     /*
     |--------------------------------------------------------------------------

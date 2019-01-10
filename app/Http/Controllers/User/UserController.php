@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Abstracts\GetRouteParamRequest;
-use App\Http\Requests\Abstracts\RouteParamRequest;
 use App\Http\Requests\GetTimeRequest;
 use App\Http\Requests\UserSearchRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
 
 /**
  * Class UserController

@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Artisan;
 use Laravel\Passport\ClientRepository;
-use Laravel\Passport\Console\ClientCommand;
 
 /**
  * Class StagingController
