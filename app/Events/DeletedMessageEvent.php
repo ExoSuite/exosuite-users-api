@@ -15,12 +15,15 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 /**
- * Class NewMessageEvent
+ * Class DeletedMessageEvent
  * @package App\Events
  */
-class NewMessageEvent implements ShouldBroadcast
+class DeletedMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    /**
+     * @var string
+     */
     public $broadcastQueue = Queue::MESSAGE;
     /**
      * @Group Group
@@ -66,6 +69,6 @@ class NewMessageEvent implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return $this->message->id;
+        return ["id" => $this->message->id];
     }
 }

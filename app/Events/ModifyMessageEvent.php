@@ -15,12 +15,15 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 /**
- * Class NewMessageEvent
+ * Class ModifyMessageEvent
  * @package App\Events
  */
-class NewMessageEvent implements ShouldBroadcast
+class ModifyMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    /**
+     * @var string
+     */
     public $broadcastQueue = Queue::MESSAGE;
     /**
      * @Group Group

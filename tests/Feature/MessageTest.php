@@ -2,12 +2,17 @@
 
 namespace Tests\Feature;
 
+use App\Events\ModifyMessageEvent;
 use App\Events\NewMessageEvent;
+use App\Models\GroupMember;
 use App\Models\Group;
 use App\Models\Message;
+use App\Notifications\Message\NewMessageNotification;
 use Illuminate\Http\Response;
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Testing\Fakes\EventFake;
 use Laravel\Passport\Passport;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 use Tests\TestCase;
@@ -36,14 +41,20 @@ class MessageTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->user2 = factory(User::class)->create();
         $group = factory(Group::class)->create();
-        $fake_uuid = $group->id;
+        $members = collect();
+        $members->push(new GroupMember(["user_id" => $this->user->id, "is_admin" => true]));
+        $members->push(new GroupMember(["user_id" => $this->user2->id]));
+        $group->groupMembers()->saveMany($members);
+        $group->load("groupMembers");
 
         Passport::actingAs($this->user);
+        Notification::fake();
         Event::fake([NewMessageEvent::class]);
-        $response = $this->post(route("post_message", ["group_id" => $fake_uuid], false), ["contents" => str_random(10)]);
+        $response = $this->post($this->route("post_message", ["group_id" => $group->id]), ["contents" => str_random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Message())->getFillable());
         Event::assertDispatched(NewMessageEvent::class, 1);
+        Notification::assertTimesSent(1, NewMessageNotification::class);
     }
 
     protected function setUp()

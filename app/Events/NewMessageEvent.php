@@ -21,6 +21,9 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class NewMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    /**
+     * @var string
+     */
     public $broadcastQueue = Queue::MESSAGE;
     /**
      * @Group Group

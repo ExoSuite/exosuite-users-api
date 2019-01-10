@@ -49,7 +49,7 @@ Route::middleware('auth:api')->group(function () {
         Route::prefix('/{group_id}/message')->group(function () {
             Route::post('/', 'MessageController@store')->name('post_message');
             Route::patch('/{message_id}', 'MessageController@update')->name('patch_message');
-            Route::get('/', 'MessageController@index')->name('get_message');
+            Route::get('/', 'MessageController@index')->name('get_message')->middleware('can:view,message');
             Route::delete('/{message_id}', 'MessageController@destroy')->name('delete_message');
         });
     });

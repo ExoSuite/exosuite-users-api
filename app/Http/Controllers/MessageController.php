@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Notification;
 use App\Events\ModifyMessageEvent;
 use App\Events\NewMessageEvent;
+use App\Events\DeletedMessageEvent;
 use App\Http\Requests\Message\CreateMessageRequest;
+use App\Http\Requests\Message\DestroyMessageRequest;
 use App\Http\Requests\Message\UpdateMessageRequest;
 use App\Models\Message;
 use App\Models\Group;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Event;
-use Webpatser\Uuid\Uuid;
+use App\Notifications\Message\NewMessageNotification;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class MessageController
@@ -26,10 +28,16 @@ class MessageController extends Controller
     public function store(CreateMessageRequest $request, Group $group)
     {
         $data = $request->validated();
+        $current_user = Auth::user();
         $data['user_id'] = auth()->user()->id;
         /** @var Message $message */
         $message = $group->messages()->create($data);
         broadcast(new NewMessageEvent($group, $message));
+        $users = $group->users()->get();
+        $users = $users->filter(function ($user) use ($current_user) {
+            return $user->id != $current_user->id;
+        });
+        Notification::send($users, new NewMessageNotification($message));
         return $this->created($message);
     }
 
@@ -37,29 +45,38 @@ class MessageController extends Controller
      * @param UpdateMessageRequest $request
      * @param Group $group
      * @param Message $message
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateMessageRequest $request, Group $group, Message $message)
     {
         $data = $request->validated();
         $message->update($data);
         broadcast(new ModifyMessageEvent($group, $message));
+        return $this->ok($message);
     }
 
     /**
-     * @param CreateMessageRequest $request
+     * @param Group $group
      * @return mixed
      */
-    public function index(CreateMessageRequest $request)
+    public function index(Group $group)
     {
-        $data = $request->validated();
-        $messages = Message::whereUserId(auth()->user()->id)->get();
-        return $messages;
+        $messages = $group->messages()->get();
+        return $this->ok($messages);
     }
 
     /**
-     * @param CreateMessageRequest $request
+     * @param DestroyMessageRequest $request
+     * @param Group $group
+     * @param Message $message
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function destroy(CreateMessageRequest $request)
+    public function destroy(DestroyMessageRequest $request, Group $group, Message $message)
     {
+        $data = $request->validated();
+        $message::whereId($data['id'])->delete();
+        broadcast(new DeletedMessageEvent($group, $message));
+        return $this->noContent();
     }
 }
