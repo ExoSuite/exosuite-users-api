@@ -18,10 +18,12 @@ class ClassFinder
     private static function getClassesInNamespace($namespace)
     {
         $files = scandir(self::getNamespaceDirectory($namespace));
+        if (!$files) return null;
 
-        $classes = array_map(function ($file) use ($namespace) {
+        $classes = array_map(function (string $file) use ($namespace) {
             return $namespace . '\\' . str_replace('.php', '', $file);
         }, $files);
+
 
         return array_filter($classes, function ($possibleClass) {
             return class_exists($possibleClass);
@@ -31,11 +33,11 @@ class ClassFinder
     private static function getDefinedNamespaces()
     {
         $composerJsonPath = self::appRoot . 'composer.json';
-        $composerConfig = json_decode(file_get_contents($composerJsonPath));
+        $content = file_get_contents($composerJsonPath);
+        if (!$content) return null;
+        $composerConfig = json_decode($content);
 
-        //Apparently PHP doesn't like hyphens, so we use variable variables instead.
-        $psr4 = "psr-4";
-        return (array)$composerConfig->autoload->$psr4;
+        return (array)$composerConfig->autoload->{"psr-4"};
     }
 
     private static function getNamespaceDirectory($namespace)
@@ -49,7 +51,11 @@ class ClassFinder
             $possibleNamespace = implode('\\', $namespaceFragments) . '\\';
 
             if (array_key_exists($possibleNamespace, $composerNamespaces)) {
-                return realpath(self::appRoot . $composerNamespaces[$possibleNamespace] . implode('/', $undefinedNamespaceFragments));
+                return realpath(
+                    self::appRoot
+                    . $composerNamespaces[$possibleNamespace]
+                    . implode('/', $undefinedNamespaceFragments)
+                );
             }
 
             array_unshift($undefinedNamespaceFragments, array_pop($namespaceFragments));
