@@ -19,9 +19,9 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, JsonResponses;
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return string
      */
     public function alive() {
-        return $this->noContent();
+        return "OK";
     }
 }
