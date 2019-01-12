@@ -17,4 +17,11 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests, JsonResponses;
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function alive() {
+        return $this->noContent();
+    }
 }
