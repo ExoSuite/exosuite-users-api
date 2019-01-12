@@ -12,10 +12,14 @@
 |
 */
 
-Route::group(['prefix' => 'auth'], function () {
+Route::prefix('auth')->group(function () {
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
 
     Route::post('/login', 'Auth\LoginController@login')->name('login');
+});
+
+Route::prefix('monitoring')->group(function () {
+   Route::get('/alive', "Controller@alive");
 });
 
 Route::middleware('auth:api')->group(function () {
