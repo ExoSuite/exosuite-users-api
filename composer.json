@@ -80,8 +80,7 @@
             "@php artisan package:discover --ansi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:generate; fi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:meta; fi",
-            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi",
-            "sed -i -e 's/, FILTER_FLAG_SCHEME_REQUIRED//g' vendor/elasticsearch/elasticsearch/src/Elasticsearch/ClientBuilder.php"
+            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models; fi"
         ],
         "reformat": "./vendor/bin/phpcbf ./app ./tests ./database ./routes --standard=PSR12"
     }
