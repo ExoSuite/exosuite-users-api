@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use App\Http\Middleware\AppendUserId;
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,25 +27,11 @@ class UserProfileRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'birthday' => 'sometimes|date_format:YYYY-MM-DD',
+            'birthday' => 'sometimes|date_format:Y-m-d',
             'description' => 'sometimes|string|max:2048',
             'city' => 'sometimes|string|max:100'
         ];
 
-        if (Request::isMethod(HttpRequest::METHOD_POST)) {
-            $rules[AppendUserId::$key] = 'required|uuid|exists:users,id|unique:user_profiles,id';
-        } else {
-            $rules[AppendUserId::$key] = 'required|uuid|exists:users,id';
-        }
-
         return $rules;
-    }
-
-    public function validated()
-    {
-        $data = parent::validated();
-        $data['id'] = $data[AppendUserId::$key];
-        unset($data[AppendUserId::$key]);
-        return $data;
     }
 }

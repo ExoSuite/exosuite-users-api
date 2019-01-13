@@ -4,8 +4,8 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Abstracts\GetRouteParamRequest;
-use App\Http\Requests\GetTimeRequest;
-use App\Http\Requests\UserSearchRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Requests\User\UserSearchRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +21,17 @@ class UserController extends Controller
      */
     public function me()
     {
-        return $this->ok(Auth::user());
+        return $this->ok(User::with('profile')->whereId(Auth::user()));
+    }
+
+    /**
+     * @param UpdateUserRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(UpdateUserRequest $request)
+    {
+        Auth::user()->update($request->validated());
+        return $this->noContent();
     }
 
     /**

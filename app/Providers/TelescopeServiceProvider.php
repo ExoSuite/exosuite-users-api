@@ -23,7 +23,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         $this->hideSensitiveRequestDetails();
 
         Telescope::filter(function (IncomingEntry $entry) {
-            if ($this->app->isLocal() or ApiHelper::isStaging()) {
+            if (ApiHelper::isLocal() or ApiHelper::isStaging()) {
                 return true;
             }
 

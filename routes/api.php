@@ -31,16 +31,17 @@ Route::middleware('auth:api')->group(function () {
             Route::get('/', 'User\UserController@me')
                 ->name('get_user');
 
+            Route::patch('/', "User\UserController@update")->name("patch_user");
+
             Route::prefix('profile')->group(function () {
-                ///////////////////////////////////////////////////////////////////
-                Route::post('/', 'User\UserProfileController@store')
-                    ->name('post_user_profile');
                 Route::patch('/', 'User\UserProfileController@update')
                     ->name('patch_user_profile');
-                Route::get('/', 'User\UserProfileController@show')
-                    ->name('get_user_profile');
-                ///////////////////////////////////////////////////////////////////
             });
+        });
+
+        Route::prefix('{user}/profile')->group(function() {
+            Route::get('/', 'User\UserProfileController@show')
+                ->name('get_user_profile');
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');
