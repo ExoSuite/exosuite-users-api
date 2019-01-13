@@ -3,11 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Laravel\Passport\Client;
+use App\Models\UserProfile;
 
 /**
  * Class UserTest
@@ -15,6 +17,7 @@ use Laravel\Passport\Client;
  */
 class UserTest extends TestCase
 {
+    use WithFaker;
 
     /**
      * @var User
@@ -40,6 +43,7 @@ class UserTest extends TestCase
         $this->userPassword = $user->password;
 
         $this->user = User::create($userData);
+        $this->assertTrue(UserProfile::whereId($this->user->id)->first()->id === $this->user->id);
     }
 
     /**
@@ -65,6 +69,9 @@ class UserTest extends TestCase
         );
     }
 
+    /**
+     *
+     */
     public function testGetPersonalInfos()
     {
         Passport::actingAs(factory(User::class)->create());
@@ -73,5 +80,38 @@ class UserTest extends TestCase
             route('get_user')
         );
         $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     *
+     */
+    public function testUpdateUserFirstName()
+    {
+        Passport::actingAs(factory(User::class)->create());
+
+        $response = $this->patch(route("patch_user"), ["first_name", $this->faker->firstName]);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     */
+    public function testUpdateUserLastName()
+    {
+        Passport::actingAs(factory(User::class)->create());
+
+        $response = $this->patch(route("patch_user"), ["last_name", $this->faker->lastName]);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     */
+    public function testUpdateUserNickname()
+    {
+        Passport::actingAs(factory(User::class)->create());
+
+        $response = $this->patch(route("patch_user"), ["nick_name", $this->faker->name]);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 }
