@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function search(UserSearchRequest $request)
     {
-        $users = User::search($request->text)->get();
+        $users = User::with("profile")->search($request->text)->get();
         return $this->ok($users);
     }
 }
