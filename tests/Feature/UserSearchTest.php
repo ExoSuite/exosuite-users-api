@@ -8,6 +8,7 @@ use App\Models\User;
 use Laravel\Passport\Passport;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\UserProfile;
 
 class UserSearchTest extends TestCase
 {
@@ -57,7 +58,8 @@ class UserSearchTest extends TestCase
                     'first_name',
                     'last_name',
                     'email',
-                    'nick_name'
+                    'nick_name',
+                    'profile' => (new UserProfile())->getFillable()
                 ]
             ]);
         }
