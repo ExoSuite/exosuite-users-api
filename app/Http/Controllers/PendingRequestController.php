@@ -22,7 +22,8 @@ class PendingRequestController extends Controller
 
     public function getMyPendings()
     {
-        return PendingRequest::whereTargetId(auth()->user()->id)->get();
+        $requests = PendingRequest::whereTargetId(auth()->user()->id)->get();
+        return $this->ok($requests);
     }
 
 }

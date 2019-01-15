@@ -46,24 +46,60 @@ Route::middleware('auth:api')->group(function () {
 
         Route::get('search', 'User\UserController@search')->name('get_users');
 
-        Route::group(['prefix' => 'follows'], function () {
-            Route::post('/', 'FollowsController@store')->name('newFollow');
+        //FOLLOWS-----------------------------------------------------------------------------------
+        Route::prefix('follows')->group(function () {
+            Route::post('/', 'FollowsController@store')->name('follow');
             Route::get('/amIFollowing', 'FollowsController@AmIFollowing')->name('amIFollowing');
             Route::get('/followers', 'FollowsController@WhoIsFollowing')->name('followers');
-            Route::delete('/unFollow', 'FollowsController@delete')->name('unFollow');
+            Route::delete('/unFollow', 'FollowsController@delete')->name('unfollow');
         });
 
-        Route::group(['prefix' => 'friendship'], function () {
-            Route::post('/sendFriendshipRequest', 'RelationsController@sendFriendshipRequest')->name('sendRequest');
-            Route::post('/accept', 'RelationsController@acceptRequest')->name('accept');
-            Route::post('/decline', 'RelationsController@declineRequest')->name('decline');
+
+        //FRIENDSHIPS-----------------------------------------------------------------------------------
+        Route::prefix('friendship')->group(function () {
+            Route::post('/sendFriendshipRequest', 'RelationsController@sendFriendshipRequest')->name('sendFriendshipRequest');
+            Route::post('/accept', 'RelationsController@acceptRequest')->name('acceptFriendship');
+            Route::post('/decline', 'RelationsController@declineRequest')->name('declineFriendship');
             Route::get('/myFriendlist', 'RelationsController@getMyFriendships')->name('myFriendList');
             Route::get('/friendList/{target_id}', 'RelationsController@getFriendships')->name('friendList');
         });
 
-        Route::group(['prefix' => 'pending_requests'], function () {
+        //PENDING REQUESTS-----------------------------------------------------------------------------------
+        Route::prefix('pending_requests')->group(function () {
             Route::post('/store', 'PendingRequestController@store')->name('create');
             Route::get('/mine', 'PendingRequestController@getMyPendings')->name('getMine');
+        });
+
+        //DASHBOARDS-----------------------------------------------------------------------------------------
+        Route::prefix('dashboard')->group(function () {
+            Route::get('/restriction', 'DashboardsController@getRestriction')->name('getRestriction');
+            Route::patch('/restriction', 'DashboardsController@changeRestriction')->name('changeRestriction');
+            Route::get('/dashboardId', 'DashboardsController@getDashboardId')->name('getSomeoneDashboardId');
+        });
+
+        //POSTS-----------------------------------------------------------------------------------------
+        Route::prefix('posts')->group(function () {
+            Route::post('/', 'PostsController@store')->name('storePost');
+            Route::patch('/', 'PostsController@update')->name('patchPost');
+            Route::get('/', 'PostsController@getPostsFromDashboard')->name('getPosts');
+            Route::delete('/', 'PostsController@delete')->name('deletePost');
+
+        });
+
+        //COMMENTARIES-----------------------------------------------------------------------------------------
+        Route::prefix('commentary')->group(function () {
+            Route::post('/', 'CommsController@store')->name('storeCommentary');
+            Route::patch('/', 'CommsController@updateComm')->name('updateCommentary');
+            Route::get('/', 'CommsController@getCommsFromPost')->name('getComms');
+            Route::delete('/', 'CommsController@deleteComm')->name('deleteCommentary');
+        });
+
+        //LIKES---------------------------------------------------------------------------------------------------
+        Route::prefix('likes')->group(function () {
+           Route::post('/', 'LikesController@store')->name('like');
+           Route::delete('/', 'LikesController@delete')->name('unlike');
+           Route::get('/from/entity', 'LikesController@getLikesFromID')->name('getlikesId');
+           Route::get('/from/someone', 'LikesController@getLikesFromLiker')->name('getlikesLiker');
         });
     });
 

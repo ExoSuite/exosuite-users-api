@@ -26,11 +26,13 @@ class RelationsController extends Controller
     {
         $this->createFriendship($request->validated());
 
-        return $this->created(PendingRequest::create([
+        $request = PendingRequest::create([
             'requester_id' => auth()->user()->id,
             'type' => RequestTypes::FRIENDSHIP_REQUEST,
             'target_id' => $request->get('target_id')
-        ]));
+        ]);
+
+        return $this->created($request);
     }
 
     public function acceptRequest(AnswerFriendshipRequest $request)
@@ -39,7 +41,7 @@ class RelationsController extends Controller
         $pending = PendingRequest::whereRequestId($data['request_id'])->first();
         $friendship = $this->createFriendship(['target_id' => $pending['requester_id']]);
         $pending->delete();
-        return $this->created($friendship);
+        return $this->ok($friendship);
     }
 
     public function declineRequest(AnswerFriendshipRequest $request)
@@ -48,17 +50,19 @@ class RelationsController extends Controller
         $pending = PendingRequest::whereRequestId($data['request_id'])->first();
         Friendship::whereUserId($pending['requester_id'])->whereFriendId(auth()->user()->id)->delete();
         $pending->delete();
-        return $this->created(null, 'Friendship request denied.');
+        return $this->noContent();
     }
 
     public function getMyFriendships()
     {
-        return Friendship::whereUserId(auth()->user()->id)->get();
+        $friends = Friendship::whereUserId(auth()->user()->id)->get();
+        return $this->ok($friends);
     }
 
     public function getFriendships($user_id)
     {
-        return Friendship::whereUserId($user_id)->get();
+        $friends = Friendship::whereUserId($user_id)->get();
+        return $this->ok($friends);
     }
 
 }

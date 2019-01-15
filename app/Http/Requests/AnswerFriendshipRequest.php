@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\PendingRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AnswerFriendshipRequest extends FormRequest
@@ -13,7 +14,11 @@ class AnswerFriendshipRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $request = PendingRequest::whereRequestId($this->get('request_id'))->first();
+        if ($request['target_id'] == auth()->user()->id)
+            return true;
+        else
+            return false;
     }
 
     /**

@@ -199,4 +199,24 @@ class User extends Authenticatable
             Share::getTableName()
         )->withTimestamps();
     }
+
+    public function dashboard()
+    {
+        return $this->hasOne(Dashboard::class, 'owner_id');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'author_id');
+    }
+
+    public function commentaries()
+    {
+        return $this->hasMany(Commentary::class, 'author_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'liker_id');
+    }
 }

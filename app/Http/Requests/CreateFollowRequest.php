@@ -24,7 +24,7 @@ class CreateFollowRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|uuid|exists:users'
+            'followed_id' => 'required|uuid|exists:users'
         ];
     }
 }

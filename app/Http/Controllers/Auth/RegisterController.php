@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
+use App\Models\Dashboard;
 use App\Models\User;
 use Illuminate\Http\Response;
 
@@ -56,6 +57,10 @@ class RegisterController extends Controller
     public function register(CreateUserRequest $request)
     {
         $user = $this->create($request->validated());
+
+        Dashboard::create([
+            'owner_id' => $user->id
+        ]);
 
         /** @var Response $response */
         if ($request->exists('with_user') && $request->get('with_user')) {
