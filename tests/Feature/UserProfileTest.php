@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\UserProfile;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -12,49 +14,54 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class UserProfileTest extends TestCase
 {
 
-    private $user = null;
+    private static $user = null;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->user = factory(User::class)->create();
-        $this->user = Passport::actingAs($this->user);
+        if (!self::$user)
+        {
+            self::$user = factory(User::class)->create();
+        }
+        Passport::actingAs(self::$user);
     }
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testCreateProfile()
+    public function testGetProfile()
+    {
+        $response = $this->get(route('get_user_profile', ["user" => self::$user->id]));
+        $response->assertStatus(Response::HTTP_OK);
+        $expectTo = [
+            'profile' => (new UserProfile())->getFillable()
+        ];
+        $userProperties = array_diff((new User())->getFillable(), (new User())->getHidden());
+        $expectTo = array_merge($expectTo, $userProperties);
+        $response->assertJsonStructure($expectTo);
+    }
+
+    public function testPatchProfileDescription()
     {
         $data = [
             'description' => str_random()
         ];
 
-        $response = $this->post(route('post_user_profile'), $data);
-        $response->assertStatus(Response::HTTP_CREATED);
-
-        $this->assertDatabaseHas('user_profiles', $data);
+        $response = $this->patch(route('patch_user_profile'), $data);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
-    public function testGetProfile()
+    public function testPatchProfileCity()
     {
-        $this->testCreateProfile();
-
-        $response = $this->get(route('get_user_profile'));
-        $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonStructure([
-            'birthday', 'city', 'description'
-        ]);
-    }
-
-    public function testPatchProfile()
-    {
-        $this->testCreateProfile();
-
         $data = [
-            'description' => str_random()
+            'city' => str_random()
+        ];
+
+        $response = $this->patch(route('patch_user_profile'), $data);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    public function testPatchProfileBirthday()
+    {
+        $data = [
+            'birthday' => Carbon::now()->format("Y-m-d")
         ];
 
         $response = $this->patch(route('patch_user_profile'), $data);

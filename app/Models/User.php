@@ -104,11 +104,15 @@ class User extends Authenticatable
     {
         parent::boot();
         static::creating(
-            function (self $user) {
+            function (User $user) {
                 $user->password = Hash::make($user->password);
                 $user->{$user->getKeyName()} = Uuid::generate()->string;
             }
         );
+
+        static::created(function (User $user){
+            $user->profile()->create();
+        });
     }
 
     /**

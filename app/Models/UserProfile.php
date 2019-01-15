@@ -31,13 +31,6 @@ class UserProfile extends Model
     ];
 
     /**
-     * @var array
-     */
-    protected $hidden = [
-        'id'
-    ];
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
