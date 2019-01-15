@@ -3,13 +3,12 @@
 namespace App\Notifications;
 
 use App\Enums\NotificationType;
-use App\Models\Group;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewGroupNotification extends ExoSuiteNotification
+class ExpelledFromGroupNotification extends ExoSuiteNotification
 {
     private $message;
     private $group;
@@ -39,7 +38,7 @@ class NewGroupNotification extends ExoSuiteNotification
                 "message" => $this->message,
                 "group" => $this->group
             ],
-            'notification_type' => NotificationType::NEW_GROUP
+            'notification_type' => NotificationType::EXPELLED_FROM_GROUP
         ];
     }
 }

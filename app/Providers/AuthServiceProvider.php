@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Message;
-use App\Policies\MessagesPolicy;
+use App\Models\Group;
+use App\Policies\GroupPolicy;
+use App\Policies\MessagePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -21,7 +23,8 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $policies = [Message::class, MessagesPolicy::class];
+    protected $policies = [Message::class => MessagePolicy::class,
+        Group::class => GroupPolicy::class];
 
 
     /**

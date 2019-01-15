@@ -27,6 +27,7 @@ class MessageController extends Controller
      */
     public function store(CreateMessageRequest $request, Group $group)
     {
+        //$this->authorize("createGroupMessage", $group);
         $data = $request->validated();
         $current_user = Auth::user();
         $data['user_id'] = auth()->user()->id;
@@ -66,16 +67,14 @@ class MessageController extends Controller
     }
 
     /**
-     * @param DestroyMessageRequest $request
      * @param Group $group
      * @param Message $message
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(DestroyMessageRequest $request, Group $group, Message $message)
+    public function destroy(Group $group, Message $message)
     {
-        $data = $request->validated();
-        $message::whereId($data['id'])->delete();
+        $message->delete();
         broadcast(new DeletedMessageEvent($group, $message));
         return $this->noContent();
     }

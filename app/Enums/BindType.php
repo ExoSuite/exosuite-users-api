@@ -6,7 +6,7 @@ use BenSampo\Enum\Enum;
 
 final class BindType extends Enum
 {
-    const GROUP = "group_id";
-    const MESSAGE = "message_id";
+    const GROUP = "group";
+    const MESSAGE = "message";
     const UUID = "uuid";
 }

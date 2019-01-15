@@ -26,7 +26,7 @@ class CreateGroupRequest extends FormRequest
         return [
             "users" => "required|array",
             "users.*" => "required|distinct|uuid|exists:users,id",
-            "name" => "sometimes|string|max:255"
+            "name" => "sometimes|string|max:100"
         ];
     }
 }

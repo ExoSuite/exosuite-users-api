@@ -44,4 +44,22 @@ class Group extends UuidModel
     {
         return $this->hasManyThrough(User::class, GroupMember::class, "group_id", 'id', "id", "user_id");
     }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function isAdmin(User $user)
+    {
+        return $this->groupMembers()->whereUserId($user->id)->is_admin;
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function isMember(User $user)
+    {
+        return $this->groupMembers()->whereUserId($user->id)->exists();
+    }
 }

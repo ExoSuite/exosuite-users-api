@@ -22,4 +22,12 @@ final class NotificationType extends Enum
      *
      */
     const NEW_GROUP = "new_group";
+    /**
+     *
+     */
+    const DELETED_GROUP = "deleted_group";
+    /**
+     *
+     */
+    const EXPELLED_FROM_GROUP = "expelled_from_group";
 }

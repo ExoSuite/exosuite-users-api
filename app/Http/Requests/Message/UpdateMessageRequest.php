@@ -16,16 +16,7 @@ class UpdateMessageRequest extends FormRequest
      */
     public function authorize()
     {
-        $actual_user_id = Auth::user()->id;
-        $message_author_id = $this->get("user_id");
-        $group_admins_ids = GroupMember::whereIsAdmin(true)->get();
-        if ($actual_user_id === $message_author_id)
-            return true;
-        foreach ($group_admins_ids as $group_admin_id) {
-            if ($actual_user_id === $group_admin_id->user_id)
-                return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -36,7 +27,6 @@ class UpdateMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            "id" => "required|uuid|exists:messages",
             "contents" => "required|min:1|string|max:2048"
         ];
     }

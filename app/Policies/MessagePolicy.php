@@ -3,10 +3,12 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Group;
+use App\Models\GroupMember;
 use App\Models\Message;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MessagesPolicy
+class MessagePolicy
 {
     use HandlesAuthorization;
 
@@ -19,49 +21,49 @@ class MessagesPolicy
      */
     public function view(User $user, Message $message)
     {
-        return $message->group()->groupMembers()->whereUserId($user->id)->exists();
     }
 
     /**
      * Determine whether the user can create messages.
      *
      * @param  \App\Models\User $user
+     * @param Group $group
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user, Group $group)
     {
-        //
     }
 
     /**
      * Determine whether the user can update the message.
      *
      * @param  \App\Models\User $user
-     * @param  \App\Message $message
+     * @param Group $group
+     * @param Message $message
      * @return mixed
      */
     public function update(User $user, Message $message)
     {
-        //
+        return $user->id === $message->user_id;
     }
 
     /**
      * Determine whether the user can delete the message.
      *
      * @param  \App\Models\User $user
-     * @param  \App\Message $message
+     * @param Message $message
      * @return mixed
      */
     public function delete(User $user, Message $message)
     {
-        //
+        return $user->id === $message->user_id or $message->group->first()->isAdmin($user);
     }
 
     /**
      * Determine whether the user can restore the message.
      *
      * @param  \App\Models\User $user
-     * @param  \App\Message $message
+     * @param Message $message
      * @return mixed
      */
     public function restore(User $user, Message $message)
@@ -73,7 +75,7 @@ class MessagesPolicy
      * Determine whether the user can permanently delete the message.
      *
      * @param  \App\Models\User $user
-     * @param  \App\Message $message
+     * @param Message $message
      * @return mixed
      */
     public function forceDelete(User $user, Message $message)
