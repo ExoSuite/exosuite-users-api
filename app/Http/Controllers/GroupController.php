@@ -129,6 +129,10 @@ class GroupController extends Controller
         foreach ($members as $member) {
             $member->delete();
         }
+        $group_messages = $group->messages()->get();
+        foreach ($group_messages as $group_message) {
+            $group_message->delete();
+        }
         $group->delete();
         return $this->noContent();
     }

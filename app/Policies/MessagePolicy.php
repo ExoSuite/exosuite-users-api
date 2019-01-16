@@ -38,7 +38,6 @@ class MessagePolicy
      * Determine whether the user can update the message.
      *
      * @param  \App\Models\User $user
-     * @param Group $group
      * @param Message $message
      * @return mixed
      */

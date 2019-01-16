@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\CheckPoint;
+use App\Models\Notification;
 use App\Models\Run;
 use App\Enums\BindType;
 use App\Models\Group;
@@ -46,6 +47,7 @@ class RouteServiceProvider extends ServiceProvider
         });
         Route::model(BindType::GROUP, Group::class);
         Route::model(BindType::MESSAGE, Message::class);
+        Route::model(BindType::NOTIFICATION, Notification::class);
         Route::bind('run_id', Run::class);
         Route::bind('checkpoint_id', CheckPoint::class);
     }
