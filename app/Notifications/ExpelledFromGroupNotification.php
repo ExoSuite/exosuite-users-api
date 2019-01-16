@@ -16,10 +16,10 @@ class ExpelledFromGroupNotification extends ExoSuiteNotification
     /**
      * Create a new notification instance.
      *
-     * @param string $message
+     * @param $message
      * @param array $group
      */
-    public function __construct(string $message, array $group)
+    public function __construct($message, array $group)
     {
         $this->message = $message;
         $this->group = $group;
