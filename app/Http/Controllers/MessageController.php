@@ -30,7 +30,7 @@ class MessageController extends Controller
         //$this->authorize("createGroupMessage", $group);
         $data = $request->validated();
         $current_user = Auth::user();
-        $data['user_id'] = auth()->user()->id;
+        $data['user_id'] = $current_user->id;
         /** @var Message $message */
         $message = $group->messages()->create($data);
         broadcast(new NewMessageEvent($group, $message));
