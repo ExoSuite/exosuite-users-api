@@ -40,8 +40,6 @@ class MessageTest extends TestCase
 
     public function testCreateMessage()
     {
-        $this->user = factory(User::class)->create();
-        $this->user2 = factory(User::class)->create();
         $group = factory(Group::class)->create();
         $members = collect();
         $members->push(new GroupMember(["user_id" => $this->user->id, "is_admin" => true]));
@@ -62,8 +60,6 @@ class MessageTest extends TestCase
 
     public function testModifyMessage()
     {
-        $this->user = factory(User::class)->create();
-        $this->user2 = factory(User::class)->create();
         $group = factory(Group::class)->create();
         $members = collect();
         $members->push(new GroupMember(["user_id" => $this->user->id, "is_admin" => true]));
@@ -85,8 +81,6 @@ class MessageTest extends TestCase
 
     public function testDeleteMessage()
     {
-        $this->user = factory(User::class)->create();
-        $this->user2 = factory(User::class)->create();
         $group = factory(Group::class)->create();
         $members = collect();
         $members->push(new GroupMember(["user_id" => $this->user->id, "is_admin" => true]));
@@ -106,8 +100,6 @@ class MessageTest extends TestCase
 
     public function testGetMessages()
     {
-        $this->user = factory(User::class)->create();
-        $this->user2 = factory(User::class)->create();
         $group = factory(Group::class)->create();
         $members = collect();
         $members->push(new GroupMember(["user_id" => $this->user->id, "is_admin" => true]));

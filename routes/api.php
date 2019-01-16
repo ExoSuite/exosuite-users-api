@@ -44,14 +44,14 @@ Route::middleware('auth:api')->group(function () {
                 ->name('get_user_profile');
         });
 
-        Route::prefix('{user}/notification')->group(function () {
-            //Route::patch('/{notification}', 'NotificationController@update')->name('patch_notification')->middleware('can:update,notification');
-            Route::get('/', 'NotificationController@index')->name('get_notification')->middleware('can:viewUserNotifications,user');
-            //Route::delete('/{notification}', 'NotificationController@destroy')->name('delete_notification')->middleware('can:delete,notification');
-        });
-
         Route::get('search', 'User\UserController@search')->name('get_users');
 
+    });
+
+    Route::prefix('notification')->group(function () {
+        Route::patch('/{notification?}', 'NotificationController@update')->name('patch_notification');
+        Route::get('/', 'NotificationController@index')->name('get_notification');
+        Route::delete('/{notification?}', 'NotificationController@destroy')->name('delete_notification');
     });
 
     Route::prefix('group')->group(function () {

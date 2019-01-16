@@ -15,11 +15,6 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function viewUserNotifications(User $user)
-    {
-        return Auth::user()->id === $user->id;
-    }
-
     /**
      * Determine whether the user can view the model.
      *

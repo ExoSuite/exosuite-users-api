@@ -9,5 +9,6 @@ final class BindType extends Enum
     const GROUP = "group";
     const MESSAGE = "message";
     const NOTIFICATION = "notification";
+    const USER = "user";
     const UUID = "uuid";
 }

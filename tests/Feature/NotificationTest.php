@@ -23,37 +23,72 @@ class NotificationTest extends TestCase
     public function testGetUserNotifications()
     {
         Passport::actingAs($this->user1);
-        $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        Passport::actingAs($this->user3);
+        $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
         Passport::actingAs($this->user2);
-        $notifications_req = $this->get($this->route("get_notification", [BindType::UUID => $this->user2->id]));
+        $notifications_req = $this->get($this->route("get_notification"));
         $notifs = $notifications_req->decodeResponseJson();
         foreach ($notifs as $notif)
             $this->assertDatabaseHas("notifications", array_except($notif, "data"));
         $notifications_req->assertStatus(Response::HTTP_OK);
     }
 
-    /*public function testDeleteUserNotification(){
+    public function testDeleteOneUserNotification()
+    {
         Passport::actingAs($this->user1);
-        $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        Passport::actingAs($this->user3);
+        $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
         Passport::actingAs($this->user2);
-        $notifications_req = $this->get($this->route("get_notification", [BindType::UUID => $this->user2->id]));
-        $notification_id = $notifications_req->decodeResponseJson()[0];
-        //dd($notification_id);
-        $notifications_req = $this->delete($this->route("delete_notification", [BindType::UUID => $this->user2->id, BindType::NOTIFICATION => $notification_id['id']]));
-        dd($notifications_req->decodeResponseJson());
+        $notifications_req = $this->get($this->route("get_notification"));
+        $notification = $notifications_req->decodeResponseJson()[0];
+        $notifications_req = $this->delete($this->route("delete_notification", [BindType::NOTIFICATION => $notification['id']]));
         $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
 
-    public function  testUpdateUserNotification(){
+    public function testDeleteAllUserNotification()
+    {
         Passport::actingAs($this->user1);
-        $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        Passport::actingAs($this->user3);
+        $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
         Passport::actingAs($this->user2);
-        $notifications_req = $this->get($this->route("get_notification", [BindType::UUID => $this->user2->id]));
-        $notification_id = $notifications_req->decodeResponseJson()[0];
-        $notifications_req = $this->patch($this->route("patch_notification", [BindType::UUID => $this->user2->id, BindType::NOTIFICATION => $notification_id['id']]));
-        dd($notifications_req->decodeResponseJson());
+        $notifications_req = $this->get($this->route("get_notification"));
+        $notifications_array = $notifications_req->decodeResponseJson();
+        $notifications_req = $this->delete($this->route("delete_notification"));
         $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
-    }*/
+        foreach ($notifications_array as $notification)
+            $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
+    }
+
+    public function testUpdateOneUserNotification()
+    {
+        Passport::actingAs($this->user1);
+        $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        Passport::actingAs($this->user3);
+        $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        Passport::actingAs($this->user2);
+        $notifications_req = $this->get($this->route("get_notification"));
+        $notification = $notifications_req->decodeResponseJson()[0];
+        $notifications_req = $this->patch($this->route("patch_notification", [BindType::NOTIFICATION => $notification['id']]));
+        $notifications_req->assertStatus(Response::HTTP_OK);
+        $notification = $notifications_req->decodeResponseJson();
+        $this->assertDatabaseHas("notifications", array_except($notification, "data"));
+    }
+
+    public function testUpdateAllUserNotification()
+    {
+        Passport::actingAs($this->user1);
+        $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        Passport::actingAs($this->user3);
+        $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        Passport::actingAs($this->user2);
+        $notifications_req = $this->get($this->route("get_notification"));
+        $notifications_req = $this->patch($this->route("patch_notification"));
+        $notifications_req->assertStatus(Response::HTTP_OK);
+    }
 
     protected function setUp()
     {

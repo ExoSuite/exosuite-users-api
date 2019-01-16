@@ -7,29 +7,31 @@ use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
     /**
-     * @param UpdateNotificationRequest $request
      * @param Notification $notification
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateNotificationRequest $request, Notification $notification)
+    public function update($notification = null)
     {
-        $data = $request->validated();
-        $data['read_at'] = Carbon::now();
-        $notification->update($data);
-        return $this->ok($notification);
+        if ($notification instanceof Notification) {
+            $notifications = Auth::user()->unreadNotifications()->findOrFail($notification->id);
+            $notifications->update(['read_at' => now()]);
+        } else {
+            $notifications = Auth::user()->unreadNotifications()->update(['read_at' => now()]);
+        }
+        return $this->ok($notifications);
     }
 
     /**
-     * @param User $user
      * @return mixed
      */
-    public function index(User $user)
+    public function index()
     {
-        $user_notifications = Notification::whereNotifiableId($user->id)->get();
+        $user_notifications = Auth::user()->notifications()->get();
         return $this->ok($user_notifications);
     }
 
@@ -38,9 +40,14 @@ class NotificationController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(Notification $notification)
+    public function destroy($notification = null)
     {
-        $notification->delete();
+        if ($notification instanceof Notification) {
+            $notifications = Auth::user()->unreadNotifications()->findOrFail($notification->id);
+            $notifications->delete();
+        } else {
+            Auth::user()->unreadNotifications()->delete();
+        }
         return $this->noContent();
     }
 }

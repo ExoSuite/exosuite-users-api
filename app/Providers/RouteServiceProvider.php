@@ -8,6 +8,7 @@ use App\Models\Run;
 use App\Enums\BindType;
 use App\Models\Group;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -48,6 +49,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model(BindType::GROUP, Group::class);
         Route::model(BindType::MESSAGE, Message::class);
         Route::model(BindType::NOTIFICATION, Notification::class);
+        Route::model(BindType::USER, User::class);
         Route::bind('run_id', Run::class);
         Route::bind('checkpoint_id', CheckPoint::class);
     }
