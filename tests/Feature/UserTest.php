@@ -80,6 +80,9 @@ class UserTest extends TestCase
             route('get_user')
         );
         $response->assertStatus(Response::HTTP_OK);
+        $expectTo = array_diff((new User())->getFillable(), (new User())->getHidden());
+        $expectTo['profile'] = (new UserProfile())->getFillable();
+        $response->assertJsonStructure($expectTo);
     }
 
     /**
