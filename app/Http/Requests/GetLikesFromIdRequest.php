@@ -14,10 +14,7 @@ class GetLikesFromIdRequest extends FormRequest
      */
     public function authorize()
     {
-        if (Like::whereLikedId($this->get("liked_id"))->exists())
-            return true;
-        else
-            return false;
+        return true;
     }
 
     /**

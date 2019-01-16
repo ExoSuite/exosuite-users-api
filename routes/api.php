@@ -49,8 +49,8 @@ Route::middleware('auth:api')->group(function () {
         //FOLLOWS-----------------------------------------------------------------------------------
         Route::prefix('follows')->group(function () {
             Route::post('/', 'FollowsController@store')->name('follow');
-            Route::get('/amIFollowing', 'FollowsController@AmIFollowing')->name('amIFollowing');
-            Route::get('/followers', 'FollowsController@WhoIsFollowing')->name('followers');
+            Route::get('/amIFollowing/{target_id}', 'FollowsController@AmIFollowing')->name('amIFollowing');
+            Route::get('/followers/{target_id}', 'FollowsController@WhoIsFollowing')->name('followers');
             Route::delete('/unFollow', 'FollowsController@delete')->name('unfollow');
         });
 

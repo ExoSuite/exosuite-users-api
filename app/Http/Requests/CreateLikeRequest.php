@@ -6,6 +6,7 @@ use App\Enums\LikableEntities;
 use App\Models\Commentary;
 use App\Models\Post;
 use App\Models\Run;
+use App\Models\Like;
 use App\Rules\ValidateLikeTargetRule;
 use Illuminate\Foundation\Http\FormRequest;
 

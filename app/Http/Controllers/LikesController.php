@@ -30,7 +30,7 @@ class LikesController extends Controller
 
     private function getLikersLikes(array $data)
     {
-        return Like::whereLikerId($data['liker_id']);
+        return Like::whereLikerId($data['liker_id'])->get();
     }
 
     public function store(CreateLikeRequest $request)

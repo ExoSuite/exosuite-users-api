@@ -24,7 +24,7 @@ class FollowTest extends TestCase
     public function testFollowSomeone()
     {
         Passport::actingAs($this->user);
-        $response = $this->post($this->route("follow"), ["followed_id" => $this->user1->id]);
+        $response = $this->post(route("follow"), ["id" => $this->user1->id]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Follow())->getFillable());
     }
@@ -32,28 +32,24 @@ class FollowTest extends TestCase
     public function testUnfollow()
     {
         Passport::actingAs($this->user);
-        $this->post($this->route("follow"), ["followed_id" => $this->user1->id]);
-        $response = $this->delete($this->route('unfollow'), ["followed_id" => $this->user1->id]);
+        $this->post(route("follow"), ["id" => $this->user1->id]);
+        $response = $this->delete(route('unfollow'), ["id" => $this->user1->id]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
     public function testGetFollowers()
     {
         Passport::actingAs($this->user);
-        $follow = factory(Follow::class)->create();
-        $follow['user_id'] = $this->user1->id;
-        $follow['followed_id'] = $this->user->id;
-        $response = $this->get($this->route("followers"), ["followed_id" => $this->user->id]);
+        $follow = factory(Follow::class)->create(['user_id' => $this->user1->id, 'followed_id' => $this->user->id]);
+        $response = $this->get(route("followers", ['target_id' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
     }
 
     public function testAmIFollowing()
     {
         Passport::actingAs($this->user);
-        $follow = factory(Follow::class)->create();
-        $follow['user_id'] = $this->user1->id;
-        $follow['followed_id'] = $this->user->id;
-        $response = $this->get($this->route("amIFollowing"), ["followed_id" => $this->user->id]);
+        $follow = factory(Follow::class)->create(['user_id' => $this->user1->id, 'followed_id' => $this->user->id]);
+        $response = $this->get(route("amIFollowing", ['target_id' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
     }
 
