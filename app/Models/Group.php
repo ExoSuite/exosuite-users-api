@@ -51,8 +51,7 @@ class Group extends UuidModel
      */
     public function isAdmin(User $user)
     {
-        $member = $this->groupMembers()->findOrFail($user->id);
-        return $member->isAdmin;
+        return $this->groupMembers()->where("user_id", $user->id)->isAdmin;
     }
 
     /**

@@ -17,7 +17,7 @@ class NewGroupNotification extends ExoSuiteNotification
     /**
      * Create a new notification instance.
      *
-     * @param $message
+     * @param string|array $message
      * @param array $group
      */
     public function __construct($message, array $group)
