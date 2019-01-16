@@ -40,7 +40,6 @@ class UserSearchTest extends TestCase
             'nick_name',
         ];
         $route = route('get_users');
-        sleep(2); // wait for elastic search
 
         foreach ($userQueries as $param) {
             $queries = http_build_query(['text' => $this->user->{$param}]);
@@ -50,12 +49,12 @@ class UserSearchTest extends TestCase
             $response = $this->get(
                 $uri
             );
-
+            //dd($response->decodeResponseJson());
             $expectTo = array_diff((new User())->getFillable(), (new User())->getHidden());
             $expectTo['profile'] = (new UserProfile())->getFillable();
 
             $response->assertStatus(Response::HTTP_OK);
-            $response->assertJsonStructure([$expectTo]);
+            $response->assertJsonStructure(["data" => [$expectTo]]);
         }
     }
 }

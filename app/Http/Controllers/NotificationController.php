@@ -18,12 +18,11 @@ class NotificationController extends Controller
     public function update($notification = null)
     {
         if ($notification instanceof Notification) {
-            $notifications = Auth::user()->unreadNotifications()->findOrFail($notification->id);
-            $notifications->update(['read_at' => now()]);
+            Auth::user()->unreadNotifications()->findOrFail($notification->id)->update(['read_at' => now()]);
         } else {
-            $notifications = Auth::user()->unreadNotifications()->update(['read_at' => now()]);
+            Auth::user()->unreadNotifications()->update(['read_at' => now()]);
         }
-        return $this->ok($notifications);
+        return $this->noContent();
     }
 
     /**
@@ -43,10 +42,10 @@ class NotificationController extends Controller
     public function destroy($notification = null)
     {
         if ($notification instanceof Notification) {
-            $notifications = Auth::user()->unreadNotifications()->findOrFail($notification->id);
+            $notifications = Auth::user()->notifications()->findOrFail($notification->id);
             $notifications->delete();
         } else {
-            Auth::user()->unreadNotifications()->delete();
+            Auth::user()->notifications()->delete();
         }
         return $this->noContent();
     }

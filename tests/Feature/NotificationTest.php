@@ -48,7 +48,7 @@ class NotificationTest extends TestCase
         $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
 
-    public function testDeleteAllUserNotification()
+    public function testDeleteAllReadUserNotification()
     {
         Passport::actingAs($this->user1);
         $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -56,11 +56,11 @@ class NotificationTest extends TestCase
         $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route("get_notification"));
-        $notifications_array = $notifications_req->decodeResponseJson();
+        $notification = $notifications_req->decodeResponseJson()[0];
+        $this->patch($this->route("patch_notification", [BindType::NOTIFICATION => $notification['id']]));
         $notifications_req = $this->delete($this->route("delete_notification"));
         $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
-        foreach ($notifications_array as $notification)
-            $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
+        $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
 
     public function testUpdateOneUserNotification()
@@ -73,9 +73,8 @@ class NotificationTest extends TestCase
         $notifications_req = $this->get($this->route("get_notification"));
         $notification = $notifications_req->decodeResponseJson()[0];
         $notifications_req = $this->patch($this->route("patch_notification", [BindType::NOTIFICATION => $notification['id']]));
-        $notifications_req->assertStatus(Response::HTTP_OK);
-        $notification = $notifications_req->decodeResponseJson();
-        $this->assertDatabaseHas("notifications", array_except($notification, "data"));
+        $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
 
     public function testUpdateAllUserNotification()
@@ -87,7 +86,7 @@ class NotificationTest extends TestCase
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route("get_notification"));
         $notifications_req = $this->patch($this->route("patch_notification"));
-        $notifications_req->assertStatus(Response::HTTP_OK);
+        $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
     protected function setUp()
