@@ -49,6 +49,9 @@ class ApiHelper implements ApiHelperInterface
     {
         $parsed_url = parse_url(env('APP_URL') ?? config('app.url'));
         $domain = substr($parsed_url['host'], strpos($parsed_url['host'], '.') + 1);
+        if (config('app.env') === 'staging') {
+            $domain = "website.{$domain}";
+        }
         return $domain;
     }
 

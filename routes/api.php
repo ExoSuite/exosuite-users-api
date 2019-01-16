@@ -12,10 +12,14 @@
 |
 */
 
-Route::group(['prefix' => 'auth'], function () {
+Route::prefix('auth')->group(function () {
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
 
     Route::post('/login', 'Auth\LoginController@login')->name('login');
+});
+
+Route::prefix('monitoring')->group(function () {
+   Route::get('/alive', "Controller@alive");
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -27,16 +31,17 @@ Route::middleware('auth:api')->group(function () {
             Route::get('/', 'User\UserController@me')
                 ->name('get_user');
 
+            Route::patch('/', "User\UserController@update")->name("patch_user");
+
             Route::prefix('profile')->group(function () {
-                ///////////////////////////////////////////////////////////////////
-                Route::post('/', 'User\UserProfileController@store')
-                    ->name('post_user_profile');
                 Route::patch('/', 'User\UserProfileController@update')
                     ->name('patch_user_profile');
-                Route::get('/', 'User\UserProfileController@show')
-                    ->name('get_user_profile');
-                ///////////////////////////////////////////////////////////////////
             });
+        });
+
+        Route::prefix('{user}/profile')->group(function() {
+            Route::get('/', 'User\UserProfileController@show')
+                ->name('get_user_profile');
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');
@@ -94,10 +99,12 @@ if (!\Illuminate\Support\Facades\App::environment("production")) {
     Route::get('staging/client', 'StagingController@get');
 }
 
-Route::get('test', function () {
-    \Illuminate\Support\Facades\Notification::send(
-        App\Models\User::all(),
-        new \App\Notifications\FollowNotification()
-    );
-    return ["SENT!"];
-});
+if (\Illuminate\Support\Facades\App::environment("local")) {
+    Route::get('test', function () {
+        \Illuminate\Support\Facades\Notification::send(
+            App\Models\User::all(),
+            new \App\Notifications\FollowNotification()
+        );
+        return ["SENT!"];
+    });
+}
