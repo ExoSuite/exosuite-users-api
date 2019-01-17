@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Enums\BindType;
-use App\Http\Controllers\GroupController;
 use App\Models\User;
 use App\Notifications\DeletedGroupNotification;
 use App\Notifications\ExpelledFromGroupNotification;
@@ -12,8 +11,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GroupTest extends TestCase
 {

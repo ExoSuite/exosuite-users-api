@@ -4,13 +4,9 @@ namespace Tests\Unit;
 
 use App\Enums\BindType;
 use App\Models\User;
-use App\Models\Notification;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Webpatser\Uuid\Uuid;
 
 class NotificationTest extends TestCase

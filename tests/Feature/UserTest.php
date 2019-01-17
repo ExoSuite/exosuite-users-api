@@ -3,13 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Laravel\Passport\Client;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Laravel\Passport\Client;
-use App\Models\UserProfile;
 
 /**
  * Class UserTest

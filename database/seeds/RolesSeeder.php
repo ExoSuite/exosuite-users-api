@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Models\Role;
 use App\Enums\AdministratorPermissions;
 use App\Enums\Roles;
+use App\Models\Role;
+use Illuminate\Database\Seeder;
 
 /**
  * Class RolesSeeder

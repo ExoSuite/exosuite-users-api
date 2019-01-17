@@ -6,17 +6,14 @@ use App\Enums\GroupRequestType;
 use App\Http\Requests\Group\CreateGroupRequest;
 use App\Http\Requests\Group\DestroyGroupRequest;
 use App\Http\Requests\Group\UpdateGroupRequest;
-use App\Notifications\DeletedGroupNotification;
-use App\Notifications\ExpelledFromGroupNotification;
 use App\Models\Group;
 use App\Models\GroupMember;
+use App\Notifications\DeletedGroupNotification;
+use App\Notifications\ExpelledFromGroupNotification;
 use App\Notifications\NewGroupNotification;
-use Elasticsearch\Endpoints\Update;
-use Faker\Factory;
-use Faker\Generator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Faker\Factory as Faker;
+use Faker\Generator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 class GroupController extends Controller
@@ -29,9 +26,9 @@ class GroupController extends Controller
      */
     public function store(CreateGroupRequest $request)
     {
-        if ($request->exists("name"))
+        if ($request->exists("name")) {
             $name = $request->get("name");
-        else {
+        } else {
             /** @var Generator $faker */
             $faker = Faker::create(app()->getLocale());
             $name = $faker->city;
@@ -69,11 +66,11 @@ class GroupController extends Controller
         $requestType = $request->get("request_type");
         if ($requestType === GroupRequestType::ADD_USER) {
             $group->groupMembers()->create(["user_id" => $user_id]);
-        } else if ($requestType === GroupRequestType::ADD_USER_AS_ADMIN) {
+        } elseif ($requestType === GroupRequestType::ADD_USER_AS_ADMIN) {
             $group->groupMembers()->create(["user_id" => $user_id, "is_admin" => true]);
-        } else if ($requestType === GroupRequestType::UPDATE_USER_RIGHTS) {
+        } elseif ($requestType === GroupRequestType::UPDATE_USER_RIGHTS) {
             $group->groupMembers()->whereUserId($user_id)->update(["is_admin" => $request->get("is_admin")]);
-        } else if ($requestType === GroupRequestType::DELETE_USER) {
+        } elseif ($requestType === GroupRequestType::DELETE_USER) {
             $message = str_replace([":group_name", ":user_name"], [$group->name, "{$current_user->first_name} {$current_user->last_name}"], trans("notification.expelled_from_group"));
             $users = $group->users()->get();
             $users = $users->filter(function ($user) use ($user_id) {
@@ -81,7 +78,7 @@ class GroupController extends Controller
             });
             Notification::send($users, new ExpelledFromGroupNotification($message, $group->toArray()));
             $group->groupMembers()->whereUserId($request->get("user_id"))->delete();
-        } else if ($requestType === GroupRequestType::UPDATE_GROUP_NAME) {
+        } elseif ($requestType === GroupRequestType::UPDATE_GROUP_NAME) {
             $group->name = $request->get('name');
             $group->save();
         }

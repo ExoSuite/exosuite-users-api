@@ -4,13 +4,9 @@ namespace Tests\Feature;
 
 use App\Enums\BindType;
 use App\Models\User;
-use App\Models\Notification;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class NotificationTest extends TestCase
 {
@@ -29,8 +25,9 @@ class NotificationTest extends TestCase
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route("get_notification"));
         $notifs = $notifications_req->decodeResponseJson();
-        foreach ($notifs as $notif)
+        foreach ($notifs as $notif) {
             $this->assertDatabaseHas("notifications", array_except($notif, "data"));
+        }
         $notifications_req->assertStatus(Response::HTTP_OK);
     }
 

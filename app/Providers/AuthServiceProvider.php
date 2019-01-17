@@ -2,16 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\Message;
 use App\Models\Group;
-use App\Models\Notification;
-use App\Models\User;
+use App\Models\Message;
 use App\Policies\GroupPolicy;
 use App\Policies\MessagePolicy;
 use App\Policies\NotificationPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Laravel\Passport\Passport;
 

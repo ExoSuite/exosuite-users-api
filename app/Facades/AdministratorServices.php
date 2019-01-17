@@ -8,7 +8,6 @@
 
 namespace App\Facades;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Facade;
 
 /**

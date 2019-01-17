@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Abstracts\UuidModel;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Message

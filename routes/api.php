@@ -19,7 +19,7 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::prefix('monitoring')->group(function () {
-   Route::get('/alive', "Controller@alive");
+    Route::get('/alive', "Controller@alive");
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -39,13 +39,12 @@ Route::middleware('auth:api')->group(function () {
             });
         });
 
-        Route::prefix('{user}/profile')->group(function() {
+        Route::prefix('{user}/profile')->group(function () {
             Route::get('/', 'User\UserProfileController@show')
                 ->name('get_user_profile');
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');
-
     });
 
     Route::prefix('notification')->group(function () {
@@ -66,7 +65,6 @@ Route::middleware('auth:api')->group(function () {
             Route::delete('/{message}', 'MessageController@destroy')->name('delete_message')->middleware('can:delete,message');
         });
     });
-
 
 
     Route::prefix('run')->group(function () {

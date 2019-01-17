@@ -7,8 +7,8 @@ use App\Models\Share;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Tests\TestCase;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 /**
  * Class ShareRunTest

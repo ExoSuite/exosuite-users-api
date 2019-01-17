@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Abstracts\UuidModel;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Group
@@ -51,8 +50,9 @@ class Group extends UuidModel
      */
     public function isAdmin(User $user)
     {
-        if ($this->isMember($user))
+        if ($this->isMember($user)) {
             return GroupMember::whereUserId($user->id)->first()->isAdmin();
+        }
     }
 
     /**

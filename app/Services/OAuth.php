@@ -11,7 +11,7 @@ namespace App\Services;
 use App\Contracts\MakeOAuthRequest;
 use App\Exceptions\InternalRequestException;
 use App\Facades\InternalRequest;
-use \Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -34,7 +34,8 @@ abstract class OAuth implements MakeOAuthRequest
         int $client_id,
         string $client_secret,
         int $statusCode = Response::HTTP_OK
-    ) {
+    )
+    {
         $data = [
             'grant_type' => 'password',
             'client_id' => $client_id,

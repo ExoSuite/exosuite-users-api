@@ -2,13 +2,10 @@
 
 namespace App\Notifications\Message;
 
-use App\Models\Message;
 use App\Enums\NotificationType;
+use App\Models\Message;
 use App\Notifications\ExoSuiteNotification;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class NewMessageNotification extends ExoSuiteNotification
 {

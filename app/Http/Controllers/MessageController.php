@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Notification;
+use App\Events\DeletedMessageEvent;
 use App\Events\ModifyMessageEvent;
 use App\Events\NewMessageEvent;
-use App\Events\DeletedMessageEvent;
 use App\Http\Requests\Message\CreateMessageRequest;
 use App\Http\Requests\Message\DestroyMessageRequest;
 use App\Http\Requests\Message\UpdateMessageRequest;
-use App\Models\Message;
 use App\Models\Group;
+use App\Models\Message;
 use App\Notifications\Message\NewMessageNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 /**
  * Class MessageController

@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Models\CheckPoint;
-use App\Models\Notification;
-use App\Models\Run;
 use App\Enums\BindType;
+use App\Models\CheckPoint;
 use App\Models\Group;
 use App\Models\Message;
+use App\Models\Notification;
+use App\Models\Run;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;

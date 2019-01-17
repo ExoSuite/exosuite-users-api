@@ -110,7 +110,7 @@ class User extends Authenticatable
             }
         );
 
-        static::created(function (User $user){
+        static::created(function (User $user) {
             $user->profile()->create();
         });
     }
@@ -199,5 +199,4 @@ class User extends Authenticatable
             Share::getTableName()
         )->withTimestamps();
     }
-
 }

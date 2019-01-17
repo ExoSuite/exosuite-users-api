@@ -5,7 +5,6 @@ namespace App\Http\Requests\Group;
 use App\Enums\GroupRequestType;
 use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
 use App\Rules\RequestTypeRule;
-use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateGroupRequest extends RouteParamRequestUuidToId
 {

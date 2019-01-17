@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\User;
-use Laravel\Passport\Passport;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Models\UserProfile;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class UserSearchTest extends TestCase
 {
@@ -49,7 +48,6 @@ class UserSearchTest extends TestCase
             $response = $this->get(
                 $uri
             );
-            //dd($response->decodeResponseJson());
             $expectTo = array_diff((new User())->getFillable(), (new User())->getHidden());
             $expectTo['profile'] = (new UserProfile())->getFillable();
 

@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Models\Abstracts\UuidModel;
-use Illuminate\Database\Eloquent\Model;
-use Webpatser\Uuid\Uuid;
 
 /**
  * Class GroupMember
@@ -25,6 +23,7 @@ class GroupMember extends UuidModel
     protected $hidden = [
         'id'
     ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

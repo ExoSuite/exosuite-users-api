@@ -2,10 +2,9 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\Group;
-use App\Models\GroupMember;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MessagePolicy

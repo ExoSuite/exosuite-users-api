@@ -3,11 +3,6 @@
 namespace App\Notifications;
 
 use App\Enums\NotificationType;
-use App\Models\Group;
-use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class NewGroupNotification extends ExoSuiteNotification
 {
