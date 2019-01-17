@@ -110,7 +110,7 @@ class User extends Authenticatable
             }
         );
 
-        static::created(function (User $user){
+        static::created(function (User $user) {
             $user->profile()->create();
         });
     }

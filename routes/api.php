@@ -19,7 +19,7 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::prefix('monitoring')->group(function () {
-   Route::get('/alive', "Controller@alive");
+    Route::get('/alive', "Controller@alive");
 });
 
 Route::middleware('auth:api')->group(function () {
@@ -39,13 +39,33 @@ Route::middleware('auth:api')->group(function () {
             });
         });
 
-        Route::prefix('{user}/profile')->group(function() {
+        Route::prefix('{user}/profile')->group(function () {
             Route::get('/', 'User\UserProfileController@show')
                 ->name('get_user_profile');
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');
     });
+
+    Route::prefix('notification')->group(function () {
+        Route::patch('/{notification?}', 'NotificationController@update')->name('patch_notification');
+        Route::get('/', 'NotificationController@index')->name('get_notification');
+        Route::delete('/{notification?}', 'NotificationController@destroy')->name('delete_notification');
+    });
+
+    Route::prefix('group')->group(function () {
+        Route::post('/', 'GroupController@store')->name('post_group');
+        Route::patch('/{group}', 'GroupController@update')->name('patch_group');
+        Route::get('/{group}', 'GroupController@index')->name('get_group');
+        Route::delete('/{group}', 'GroupController@destroy')->name('delete_group');
+        Route::prefix('/{group}/message')->group(function () {
+            Route::post('/', 'MessageController@store')->name('post_message')->middleware('can:createGroupMessage,group');
+            Route::patch('/{message}', 'MessageController@update')->name('patch_message')->middleware('can:update,message');
+            Route::get('/', 'MessageController@index')->name('get_message')->middleware('can:viewGroupMessages,group');
+            Route::delete('/{message}', 'MessageController@destroy')->name('delete_message')->middleware('can:delete,message');
+        });
+    });
+
 
     Route::prefix('run')->group(function () {
         ///////////////////////////////////////////////////////////////////
@@ -60,6 +80,8 @@ Route::middleware('auth:api')->group(function () {
 
         Route::get('/', 'Run\RunController@index')
             ->name('get_run');
+        Route::delete('{uuid}', 'Run\RunController@delete')
+            ->name('delete_run');
         ///////////////////////////////////////////////////////////////////
         Route::prefix('share')->group(function () {
             Route::post('/', 'Run\ShareRunController@store')
@@ -68,6 +90,11 @@ Route::middleware('auth:api')->group(function () {
                 ->name('get_share_run');
             Route::get('/id/{uuid}', 'Run\ShareRunController@show')
                 ->name('get_share_run_by_id');
+        });
+        ///////////////////////////////////////////////////////////////////
+        Route::prefix('{run_id}/checkpoint')->group(function () {
+            Route::prefix('{checkpoint_id}/time')->group(function () {
+            });
         });
     });
 });

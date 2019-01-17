@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Enums\Roles;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
-use App\Enums\Roles;
 
 
 class HorizonServiceProvider extends HorizonApplicationServiceProvider

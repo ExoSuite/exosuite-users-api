@@ -38,7 +38,7 @@ class RegisterUserUnitTest extends TestCase
      */
     public function testRegisterUserWithInvalidData()
     {
-        $this->request([ 'first_name', 'last_name', 'password', 'email' ]);
+        $this->request(['first_name', 'last_name', 'password', 'email']);
     }
 
     /**
@@ -54,18 +54,18 @@ class RegisterUserUnitTest extends TestCase
         $userData = $user->toArray();
         $userData['password'] = $user->password;
         $userData['password_confirmation'] = $user->password;
-        $userData = array_except($userData, [ 'password_confirmation' ]);
+        $userData = array_except($userData, ['password_confirmation']);
 
         $data = array_keys($userData);
         foreach ($userData as $key => $value) {
             $this->request($data, $data);
-            $data = array_diff($data, [ $key ]);
+            $data = array_diff($data, [$key]);
         }
 
-        $data = [ 'password_confirmation' => $userData[ 'password' ] ];
-        $this->request([ 'password' ], $data);
+        $data = ['password_confirmation' => $userData['password']];
+        $this->request(['password'], $data);
 
-        $userData[ 'password_confirmation' ] = str_random();
-        $this->request([ 'password' ], $userData);
+        $userData['password_confirmation'] = str_random();
+        $this->request(['password'], $userData);
     }
 }

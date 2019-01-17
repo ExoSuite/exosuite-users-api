@@ -8,8 +8,8 @@
 
 namespace App\Pivots;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Webpatser\Uuid\Uuid;
 
 /**

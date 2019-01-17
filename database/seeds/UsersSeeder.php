@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Models\User;
 use App\Enums\Roles;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class UsersSeeder extends Seeder
 {

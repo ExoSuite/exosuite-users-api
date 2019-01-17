@@ -8,8 +8,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserProfileTest extends TestCase
 {
@@ -19,8 +17,7 @@ class UserProfileTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        if (!self::$user)
-        {
+        if (!self::$user) {
             self::$user = factory(User::class)->create();
         }
         Passport::actingAs(self::$user);

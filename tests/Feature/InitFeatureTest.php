@@ -16,6 +16,6 @@ class InitFeatureTest extends TestCase
     public function testDatabaseConnection()
     {
         $this->artisan('passport:install');
-        $this->assertDatabaseMissing('users', [ 'email' => $this->faker->safeEmail ]);
+        $this->assertDatabaseMissing('users', ['email' => $this->faker->safeEmail]);
     }
 }
