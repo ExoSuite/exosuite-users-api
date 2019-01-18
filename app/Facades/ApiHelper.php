@@ -9,7 +9,6 @@
 namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Facades\App;
 
 
 /**

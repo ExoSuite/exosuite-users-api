@@ -64,7 +64,7 @@ class LoginUserUnitTest extends TestCase
     {
         $this->request(
             [
-                'email' => $this->user[ 'email' ],
+                'email' => $this->user['email'],
                 'password' => $this->faker->password
             ],
             Response::HTTP_UNPROCESSABLE_ENTITY

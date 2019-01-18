@@ -21,7 +21,8 @@ class Controller extends BaseController
     /**
      * @return string
      */
-    public function alive() {
+    public function alive()
+    {
         return "OK";
     }
 }
