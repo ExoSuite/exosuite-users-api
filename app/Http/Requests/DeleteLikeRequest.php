@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Like;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Abstracts\RouteParamRequest;
 
-class DeleteLikeRequest extends FormRequest
+class DeleteLikeRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,10 +13,7 @@ class DeleteLikeRequest extends FormRequest
      */
     public function authorize()
     {
-        if (Like::whereLikedId($this->get("liked_id"))->whereLikerId(auth()->user()->id)->exists())
-            return true;
-        else
-            return false;
+        return true;
     }
 
     /**
@@ -28,7 +24,7 @@ class DeleteLikeRequest extends FormRequest
     public function rules()
     {
         return [
-            "liked_id" => "required|uuid"
+            "entity_id" => "required|uuid|exists:likes,liked_id"
         ];
     }
 }

@@ -15,6 +15,6 @@ final class Restriction extends Enum
 {
     const PRIVATE = "private";
     const FRIENDS = "friends";
-    const FRIENDS_FOLLOWERS = "friends&followers";
+    const FRIENDS_FOLLOWERS = "followers";
     const PUBLIC = "public";
 }

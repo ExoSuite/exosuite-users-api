@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFollowRequest;
+use App\Http\Requests\DeleteFollowsRequest;
+use App\Http\Requests\GetFollowsRequest;
 use App\Models\Follow;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Response;
 
@@ -29,17 +30,18 @@ class FollowsController extends Controller
         return $follow;
     }
 
-    public function AmIFollowing($id)
+    public function AmIFollowing(GetFollowsRequest $request, $id)
     {
-        //$data = $request->validated();
+        $request->validated();
         if (Follow::whereUserId(auth()->user()->id)->whereFollowedId($id)->exists())
             return $this->ok(['status' => true]);
         else
             return $this->ok(['status' => false]);
     }
 
-    public function WhoIsFollowing($id)
+    public function WhoIsFollowing(GetFollowsRequest $request, $id)
     {
+        $request->validated();
         if (Follow::whereFollowedId($id)->exists())
             return $this->ok(Follow::whereFollowedId($id)->get()->pluck('user_id'));
         else
@@ -47,16 +49,16 @@ class FollowsController extends Controller
 
     }
 
-    public function delete(CreateFollowRequest $request)
+    public function delete(DeleteFollowsRequest $request, $followed_id)
     {
-        $data = $request->validated();
-        $entity = Follow::whereUserId(auth()->user()->id)->whereFollowedId($data['id']);
+        $request->validated();
+        $entity = Follow::whereUserId(auth()->user()->id)->whereFollowedId($followed_id);
         if ($entity->exists())
         {
             $entity->delete();
             return $this->noContent();
         }
         else
-            return JsonResponse::HTTP_BAD_REQUEST;
+            return $this->badRequest("You're not following this user.");
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\RequestTypeValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreatePendingRequest extends FormRequest
@@ -24,8 +25,8 @@ class CreatePendingRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|string',
-            'target_id' => 'required|exists:users'
+            'type' => ['required', 'string', new RequestTypeValidationRule()],
+            'target_id' => 'required|exists:users,id'
         ];
     }
 }

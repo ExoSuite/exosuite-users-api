@@ -14,11 +14,7 @@ class UpdateCommentaryRequest extends FormRequest
      */
     public function authorize()
     {
-        $comm = Commentary::whereId($this->get('id'))->first();
-        if ($comm['author_id'] == auth()->user()->id)
-            return true;
-        else
-            return false;
+        return true;
     }
 
     /**

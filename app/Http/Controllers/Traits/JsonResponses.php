@@ -65,4 +65,23 @@ trait JsonResponses
         return Response::json($this->toArray($data))
             ->setStatusCode(HttpResponse::HTTP_OK);
     }
+
+    /**
+     * @param $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function badRequest($message)
+    {
+        return Response::json(['message' => $message])
+            ->setStatusCode(HttpResponse::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function forbidden($message)
+    {
+        return Response::json(['message' => $message])->setStatusCode(HttpResponse::HTTP_FORBIDDEN);
+    }
 }

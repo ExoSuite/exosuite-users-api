@@ -17,43 +17,30 @@ class LikesController extends Controller
         return Like::create($data);
     }
 
-    private function deleteLike(array $data)
-    {
-        $like = Like::whereLikedId($data['liked_id'])->whereLikerId(auth()->user()->id)->first();
-        $like->delete();
-    }
-
-    private function getLikesId(array $data)
-    {
-        return Like::whereLikedId($data['liked_id'])->get();
-    }
-
-    private function getLikersLikes(array $data)
-    {
-        return Like::whereLikerId($data['liker_id'])->get();
-    }
-
     public function store(CreateLikeRequest $request)
     {
         $like = $this->createLike($request->validated());
         return $this->created($like);
     }
 
-    public function delete(DeleteLikeRequest $request)
+    public function delete(DeleteLikeRequest $request, $entity_id)
     {
-        $this->deleteLike($request->validated());
+        $request->validated();
+        Like::whereLikedId($entity_id)->whereLikerId(auth()->user()->id)->delete();
         return $this->noContent();
     }
 
-    public function getLikesFromID(GetLikesFromIdRequest $request)
+    public function getLikesFromID(GetLikesFromIdRequest $request, $entity_id)
     {
-        $likes = $this->getLikesId($request->validated());
+        $request->validated();
+        $likes = Like::whereLikedId($entity_id)->get();
         return $this->ok($likes);
     }
 
-    public function getLikesFromLiker(GetLikesFromLikerRequest $request)
+    public function getLikesFromLiker(GetLikesFromLikerRequest $request, $user_id)
     {
-        $likes = $this->getLikersLikes($request->validated());
+        $request->validated();
+        $likes = Like::whereLikerId($user_id)->get();
         return $this->ok($likes);
     }
 }

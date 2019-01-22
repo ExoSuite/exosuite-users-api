@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Abstracts\RouteParamRequest;
+use App\Models\PendingRequest;
 
-class GetDashboardInfosRequest extends FormRequest
+class DeletePendingRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,7 @@ class GetDashboardInfosRequest extends FormRequest
     public function rules()
     {
         return [
-            "id" => "required|uuid|exists:users"
+            'request_id' => "required|uuid|exists:pending_requests"
         ];
     }
 }

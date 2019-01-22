@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\PendingRequest;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Abstracts\RouteParamRequest;
 
-class AnswerFriendshipRequest extends FormRequest
+class GetDashboardIdRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,7 @@ class AnswerFriendshipRequest extends FormRequest
     public function rules()
     {
         return [
-            'request_id' => 'required|uuid|exists:pending_requests'
+            'owner_id' => 'required|uuid|exists:users,id'
         ];
     }
 }

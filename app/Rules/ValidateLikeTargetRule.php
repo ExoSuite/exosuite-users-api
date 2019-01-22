@@ -3,18 +3,23 @@
 namespace App\Rules;
 
 use App\Enums\LikableEntities;
+use App\Models\Commentary;
+use App\Models\Post;
+use App\Models\Run;
 use Illuminate\Contracts\Validation\Rule;
 
 class ValidateLikeTargetRule implements Rule
 {
+    private $target_type;
+
     /**
      * Create a new rule instance.
      *
-     * @return void
+     * @param $target_type
      */
-    public function __construct()
+    public function __construct($target_type)
     {
-        //
+        $this->target_type = $target_type;
     }
 
     /**
@@ -26,7 +31,33 @@ class ValidateLikeTargetRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return LikableEntities::hasValue($value);
+        switch ($this->target_type) {
+            case LikableEntities::COMMENTARY : {
+                if (Commentary::whereId($value)->exists())
+                    return true;
+                else
+                    return false;
+                break;
+            }
+            case LikableEntities::POST : {
+                if (Post::whereId($value)->exists())
+                    return true;
+                else
+                    return false;
+                break;
+            }
+            case LikableEntities::RUN : {
+                if (Run::whereId($value)->exists())
+                    return true;
+                else
+                    return false;
+                break;
+            }
+            default : {
+                return false;
+                break;
+            }
+        }
     }
 
     /**
@@ -36,6 +67,6 @@ class ValidateLikeTargetRule implements Rule
      */
     public function message()
     {
-        return 'Bad entity provided.';
+        return 'Unknown entity id provided.';
     }
 }

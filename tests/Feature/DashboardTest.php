@@ -22,9 +22,7 @@ class DashboardTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create();
-        $this->dash['owner_id'] = $this->user->id;
-        $this->dash['restriction'] = Restriction::FRIENDS;
+        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
     }
 
     /**
@@ -35,21 +33,23 @@ class DashboardTest extends TestCase
     public function testGetDashboardId()
     {
         Passport::actingAs($this->user);
-        $response = $this->get($this->route('getSomeoneDashboardId'), ['id' => $this->user->id]);
+        $response = $this->get(route('getSomeoneDashboardId', ['owner_id' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
+        $this->assertEquals(1, count($response->decodeResponseJson()));
     }
 
     public function testGetRestriction()
     {
         Passport::actingAs($this->user);
-        $response = $this->get($this->route('getRestriction'));
+        $response = $this->get(route('getRestriction'));
         $response->assertStatus(Response::HTTP_OK);
+        $this->assertEquals(1, count($response->decodeResponseJson()));
     }
 
     public function testChangeRestriction()
     {
         Passport::actingAs($this->user);
-        $response = $this->patch($this->route("changeRestriction"), ['restriction' => Restriction::PUBLIC]);
+        $response = $this->patch(route("changeRestriction"), ['restriction' => Restriction::PUBLIC]);
         $response->assertStatus(Response::HTTP_OK);
     }
 }

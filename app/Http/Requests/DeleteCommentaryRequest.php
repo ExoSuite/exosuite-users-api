@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Abstracts\RouteParamRequest;
 use App\Models\Commentary;
 use App\Models\Dashboard;
 use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteCommentaryRequest extends FormRequest
+class DeleteCommentaryRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,16 +17,7 @@ class DeleteCommentaryRequest extends FormRequest
      */
     public function authorize()
     {
-        $comm = Commentary::whereId($this->get('id'))->first();
-        $post = Post::whereId($comm['post_id'])->first();
-        $dashboard = Dashboard::whereId($post['dashboard_id'])->first();
-        $owner = $dashboard['owner_id'];
-        if (auth()->user()->id == $owner
-            || auth()->user()->id == $post['author_id']
-            || auth()->user()->id == $comm['author_id'])
-            return true;
-        else
-            return false;
+        return true;
     }
 
     /**
@@ -36,7 +28,7 @@ class DeleteCommentaryRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|uuid|exists:commentaries'
+            'commentary_id' => 'required|uuid|exists:commentaries,id'
         ];
     }
 }

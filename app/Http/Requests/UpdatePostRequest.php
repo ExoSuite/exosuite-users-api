@@ -14,11 +14,7 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize()
     {
-        $post = Post::whereId($this->get('id'))->first();
-        if ($post['author_id'] == auth()->user()->id)
-            return true;
-        else
-            return false;
+        return true;
     }
 
     /**

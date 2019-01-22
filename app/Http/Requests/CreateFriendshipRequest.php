@@ -24,7 +24,7 @@ class CreateFriendshipRequest extends FormRequest
     public function rules()
     {
         return [
-            "target_id" => "required|uuid"
+            "target_id" => "required|uuid|exists:users,id"
         ];
     }
 }

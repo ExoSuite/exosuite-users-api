@@ -4,6 +4,9 @@ namespace Tests\Feature;
 
 use App\Enums\Restriction;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Dashboard;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -23,9 +26,7 @@ class PostTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $this->dashboard = factory(Dashboard::class)->create();
-        $this->dashboard['owner_id'] = $this->user->id;
-        $this->dashboard['restriction'] = Restriction::PUBLIC;
+        $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
         $this->user1 = factory(User::class)->create();
 
     }
@@ -38,36 +39,38 @@ class PostTest extends TestCase
     public function testPost()
     {
         Passport::actingAs($this->user);
-        $response = $this->post($this->route('storePost'), ['dashboard_id' => $this->dashboard->id, 'content' => str_random(10)]);
+        $response = $this->post(route('storePost'), ['dashboard_id' => $this->dashboard->id, 'content' => str_random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Post())->getFillable());
+        $this->assertDatabaseHas('posts', $response->decodeResponseJson());
     }
 
     public function testUpdate()
     {
         Passport::actingAs($this->user);
-        $post = factory(Post::class)->create();
-        $post['dashboard_id'] = $this->dashboard->id;
-        $post['author_id'] = $this->user->id;
-        $post['content'] = "";
-        $response = $this->patch($this->route('patchPost'), ['id' => $post->id, 'content' => str_random(10)]);
+        $content = str_random(10);
+        $post = factory(Post::class)->create(['dashboard_id' => $this->dashboard->id, 'author_id' => $this->user->id, 'content' => str_random(10)]);
+        $response = $this->patch(route('patchPost'), ['id' => $post->id, 'content' => $content]);
         $response->assertStatus(Response::HTTP_OK);
+        $this->assertDatabaseHas('posts', ['id' => $post->id, 'author_id' => $this->user->id, 'content' => $content]);
     }
 
     public function testDelete()
     {
         Passport::actingAs($this->user);
-        $post = factory(Post::class)->create();
-        $post['dashboard_id'] = $this->dashboard->id;
-        $post['author_id'] = $this->user->id;
-        $response = $this->delete($this->route('deletePost'), ['id' => $post->id]);
+        $post_response = $this->post(route('storePost'), ['dashboard_id' => $this->dashboard->id, 'content' => str_random(10)]);
+        $response = $this->delete(route('deletePost', ['post_id' => $post_response->decodeResponseJson('id')]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->assertDatabaseMissing('posts', $post_response->decodeResponseJson());
     }
 
     public function testGetfromDashboard()
     {
         Passport::actingAs($this->user);
-        $response = $this->get($this->route('getPosts'), ['dashboard_id' => $this->dashboard->id]);
+        for ($i = 0; $i < 5 ; $i++)
+            factory(Post::class)->create(['dashboard_id' => $this->dashboard->id, 'author_id' => $this->user->id, 'content' => str_random(10)]);
+        $response = $this->get(route('getPosts', ['dashboard_id' => $this->dashboard->id]));
         $response->assertStatus(Response::HTTP_OK);
+        $this->assertEquals(5, count($response->decodeResponseJson()));
     }
 }

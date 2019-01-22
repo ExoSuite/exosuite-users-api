@@ -2,11 +2,15 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Abstracts\RouteParamRequest;
 use App\Models\Dashboard;
+use App\Models\Follow;
 use App\Models\Post;
+use App\Enums\Restriction;
+use App\Models\Friendship;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetCommentariesRequest extends FormRequest
+class GetCommentariesRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,39 +19,7 @@ class GetCommentariesRequest extends FormRequest
      */
     public function authorize()
     {
-        $post = Post::whereId($this->get('id'))->first();
-        $dashboard = Dashboard::whereId($post['dashboard_id'])->first();
-        $owner_id = $dashboard['owner_id'];
-        if ($owner_id !== auth()->user()->id)
-        {
-            switch ($dashboard['restriction'])
-            {
-                case Restriction::PUBLIC:{
-                    return true;
-                }
-                case Restriction::FRIENDS:{
-                    if (Friendship::whereUserId(auth()->user()->id)->where('friend_id', $owner_id)->exists())
-                        return true;
-                    else
-                        return false;
-                }
-                case Restriction::FRIENDS_FOLLOWERS:{
-                    if (Friendship::whereUserId(auth()->user()->id)->where('friend_id', $owner_id)->exists())
-                        return true;
-                    elseif (Follow::whereFollowedId($owner_id)->where('user_id', auth()->user()->id)->exists())
-                        return true;
-                    else
-                        return false;
-                }
-                default:{
-                    return false;
-                }
-            }
-        }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 
     /**
@@ -58,7 +30,7 @@ class GetCommentariesRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|uuid|exists:posts'
+            'post_id' => 'required|uuid|exists:posts,id'
         ];
     }
 }

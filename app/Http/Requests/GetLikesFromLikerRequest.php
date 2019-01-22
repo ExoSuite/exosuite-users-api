@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Abstracts\RouteParamRequest;
 use App\Models\Like;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetLikesFromLikerRequest extends FormRequest
+class GetLikesFromLikerRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +26,7 @@ class GetLikesFromLikerRequest extends FormRequest
     public function rules()
     {
         return [
-            "liker_id" => "required|uuid"
+            "user_id" => "required|uuid|exists:users,id"
         ];
     }
 }

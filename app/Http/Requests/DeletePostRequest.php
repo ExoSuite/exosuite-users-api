@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Requests\Abstracts\RouteParamRequest;
 use App\Models\Dashboard;
 use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeletePostRequest extends FormRequest
+class DeletePostRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,13 +16,7 @@ class DeletePostRequest extends FormRequest
      */
     public function authorize()
     {
-        $post = Post::whereId($this->get('id'))->first();
-        $dashboard = Dashboard::whereId($post['dashboard_id'])->first();
-        $owner_id = $dashboard['owner_id'];
-        if ($post['author_id'] == auth()->user()->id || auth()->user()->id == $owner_id)
-            return true;
-        else
-            return false;
+        return true;
     }
 
     /**
@@ -32,7 +27,7 @@ class DeletePostRequest extends FormRequest
     public function rules()
     {
         return [
-            "id" => 'required|uuid|exists:posts'
+            "post_id" => 'required|uuid|exists:posts,id'
         ];
     }
 }
