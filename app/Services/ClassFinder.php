@@ -18,7 +18,9 @@ class ClassFinder
     private static function getClassesInNamespace($namespace)
     {
         $files = scandir(self::getNamespaceDirectory($namespace));
-        if (!$files) return null;
+        if (!$files) {
+            return null;
+        }
 
         $classes = array_map(function (string $file) use ($namespace) {
             return $namespace . '\\' . str_replace('.php', '', $file);
@@ -34,7 +36,9 @@ class ClassFinder
     {
         $composerJsonPath = self::appRoot . 'composer.json';
         $content = file_get_contents($composerJsonPath);
-        if (!$content) return null;
+        if (!$content) {
+            return null;
+        }
         $composerConfig = json_decode($content);
 
         return (array)$composerConfig->autoload->{"psr-4"};
@@ -68,5 +72,4 @@ class ClassFinder
     {
         return self::getClassesInNamespace(self::indexesNamespace);
     }
-
 }

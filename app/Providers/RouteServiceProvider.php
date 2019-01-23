@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Enums\BindType;
+use App\Models\CheckPoint;
+use App\Models\Group;
+use App\Models\Message;
+use App\Models\Notification;
+use App\Models\Run;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Webpatser\Uuid\Uuid;
@@ -34,12 +40,18 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        Route::bind('uuid', function ($uuid) {
+        Route::bind(BindType::UUID, function ($uuid) {
             if (Uuid::validate($uuid)) {
                 return Uuid::import($uuid);
             }
             throw new UnprocessableEntityHttpException("Bad uuid");
         });
+        Route::model(BindType::GROUP, Group::class);
+        Route::model(BindType::MESSAGE, Message::class);
+        Route::model(BindType::NOTIFICATION, Notification::class);
+        Route::model(BindType::USER, User::class);
+        Route::bind('run_id', Run::class);
+        Route::bind('checkpoint_id', CheckPoint::class);
     }
 
 

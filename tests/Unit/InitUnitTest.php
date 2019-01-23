@@ -18,6 +18,6 @@ class InitUnitTest extends TestCase
      */
     public function testDatabaseConnection()
     {
-        $this->assertDatabaseMissing('users', [ 'email' => $this->faker->safeEmail ]);
+        $this->assertDatabaseMissing('users', ['email' => $this->faker->safeEmail]);
     }
 }

@@ -6,7 +6,6 @@ use App\Enums\Visibility;
 use App\Models\Abstracts\UuidModel;
 use App\Models\Traits\Shareable;
 use App\Pivots\UserShare;
-use Webpatser\Uuid\Uuid;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -31,7 +30,7 @@ class Run extends UuidModel
      * @var array
      */
     protected $fillable = [
-        'id', 'description', 'creator_id', 'visibility', 'name'
+        'id', 'description', 'creator_id', 'visibility', 'name', 'updated_at', 'created_at'
     ];
 
     /**

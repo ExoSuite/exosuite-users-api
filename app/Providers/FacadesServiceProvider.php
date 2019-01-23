@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\ApiHelper;
 use App\Services\AdministratorServices;
+use App\Services\ApiHelper;
 use App\Services\InternalRequest;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;

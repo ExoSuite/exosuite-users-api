@@ -4,8 +4,8 @@ namespace App\Notifications;
 
 use App\Enums\Queue;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
+use Illuminate\Notifications\Notification;
 
 abstract class ExoSuiteNotification extends Notification
 {
