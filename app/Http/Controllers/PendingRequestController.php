@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePendingRequest;
-use App\Http\Requests\DeletePendingRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\PendingRequest\CreatePendingRequest;
+use App\Http\Requests\PendingRequest\DeletePendingRequest;
 use App\Models\PendingRequest;
 
 class PendingRequestController extends Controller

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePostRequest;
-use App\Http\Requests\DeletePostRequest;
-use App\Http\Requests\GetPostsRequest;
-use App\Http\Requests\UpdatePostRequest;
+use App\Http\Requests\Post\CreatePostRequest;
+use App\Http\Requests\Post\DeletePostRequest;
+use App\Http\Requests\Post\GetPostsRequest;
+use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Dashboard;
 use App\Enums\Restriction;
 use App\Models\Friendship;

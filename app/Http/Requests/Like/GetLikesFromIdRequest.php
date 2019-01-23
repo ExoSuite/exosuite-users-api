@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Like;
 
 use App\Http\Requests\Abstracts\RouteParamRequest;
 
-class GetFriendshipsRequest extends RouteParamRequest
+class GetLikesFromIdRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class GetFriendshipsRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            'target_id' => 'required|uuid|exists:users,id'
+            "entity_id" => "required|uuid"
         ];
     }
 }

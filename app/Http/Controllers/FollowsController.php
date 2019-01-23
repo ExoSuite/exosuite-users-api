@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateFollowRequest;
-use App\Http\Requests\DeleteFollowsRequest;
-use App\Http\Requests\GetFollowsRequest;
+use App\Http\Requests\Follow\CreateFollowRequest;
+use App\Http\Requests\Follow\DeleteFollowsRequest;
+use App\Http\Requests\Follow\GetFollowsRequest;
 use App\Models\Follow;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Response;
 

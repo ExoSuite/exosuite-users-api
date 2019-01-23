@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\PendingRequest;
 
-use App\Http\Requests\Abstracts\RouteParamRequest;
+use App\Rules\RequestTypeValidationRule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteFriendshipRequest extends RouteParamRequest
+class CreatePendingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,8 @@ class DeleteFriendshipRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            "target_id" => "required|uuid|exists:users,id"
+            'type' => ['required', 'string', new RequestTypeValidationRule()],
+            'target_id' => 'required|exists:users,id'
         ];
     }
 }

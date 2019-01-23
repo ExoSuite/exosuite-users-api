@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Restriction;
-use App\Http\Requests\ChangeRestrictionRequest;
-use App\Http\Requests\GetDashboardIdRequest;
+use App\Http\Requests\Dashboard\ChangeRestrictionRequest;
+use App\Http\Requests\Dashboard\GetDashboardIdRequest;
 use App\Models\Dashboard;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Response as HttpResponse;

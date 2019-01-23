@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Follow;
 
-use App\Rules\RestrictionsTypeRule;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Abstracts\RouteParamRequest;
 
-class ChangeRestrictionRequest extends FormRequest
+class DeleteFollowsRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,7 @@ class ChangeRestrictionRequest extends FormRequest
     public function rules()
     {
         return [
-            "restriction" => ['required', new RestrictionsTypeRule()]
+            'target_id' => 'required|uuid|exists:users,id'
         ];
     }
 }

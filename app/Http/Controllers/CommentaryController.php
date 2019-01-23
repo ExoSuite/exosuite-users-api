@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateCommentaryRequest;
-use App\Http\Requests\DeleteCommentaryRequest;
-use App\Http\Requests\GetCommentariesRequest;
-use App\Http\Requests\UpdateCommentaryRequest;
+use App\Http\Requests\Commentary\CreateCommentaryRequest;
+use App\Http\Requests\Commentary\DeleteCommentaryRequest;
+use App\Http\Requests\Commentary\GetCommentariesRequest;
+use App\Http\Requests\Commentary\UpdateCommentaryRequest;
 use App\Models\Commentary;
 use App\Models\Dashboard;
 use App\Models\Post;
@@ -13,7 +13,7 @@ use App\Enums\Restriction;
 use App\Models\Friendship;
 use App\Models\Follow;
 
-class CommsController extends Controller
+class CommentaryController extends Controller
 {
     private function createComm(array $data)
     {

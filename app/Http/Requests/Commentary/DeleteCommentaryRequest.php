@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Commentary;
 
 use App\Http\Requests\Abstracts\RouteParamRequest;
 use App\Models\Commentary;

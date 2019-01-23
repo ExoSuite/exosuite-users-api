@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Friendship;
 
-use App\Models\Commentary;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Abstracts\RouteParamRequest;
 
-class UpdateCommentaryRequest extends FormRequest
+class DeleteFriendshipRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +24,7 @@ class UpdateCommentaryRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|uuid|exists:commentaries',
-            'content' => 'required|min:1'
+            "target_id" => "required|uuid|exists:users,id"
         ];
     }
 }

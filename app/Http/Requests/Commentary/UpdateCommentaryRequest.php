@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Commentary;
 
-use App\Rules\CheckPostExistenceRule;
+use App\Models\Commentary;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCommentaryRequest extends FormRequest
+class UpdateCommentaryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class CreateCommentaryRequest extends FormRequest
     public function rules()
     {
         return [
-            "post_id" => ['required', 'uuid', new CheckPostExistenceRule()],
+            'id' => 'required|uuid|exists:commentaries',
             'content' => 'required|min:1'
         ];
     }

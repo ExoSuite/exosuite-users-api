@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\PendingRequest;
 
 use App\Http\Requests\Abstracts\RouteParamRequest;
+use App\Models\PendingRequest;
 
-class DeleteFollowsRequest extends RouteParamRequest
+class DeletePendingRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,7 @@ class DeleteFollowsRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            'target_id' => 'required|uuid|exists:users,id'
+            'request_id' => "required|uuid|exists:pending_requests"
         ];
     }
 }

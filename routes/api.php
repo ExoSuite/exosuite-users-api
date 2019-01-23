@@ -90,10 +90,10 @@ Route::middleware('auth:api')->group(function () {
 
         //COMMENTARIES-----------------------------------------------------------------------------------------
         Route::prefix('commentary')->group(function () {
-            Route::post('/', 'CommsController@store')->name('storeCommentary');
-            Route::patch('/', 'CommsController@updateComm')->name('updateCommentary');
-            Route::get('/{post_id}', 'CommsController@getCommsFromPost')->name('getComms');
-            Route::delete('/{commentary_id}', 'CommsController@deleteComm')->name('deleteCommentary');
+            Route::post('/', 'CommentaryController@store')->name('storeCommentary');
+            Route::patch('/', 'CommentaryController@updateComm')->name('updateCommentary');
+            Route::get('/{post_id}', 'CommentaryController@getCommsFromPost')->name('getComms');
+            Route::delete('/{commentary_id}', 'CommentaryController@deleteComm')->name('deleteCommentary');
         });
 
         //LIKES---------------------------------------------------------------------------------------------------

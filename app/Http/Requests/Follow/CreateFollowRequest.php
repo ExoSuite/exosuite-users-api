@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Follow;
 
-use App\Http\Requests\Abstracts\RouteParamRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-class GetFollowsRequest extends RouteParamRequest
+class CreateFollowRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class GetFollowsRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            'target_id' => 'required|uuid|exists:users,id'
+            'id' => 'required|uuid|exists:users'
         ];
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Like;
 
-use App\Http\Requests\Abstracts\RouteParamRequest;
-use App\Models\PendingRequest;
+use App\Rules\ValidateLikeTargetRule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class DeletePendingRequest extends RouteParamRequest
+class CreateLikeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,8 @@ class DeletePendingRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            'request_id' => "required|uuid|exists:pending_requests"
+            "liked_type" => "required|string|in:run,post,commentary",
+            "liked_id" => ["required", "uuid", new ValidateLikeTargetRule($this->get("liked_type"))]
         ];
     }
 }

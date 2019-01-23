@@ -1,16 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Dashboard;
 
 use App\Http\Requests\Abstracts\RouteParamRequest;
-use App\Models\Dashboard;
-use App\Models\Follow;
-use App\Models\Post;
-use App\Enums\Restriction;
-use App\Models\Friendship;
-use Illuminate\Foundation\Http\FormRequest;
 
-class GetCommentariesRequest extends RouteParamRequest
+class GetDashboardIdRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,7 +24,7 @@ class GetCommentariesRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            'post_id' => 'required|uuid|exists:posts,id'
+            'owner_id' => 'required|uuid|exists:users,id'
         ];
     }
 }

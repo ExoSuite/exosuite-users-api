@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Like;
 
-use App\Rules\ValidateLikeTargetRule;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Abstracts\RouteParamRequest;
 
-class CreateLikeRequest extends FormRequest
+class DeleteLikeRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +24,7 @@ class CreateLikeRequest extends FormRequest
     public function rules()
     {
         return [
-            "liked_type" => "required|string|in:run,post,commentary",
-            "liked_id" => ["required", "uuid", new ValidateLikeTargetRule($this->get("liked_type"))]
+            "entity_id" => "required|uuid|exists:likes,liked_id"
         ];
     }
 }

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Post;
 
+use App\Rules\DashboardRestrictionRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateFriendshipRequest extends FormRequest
+class CreatePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,8 @@ class CreateFriendshipRequest extends FormRequest
     public function rules()
     {
         return [
-            "target_id" => "required|uuid|exists:users,id"
+            "dashboard_id" => 'required|uuid|exists:dashboards,id',
+            "content" => 'required|min:1'
         ];
     }
 }

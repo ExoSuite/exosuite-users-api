@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Friendship;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Abstracts\RouteParamRequest;
 
-class CreateFollowRequest extends FormRequest
+class GetFriendshipsRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class CreateFollowRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|uuid|exists:users'
+            'target_id' => 'required|uuid|exists:users,id'
         ];
     }
 }

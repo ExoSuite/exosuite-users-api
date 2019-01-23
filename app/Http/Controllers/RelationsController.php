@@ -6,10 +6,10 @@ use App\Models\PendingRequest;
 use App\Models\Friendship;
 use App\Http\Controllers\Traits\JsonResponses;
 use App\Enums\RequestTypesEnum;
-use App\Http\Requests\CreateFriendshipRequest;
-use App\Http\Requests\AnswerFriendshipRequest;
-use App\Http\Requests\GetFriendshipsRequest;
-use App\Http\Requests\DeleteFriendshipRequest;
+use App\Http\Requests\Friendship\CreateFriendshipRequest;
+use App\Http\Requests\Friendship\AnswerFriendshipRequest;
+use App\Http\Requests\Friendship\GetFriendshipsRequest;
+use App\Http\Requests\Friendship\DeleteFriendshipRequest;
 
 class RelationsController extends Controller
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Post;
 
 use App\Http\Requests\Abstracts\RouteParamRequest;
 
-class GetLikesFromIdRequest extends RouteParamRequest
+class DeletePostRequest extends RouteParamRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class GetLikesFromIdRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            "entity_id" => "required|uuid"
+            "post_id" => 'required|uuid|exists:posts,id'
         ];
     }
 }

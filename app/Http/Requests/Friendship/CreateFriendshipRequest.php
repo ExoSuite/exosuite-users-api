@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Friendship;
 
-use App\Rules\RequestTypeValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePendingRequest extends FormRequest
+class CreateFriendshipRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +24,7 @@ class CreatePendingRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => ['required', 'string', new RequestTypeValidationRule()],
-            'target_id' => 'required|exists:users,id'
+            "target_id" => "required|uuid|exists:users,id"
         ];
     }
 }

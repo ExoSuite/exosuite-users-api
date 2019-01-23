@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateLikeRequest;
-use App\Http\Requests\DeleteLikeRequest;
-use App\Http\Requests\GetLikesFromIdRequest;
-use App\Http\Requests\GetLikesFromLikerRequest;
+use App\Http\Requests\Like\CreateLikeRequest;
+use App\Http\Requests\Like\DeleteLikeRequest;
+use App\Http\Requests\Like\GetLikesFromIdRequest;
+use App\Http\Requests\Like\GetLikesFromLikerRequest;
 use App\Models\Like;
-use Illuminate\Http\Request;
 
 class LikesController extends Controller
 {

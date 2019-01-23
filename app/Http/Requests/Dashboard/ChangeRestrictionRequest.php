@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Dashboard;
 
-use App\Http\Requests\Abstracts\RouteParamRequest;
+use App\Rules\RestrictionsTypeRule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteLikeRequest extends RouteParamRequest
+class ChangeRestrictionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,7 @@ class DeleteLikeRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            "entity_id" => "required|uuid|exists:likes,liked_id"
+            "restriction" => ['required', new RestrictionsTypeRule()]
         ];
     }
 }
