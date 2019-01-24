@@ -13,6 +13,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Trait JsonResponses
