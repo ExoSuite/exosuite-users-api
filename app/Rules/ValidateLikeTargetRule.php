@@ -15,7 +15,7 @@ class ValidateLikeTargetRule implements Rule
     /**
      * Create a new rule instance.
      *
-     * @param $target_type
+     * @param string $target_type
      */
     public function __construct($target_type)
     {
@@ -23,10 +23,8 @@ class ValidateLikeTargetRule implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value)

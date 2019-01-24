@@ -8,11 +8,16 @@ use App\Http\Controllers\Traits\JsonResponses;
 use App\Enums\RequestTypesEnum;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Webpatser\Uuid\Uuid;
 
 class RelationsController extends Controller
 {
     use JsonResponses;
 
+    /**
+     * @param Uuid $id
+     * @return Friendship|\Illuminate\Database\Eloquent\Model
+     */
     public function createFriendship($id)
     {
         return Friendship::create(['user_id' => Auth::user()->id,
@@ -32,7 +37,6 @@ class RelationsController extends Controller
             'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
             'target_id' => $user->id
         ]);
-
         return $this->created($request);
     }
 
@@ -98,11 +102,6 @@ class RelationsController extends Controller
         return $this->ok($friends);
     }
 
-    /**
-     * @param User $user
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
     public function deleteFriendships(User $user)
     {
         $friendship_link1 = Friendship::whereFriendId($user->id)->whereUserId(Auth::user()->id);

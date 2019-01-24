@@ -67,7 +67,7 @@ trait JsonResponses
     }
 
     /**
-     * @param $message
+     * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
     protected function badRequest($message)
@@ -77,7 +77,7 @@ trait JsonResponses
     }
 
     /**
-     * @param $message
+     * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
     protected function forbidden($message)
