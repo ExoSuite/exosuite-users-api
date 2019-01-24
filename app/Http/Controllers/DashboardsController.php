@@ -12,6 +12,10 @@ use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Auth;
 
 
+/**
+ * Class DashboardsController
+ * @package App\Http\Controllers
+ */
 class DashboardsController extends Controller
 {
     /**

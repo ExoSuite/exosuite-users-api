@@ -7,6 +7,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
+/**
+ * Class FollowsController
+ * @package App\Http\Controllers
+ */
 class FollowsController extends Controller
 {
     /**

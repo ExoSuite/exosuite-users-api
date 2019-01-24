@@ -90,6 +90,15 @@ Route::middleware('auth:api')->group(function () {
 
                     Route::get('/', 'PostsController@getPostsFromDashboard')->name('get_Posts_by_dashboard_id');
 
+                    Route::prefix('{post?}/commentary')->group(function () {
+                        Route::prefix('/likes')->group(function () {
+                            Route::post('/', 'LikesController@store')->name('post_like');
+                            Route::delete('/{commentary?}', 'LikesController@delete')->name('delete_like');
+                            Route::get('/{commentary?}', 'LikesController@getLikesFromID')->name('get_likes_from_entity');
+                            Route::get('/', 'LikesController@getLikesFromLiker')->name('get_likes_from_liker');
+                        });
+                    });
+
                     Route::prefix('{post}')->group(function () {
                         Route::patch('/', 'PostsController@update')->name('patch_Post');
                         Route::delete('/', 'PostsController@delete')->name('delete_Post');

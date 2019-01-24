@@ -57,7 +57,7 @@ trait JsonResponses
     }
 
     /**
-     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable|Collection $data
+     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable|Collection|ResourceCollection $data
      * @return \Illuminate\Http\JsonResponse
      */
     protected function ok($data)

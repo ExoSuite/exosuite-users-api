@@ -13,8 +13,17 @@ use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class CommentaryController
+ * @package App\Http\Controllers
+ */
 class CommentaryController extends Controller
 {
+    /**
+     * @param array $data
+     * @param Post $post
+     * @return Commentary|\Illuminate\Database\Eloquent\Model
+     */
     private function createComm(array $data, Post $post)
     {
         $data['author_id'] = Auth::user()->id;
@@ -22,6 +31,11 @@ class CommentaryController extends Controller
         return Commentary::create($data);
     }
 
+    /**
+     * @param array $data
+     * @param Commentary $commentary
+     * @return Commentary|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     */
     private function updateCommentary(array $data, Commentary $commentary)
     {
         $comm = Commentary::whereId($commentary->id)->first();
@@ -29,18 +43,33 @@ class CommentaryController extends Controller
         return $comm;
     }
 
+    /**
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
     private function getComms(Post $post)
     {
         $comms = Commentary::wherePostId($post->id)->get();
         return $this->ok($comms);
     }
 
+    /**
+     * @param array $data
+     * @throws \Exception
+     */
     private function deleteCommentary(array $data)
     {
         $comm = Commentary::whereId($data['id'])->first();
         $comm->delete();
     }
 
+    /**
+     * @param CreateCommentaryRequest $request
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(CreateCommentaryRequest $request, User $user, Dashboard $dashboard, Post $post)
     {
         $owner_id = $dashboard->owner_id;
@@ -74,6 +103,12 @@ class CommentaryController extends Controller
             return $this->created($this->createComm($request->validated(), $post));
     }
 
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getCommsFromPost(User $user, Dashboard $dashboard, Post $post)
     {
         $owner_id = $dashboard->owner_id;
@@ -107,6 +142,14 @@ class CommentaryController extends Controller
             return $this->getComms($post);
     }
 
+    /**
+     * @param UpdateCommentaryRequest $request
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @param Commentary $commentary
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateComm(UpdateCommentaryRequest $request, User $user, Dashboard $dashboard, Post $post, Commentary $commentary)
     {
         if ($commentary->author_id == Auth::user()->id)
@@ -118,6 +161,14 @@ class CommentaryController extends Controller
             return $this->forbidden("Permission denied: You're not allow to modify this commentary.");
     }
 
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @param Commentary $commentary
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function deleteComm(User $user, Dashboard $dashboard, Post $post, Commentary $commentary)
     {
         $owner = $dashboard->owner_id;
