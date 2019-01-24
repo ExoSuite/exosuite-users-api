@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Follow;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 class FollowsController extends Controller
@@ -14,10 +15,10 @@ class FollowsController extends Controller
      */
     public function store(User $user)
     {
-        if (!Follow::whereFollowedId($user->id)->whereUserId(auth()->user()->id)->exists())
+        if (!Follow::whereFollowedId($user->id)->whereUserId(Auth::user()->id)->exists())
         {
             return $this->created(Follow::create([
-                "user_id" => auth()->user()->id,
+                "user_id" => Auth::user()->id,
                 "followed_id" => $user->id
             ]));
         }
@@ -31,7 +32,7 @@ class FollowsController extends Controller
      */
     public function AmIFollowing(User $user)
     {
-        if (Follow::whereUserId(auth()->user()->id)->whereFollowedId($user->id)->exists())
+        if (Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id)->exists())
             return $this->ok(['status' => true]);
         else
             return $this->ok(['status' => false]);
@@ -57,7 +58,7 @@ class FollowsController extends Controller
      */
     public function delete(User $user)
     {
-        $entity = Follow::whereUserId(auth()->user()->id)->whereFollowedId($user->id);
+        $entity = Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id);
         if ($entity->exists())
         {
             $entity->delete();

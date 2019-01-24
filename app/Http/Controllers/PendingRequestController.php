@@ -6,12 +6,13 @@ use App\Http\Requests\PendingRequest\CreatePendingRequest;
 use App\Http\Requests\PendingRequest\DeletePendingRequest;
 use App\Models\PendingRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PendingRequestController extends Controller
 {
     public function create(array $data, User $user)
     {
-        $data['requester_id'] = auth()->user()->id;
+        $data['requester_id'] = Auth::user()->id;
         $data['target_id'] = $user->id;
         return PendingRequest::create($data);
     }
@@ -24,13 +25,13 @@ class PendingRequestController extends Controller
 
     public function getMyPendings()
     {
-        $requests = PendingRequest::whereTargetId(auth()->user()->id)->get();
+        $requests = PendingRequest::whereTargetId(Auth::user()->id)->get();
         return $this->ok($requests);
     }
 
     public function deletePending(PendingRequest $pendingRequest)
     {
-        if ($pendingRequest->target_id == auth()->user()->id)
+        if ($pendingRequest->target_id == Auth::user()->id)
         {
             PendingRequest::whereRequestId($pendingRequest->request_id)->delete();
             return $this->noContent();

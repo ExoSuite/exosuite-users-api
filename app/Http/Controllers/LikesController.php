@@ -7,13 +7,14 @@ use App\Http\Requests\Like\DeleteLikeRequest;
 use App\Http\Requests\Like\GetLikesFromIdRequest;
 use App\Models\Like;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class LikesController extends Controller
 {
     private function createLike(array $data)
     {
         return $this->created(Like::create([
-            'liker_id' => auth()->user()->id,
+            'liker_id' => Auth::user()->id,
             'liked_id' => $data['entity_id'],
             'liked_type' => $data['entity_type']
         ]));

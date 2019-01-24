@@ -38,35 +38,35 @@ class LikesUnitTest extends TestCase
     public function testLikeWithWrongTargetType()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('like'), ['entity_id' => $this->post->id, 'entity_type' => 'wrong_type']);
+        $response = $this->post(route('post_like'), ['entity_id' => $this->post->id, 'entity_type' => 'wrong_type']);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testLikeWithWrongTargetId()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('like'), ['entity_id' => Uuid::generate()->string, 'entity_type' => LikableEntities::POST]);
+        $response = $this->post(route('post_like'), ['entity_id' => Uuid::generate()->string, 'entity_type' => LikableEntities::POST]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testUnlikeWithWrongTargetId()
     {
         Passport::actingAs($this->user);
-        $response = $this->delete(route('unlike', ['entity_id' => Uuid::generate()->string]));
+        $response = $this->delete(route('delete_like', ['entity_id' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testUnlikeWithWrongTargetType()
     {
         Passport::actingAs($this->user);
-        $response = $this->delete(route('unlike', ['entity' => $this->dash->id]));
+        $response = $this->delete(route('delete_like', ['entity' => $this->dash->id]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testGetLikesfromLikerWithWrongTargetId()
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('getlikesFromLiker', ['user' => Uuid::generate()->string]));
+        $response = $this->get(route('get_likes_from_liker', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

@@ -31,31 +31,31 @@ class PendingRequestsUnitTest extends TestCase
     public function testCreationWithBadType()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('createPending', ['user' => $this->user1->id]), ['type' => 'wrong_type']);
+        $response = $this->post(route('post_pending_request', ['user' => $this->user1->id]), ['type' => 'wrong_type']);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testCreationWithWrongUserId()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('createPending', ['user' => Uuid::generate()->string]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
+        $response = $this->post(route('post_pending_request', ['user' => Uuid::generate()->string]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testDeleteWithBadRequestId()
     {
         Passport::actingAs($this->user1);
-        $post_response = $this->post(route('createPending', ['user' => $this->user->id]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
+        $post_response = $this->post(route('post_pending_request', ['user' => $this->user->id]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
         Passport::actingAs($this->user);
-        $response = $this->delete(route('deletePending', ['request' => Uuid::generate()->string]));
+        $response = $this->delete(route('delete_pending_request', ['request' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testDeleteAsWrongTarget()
     {
         Passport::actingAs($this->user);
-        $post_response = $this->post(route('createPending', ['user' => $this->user1->id]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
-        $response = $this->delete(route('deletePending', ['request' => $post_response->decodeResponseJson('request_id')]));
+        $post_response = $this->post(route('post_pending_request', ['user' => $this->user1->id]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
+        $response = $this->delete(route('delete_pending_request', ['request' => $post_response->decodeResponseJson('request_id')]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }

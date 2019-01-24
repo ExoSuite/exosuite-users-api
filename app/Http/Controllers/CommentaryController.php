@@ -10,12 +10,13 @@ use App\Models\Post;
 use App\Enums\Restriction;
 use App\Models\Friendship;
 use App\Models\Follow;
+use Illuminate\Support\Facades\Auth;
 
 class CommentaryController extends Controller
 {
     private function createComm(array $data, Post $post)
     {
-        $data['author_id'] = auth()->user()->id;
+        $data['author_id'] = Auth::user()->id;
         $data['post_id'] = $post->id;
         return Commentary::create($data);
     }
@@ -42,7 +43,7 @@ class CommentaryController extends Controller
     public function store(CreateCommentaryRequest $request, Dashboard $dashboard, Post $post)
     {
         $owner_id = $dashboard->owner_id;
-        if ($owner_id !== auth()->user()->id && $post->author_id !== auth()->user()->id)
+        if ($owner_id !== Auth::user()->id && $post->author_id !== Auth::user()->id)
         {
             switch ($dashboard->restriction)
             {
@@ -50,15 +51,15 @@ class CommentaryController extends Controller
                     return $this->created($this->createComm($request->validated(), $post));
                 }
                 case Restriction::FRIENDS:{
-                    if (Friendship::whereUserId(auth()->user()->id)->where('friend_id', $owner_id)->exists())
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
                         return $this->created($this->createComm($request->validated(), $post));
                     else
                         return $this->forbidden("Permission denied: You're not allowed to post a commentary on this post");
                 }
                 case Restriction::FRIENDS_FOLLOWERS:{
-                    if (Friendship::whereUserId(auth()->user()->id)->where('friend_id', $owner_id)->exists())
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
                         return $this->created($this->createComm($request->validated(), $post));
-                    elseif (Follow::whereFollowedId($owner_id)->where('user_id', auth()->user()->id)->exists())
+                    elseif (Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists())
                         return $this->created($this->createComm($request->validated(), $post));
                     else
                         return $this->forbidden("Permission denied: You're not allowed to post a commentary on this post");
@@ -75,7 +76,7 @@ class CommentaryController extends Controller
     public function getCommsFromPost(Dashboard $dashboard, Post $post)
     {
         $owner_id = $dashboard->owner_id;
-        if ($owner_id !== auth()->user()->id)
+        if ($owner_id !== Auth::user()->id)
         {
             switch ($dashboard->restriction)
             {
@@ -83,15 +84,15 @@ class CommentaryController extends Controller
                     return $this->getComms($post);
                 }
                 case Restriction::FRIENDS:{
-                    if (Friendship::whereUserId(auth()->user()->id)->where('friend_id', $owner_id)->exists())
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
                         return $this->getComms($post);
                     else
                         return $this->forbidden("Permission denied: You're not allowed to access this post.");
                 }
                 case Restriction::FRIENDS_FOLLOWERS:{
-                    if (Friendship::whereUserId(auth()->user()->id)->where('friend_id', $owner_id)->exists())
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
                         return $this->getComms($post);
-                    elseif (Follow::whereFollowedId($owner_id)->where('user_id', auth()->user()->id)->exists())
+                    elseif (Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists())
                         return $this->getComms($post);
                     else
                         return $this->forbidden("Permission denied: You're not allowed to access this post.");
@@ -107,7 +108,7 @@ class CommentaryController extends Controller
 
     public function updateComm(UpdateCommentaryRequest $request, Dashboard $dashboard, Post $post, Commentary $commentary)
     {
-        if ($commentary->author_id == auth()->user()->id)
+        if ($commentary->author_id == Auth::user()->id)
         {
             $comm = $this->updateCommentary($request->validated(), $commentary);
             return $this->ok($comm);
@@ -119,9 +120,9 @@ class CommentaryController extends Controller
     public function deleteComm(Dashboard $dashboard, Post $post, Commentary $commentary)
     {
         $owner = $dashboard->owner_id;
-        if (auth()->user()->id == $owner
-            || auth()->user()->id == $post->author_id
-            || auth()->user()->id == $commentary->author_id)
+        if (Auth::user()->id == $owner
+            || Auth::user()->id == $post->author_id
+            || Auth::user()->id == $commentary->author_id)
         {
             Commentary::whereId($commentary->id)->delete();
             return $this->noContent();

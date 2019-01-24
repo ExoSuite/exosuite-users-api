@@ -9,6 +9,7 @@ use App\Models\Dashboard;
 use App\Models\User;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\Auth;
 
 
 class DashboardsController extends Controller
@@ -28,7 +29,7 @@ class DashboardsController extends Controller
             case Restriction::FRIENDS_FOLLOWERS :
             case Restriction::PRIVATE :
                 {
-                $dash = Dashboard::whereOwnerId(auth()->user()->id)->first();
+                $dash = Dashboard::whereOwnerId(Auth::user()->id)->first();
                 $dash->update(['restriction' => $new_policy->get('restriction')]);
                 return $this->ok(['restriction status' => $dash['restriction']]);
                 break;
@@ -45,7 +46,7 @@ class DashboardsController extends Controller
      */
     public function getRestriction()
     {
-        return $this->ok(['restriction' => Dashboard::whereOwnerId(auth()->user()->id)->get()->pluck('restriction')]);
+        return $this->ok(['restriction' => Dashboard::whereOwnerId(Auth::user()->id)->get()->pluck('restriction')]);
     }
 
     /**

@@ -23,7 +23,7 @@ class FollowTest extends TestCase
     {
         Passport::actingAs($this->user);
         $follower = new Follow();
-        $response = $this->post(route("follow", ["user" => $this->user1->id]));
+        $response = $this->post(route("post_follow", ["user" => $this->user1->id]));
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure(($follower)->getFillable());
         $this->assertDatabaseHas('follows', $response->decodeResponseJson());
@@ -32,8 +32,8 @@ class FollowTest extends TestCase
     public function testUnfollow()
     {
         Passport::actingAs($this->user);
-        $follow_response = $this->post(route("follow", ["user" => $this->user1->id]));
-        $response = $this->delete(route('unfollow', ["user" => $this->user1->id]));
+        $follow_response = $this->post(route("post_follow", ["user" => $this->user1->id]));
+        $response = $this->delete(route('delete_follow', ["user" => $this->user1->id]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('follows', $follow_response->decodeResponseJson());
     }
@@ -49,7 +49,7 @@ class FollowTest extends TestCase
         factory(Follow::class)->create(['user_id' => $user4->id, 'followed_id' => $this->user->id]);
 
         Passport::actingAs($this->user);
-        $response = $this->get(route("followers", ['user' => $this->user->id]));
+        $response = $this->get(route("get_followers", ['user' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(4, count($response->decodeResponseJson()));
     }
@@ -58,7 +58,7 @@ class FollowTest extends TestCase
     {
         Passport::actingAs($this->user);
         factory(Follow::class)->create(['user_id' => $this->user1->id, 'followed_id' => $this->user->id]);
-        $response = $this->get(route("amIFollowing", ['user' => $this->user->id]));
+        $response = $this->get(route("get_am_i_following", ['user' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
     }
 

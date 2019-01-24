@@ -32,7 +32,7 @@ class FollowsUnitTest extends TestCase
     public function testFollowWrongUser()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('follow', ['user' => Uuid::generate()->string]));
+        $response = $this->post(route('post_follow', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -40,7 +40,7 @@ class FollowsUnitTest extends TestCase
     {
         Passport::actingAs($this->user);
         factory(Follow::class)->create(['user_id' => $this->user->id, 'followed_id' => $this->user1->id]);
-        $response = $this->post(route('follow', ['user' => $this->user1->id]));
+        $response = $this->post(route('post_follow', ['user' => $this->user1->id]));
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson(['message' => "You're already following this user."]);
     }
@@ -48,14 +48,14 @@ class FollowsUnitTest extends TestCase
     public function testUnfollowWithWrongUser()
     {
         Passport::actingAs($this->user);
-        $response = $this->delete(route('unfollow', ['user' => Uuid::generate()->string]));
+        $response = $this->delete(route('delete_follow', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testUselessUnfollow()
     {
         Passport::actingAs($this->user);
-        $response = $this->delete(route('unfollow', ['user' => $this->user1->id]));
+        $response = $this->delete(route('delete_follow', ['user' => $this->user1->id]));
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson(['message' => "You're not following this user."]);
     }
@@ -63,14 +63,14 @@ class FollowsUnitTest extends TestCase
     public function testGetFollowersFromWrongUser()
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('followers', ['user' => Uuid::generate()->string]));
+        $response = $this->get(route('get_followers', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testAmIFollowingAWrongUser()
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('amIFollowing', ['user' => Uuid::generate()->string]));
+        $response = $this->get(route('get_am_i_following', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

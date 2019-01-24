@@ -7,6 +7,7 @@ use App\Models\Friendship;
 use App\Http\Controllers\Traits\JsonResponses;
 use App\Enums\RequestTypesEnum;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class RelationsController extends Controller
 {
@@ -14,7 +15,7 @@ class RelationsController extends Controller
 
     public function createFriendship($id)
     {
-        return Friendship::create(['user_id' => auth()->user()->id,
+        return Friendship::create(['user_id' => Auth::user()->id,
             'friend_id' => $id]);
     }
 
@@ -27,7 +28,7 @@ class RelationsController extends Controller
         $this->createFriendship($user->id);
 
         $request = PendingRequest::create([
-            'requester_id' => auth()->user()->id,
+            'requester_id' => Auth::user()->id,
             'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
             'target_id' => $user->id
         ]);
@@ -42,7 +43,7 @@ class RelationsController extends Controller
      */
     public function acceptRequest(PendingRequest $request)
     {
-        if ($request->target_id == auth()->user()->id)
+        if ($request->target_id == Auth::user()->id)
         {
             $friendship = $this->createFriendship($request->requester_id);
             $request->delete();
@@ -59,7 +60,7 @@ class RelationsController extends Controller
      */
     public function declineRequest(PendingRequest $request)
     {
-        if ($request->target_id == auth()->user()->id)
+        if ($request->target_id == Auth::user()->id)
         {
             $friendship = Friendship::whereFriendId($request->target_id)->whereUserId($request->requester_id);
             if ($friendship->exists())
@@ -83,7 +84,7 @@ class RelationsController extends Controller
      */
     public function getMyFriendships()
     {
-        $friends = Friendship::whereUserId(auth()->user()->id)->get();
+        $friends = Friendship::whereUserId(Auth::user()->id)->get();
         return $this->ok($friends);
     }
 
@@ -104,8 +105,8 @@ class RelationsController extends Controller
      */
     public function deleteFriendships(User $user)
     {
-        $friendship_link1 = Friendship::whereFriendId($user->id)->whereUserId(auth()->user()->id);
-        $friendship_link2 = Friendship::whereFriendId(auth()->user()->id)->whereUserId($user->id);
+        $friendship_link1 = Friendship::whereFriendId($user->id)->whereUserId(Auth::user()->id);
+        $friendship_link2 = Friendship::whereFriendId(Auth::user()->id)->whereUserId($user->id);
         if ($friendship_link1->exists() && $friendship_link2->exists())
         {
             $friendship_link1->delete();

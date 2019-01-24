@@ -34,14 +34,14 @@ class DashboardUnitTest extends TestCase
     public function testGetIdWithWrongUser()
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('getSomeoneDashboardId', ['user' => Uuid::generate()->string]));
+        $response = $this->get(route('get_dashboard_id', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testChangeRestrictionWithWrongValue()
     {
         Passport::actingAs($this->user);
-        $response = $this->patch(route('changeRestriction'), ['restriction' => 'wrong_value']);
+        $response = $this->patch(route('patch_dashboard_restriction'), ['restriction' => 'wrong_value']);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
