@@ -14,7 +14,7 @@ class Follow extends Model
     protected $primaryKey = 'follow_id';
 
     protected $fillable = [
-      'follow_id', 'user_id', 'followed_id'
+        'follow_id', 'user_id', 'followed_id'
     ];
 
 }

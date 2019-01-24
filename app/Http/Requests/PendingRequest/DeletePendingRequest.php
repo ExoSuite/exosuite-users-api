@@ -3,7 +3,6 @@
 namespace App\Http\Requests\PendingRequest;
 
 use App\Http\Requests\Abstracts\RouteParamRequest;
-use App\Models\PendingRequest;
 
 class DeletePendingRequest extends RouteParamRequest
 {

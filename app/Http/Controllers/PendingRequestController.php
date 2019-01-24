@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PendingRequest\CreatePendingRequest;
-use App\Http\Requests\PendingRequest\DeletePendingRequest;
 use App\Models\PendingRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -31,12 +30,10 @@ class PendingRequestController extends Controller
 
     public function deletePending(PendingRequest $pendingRequest)
     {
-        if ($pendingRequest->target_id == Auth::user()->id)
-        {
+        if ($pendingRequest->target_id == Auth::user()->id) {
             PendingRequest::whereRequestId($pendingRequest->request_id)->delete();
             return $this->noContent();
-        }
-        else
+        } else
             return $this->forbidden("Permission denied: Wrong user.");
     }
 

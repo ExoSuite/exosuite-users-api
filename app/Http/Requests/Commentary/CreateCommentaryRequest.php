@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Commentary;
 
-use App\Rules\CheckPostExistenceRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateCommentaryRequest extends FormRequest

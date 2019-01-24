@@ -19,14 +19,12 @@ class FollowsController extends Controller
      */
     public function store(User $user)
     {
-        if (!Follow::whereFollowedId($user->id)->whereUserId(Auth::user()->id)->exists())
-        {
+        if (!Follow::whereFollowedId($user->id)->whereUserId(Auth::user()->id)->exists()) {
             return $this->created(Follow::create([
                 "user_id" => Auth::user()->id,
                 "followed_id" => $user->id
             ]));
-        }
-        else
+        } else
             return $this->badRequest("You're already following this user.");
     }
 
@@ -63,12 +61,10 @@ class FollowsController extends Controller
     public function delete(User $user)
     {
         $entity = Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id);
-        if ($entity->exists())
-        {
+        if ($entity->exists()) {
             $entity->delete();
             return $this->noContent();
-        }
-        else
+        } else
             return $this->badRequest("You're not following this user.");
     }
 }

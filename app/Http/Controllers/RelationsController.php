@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PendingRequest;
-use App\Models\Friendship;
-use App\Http\Controllers\Traits\JsonResponses;
 use App\Enums\RequestTypesEnum;
+use App\Http\Controllers\Traits\JsonResponses;
+use App\Models\Friendship;
+use App\Models\PendingRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Webpatser\Uuid\Uuid;
@@ -53,8 +53,7 @@ class RelationsController extends Controller
      **/
     public function acceptRequest(PendingRequest $request)
     {
-        if ($request->target_id == Auth::user()->id)
-        {
+        if ($request->target_id == Auth::user()->id) {
             $friendship = $this->createFriendship($request->requester_id);
             $request->delete();
             return $this->ok($friendship);
@@ -69,17 +68,13 @@ class RelationsController extends Controller
      */
     public function declineRequest(PendingRequest $request)
     {
-        if ($request->target_id == Auth::user()->id)
-        {
+        if ($request->target_id == Auth::user()->id) {
             $friendship = Friendship::whereFriendId($request->target_id)->whereUserId($request->requester_id);
-            if ($friendship->exists())
-            {
+            if ($friendship->exists()) {
                 $friendship->delete();
                 $request->delete();
                 return $this->noContent();
-            }
-            else
-            {
+            } else {
                 $request->delete();
                 return $this->noContent();
             }
@@ -115,13 +110,11 @@ class RelationsController extends Controller
     {
         $friendship_link1 = Friendship::whereFriendId($user->id)->whereUserId(Auth::user()->id);
         $friendship_link2 = Friendship::whereFriendId(Auth::user()->id)->whereUserId($user->id);
-        if ($friendship_link1->exists() && $friendship_link2->exists())
-        {
+        if ($friendship_link1->exists() && $friendship_link2->exists()) {
             $friendship_link1->delete();
             $friendship_link2->delete();
             return $this->noContent();
-        }
-        else
+        } else
             return $this->badRequest("There is no such relation between you and this user.");
     }
 }

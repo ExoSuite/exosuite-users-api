@@ -29,8 +29,7 @@ class LikesController extends Controller
     {
         $request->validated();
         $like = Like::whereLikedId($entity_id);
-        if ($like->exists())
-        {
+        if ($like->exists()) {
             $like->delete();
             return $this->noContent();
         }

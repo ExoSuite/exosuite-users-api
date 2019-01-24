@@ -16,4 +16,4 @@ final class LikableEntities extends Enum
     const POST = "post";
     const COMMENTARY = "commentary";
     const RUN = "run";
- }
+}

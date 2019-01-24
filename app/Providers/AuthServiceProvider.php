@@ -24,8 +24,10 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $policies = [Message::class => MessagePolicy::class,
-        Group::class => GroupPolicy::class];
+    protected $policies = [
+        Message::class => MessagePolicy::class,
+        Group::class => GroupPolicy::class
+    ];
 
 
     /**

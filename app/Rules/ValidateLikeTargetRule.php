@@ -30,31 +30,35 @@ class ValidateLikeTargetRule implements Rule
     public function passes($attribute, $value)
     {
         switch ($this->target_type) {
-            case LikableEntities::COMMENTARY : {
-                if (Commentary::whereId($value)->exists())
-                    return true;
-                else
+            case LikableEntities::COMMENTARY :
+                {
+                    if (Commentary::whereId($value)->exists())
+                        return true;
+                    else
+                        return false;
+                    break;
+                }
+            case LikableEntities::POST :
+                {
+                    if (Post::whereId($value)->exists())
+                        return true;
+                    else
+                        return false;
+                    break;
+                }
+            case LikableEntities::RUN :
+                {
+                    if (Run::whereId($value)->exists())
+                        return true;
+                    else
+                        return false;
+                    break;
+                }
+            default :
+                {
                     return false;
-                break;
-            }
-            case LikableEntities::POST : {
-                if (Post::whereId($value)->exists())
-                    return true;
-                else
-                    return false;
-                break;
-            }
-            case LikableEntities::RUN : {
-                if (Run::whereId($value)->exists())
-                    return true;
-                else
-                    return false;
-                break;
-            }
-            default : {
-                return false;
-                break;
-            }
+                    break;
+                }
         }
     }
 

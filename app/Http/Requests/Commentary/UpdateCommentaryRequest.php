@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Commentary;
 
-use App\Models\Commentary;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCommentaryRequest extends FormRequest

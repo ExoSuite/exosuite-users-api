@@ -9,7 +9,6 @@
 namespace App\Http\Controllers\Traits;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Collection;
@@ -57,7 +56,7 @@ trait JsonResponses
     }
 
     /**
-     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable|Collection|ResourceCollection $data
+     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable|Collection|ResourceCollection|JsonResource $data
      * @return \Illuminate\Http\JsonResponse
      */
     protected function ok($data)

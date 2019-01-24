@@ -10,7 +10,6 @@ namespace App\Services;
 
 use App\Contracts\ApiHelperInterface;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Http\Response;
 
 /**
  * Class ApiHelper
