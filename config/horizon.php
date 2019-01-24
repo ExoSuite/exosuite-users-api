@@ -5,18 +5,6 @@ use App\Enums\Queue;
 return [
 
     /*
-   |--------------------------------------------------------------------------
-   | Route Prefix
-   |--------------------------------------------------------------------------
-   |
-   | This is the name of the route prefix, and will define the base URL
-   | where your installation of AdministratorServices will live. If you would like
-   | AdministratorServices to live at the webroot, you can use a forward slash.
-   |
-   */
-    'uri' => 'monitoring/horizon',
-
-    /*
     |--------------------------------------------------------------------------
     | AdministratorServices Redis Connection
     |--------------------------------------------------------------------------
