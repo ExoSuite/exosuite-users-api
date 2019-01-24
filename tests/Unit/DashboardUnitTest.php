@@ -41,7 +41,9 @@ class DashboardUnitTest extends TestCase
     public function testChangeRestrictionWithWrongValue()
     {
         Passport::actingAs($this->user);
-        $response = $this->patch(route('patch_dashboard_restriction'), ['restriction' => 'wrong_value']);
+        $response = $this->patch(route('patch_dashboard_restriction', ['user' => $this->user->id]), [
+            'restriction' => 'wrong_value'
+        ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

@@ -10,6 +10,7 @@ use App\Models\Post;
 use App\Enums\Restriction;
 use App\Models\Friendship;
 use App\Models\Follow;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class CommentaryController extends Controller
@@ -40,7 +41,7 @@ class CommentaryController extends Controller
         $comm->delete();
     }
 
-    public function store(CreateCommentaryRequest $request, Dashboard $dashboard, Post $post)
+    public function store(CreateCommentaryRequest $request, User $user, Dashboard $dashboard, Post $post)
     {
         $owner_id = $dashboard->owner_id;
         if ($owner_id !== Auth::user()->id && $post->author_id !== Auth::user()->id)
@@ -73,7 +74,7 @@ class CommentaryController extends Controller
             return $this->created($this->createComm($request->validated(), $post));
     }
 
-    public function getCommsFromPost(Dashboard $dashboard, Post $post)
+    public function getCommsFromPost(User $user, Dashboard $dashboard, Post $post)
     {
         $owner_id = $dashboard->owner_id;
         if ($owner_id !== Auth::user()->id)
@@ -106,7 +107,7 @@ class CommentaryController extends Controller
             return $this->getComms($post);
     }
 
-    public function updateComm(UpdateCommentaryRequest $request, Dashboard $dashboard, Post $post, Commentary $commentary)
+    public function updateComm(UpdateCommentaryRequest $request, User $user, Dashboard $dashboard, Post $post, Commentary $commentary)
     {
         if ($commentary->author_id == Auth::user()->id)
         {
@@ -117,7 +118,7 @@ class CommentaryController extends Controller
             return $this->forbidden("Permission denied: You're not allow to modify this commentary.");
     }
 
-    public function deleteComm(Dashboard $dashboard, Post $post, Commentary $commentary)
+    public function deleteComm(User $user, Dashboard $dashboard, Post $post, Commentary $commentary)
     {
         $owner = $dashboard->owner_id;
         if (Auth::user()->id == $owner

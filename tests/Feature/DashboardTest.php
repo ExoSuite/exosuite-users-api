@@ -41,7 +41,7 @@ class DashboardTest extends TestCase
     public function testGetRestriction()
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('get_dashboard_restriction'));
+        $response = $this->get(route('get_dashboard_restriction', ['user' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(1, count($response->decodeResponseJson()));
     }
@@ -49,7 +49,9 @@ class DashboardTest extends TestCase
     public function testChangeRestriction()
     {
         Passport::actingAs($this->user);
-        $response = $this->patch(route("patch_dashboard_restriction"), ['restriction' => Restriction::PUBLIC]);
+        $response = $this->patch(route("patch_dashboard_restriction", [
+            'user' => $this->user->id
+        ]), ['restriction' => Restriction::PUBLIC]);
         $response->assertStatus(Response::HTTP_OK);
     }
 }

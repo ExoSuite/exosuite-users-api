@@ -23,7 +23,7 @@ trait JsonResponses
 {
 
     /**
-     * @param array|Model|ResourceCollection|JsonResource $data
+     * @param mixed $data
      * @return array
      */
     private function toArray($data)
@@ -45,7 +45,7 @@ trait JsonResponses
     }
 
     /**
-     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable|ResourceCollection
+     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable $data
      * @param string $location
      * @return \Illuminate\Http\JsonResponse
      */
@@ -57,7 +57,7 @@ trait JsonResponses
     }
 
     /**
-     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable|Collection
+     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable|Collection $data
      * @return \Illuminate\Http\JsonResponse
      */
     protected function ok($data)
@@ -80,7 +80,7 @@ trait JsonResponses
      * @param string $message
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function forbidden($message)
+    protected function forbidden(string $message)
     {
         return Response::json(['message' => $message])->setStatusCode(HttpResponse::HTTP_FORBIDDEN);
     }

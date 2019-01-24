@@ -10,6 +10,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class RelationsController
+ * @package App\Http\Controllers
+ */
 class RelationsController extends Controller
 {
     use JsonResponses;
@@ -37,14 +41,16 @@ class RelationsController extends Controller
             'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
             'target_id' => $user->id
         ]);
+
         return $this->created($request);
     }
+
 
     /**
      * @param PendingRequest $request
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
-     */
+     **/
     public function acceptRequest(PendingRequest $request)
     {
         if ($request->target_id == Auth::user()->id)
@@ -53,8 +59,7 @@ class RelationsController extends Controller
             $request->delete();
             return $this->ok($friendship);
         }
-        else
-            return $this->forbidden("You're not allowed to answer this request");
+        return $this->forbidden("You're not allowed to answer this request");
     }
 
     /**
@@ -79,8 +84,7 @@ class RelationsController extends Controller
                 return $this->noContent();
             }
         }
-        else
-            return $this->forbidden("You're not allowed to answer this request");
+        return $this->forbidden("You're not allowed to answer this request");
     }
 
     /**
@@ -102,6 +106,11 @@ class RelationsController extends Controller
         return $this->ok($friends);
     }
 
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function deleteFriendships(User $user)
     {
         $friendship_link1 = Friendship::whereFriendId($user->id)->whereUserId(Auth::user()->id);

@@ -26,6 +26,7 @@ class FriendshipsUnitTest extends TestCase
      * A basic test example.
      *
      * @return void
+     * @throws \Exception
      */
     public function testSendFriendshipRequestWithWrongTarget()
     {
@@ -37,7 +38,10 @@ class FriendshipsUnitTest extends TestCase
     public function testAcceptFriendshipRequestWithWrongRequestId()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('post_accept_friendship_request', ['request' => Uuid::generate()->string]));
+        $response = $this->post(route('post_accept_friendship_request', [
+            'user' => $this->user,
+            'request' => Uuid::generate()->string
+        ]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 

@@ -9,6 +9,7 @@ use App\Enums\Restriction;
 use App\Models\Friendship;
 use App\Models\Follow;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
@@ -39,7 +40,7 @@ class PostsController extends Controller
         return $post;
     }
 
-    public function store(CreatePostRequest $request, Dashboard $dashboard)
+    public function store(CreatePostRequest $request, User $user, Dashboard $dashboard)
     {
         $owner_id = $dashboard->owner_id;
         if ($owner_id !== Auth::user()->id)
@@ -72,7 +73,7 @@ class PostsController extends Controller
             return $this->created($this->createPost($request->validated(), $dashboard->id));
     }
 
-    public function update(UpdatePostRequest $request, Dashboard $dashboard, Post $post)
+    public function update(UpdatePostRequest $request, User $user, Dashboard $dashboard, Post $post)
     {
         if ($post->author_id == Auth::user()->id)
         {
@@ -83,7 +84,7 @@ class PostsController extends Controller
             return $this->forbidden("Permission denied: You're not allowed to update this post.");
     }
 
-    public function getPostsFromDashboard(Dashboard $dashboard)
+    public function getPostsFromDashboard(User $user, Dashboard $dashboard)
     {
         $owner_id = $dashboard->owner_id;
         if ($owner_id !== Auth::user()->id)
@@ -118,7 +119,7 @@ class PostsController extends Controller
         }
     }
 
-    public function delete(Dashboard $dashboard, Post $post)
+    public function delete(User $user, Dashboard $dashboard, Post $post)
     {
         $owner_id = $dashboard->owner_id;
         if ($post->author_id == Auth::user()->id || Auth::user()->id == $owner_id)
