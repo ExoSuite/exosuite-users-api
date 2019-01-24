@@ -25,7 +25,6 @@ class CreateCommentaryRequest extends FormRequest
     public function rules()
     {
         return [
-            "post_id" => ['required', 'uuid', new CheckPostExistenceRule()],
             'content' => 'required|min:1'
         ];
     }

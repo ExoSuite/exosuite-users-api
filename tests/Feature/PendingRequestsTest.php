@@ -31,7 +31,7 @@ class PendingRequestsTest extends TestCase
     public function testCreatePendinRequest()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('createPending'), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST, 'target_id' => $this->user1->id]);
+        $response = $this->post(route('createPending', ['user' => $this->user1->id]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new PendingRequest())->getFillable());
         $this->assertDatabaseHas('pending_requests', $response->decodeResponseJson());
@@ -54,9 +54,9 @@ class PendingRequestsTest extends TestCase
     public function testDeletePendingRequest()
     {
         Passport::actingAs($this->user1);
-        $post_resp = $this->post(route('createPending'), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST, 'target_id' => $this->user->id]);
+        $post_resp = $this->post(route('createPending', ['user' => $this->user->id]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
         Passport::actingAs($this->user);
-        $response = $this->delete(route('deletePending', ['request_id' => $post_resp->decodeResponseJson('request_id')]));
+        $response = $this->delete(route('deletePending', ['request' => $post_resp->decodeResponseJson('request_id')]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('pending_requests', $post_resp->decodeResponseJson());
     }

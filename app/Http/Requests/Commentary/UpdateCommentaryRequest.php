@@ -25,7 +25,6 @@ class UpdateCommentaryRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|uuid|exists:commentaries',
             'content' => 'required|min:1'
         ];
     }

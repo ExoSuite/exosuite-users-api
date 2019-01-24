@@ -25,7 +25,6 @@ class DeletePendingRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            'request_id' => "required|uuid|exists:pending_requests"
         ];
     }
 }

@@ -24,7 +24,7 @@ class DeleteLikeRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            "entity_id" => "required|uuid|exists:likes,liked_id"
+            'entity_id' => ['required', 'uuid', 'exists:likes,liked_id']
         ];
     }
 }

@@ -24,7 +24,6 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            "id" => "required|uuid|exists:posts",
             "content" => 'required|min:1'
         ];
     }

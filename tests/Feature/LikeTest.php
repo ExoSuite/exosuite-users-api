@@ -36,7 +36,7 @@ class LikeTest extends TestCase
     public function testLike()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('like'), ['liked_id' => $this->post->id, 'liked_type' => LikableEntities::POST]);
+        $response = $this->post(route('like'), ['entity_id' => $this->post->id, 'entity_type' => LikableEntities::POST]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Like())->getFillable());
         $this->assertDatabaseHas('likes', $response->decodeResponseJson());
@@ -45,7 +45,7 @@ class LikeTest extends TestCase
     public function testUnlike()
     {
         Passport::actingAs($this->user);
-        $post_resp = $this->post(route('like'), ['liked_id' => $this->post->id, 'liked_type' => LikableEntities::POST]);
+        $post_resp = $this->post(route('like'), ['entity_id' => $this->post->id, 'entity_type' => LikableEntities::POST]);
         $response = $this->delete(route('unlike', ['entity_id' => $post_resp->decodeResponseJson('liked_id')]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('likes', $post_resp->decodeResponseJson());

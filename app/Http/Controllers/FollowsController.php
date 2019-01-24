@@ -2,56 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Follow\CreateFollowRequest;
-use App\Http\Requests\Follow\DeleteFollowsRequest;
-use App\Http\Requests\Follow\GetFollowsRequest;
 use App\Models\Follow;
-use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Facades\Response;
+use App\Models\User;
 
 
 class FollowsController extends Controller
 {
-    public function createFollow(array $data)
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(User $user)
     {
-        if (Follow::whereFollowedId($data['id'])->whereUserId(auth()->user()->id)->exists())
-            return Response::json('Already following.')->setStatusCode(HttpResponse::HTTP_BAD_REQUEST);
-        else
+        if (!Follow::whereFollowedId($user->id)->whereUserId(auth()->user()->id)->exists())
+        {
             return $this->created(Follow::create([
-                'user_id' => auth()->user()->id,
-                'followed_id' => $data['id']
+                "user_id" => auth()->user()->id,
+                "followed_id" => $user->id
             ]));
+        }
+        else
+            return $this->badRequest("You're already following this user.");
     }
 
-    public function store(CreateFollowRequest $request)
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function AmIFollowing(User $user)
     {
-        $follow = $this->createFollow($request->validated());
-        return $follow;
-    }
-
-    public function AmIFollowing(GetFollowsRequest $request, $id)
-    {
-        $request->validated();
-        if (Follow::whereUserId(auth()->user()->id)->whereFollowedId($id)->exists())
+        if (Follow::whereUserId(auth()->user()->id)->whereFollowedId($user->id)->exists())
             return $this->ok(['status' => true]);
         else
             return $this->ok(['status' => false]);
     }
 
-    public function WhoIsFollowing(GetFollowsRequest $request, $id)
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function WhoIsFollowing(User $user)
     {
-        $request->validated();
-        if (Follow::whereFollowedId($id)->exists())
-            return $this->ok(Follow::whereFollowedId($id)->get()->pluck('user_id'));
+        if (Follow::whereFollowedId($user->id)->exists())
+            return $this->ok(Follow::whereFollowedId($user->id)->get()->pluck('user_id'));
         else
             return $this->noContent();
 
     }
 
-    public function delete(DeleteFollowsRequest $request, $followed_id)
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function delete(User $user)
     {
-        $request->validated();
-        $entity = Follow::whereUserId(auth()->user()->id)->whereFollowedId($followed_id);
+        $entity = Follow::whereUserId(auth()->user()->id)->whereFollowedId($user->id);
         if ($entity->exists())
         {
             $entity->delete();

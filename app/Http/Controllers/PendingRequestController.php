@@ -5,18 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PendingRequest\CreatePendingRequest;
 use App\Http\Requests\PendingRequest\DeletePendingRequest;
 use App\Models\PendingRequest;
+use App\Models\User;
 
 class PendingRequestController extends Controller
 {
-    public function create(array $data)
+    public function create(array $data, User $user)
     {
         $data['requester_id'] = auth()->user()->id;
+        $data['target_id'] = $user->id;
         return PendingRequest::create($data);
     }
 
-    public function store(CreatePendingRequest $request)
+    public function store(CreatePendingRequest $request, User $user)
     {
-        $pending = $this->create($request->validated());
+        $pending = $this->create($request->validated(), $user);
         return $this->created($pending);
     }
 
@@ -26,17 +28,15 @@ class PendingRequestController extends Controller
         return $this->ok($requests);
     }
 
-    public function deletePending(DeletePendingRequest $request, $request_id)
+    public function deletePending(PendingRequest $pendingRequest)
     {
-        $request->validated();
-        $my_request = PendingRequest::whereRequestId($request_id)->first();
-        if ($my_request['target_id'] == auth()->user()->id)
+        if ($pendingRequest->target_id == auth()->user()->id)
         {
-            PendingRequest::whereRequestId($request_id)->delete();
+            PendingRequest::whereRequestId($pendingRequest->request_id)->delete();
             return $this->noContent();
         }
         else
-            return $this->forbidden("Wrong user.");
+            return $this->forbidden("Permission denied: Wrong user.");
     }
 
 }

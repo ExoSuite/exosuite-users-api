@@ -25,8 +25,8 @@ class CreateLikeRequest extends FormRequest
     public function rules()
     {
         return [
-            "liked_type" => "required|string|in:run,post,commentary",
-            "liked_id" => ["required", "uuid", new ValidateLikeTargetRule($this->get("liked_type"))]
+            'entity_id' => ['required', 'uuid', new ValidateLikeTargetRule($this->get('entity_type'))],
+            'entity_type' => 'required|string|in:post,commentary,run'
         ];
     }
 }

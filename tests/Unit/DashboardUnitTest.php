@@ -29,11 +29,12 @@ class DashboardUnitTest extends TestCase
      * A basic test example.
      *
      * @return void
+     * @throws \Exception
      */
     public function testGetIdWithWrongUser()
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('getSomeoneDashboardId', ['owner_id' => Uuid::generate()->string]));
+        $response = $this->get(route('getSomeoneDashboardId', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 

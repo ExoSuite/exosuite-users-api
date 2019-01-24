@@ -39,7 +39,7 @@ class PostTest extends TestCase
     public function testPost()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('storePost'), ['dashboard_id' => $this->dashboard->id, 'content' => str_random(10)]);
+        $response = $this->post(route('storePost', ['dashboard' => $this->dashboard->id]), ['content' => str_random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Post())->getFillable());
         $this->assertDatabaseHas('posts', $response->decodeResponseJson());
@@ -50,7 +50,7 @@ class PostTest extends TestCase
         Passport::actingAs($this->user);
         $content = str_random(10);
         $post = factory(Post::class)->create(['dashboard_id' => $this->dashboard->id, 'author_id' => $this->user->id, 'content' => str_random(10)]);
-        $response = $this->patch(route('patchPost'), ['id' => $post->id, 'content' => $content]);
+        $response = $this->patch(route('patchPost', ['dashboard' => $this->dashboard->id, 'post' => $post->id]), ['content' => $content]);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas('posts', ['id' => $post->id, 'author_id' => $this->user->id, 'content' => $content]);
     }
@@ -58,8 +58,8 @@ class PostTest extends TestCase
     public function testDelete()
     {
         Passport::actingAs($this->user);
-        $post_response = $this->post(route('storePost'), ['dashboard_id' => $this->dashboard->id, 'content' => str_random(10)]);
-        $response = $this->delete(route('deletePost', ['post_id' => $post_response->decodeResponseJson('id')]));
+        $post_response = $this->post(route('storePost', ['dashboard' => $this->dashboard->id]), ['content' => str_random(10)]);
+        $response = $this->delete(route('deletePost', ['dashboard' => $this->dashboard->id, 'post' => $post_response->decodeResponseJson('id')]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('posts', $post_response->decodeResponseJson());
     }
@@ -69,7 +69,7 @@ class PostTest extends TestCase
         Passport::actingAs($this->user);
         for ($i = 0; $i < 5 ; $i++)
             factory(Post::class)->create(['dashboard_id' => $this->dashboard->id, 'author_id' => $this->user->id, 'content' => str_random(10)]);
-        $response = $this->get(route('getPosts', ['dashboard_id' => $this->dashboard->id]));
+        $response = $this->get(route('getPosts', ['dashboard' => $this->dashboard->id]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(5, count($response->decodeResponseJson()));
     }

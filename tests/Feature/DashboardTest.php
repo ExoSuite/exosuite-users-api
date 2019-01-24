@@ -33,7 +33,7 @@ class DashboardTest extends TestCase
     public function testGetDashboardId()
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('getSomeoneDashboardId', ['owner_id' => $this->user->id]));
+        $response = $this->get(route('getSomeoneDashboardId', ['user' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(1, count($response->decodeResponseJson()));
     }

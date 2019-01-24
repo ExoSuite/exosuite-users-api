@@ -25,7 +25,6 @@ class CreatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            "dashboard_id" => 'required|uuid|exists:dashboards,id',
             "content" => 'required|min:1'
         ];
     }

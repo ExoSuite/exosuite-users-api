@@ -6,63 +6,81 @@ use App\Models\PendingRequest;
 use App\Models\Friendship;
 use App\Http\Controllers\Traits\JsonResponses;
 use App\Enums\RequestTypesEnum;
-use App\Http\Requests\Friendship\CreateFriendshipRequest;
-use App\Http\Requests\Friendship\AnswerFriendshipRequest;
-use App\Http\Requests\Friendship\GetFriendshipsRequest;
-use App\Http\Requests\Friendship\DeleteFriendshipRequest;
+use App\Models\User;
 
 class RelationsController extends Controller
 {
     use JsonResponses;
 
-    public function createFriendship(array $data)
+    public function createFriendship($id)
     {
         return Friendship::create(['user_id' => auth()->user()->id,
-            'friend_id' => $data['target_id']]);
+            'friend_id' => $id]);
     }
 
-
-    public function sendFriendshipRequest(CreateFriendshipRequest $request)
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sendFriendshipRequest(User $user)
     {
-        $this->createFriendship($request->validated());
+        $this->createFriendship($user->id);
 
         $request = PendingRequest::create([
             'requester_id' => auth()->user()->id,
             'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
-            'target_id' => $request->get('target_id')
+            'target_id' => $user->id
         ]);
 
         return $this->created($request);
     }
 
-    public function acceptRequest(AnswerFriendshipRequest $request)
+    /**
+     * @param PendingRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function acceptRequest(PendingRequest $request)
     {
-        $data = $request->validated();
-        $pending = PendingRequest::whereRequestId($data['request_id'])->first();
-        if ($pending['target_id'] == auth()->user()->id)
+        if ($request->target_id == auth()->user()->id)
         {
-            $friendship = $this->createFriendship(['target_id' => $pending['requester_id']]);
-            $pending->delete();
+            $friendship = $this->createFriendship($request->requester_id);
+            $request->delete();
             return $this->ok($friendship);
         }
         else
             return $this->forbidden("You're not allowed to answer this request");
     }
 
-    public function declineRequest(AnswerFriendshipRequest $request)
+    /**
+     * @param PendingRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function declineRequest(PendingRequest $request)
     {
-        $data = $request->validated();
-        $pending = PendingRequest::whereRequestId($data['request_id'])->first();
-        if ($pending['target_id'] == auth()->user()->id)
+        if ($request->target_id == auth()->user()->id)
         {
-            Friendship::whereUserId($pending['requester_id'])->whereFriendId(auth()->user()->id)->delete();
-            $pending->delete();
-            return $this->noContent();
+            $friendship = Friendship::whereFriendId($request->target_id)->whereUserId($request->requester_id);
+            if ($friendship->exists())
+            {
+                $friendship->delete();
+                $request->delete();
+                return $this->noContent();
+            }
+            else
+            {
+                $request->delete();
+                return $this->noContent();
+            }
         }
         else
             return $this->forbidden("You're not allowed to answer this request");
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getMyFriendships()
     {
         $friends = Friendship::whereUserId(auth()->user()->id)->get();
@@ -70,22 +88,24 @@ class RelationsController extends Controller
     }
 
     /**
-     * @param GetFriendshipsRequest $request
-     * @param Uuid $user_id
+     * @param User $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getFriendships(GetFriendshipsRequest $request, $user_id)
+    public function getFriendships(User $user)
     {
-        $request->validated();
-        $friends = Friendship::whereUserId($user_id)->get();
+        $friends = Friendship::whereUserId($user->id)->get();
         return $this->ok($friends);
     }
 
-    public function deleteFriendships(DeleteFriendshipRequest $request, $target_id)
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function deleteFriendships(User $user)
     {
-        $request->validated();
-        $friendship_link1 = Friendship::whereFriendId($target_id)->whereUserId(auth()->user()->id);
-        $friendship_link2 = Friendship::whereFriendId(auth()->user()->id)->whereUserId($target_id);
+        $friendship_link1 = Friendship::whereFriendId($user->id)->whereUserId(auth()->user()->id);
+        $friendship_link2 = Friendship::whereFriendId(auth()->user()->id)->whereUserId($user->id);
         if ($friendship_link1->exists() && $friendship_link2->exists())
         {
             $friendship_link1->delete();

@@ -6,17 +6,22 @@ use App\Enums\Restriction;
 use App\Http\Requests\Dashboard\ChangeRestrictionRequest;
 use App\Http\Requests\Dashboard\GetDashboardIdRequest;
 use App\Models\Dashboard;
+use App\Models\User;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Response as HttpResponse;
 
 
 class DashboardsController extends Controller
 {
-    public function changeRestriction(ChangeRestrictionRequest $new_policie)
+    /**
+     * @param ChangeRestrictionRequest $new_policy
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeRestriction(ChangeRestrictionRequest $new_policy)
     {
-        $new_policie->validated();
+        $new_policy->validated();
 
-        switch ($new_policie->get('restriction'))
+        switch ($new_policy->get('restriction'))
         {
             case Restriction::PUBLIC:
             case Restriction::FRIENDS:
@@ -24,7 +29,7 @@ class DashboardsController extends Controller
             case Restriction::PRIVATE :
                 {
                 $dash = Dashboard::whereOwnerId(auth()->user()->id)->first();
-                $dash->update(['restriction' => $new_policie->get('restriction')]);
+                $dash->update(['restriction' => $new_policy->get('restriction')]);
                 return $this->ok(['restriction status' => $dash['restriction']]);
                 break;
             }
@@ -35,15 +40,21 @@ class DashboardsController extends Controller
         }
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getRestriction()
     {
         return $this->ok(['restriction' => Dashboard::whereOwnerId(auth()->user()->id)->get()->pluck('restriction')]);
     }
 
-    public function getDashboardId(GetDashboardIdRequest $request, $user_id)
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getDashboardId(User $user)
     {
-        $request->validated();
-        $dash = Dashboard::whereOwnerId($user_id)->first();
+        $dash = Dashboard::whereOwnerId($user->id)->first();
         return $this->ok(['dashboard_id' => $dash['id']]);
     }
 

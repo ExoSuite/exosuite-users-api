@@ -26,7 +26,6 @@ class CreatePendingRequest extends FormRequest
     {
         return [
             'type' => ['required', 'string', new RequestTypeValidationRule()],
-            'target_id' => 'required|exists:users,id'
         ];
     }
 }
