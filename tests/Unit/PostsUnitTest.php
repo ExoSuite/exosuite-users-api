@@ -106,7 +106,6 @@ class PostsUnitTest extends TestCase
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to access this dashboard."]);
-
     }
 
     public function testDeletePostWithWrongId()

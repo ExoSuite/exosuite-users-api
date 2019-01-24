@@ -26,10 +26,11 @@ class CheckPostExistenceRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (Post::whereId($value)->exists())
+        if (Post::whereId($value)->exists()) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**

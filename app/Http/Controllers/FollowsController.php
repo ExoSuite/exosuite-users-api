@@ -24,8 +24,9 @@ class FollowsController extends Controller
                 "user_id" => Auth::user()->id,
                 "followed_id" => $user->id
             ]));
-        } else
+        } else {
             return $this->badRequest("You're already following this user.");
+        }
     }
 
     /**
@@ -34,10 +35,11 @@ class FollowsController extends Controller
      */
     public function AmIFollowing(User $user)
     {
-        if (Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id)->exists())
+        if (Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id)->exists()) {
             return $this->ok(['status' => true]);
-        else
+        } else {
             return $this->ok(['status' => false]);
+        }
     }
 
     /**
@@ -46,11 +48,11 @@ class FollowsController extends Controller
      */
     public function WhoIsFollowing(User $user)
     {
-        if (Follow::whereFollowedId($user->id)->exists())
+        if (Follow::whereFollowedId($user->id)->exists()) {
             return $this->ok(Follow::whereFollowedId($user->id)->get()->pluck('user_id'));
-        else
+        } else {
             return $this->noContent();
-
+        }
     }
 
     /**
@@ -64,7 +66,8 @@ class FollowsController extends Controller
         if ($entity->exists()) {
             $entity->delete();
             return $this->noContent();
-        } else
+        } else {
             return $this->badRequest("You're not following this user.");
+        }
     }
 }

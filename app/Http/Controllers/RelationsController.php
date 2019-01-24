@@ -114,7 +114,8 @@ class RelationsController extends Controller
             $friendship_link1->delete();
             $friendship_link2->delete();
             return $this->noContent();
-        } else
+        } else {
             return $this->badRequest("There is no such relation between you and this user.");
+        }
     }
 }

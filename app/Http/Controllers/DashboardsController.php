@@ -29,19 +29,19 @@ class DashboardsController extends Controller
         switch ($new_policy->get('restriction')) {
             case Restriction::PUBLIC:
             case Restriction::FRIENDS:
-            case Restriction::FRIENDS_FOLLOWERS :
+            case Restriction::FRIENDS_FOLLOWERS:
             case Restriction::PRIVATE :
                 {
                     $dash = Dashboard::whereOwnerId(Auth::user()->id)->first();
                     $dash->update(['restriction' => $new_policy->get('restriction')]);
                     return $this->ok(['restriction status' => $dash['restriction']]);
                     break;
-                }
+            }
             default :
                 {
                     return Response::json('Wrong restriction type provided.')->setStatusCode(HttpResponse::HTTP_BAD_REQUEST);
                     break;
-                }
+            }
         }
     }
 
@@ -62,6 +62,4 @@ class DashboardsController extends Controller
         $dash = Dashboard::whereOwnerId($user->id)->first();
         return $this->ok(['dashboard_id' => $dash['id']]);
     }
-
-
 }

@@ -33,8 +33,8 @@ class PendingRequestController extends Controller
         if ($pendingRequest->target_id == Auth::user()->id) {
             PendingRequest::whereRequestId($pendingRequest->request_id)->delete();
             return $this->noContent();
-        } else
+        } else {
             return $this->forbidden("Permission denied: Wrong user.");
+        }
     }
-
 }

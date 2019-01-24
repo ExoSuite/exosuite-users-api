@@ -28,7 +28,6 @@ class PostTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
         $this->user1 = factory(User::class)->create();
-
     }
 
     /**
@@ -84,12 +83,13 @@ class PostTest extends TestCase
     public function testGetfromDashboard()
     {
         Passport::actingAs($this->user);
-        for ($i = 0; $i < 5 ; $i++)
+        for ($i = 0; $i < 5; $i++) {
             factory(Post::class)->create([
                 'dashboard_id' => $this->dashboard->id,
                 'author_id' => $this->user->id,
                 'content' => str_random(10)
             ]);
+        }
         $response = $this->get(route('get_Posts_by_dashboard_id', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id

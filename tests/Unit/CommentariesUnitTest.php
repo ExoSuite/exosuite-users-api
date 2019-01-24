@@ -64,13 +64,17 @@ class CommentariesUnitTest extends TestCase
     public function testCreateCommsOnFalsePostId()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('post_commentary',
-            [
+        $response = $this->post(
+            route(
+                'post_commentary',
+                [
                 'user' => $this->user->id,
                 "dashboard" => $this->dash->id,
                 "post" => Uuid::generate()->string
-            ]),
-            ['content' => str_random(10)]);
+                ]
+            ),
+            ['content' => str_random(10)]
+        );
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -96,12 +100,14 @@ class CommentariesUnitTest extends TestCase
     public function testGetCommsOnFalsePostId()
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('get_commentaries_by_post_id',
+        $response = $this->get(route(
+            'get_commentaries_by_post_id',
             [
                 'user' => $this->user,
                 "dashboard" => $this->dash->id,
                 "post" => Uuid::generate()->string
-            ]));
+            ]
+        ));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -111,12 +117,14 @@ class CommentariesUnitTest extends TestCase
     public function testGetCommsAsUnauthorizedUser()
     {
         Passport::actingAs($this->user1);
-        $response = $this->get(route('get_commentaries_by_post_id',
+        $response = $this->get(route(
+            'get_commentaries_by_post_id',
             [
                 'user' => $this->user,
                 "dashboard" => $this->dash->id,
                 "post" => $this->post->id
-            ]));
+            ]
+        ));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to access this post."]);
     }
@@ -161,7 +169,6 @@ class CommentariesUnitTest extends TestCase
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allow to modify this commentary."]);
-
     }
 
     /**
@@ -177,7 +184,6 @@ class CommentariesUnitTest extends TestCase
             'commentary_id' => Uuid::generate()->string
         ]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-
     }
 
     /**
@@ -199,6 +205,5 @@ class CommentariesUnitTest extends TestCase
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);
-
     }
 }

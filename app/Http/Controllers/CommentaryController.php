@@ -78,30 +78,33 @@ class CommentaryController extends Controller
                 case Restriction::PUBLIC:
                     {
                         return $this->created($this->createComm($request->validated(), $post));
-                    }
+                }
                 case Restriction::FRIENDS:
                     {
-                        if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
-                            return $this->created($this->createComm($request->validated(), $post));
-                        else
-                            return $this->forbidden("Permission denied: You're not allowed to post a commentary on this post");
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
+                        return $this->created($this->createComm($request->validated(), $post));
+                    } else {
+                        return $this->forbidden("Permission denied: You're not allowed to post a commentary on this post");
                     }
+                }
                 case Restriction::FRIENDS_FOLLOWERS:
                     {
-                        if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
-                            return $this->created($this->createComm($request->validated(), $post));
-                        elseif (Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists())
-                            return $this->created($this->createComm($request->validated(), $post));
-                        else
-                            return $this->forbidden("Permission denied: You're not allowed to post a commentary on this post");
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
+                        return $this->created($this->createComm($request->validated(), $post));
+                    } elseif (Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists()) {
+                        return $this->created($this->createComm($request->validated(), $post));
+                    } else {
+                        return $this->forbidden("Permission denied: You're not allowed to post a commentary on this post");
                     }
+                }
                 default:
                     {
                         return $this->forbidden("Permission denied: You're not allowed to post a commentary on this post");
-                    }
+                }
             }
-        } else
+        } else {
             return $this->created($this->createComm($request->validated(), $post));
+        }
     }
 
     /**
@@ -118,30 +121,33 @@ class CommentaryController extends Controller
                 case Restriction::PUBLIC:
                     {
                         return $this->getComms($post);
-                    }
+                }
                 case Restriction::FRIENDS:
                     {
-                        if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
-                            return $this->getComms($post);
-                        else
-                            return $this->forbidden("Permission denied: You're not allowed to access this post.");
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
+                        return $this->getComms($post);
+                    } else {
+                        return $this->forbidden("Permission denied: You're not allowed to access this post.");
                     }
+                }
                 case Restriction::FRIENDS_FOLLOWERS:
                     {
-                        if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
-                            return $this->getComms($post);
-                        elseif (Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists())
-                            return $this->getComms($post);
-                        else
-                            return $this->forbidden("Permission denied: You're not allowed to access this post.");
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
+                        return $this->getComms($post);
+                    } elseif (Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists()) {
+                        return $this->getComms($post);
+                    } else {
+                        return $this->forbidden("Permission denied: You're not allowed to access this post.");
                     }
+                }
                 default:
                     {
                         return $this->forbidden("Permission denied: You're not allowed to access this post.");
-                    }
+                }
             }
-        } else
+        } else {
             return $this->getComms($post);
+        }
     }
 
     /**
@@ -157,8 +163,9 @@ class CommentaryController extends Controller
         if ($commentary->author_id == Auth::user()->id) {
             $comm = $this->updateCommentary($request->validated(), $commentary);
             return $this->ok($comm);
-        } else
+        } else {
             return $this->forbidden("Permission denied: You're not allow to modify this commentary.");
+        }
     }
 
     /**
@@ -177,7 +184,8 @@ class CommentaryController extends Controller
             || Auth::user()->id == $commentary->author_id) {
             Commentary::whereId($commentary->id)->delete();
             return $this->noContent();
-        } else
+        } else {
             return $this->forbidden("Permission denied: You're not allowed to delete this post.");
+        }
     }
 }

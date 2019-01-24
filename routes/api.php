@@ -112,7 +112,6 @@ Route::middleware('auth:api')->group(function () {
                             Route::delete('/{commentary}', 'CommentaryController@deleteComm')->name('delete_commentary');
                         });
                     });
-
                 });
             });
 
@@ -120,7 +119,6 @@ Route::middleware('auth:api')->group(function () {
             Route::prefix('pending_requests')->group(function () {
                 Route::post('/', 'PendingRequestController@store')->name('post_pending_request');
             });
-
         });
 
         //LIKES---------------------------------------------------------------------------------------------------
@@ -130,7 +128,6 @@ Route::middleware('auth:api')->group(function () {
             Route::get('/from/entity/{entity_id}', 'LikesController@getLikesFromID')->name('get_likes_from_entity');
             Route::get('/from/user/{user}', 'LikesController@getLikesFromLiker')->name('get_likes_from_liker');
         });
-
     });
 
     Route::prefix('notification')->group(function () {
@@ -183,7 +180,6 @@ Route::middleware('auth:api')->group(function () {
             });
         });
     });
-
 });
 
 if (!\Illuminate\Support\Facades\App::environment("production")) {

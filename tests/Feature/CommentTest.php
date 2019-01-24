@@ -40,12 +40,14 @@ class CommentTest extends TestCase
     public function testCreate()
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('post_commentary',
+        $response = $this->post(route(
+            'post_commentary',
             [
                 'user' => $this->user->id,
                 'dashboard' => $this->dash->id,
                 "post" => $this->post->id
-            ]), ['content' => str_random(10)]);
+            ]
+        ), ['content' => str_random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Commentary())->getFillable());
         $this->assertDatabaseHas('commentaries', $response->decodeResponseJson());
@@ -54,8 +56,9 @@ class CommentTest extends TestCase
     public function testGetComms()
     {
         Passport::actingAs($this->user);
-        for ($it = 0; $it < 5; $it++)
+        for ($it = 0; $it < 5; $it++) {
             factory(Commentary::class)->create(['post_id' => $this->post->id, 'author_id' => $this->user->id, 'content' => str_random(10)]);
+        }
         $response = $this->get(route('get_commentaries_by_post_id', [
             'user' => $this->user->id,
             'dashboard' => $this->dash->id,
@@ -74,7 +77,8 @@ class CommentTest extends TestCase
                 'post_id' => $this->post->id,
                 'author_id' => $this->user->id,
                 'content' => str_random(10)
-            ]);
+            ]
+        );
 
         $response = $this->patch(
             route('patch_commentary', [
@@ -82,14 +86,18 @@ class CommentTest extends TestCase
                 'dashboard' => $this->dash->id,
                 "post" => $this->post->id,
                 'commentary' => $comm->id
-            ]), ['content' => $content]);
+            ]),
+            ['content' => $content]
+        );
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertDatabaseHas('commentaries',
+        $this->assertDatabaseHas(
+            'commentaries',
             [
                 'id' => $comm->id,
                 'author_id' => $this->user->id,
                 'content' => $content
-            ]);
+            ]
+        );
     }
 
     public function testDeleteComm()
@@ -101,15 +109,19 @@ class CommentTest extends TestCase
                 'dashboard' => $this->dash->id,
                 "post" => $this->post->id
             ]),
-            ['content' => str_random(10)]);
+            ['content' => str_random(10)]
+        );
         $response = $this->delete(
-            route('delete_commentary',
+            route(
+                'delete_commentary',
                 [
                     'user' => $this->user->id,
                     'dashboard' => $this->dash->id,
                     "post" => $this->post->id,
                     'commentary' => $post_resp->decodeResponseJson('id')
-                ]));
+                ]
+            )
+        );
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('commentaries', $post_resp->decodeResponseJson());
     }

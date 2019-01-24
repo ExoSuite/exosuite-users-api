@@ -48,30 +48,33 @@ class PostsController extends Controller
                 case Restriction::PUBLIC:
                     {
                         return $this->created($this->createPost($request->validated(), $dashboard->id));
-                    }
+                }
                 case Restriction::FRIENDS:
                     {
-                        if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
-                            return $this->created($this->createPost($request->validated(), $dashboard->id));
-                        else
-                            return $this->forbidden("Permission denied: You're not authorized to post on this board.");
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
+                        return $this->created($this->createPost($request->validated(), $dashboard->id));
+                    } else {
+                        return $this->forbidden("Permission denied: You're not authorized to post on this board.");
                     }
+                }
                 case Restriction::FRIENDS_FOLLOWERS:
                     {
-                        if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
-                            return $this->created($this->createPost($request->validated(), $dashboard->id));
-                        elseif (Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists())
-                            return $this->created($this->createPost($request->validated(), $dashboard->id));
-                        else
-                            return $this->forbidden("Permission denied: You're not authorized to post on this board.");
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
+                        return $this->created($this->createPost($request->validated(), $dashboard->id));
+                    } elseif (Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists()) {
+                        return $this->created($this->createPost($request->validated(), $dashboard->id));
+                    } else {
+                        return $this->forbidden("Permission denied: You're not authorized to post on this board.");
                     }
+                }
                 default:
                     {
                         return $this->forbidden("Permission denied: You're not authorized to post on this board.");
-                    }
+                }
             }
-        } else
+        } else {
             return $this->created($this->createPost($request->validated(), $dashboard->id));
+        }
     }
 
     public function update(UpdatePostRequest $request, User $user, Dashboard $dashboard, Post $post)
@@ -79,8 +82,9 @@ class PostsController extends Controller
         if ($post->author_id == Auth::user()->id) {
             $post = $this->editPost($request->validated(), $post->id);
             return $this->ok($post);
-        } else
+        } else {
             return $this->forbidden("Permission denied: You're not allowed to update this post.");
+        }
     }
 
     public function getPostsFromDashboard(User $user, Dashboard $dashboard)
@@ -91,27 +95,29 @@ class PostsController extends Controller
                 case Restriction::PUBLIC:
                     {
                         return $this->getPosts($dashboard);
-                    }
+                }
                 case Restriction::FRIENDS:
                     {
-                        if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
-                            return $this->getPosts($dashboard);
-                        else
-                            return $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
+                        return $this->getPosts($dashboard);
+                    } else {
+                        return $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
                     }
+                }
                 case Restriction::FRIENDS_FOLLOWERS:
                     {
-                        if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists())
-                            return $this->getPosts($dashboard);
-                        elseif (Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists())
-                            return $this->getPosts($dashboard);
-                        else
-                            return $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
+                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
+                        return $this->getPosts($dashboard);
+                    } elseif (Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists()) {
+                        return $this->getPosts($dashboard);
+                    } else {
+                        return $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
                     }
+                }
                 default:
                     {
                         return $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
-                    }
+                }
             }
         } else {
             return $this->getPosts($dashboard);
@@ -121,9 +127,10 @@ class PostsController extends Controller
     public function delete(User $user, Dashboard $dashboard, Post $post)
     {
         $owner_id = $dashboard->owner_id;
-        if ($post->author_id == Auth::user()->id || Auth::user()->id == $owner_id)
+        if ($post->author_id == Auth::user()->id || Auth::user()->id == $owner_id) {
             return $this->deletePost($post);
-        else
+        } else {
             return $this->forbidden("Permission denied: You're not allowed to delete this post.");
+        }
     }
 }
