@@ -35,14 +35,12 @@ class LikesController extends Controller
      * @param Commentary|null $commentary
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(User $user = null, Dashboard $dashboard = null, Post $post = null, Commentary $commentary = null)
+    public function store(User $user, Dashboard $dashboard, Post $post, Commentary $commentary = null)
     {
         if ($commentary != null)
             return $this->createLike($commentary, LikableEntities::COMMENTARY);
-        else if ($post != null)
-            return $this->createLike($post, LikableEntities::POST);
         else
-            return $this->badRequest("Unknown entity provided.");
+            return $this->createLike($post, LikableEntities::POST);
     }
 
     /**
