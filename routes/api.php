@@ -90,18 +90,17 @@ Route::middleware('auth:api')->group(function () {
 
                     Route::get('/', 'PostsController@getPostsFromDashboard')->name('get_Posts_by_dashboard_id');
 
-                    Route::prefix('{post?}/commentary')->group(function () {
-                        Route::prefix('/likes')->group(function () {
-                            Route::post('/', 'LikesController@store')->name('post_like');
-                            Route::delete('/{commentary?}', 'LikesController@delete')->name('delete_like');
-                            Route::get('/{commentary?}', 'LikesController@getLikesFromID')->name('get_likes_from_entity');
-                            Route::get('/', 'LikesController@getLikesFromLiker')->name('get_likes_from_liker');
-                        });
-                    });
 
                     Route::prefix('{post}')->group(function () {
                         Route::patch('/', 'PostsController@update')->name('patch_Post');
                         Route::delete('/', 'PostsController@delete')->name('delete_Post');
+
+                        //LIKES From Posts---------------------------------------------------------------------------------------------------
+                        Route::prefix('/likes')->group(function () {
+                            Route::post('/', 'LikesController@store')->name('post_like_for_Post');
+                            Route::delete('/', 'LikesController@delete')->name('delete_like_for_Post');
+                            Route::get('/', 'LikesController@getLikesFromID')->name('get_likes_from_Post');
+                        });
 
                         //COMMENTARIES-----------------------------------------------------------------------------------------
 
@@ -110,25 +109,30 @@ Route::middleware('auth:api')->group(function () {
                             Route::patch('/{commentary}', 'CommentaryController@updateComm')->name('patch_commentary');
                             Route::get('/', 'CommentaryController@getCommsFromPost')->name('get_commentaries_by_post_id');
                             Route::delete('/{commentary}', 'CommentaryController@deleteComm')->name('delete_commentary');
+
+                            //LIKES From Commentaries---------------------------------------------------------------------------------------------------
+                            Route::prefix('{commentary}')->group(function () {
+                                Route::prefix('/likes')->group(function () {
+                                    Route::post('/', 'LikesController@store')->name('post_like_for_commentary');
+                                    Route::delete('/', 'LikesController@delete')->name('delete_like_for_commentary');
+                                    Route::get('/', 'LikesController@getLikesFromID')->name('get_likes_from_commentary');
+                                });
+
+                            });
                         });
                     });
+
                 });
-            });
+                });
+
+            Route::get('/', 'LikesController@getLikesFromLiker')->name('get_likes_from_liker');
+        });
 
             //PENDING REQUESTS-----------------------------------------------------------------------------------
             Route::prefix('pending_requests')->group(function () {
                 Route::post('/', 'PendingRequestController@store')->name('post_pending_request');
             });
         });
-
-        //LIKES---------------------------------------------------------------------------------------------------
-        Route::prefix('/likes')->group(function () {
-            Route::post('/', 'LikesController@store')->name('post_like');
-            Route::delete('/{entity_id}', 'LikesController@delete')->name('delete_like');
-            Route::get('/from/entity/{entity_id}', 'LikesController@getLikesFromID')->name('get_likes_from_entity');
-            Route::get('/from/user/{user}', 'LikesController@getLikesFromLiker')->name('get_likes_from_liker');
-        });
-    });
 
     Route::prefix('notification')->group(function () {
         Route::patch('/{notification?}', 'NotificationController@update')->name('patch_notification');
@@ -175,8 +179,22 @@ Route::middleware('auth:api')->group(function () {
                 ->name('get_share_run_by_id');
         });
         ///////////////////////////////////////////////////////////////////
-        Route::prefix('{run_id}/checkpoint')->group(function () {
-            Route::prefix('{checkpoint_id}/time')->group(function () {
+        Route::prefix('{run}')->group(function () {
+
+            //LIKES From Runs---------------------------------------------------------------------------------------------------
+            Route::prefix('/likes')->group(function () {
+                Route::post('/', 'LikesController@storeRun')->name('post_like_for_run');
+                Route::delete('/', 'LikesController@deleteRun')->name('delete_like_for_run');
+                Route::get('/', 'LikesController@getLikesFromRun')->name('get_likes_from_run');
+            });
+
+
+            Route::prefix('checkpoint')->group(function () {
+
+
+                Route::prefix('{checkpoint_id}/time')->group(function () {
+
+                });
             });
         });
     });

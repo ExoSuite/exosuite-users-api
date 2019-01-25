@@ -62,7 +62,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::model(BindType::DASHBOARD, Dashboard::class);
         Route::model(BindType::POST, Post::class);
         Route::model(BindType::COMMENTARY, Commentary::class);
-        Route::bind('run_id', Run::class);
+        Route::model(BindType::RUN, Run::class);
         Route::bind('checkpoint_id', CheckPoint::class);
     }
 

@@ -2,48 +2,136 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Like\CreateLikeRequest;
-use App\Http\Requests\Like\DeleteLikeRequest;
-use App\Http\Requests\Like\GetLikesFromIdRequest;
+use App\Enums\LikableEntities;
+use App\Models\Commentary;
+use App\Models\Dashboard;
 use App\Models\Like;
+use App\Models\Post;
+use App\Models\Run;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class LikesController extends Controller
 {
-    private function createLike(array $data)
+    /**
+     * @param Model $entity
+     * @param string $type
+     * @return \Illuminate\Http\JsonResponse
+     */
+    private function createLike($entity, string $type)
     {
         return $this->created(Like::create([
             'liker_id' => Auth::user()->id,
-            'liked_id' => $data['entity_id'],
-            'liked_type' => $data['entity_type']
+            'liked_id' => $entity->id,
+            'liked_type' => $type
         ]));
     }
 
-    public function store(CreateLikeRequest $request)
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @param Commentary|null $commentary
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(User $user = null, Dashboard $dashboard = null, Post $post = null, Commentary $commentary = null)
     {
-        return $this->createLike($request->validated());
+        if ($commentary != null)
+            return $this->createLike($commentary, LikableEntities::COMMENTARY);
+        else if ($post != null)
+            return $this->createLike($post, LikableEntities::POST);
+        else
+            return $this->badRequest("Unknown entity provided.");
     }
 
-    public function delete(DeleteLikeRequest $request, $entity_id)
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @param Commentary|null $commentary
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function delete(User $user, Dashboard $dashboard, Post $post, Commentary $commentary = null)
     {
-        $request->validated();
-        $like = Like::whereLikedId($entity_id);
-        if ($like->exists()) {
-            $like->delete();
-            return $this->noContent();
+        if ($commentary != null)
+        {
+            $like = Like::whereLikedId($commentary->id);
+            if ($like->exists())
+            {
+                $like->delete();
+                return $this->noContent();
+            }
+        }
+        else
+            {
+            $like = Like::whereLikedId($post->id);
+            if ($like->exists())
+            {
+                $like->delete();
+                return $this->noContent();
+            }
         }
     }
 
-    public function getLikesFromID(GetLikesFromIdRequest $request, $entity_id)
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @param Commentary|null $commentary
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getLikesFromID(User $user, Dashboard $dashboard, Post $post, Commentary $commentary = null)
     {
-        $request->validated();
-        $likes = Like::whereLikedId($entity_id)->get();
-        return $this->ok($likes);
+        if ($commentary != null)
+            return $this->ok(Like::whereLikedId($commentary->id)->get());
+        else
+            return $this->ok(Like::whereLikedId($post->id)->get());
     }
 
+    /**
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getLikesFromLiker(User $user)
     {
         return $this->ok(Like::whereLikerId($user->id)->get());
+    }
+
+    /**
+     * @param Run $run
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function storeRun(Run $run)
+    {
+        return $this->createLike($run, LikableEntities::RUN);
+    }
+
+    /**
+     * @param Run $run
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function deleteRun(Run $run)
+    {
+        $like = Like::whereLikedId($run->id);
+        if ($like->exists())
+        {
+            $like->delete();
+            return $this->noContent();
+        }
+        else
+            return $this->badRequest("Unknown entity provided.");
+    }
+
+    /**
+     * @param Run $run
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getLikesFromRun(Run $run)
+    {
+        $likes = Like::whereLikedId($run->id)->get();
+        return $this->ok($likes);
     }
 }
