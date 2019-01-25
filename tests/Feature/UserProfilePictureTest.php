@@ -2,15 +2,26 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use App\Models\User;
 
+/**
+ * Class UserProfilePictureTest
+ * @package Tests\Feature
+ */
 class UserProfilePictureTest extends TestCase
 {
+    /**
+     * @var User
+     */
     static $user;
+
+    /**
+     *
+     */
     public function setUp()
     {
         parent::setUp();
@@ -18,6 +29,9 @@ class UserProfilePictureTest extends TestCase
             self::$user = factory(User::class)->create();
     }
 
+    /**
+     *
+     */
     public function testStoreUserProfilePictureAvatar()
     {
         Passport::actingAs(self::$user);
@@ -27,6 +41,9 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     public function testGetUserProfilePictureAvatar()
     {
         Passport::actingAs(self::$user);
@@ -34,6 +51,9 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *
+     */
     public function testStoreUserProfilePictureCover()
     {
         Passport::actingAs(self::$user);
@@ -43,6 +63,9 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     public function testGetUserProfilePictureCover()
     {
         Passport::actingAs(self::$user);

@@ -8,8 +8,11 @@ use App\Http\Requests\CreateUserProfilePictureCoverRequest;
 use App\Http\Requests\CreateUserProfilePictureRequest;
 use App\Models\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Response;
 
+/**
+ * Class UserProfilePictureController
+ * @package App\Http\Controllers\User
+ */
 class UserProfilePictureController extends Controller
 {
     /**
@@ -127,7 +130,7 @@ class UserProfilePictureController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy($id)
     {

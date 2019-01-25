@@ -2,16 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Enums\Restriction;
+use App\Models\Dashboard;
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Dashboard;
-use function GuzzleHttp\Psr7\str;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class PostTest extends TestCase
 {

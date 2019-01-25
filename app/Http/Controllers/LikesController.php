@@ -12,6 +12,10 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class LikesController
+ * @package App\Http\Controllers
+ */
 class LikesController extends Controller
 {
     /**

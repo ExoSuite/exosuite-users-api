@@ -4,6 +4,10 @@ namespace App\Http\Requests\Run;
 
 use App\Http\Requests\Abstracts\RouteParamRequest;
 
+/**
+ * Class GetShareRunRequest
+ * @package App\Http\Requests\Run
+ */
 class GetShareRunRequest extends RouteParamRequest
 {
     /**

@@ -62,6 +62,15 @@ Route::middleware('auth:api')->group(function () {
                     ->name('get_user_profile');
             });
 
+            Route::prefix('picture')->group(function () {
+                Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
+                Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');
+                Route::post('/avatar', 'User\UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
+                Route::get('/avatar', 'User\UserProfilePictureController@show')->name('get_picture_avatar');
+                Route::post('/cover', 'User\UserProfilePictureController@storeCover')->name('post_picture_cover');
+                Route::get('/cover', 'User\UserProfilePictureController@showCover')->name('get_picture_cover');
+            });
+
             //FOLLOWS-----------------------------------------------------------------------------------
             Route::prefix('follows')->group(function () {
                 Route::post('/', 'FollowsController@store')->name('post_follow');
@@ -123,7 +132,7 @@ Route::middleware('auth:api')->group(function () {
                     });
 
                 });
-                });
+            });
 
             Route::get('/', 'LikesController@getLikesFromLiker')->name('get_likes_from_liker');
 
@@ -133,80 +142,70 @@ Route::middleware('auth:api')->group(function () {
             });
 
         });
-     });
-        Route::get('search', 'User\UserController@search')->name('get_users');
-
-        Route::prefix('{user}/picture')->group(function () {
-           Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
-           Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');
-           Route::post('/avatar', 'User\UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
-           Route::get('/avatar', 'User\UserProfilePictureController@show')->name('get_picture_avatar');
-           Route::post('/cover', 'User\UserProfilePictureController@storeCover')->name('post_picture_cover');
-           Route::get('/cover', 'User\UserProfilePictureController@showCover')->name('get_picture_cover');
-        });
     });
+    Route::get('search', 'User\UserController@search')->name('get_users');
+});
 
-    Route::prefix('notification')->group(function () {
-        Route::patch('/{notification?}', 'NotificationController@update')->name('patch_notification');
-        Route::get('/', 'NotificationController@index')->name('get_notification');
-        Route::delete('/{notification?}', 'NotificationController@destroy')->name('delete_notification');
+Route::prefix('notification')->group(function () {
+    Route::patch('/{notification?}', 'NotificationController@update')->name('patch_notification');
+    Route::get('/', 'NotificationController@index')->name('get_notification');
+    Route::delete('/{notification?}', 'NotificationController@destroy')->name('delete_notification');
+});
+
+Route::prefix('group')->group(function () {
+    Route::post('/', 'GroupController@store')->name('post_group');
+    Route::patch('/{group}', 'GroupController@update')->name('patch_group');
+    Route::get('/{group}', 'GroupController@index')->name('get_group');
+    Route::delete('/{group}', 'GroupController@destroy')->name('delete_group');
+    Route::prefix('/{group}/message')->group(function () {
+        Route::post('/', 'MessageController@store')->name('post_message')->middleware('can:createGroupMessage,group');
+        Route::patch('/{message}', 'MessageController@update')->name('patch_message')->middleware('can:update,message');
+        Route::get('/', 'MessageController@index')->name('get_message')->middleware('can:viewGroupMessages,group');
+        Route::delete('/{message}', 'MessageController@destroy')->name('delete_message')->middleware('can:delete,message');
     });
+});
 
-    Route::prefix('group')->group(function () {
-        Route::post('/', 'GroupController@store')->name('post_group');
-        Route::patch('/{group}', 'GroupController@update')->name('patch_group');
-        Route::get('/{group}', 'GroupController@index')->name('get_group');
-        Route::delete('/{group}', 'GroupController@destroy')->name('delete_group');
-        Route::prefix('/{group}/message')->group(function () {
-            Route::post('/', 'MessageController@store')->name('post_message')->middleware('can:createGroupMessage,group');
-            Route::patch('/{message}', 'MessageController@update')->name('patch_message')->middleware('can:update,message');
-            Route::get('/', 'MessageController@index')->name('get_message')->middleware('can:viewGroupMessages,group');
-            Route::delete('/{message}', 'MessageController@destroy')->name('delete_message')->middleware('can:delete,message');
-        });
+
+Route::prefix('run')->group(function () {
+    ///////////////////////////////////////////////////////////////////
+    Route::post('/', 'Run\RunController@store')
+        ->name('post_run');
+
+    Route::patch('/{uuid}', 'Run\RunController@update')
+        ->name('patch_run');
+
+    Route::get('/id/{uuid}', 'Run\RunController@show')
+        ->name('get_run_by_id');
+
+    Route::get('/', 'Run\RunController@index')
+        ->name('get_run');
+    Route::delete('{uuid}', 'Run\RunController@delete')
+        ->name('delete_run');
+    ///////////////////////////////////////////////////////////////////
+    Route::prefix('share')->group(function () {
+        Route::post('/', 'Run\ShareRunController@store')
+            ->name('post_share_run');
+        Route::get('/', 'Run\ShareRunController@index')
+            ->name('get_share_run');
+        Route::get('/id/{uuid}', 'Run\ShareRunController@show')
+            ->name('get_share_run_by_id');
     });
+    ///////////////////////////////////////////////////////////////////
+    Route::prefix('{run}')->group(function () {
 
-
-    Route::prefix('run')->group(function () {
-        ///////////////////////////////////////////////////////////////////
-        Route::post('/', 'Run\RunController@store')
-            ->name('post_run');
-
-        Route::patch('/{uuid}', 'Run\RunController@update')
-            ->name('patch_run');
-
-        Route::get('/id/{uuid}', 'Run\RunController@show')
-            ->name('get_run_by_id');
-
-        Route::get('/', 'Run\RunController@index')
-            ->name('get_run');
-        Route::delete('{uuid}', 'Run\RunController@delete')
-            ->name('delete_run');
-        ///////////////////////////////////////////////////////////////////
-        Route::prefix('share')->group(function () {
-            Route::post('/', 'Run\ShareRunController@store')
-                ->name('post_share_run');
-            Route::get('/', 'Run\ShareRunController@index')
-                ->name('get_share_run');
-            Route::get('/id/{uuid}', 'Run\ShareRunController@show')
-                ->name('get_share_run_by_id');
+        //LIKES From Runs---------------------------------------------------------------------------------------------------
+        Route::prefix('/likes')->group(function () {
+            Route::post('/', 'LikesController@storeRun')->name('post_like_for_run');
+            Route::delete('/', 'LikesController@deleteRun')->name('delete_like_for_run');
+            Route::get('/', 'LikesController@getLikesFromRun')->name('get_likes_from_run');
         });
-        ///////////////////////////////////////////////////////////////////
-        Route::prefix('{run}')->group(function () {
-
-            //LIKES From Runs---------------------------------------------------------------------------------------------------
-            Route::prefix('/likes')->group(function () {
-                Route::post('/', 'LikesController@storeRun')->name('post_like_for_run');
-                Route::delete('/', 'LikesController@deleteRun')->name('delete_like_for_run');
-                Route::get('/', 'LikesController@getLikesFromRun')->name('get_likes_from_run');
-            });
 
 
-            Route::prefix('checkpoint')->group(function () {
+        Route::prefix('checkpoint')->group(function () {
 
 
-                Route::prefix('{checkpoint_id}/time')->group(function () {
+            Route::prefix('{checkpoint_id}/time')->group(function () {
 
-                });
             });
         });
     });

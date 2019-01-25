@@ -11,6 +11,10 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
+/**
+ * Class LikableEntities
+ * @package App\Enums
+ */
 final class LikableEntities extends Enum
 {
     const POST = "post";

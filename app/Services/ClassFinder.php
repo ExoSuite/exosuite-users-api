@@ -9,12 +9,20 @@
 namespace App\Services;
 
 
+/**
+ * Class ClassFinder
+ * @package App\Services
+ */
 class ClassFinder
 {
     //This value should be the directory that contains composer.json
     const appRoot = __DIR__ . "/../../";
     const indexesNamespace = "App\Models\Indexes";
 
+    /**
+     * @param $namespace
+     * @return array|null
+     */
     private static function getClassesInNamespace($namespace)
     {
         $files = scandir(self::getNamespaceDirectory($namespace));
@@ -32,6 +40,9 @@ class ClassFinder
         });
     }
 
+    /**
+     * @return array|null
+     */
     private static function getDefinedNamespaces()
     {
         $composerJsonPath = self::appRoot . 'composer.json';
@@ -44,6 +55,10 @@ class ClassFinder
         return (array)$composerConfig->autoload->{"psr-4"};
     }
 
+    /**
+     * @param $namespace
+     * @return bool|string
+     */
     private static function getNamespaceDirectory($namespace)
     {
         $composerNamespaces = self::getDefinedNamespaces();
@@ -68,6 +83,18 @@ class ClassFinder
         return false;
     }
 
+    /**
+     * @return array
+     */
+    /**
+     * @return array
+     */
+    /**
+     * @return array
+     */
+    /**
+     * @return array
+     */
     public static function getIndexesClasses(): array
     {
         return self::getClassesInNamespace(self::indexesNamespace);

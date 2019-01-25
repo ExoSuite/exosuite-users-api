@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Enums\LikableEntities;
 use App\Models\Commentary;
 use App\Models\Dashboard;
 use App\Models\Post;
@@ -10,8 +9,6 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Webpatser\Uuid\Uuid;
 
 class LikesUnitTest extends TestCase

@@ -3,10 +3,10 @@
 namespace Tests\Unit;
 
 use App\Enums\RequestTypesEnum;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use App\Models\User;
 use Webpatser\Uuid\Uuid;
 
 class PendingRequestsUnitTest extends TestCase

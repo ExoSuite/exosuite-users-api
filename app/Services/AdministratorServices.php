@@ -40,6 +40,10 @@ class AdministratorServices
         return ApiHelper::redirectToLogin();
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     */
     private function isAdministrator(User $user): bool
     {
         return $user->inRole(Roles::ADMINISTRATOR);

@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class CreateUserProfilePictureAvatarRequest
+ * @package App\Http\Requests
+ */
 class CreateUserProfilePictureAvatarRequest extends FormRequest
 {
     /**

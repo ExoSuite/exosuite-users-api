@@ -7,8 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Webpatser\Uuid\Uuid;
 
 class FollowsUnitTest extends TestCase
@@ -24,6 +22,7 @@ class FollowsUnitTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->user1 = factory(User::class)->create();
     }
+
     /**
      * A basic test example.
      *

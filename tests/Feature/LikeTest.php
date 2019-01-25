@@ -7,11 +7,11 @@ use App\Models\Commentary;
 use App\Models\Dashboard;
 use App\Models\Like;
 use App\Models\Post;
+use App\Models\Run;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use App\Models\Run;
 
 class LikeTest extends TestCase
 {

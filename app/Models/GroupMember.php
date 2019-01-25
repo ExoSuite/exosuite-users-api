@@ -6,6 +6,7 @@ use App\Models\Abstracts\UuidModel;
 
 /**
  * Class GroupMember
+ * @property bool $is_admin
  * @package App\Models
  */
 class GroupMember extends UuidModel
@@ -41,7 +42,7 @@ class GroupMember extends UuidModel
     }
 
     /**
-     * @return bool|mixed
+     * @return bool
      */
     public function isAdmin()
     {

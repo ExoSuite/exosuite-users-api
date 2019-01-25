@@ -3,11 +3,11 @@
 namespace Tests\Feature;
 
 use App\Enums\RequestTypesEnum;
-use Laravel\Passport\Passport;
-use Tests\TestCase;
+use App\Models\PendingRequest;
 use App\Models\User;
 use Illuminate\Http\Response;
-use App\Models\PendingRequest;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class PendingRequestsTest extends TestCase
 {

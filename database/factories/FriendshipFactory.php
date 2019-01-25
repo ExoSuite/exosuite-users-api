@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedVariableInspection */
 
 use App\Models\Friendship;
 use Faker\Generator as Faker;

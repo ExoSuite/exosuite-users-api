@@ -5,6 +5,10 @@ namespace App\Http\Requests\PendingRequest;
 use App\Rules\RequestTypeValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class CreatePendingRequest
+ * @package App\Http\Requests\PendingRequest
+ */
 class CreatePendingRequest extends FormRequest
 {
     /**

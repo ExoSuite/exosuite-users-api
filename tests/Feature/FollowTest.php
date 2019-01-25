@@ -3,10 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Follow;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use App\Models\User;
 
 class FollowTest extends TestCase
 {

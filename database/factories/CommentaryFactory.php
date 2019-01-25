@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedVariableInspection */
 
 use App\Models\Commentary;
 use Faker\Generator as Faker;

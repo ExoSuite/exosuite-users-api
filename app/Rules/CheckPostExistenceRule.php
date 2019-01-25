@@ -5,6 +5,10 @@ namespace App\Rules;
 use App\Models\Post;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Class CheckPostExistenceRule
+ * @package App\Rules
+ */
 class CheckPostExistenceRule implements Rule
 {
     /**

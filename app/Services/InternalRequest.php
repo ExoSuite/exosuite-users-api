@@ -51,7 +51,7 @@ class InternalRequest implements MakesInternalRequests
      * @param  array $headers
      * @param int $statusCode
      * @return \Illuminate\Http\Response
-     * @throws InternalRequestException if statusCode >= Response::HTTP_BAD_REQUEST
+     * @throws InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST
      */
     public function request(
         string $method,

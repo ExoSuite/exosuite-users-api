@@ -7,6 +7,10 @@ use App\Http\Requests\User\UserProfileRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class UserProfileController
+ * @package App\Http\Controllers\User
+ */
 class UserProfileController extends Controller
 {
 

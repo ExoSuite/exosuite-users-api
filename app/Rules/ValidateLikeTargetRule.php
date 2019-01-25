@@ -8,8 +8,15 @@ use App\Models\Post;
 use App\Models\Run;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Class ValidateLikeTargetRule
+ * @package App\Rules
+ */
 class ValidateLikeTargetRule implements Rule
 {
+    /**
+     * @var string
+     */
     private $target_type;
 
     /**

@@ -4,6 +4,10 @@ namespace App\Http\Requests\PendingRequest;
 
 use App\Http\Requests\Abstracts\RouteParamRequest;
 
+/**
+ * Class DeletePendingRequest
+ * @package App\Http\Requests\PendingRequest
+ */
 class DeletePendingRequest extends RouteParamRequest
 {
     /**

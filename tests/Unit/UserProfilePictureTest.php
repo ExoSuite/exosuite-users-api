@@ -2,15 +2,16 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class UserProfilePictureTest extends TestCase
 {
     static $user;
+
     public function setUp()
     {
         parent::setUp();
