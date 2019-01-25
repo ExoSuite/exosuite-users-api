@@ -41,7 +41,7 @@ class PostsController extends Controller
 
     /**
      * @param array $data
-     * @param $dashboard_id
+     * @param mixed $dashboard_id
      * @return Post|\Illuminate\Database\Eloquent\Model
      */
     private function createPost(array $data, $dashboard_id)
@@ -53,7 +53,7 @@ class PostsController extends Controller
 
     /**
      * @param array $data
-     * @param $post_id
+     * @param mixed $post_id
      * @return Post|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
     private function editPost(array $data, $post_id)

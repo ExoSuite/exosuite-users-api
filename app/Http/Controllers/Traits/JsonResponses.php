@@ -88,22 +88,10 @@ trait JsonResponses
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    /**
-     * @param $path
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    /**
-     * @param $path
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    /**
-     * @param $path
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    protected function file($path)
+    protected function file(string $path)
     {
         return Response::file($path);
     }

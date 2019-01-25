@@ -20,12 +20,15 @@ class ClassFinder
     const indexesNamespace = "App\Models\Indexes";
 
     /**
-     * @param $namespace
+     * @param string $namespace
      * @return array|null
      */
-    private static function getClassesInNamespace($namespace)
+    private static function getClassesInNamespace(string $namespace)
     {
-        $files = scandir(self::getNamespaceDirectory($namespace));
+        $namespaceDir = self::getNamespaceDirectory($namespace);
+        if (is_bool($namespaceDir))
+            return null;
+        $files = scandir($namespaceDir);
         if (!$files) {
             return null;
         }
@@ -56,10 +59,10 @@ class ClassFinder
     }
 
     /**
-     * @param $namespace
-     * @return bool|string
+     * @param string $namespace
+     * @return string|bool
      */
-    private static function getNamespaceDirectory($namespace)
+    private static function getNamespaceDirectory(string $namespace)
     {
         $composerNamespaces = self::getDefinedNamespaces();
 
@@ -83,15 +86,6 @@ class ClassFinder
         return false;
     }
 
-    /**
-     * @return array
-     */
-    /**
-     * @return array
-     */
-    /**
-     * @return array
-     */
     /**
      * @return array
      */

@@ -27,8 +27,8 @@ abstract class ExoSuiteNotification extends Notification
     }
 
     /**
-     * @param $notifiable
-     * @return mixed
+     * @param mixed $notifiable
+     * @return array
      */
     abstract public function toArray($notifiable);
 
