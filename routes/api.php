@@ -45,6 +45,15 @@ Route::middleware('auth:api')->group(function () {
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');
+
+        Route::prefix('{user}/picture')->group(function () {
+           Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
+           Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');
+           Route::post('/avatar', 'User\UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
+           Route::get('/avatar', 'User\UserProfilePictureController@show')->name('get_picture_avatar');
+           Route::post('/cover', 'User\UserProfilePictureController@storeCover')->name('post_picture_cover');
+           Route::get('/cover', 'User\UserProfilePictureController@showCover')->name('get_picture_cover');
+        });
     });
 
     Route::prefix('notification')->group(function () {

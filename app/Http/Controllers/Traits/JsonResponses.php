@@ -65,4 +65,9 @@ trait JsonResponses
         return Response::json($this->toArray($data))
             ->setStatusCode(HttpResponse::HTTP_OK);
     }
+
+    protected function file($path)
+    {
+        return Response::file($path);
+    }
 }

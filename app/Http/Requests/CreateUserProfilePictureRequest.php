@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class CreateUserProfilePictureRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,9 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'first_name' => 'sometimes|string|max:255',
-            'last_name' => 'sometimes|string|max:255',
-            'nick_name' => 'sometimes|string|max:16|min:4'
+        $rules = [
+            'picture' => 'required|file|mimes:jpeg,png|max:10240'
         ];
+        return $rules;
     }
 }
