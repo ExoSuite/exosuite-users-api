@@ -5,6 +5,10 @@ namespace App\Models\Indexes;
 use ScoutElastic\IndexConfigurator;
 use ScoutElastic\Migratable;
 
+/**
+ * Class UserIndexConfigurator
+ * @package App\Models\Indexes
+ */
 class UserIndexConfigurator extends IndexConfigurator
 {
     use Migratable;

@@ -4,6 +4,9 @@ use App\Enums\Roles;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
+/**
+ * Class UsersSeeder
+ */
 class UsersSeeder extends Seeder
 {
     /**

@@ -5,6 +5,10 @@ namespace App\Http\Requests\Dashboard;
 use App\Rules\RestrictionsTypeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class ChangeRestrictionRequest
+ * @package App\Http\Requests\Dashboard
+ */
 class ChangeRestrictionRequest extends FormRequest
 {
     /**

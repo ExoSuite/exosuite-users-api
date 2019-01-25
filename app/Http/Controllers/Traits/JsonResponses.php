@@ -9,11 +9,13 @@
 namespace App\Http\Controllers\Traits;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
  * Trait JsonResponses
@@ -57,7 +59,7 @@ trait JsonResponses
     }
 
     /**
-     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable|Collection|ResourceCollection|JsonResource $data
+     * @param array|Model|Authenticatable|Collection|ResourceCollection|JsonResource|LengthAwarePaginator $data
      * @return \Illuminate\Http\JsonResponse
      */
     protected function ok($data)
@@ -83,5 +85,14 @@ trait JsonResponses
     protected function forbidden(string $message)
     {
         return Response::json(['message' => $message])->setStatusCode(HttpResponse::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @param string $path
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    protected function file(string $path)
+    {
+        return Response::file($path);
     }
 }

@@ -43,6 +43,9 @@ class ApiHelper extends Facade
         return config("app.env") === 'production';
     }
 
+    /**
+     * @return bool
+     */
     public static function isLocal(): bool
     {
         return config("app.env") === 'local';

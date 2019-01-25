@@ -16,6 +16,10 @@ use Faker\Generator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
+/**
+ * Class GroupController
+ * @package App\Http\Controllers
+ */
 class GroupController extends Controller
 {
     /**

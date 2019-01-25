@@ -3,15 +3,25 @@
 namespace Tests\Feature;
 
 use App\Models\Follow;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use App\Models\User;
 
+/**
+ * Class FollowTest
+ * @package Tests\Feature
+ */
 class FollowTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $user1;
 
     /**
@@ -29,6 +39,9 @@ class FollowTest extends TestCase
         $this->assertDatabaseHas('follows', $response->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testUnfollow()
     {
         Passport::actingAs($this->user);
@@ -38,6 +51,9 @@ class FollowTest extends TestCase
         $this->assertDatabaseMissing('follows', $follow_response->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testGetFollowers()
     {
         $user2 = factory(User::class)->create();
@@ -54,6 +70,9 @@ class FollowTest extends TestCase
         $this->assertEquals(4, count($response->decodeResponseJson()));
     }
 
+    /**
+     *
+     */
     public function testAmIFollowing()
     {
         Passport::actingAs($this->user);
@@ -62,6 +81,9 @@ class FollowTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();

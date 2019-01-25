@@ -6,6 +6,10 @@ use App\Enums\GroupRequestType;
 use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
 use App\Rules\RequestTypeRule;
 
+/**
+ * Class UpdateGroupRequest
+ * @package App\Http\Requests\Group
+ */
 class UpdateGroupRequest extends RouteParamRequestUuidToId
 {
     /**

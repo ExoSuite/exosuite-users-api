@@ -3,18 +3,31 @@
 namespace Tests\Feature;
 
 use App\Enums\RequestTypesEnum;
-use Laravel\Passport\Passport;
-use Tests\TestCase;
+use App\Models\PendingRequest;
 use App\Models\User;
 use Illuminate\Http\Response;
-use App\Models\PendingRequest;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
+/**
+ * Class PendingRequestsTest
+ * @package Tests\Feature
+ */
 class PendingRequestsTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -37,6 +50,9 @@ class PendingRequestsTest extends TestCase
         $this->assertDatabaseHas('pending_requests', $response->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testGetMyPendingRequests()
     {
         $user2 = factory(User::class)->create();
@@ -51,6 +67,9 @@ class PendingRequestsTest extends TestCase
         $this->assertEquals(3, count($response->decodeResponseJson()));
     }
 
+    /**
+     *
+     */
     public function testDeletePendingRequest()
     {
         Passport::actingAs($this->user1);

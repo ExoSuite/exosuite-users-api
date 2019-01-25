@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Enums\LikableEntities;
 use App\Models\Commentary;
 use App\Models\Dashboard;
 use App\Models\Post;
@@ -10,20 +9,37 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class LikesUnitTest
+ * @package Tests\Unit
+ */
 class LikesUnitTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $dash;
 
+    /**
+     * @var
+     */
     private $post;
 
+    /**
+     * @var
+     */
     private $comm;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -46,6 +62,9 @@ class LikesUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testLikeWithWrongTargetId()
     {
         Passport::actingAs($this->user);
@@ -53,6 +72,9 @@ class LikesUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testUnlikeWithWrongTargetId()
     {
         Passport::actingAs($this->user);
@@ -60,6 +82,9 @@ class LikesUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testUnlikeWithWrongTargetType()
     {
         Passport::actingAs($this->user);
@@ -67,6 +92,9 @@ class LikesUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testGetLikesWithWrongTargetType()
     {
         Passport::actingAs($this->user);
@@ -74,6 +102,9 @@ class LikesUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetLikesWithWrongTargetId()
     {
         Passport::actingAs($this->user);
@@ -81,6 +112,9 @@ class LikesUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetLikesfromLikerWithWrongTargetId()
     {
         Passport::actingAs($this->user);

@@ -2,21 +2,32 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Http\Response;
-use Tests\TestCase;
-use App\Models\User;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Webpatser\Uuid\Uuid;
 use App\Models\Dashboard;
+use App\Models\User;
+use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
+use Tests\TestCase;
+use Webpatser\Uuid\Uuid;
 
+/**
+ * Class DashboardUnitTest
+ * @package Tests\Unit
+ */
 class DashboardUnitTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $dash;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -38,6 +49,9 @@ class DashboardUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testChangeRestrictionWithWrongValue()
     {
         Passport::actingAs($this->user);

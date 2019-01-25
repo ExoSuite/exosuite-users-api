@@ -4,6 +4,10 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
+/**
+ * Class BindType
+ * @package App\Enums
+ */
 final class BindType extends Enum
 {
     const GROUP = "group";

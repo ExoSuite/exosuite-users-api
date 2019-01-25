@@ -2,26 +2,38 @@
 
 namespace Tests\Feature;
 
-use App\Enums\Restriction;
 use App\Models\Commentary;
 use App\Models\Dashboard;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * Class CommentTest
+ * @package Tests\Feature
+ */
 class CommentTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $dash;
 
+    /**
+     * @var
+     */
     private $post;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -53,6 +65,9 @@ class CommentTest extends TestCase
         $this->assertDatabaseHas('commentaries', $response->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testGetComms()
     {
         Passport::actingAs($this->user);
@@ -68,6 +83,9 @@ class CommentTest extends TestCase
         $this->assertEquals(5, count($response->decodeResponseJson()));
     }
 
+    /**
+     *
+     */
     public function testUpdateComm()
     {
         Passport::actingAs($this->user);
@@ -100,6 +118,9 @@ class CommentTest extends TestCase
         );
     }
 
+    /**
+     *
+     */
     public function testDeleteComm()
     {
         Passport::actingAs($this->user);

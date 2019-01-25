@@ -4,6 +4,10 @@ namespace App\Http\Requests\Post;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class UpdatePostRequest
+ * @package App\Http\Requests\Post
+ */
 class UpdatePostRequest extends FormRequest
 {
     /**

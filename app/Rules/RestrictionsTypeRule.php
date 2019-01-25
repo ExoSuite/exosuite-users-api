@@ -5,6 +5,10 @@ namespace App\Rules;
 use App\Enums\Restriction;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Class RestrictionsTypeRule
+ * @package App\Rules
+ */
 class RestrictionsTypeRule implements Rule
 {
     /**

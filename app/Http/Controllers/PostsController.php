@@ -12,20 +12,38 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class PostsController
+ * @package App\Http\Controllers
+ */
 class PostsController extends Controller
 {
+    /**
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     private function deletePost(Post $post)
     {
         Post::whereId($post->id)->delete();
         return $this->noContent();
     }
 
+    /**
+     * @param Dashboard $dashboard
+     * @return \Illuminate\Http\JsonResponse
+     */
     private function getPosts(Dashboard $dashboard)
     {
         $posts = Post::whereDashboardId($dashboard->id)->get();
         return $this->ok($posts);
     }
 
+    /**
+     * @param array $data
+     * @param mixed $dashboard_id
+     * @return Post|\Illuminate\Database\Eloquent\Model
+     */
     private function createPost(array $data, $dashboard_id)
     {
         $data['author_id'] = Auth::user()->id;
@@ -33,6 +51,11 @@ class PostsController extends Controller
         return Post::create($data);
     }
 
+    /**
+     * @param array $data
+     * @param mixed $post_id
+     * @return Post|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     */
     private function editPost(array $data, $post_id)
     {
         $post = Post::whereId($post_id)->first();
@@ -40,6 +63,12 @@ class PostsController extends Controller
         return $post;
     }
 
+    /**
+     * @param CreatePostRequest $request
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(CreatePostRequest $request, User $user, Dashboard $dashboard)
     {
         $owner_id = $dashboard->owner_id;
@@ -77,6 +106,34 @@ class PostsController extends Controller
         }
     }
 
+    /**
+     * @param UpdatePostRequest $request
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * @param UpdatePostRequest $request
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * @param UpdatePostRequest $request
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * @param UpdatePostRequest $request
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(UpdatePostRequest $request, User $user, Dashboard $dashboard, Post $post)
     {
         if ($post->author_id == Auth::user()->id) {
@@ -87,6 +144,26 @@ class PostsController extends Controller
         }
     }
 
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getPostsFromDashboard(User $user, Dashboard $dashboard)
     {
         $owner_id = $dashboard->owner_id;
@@ -124,6 +201,33 @@ class PostsController extends Controller
         }
     }
 
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     */
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    /**
+     * @param User $user
+     * @param Dashboard $dashboard
+     * @param Post $post
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function delete(User $user, Dashboard $dashboard, Post $post)
     {
         $owner_id = $dashboard->owner_id;

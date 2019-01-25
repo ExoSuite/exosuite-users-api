@@ -9,11 +9,21 @@ use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class UserProfileTest
+ * @package Tests\Feature
+ */
 class UserProfileTest extends TestCase
 {
 
+    /**
+     * @var null
+     */
     private static $user = null;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -23,6 +33,9 @@ class UserProfileTest extends TestCase
         Passport::actingAs(self::$user);
     }
 
+    /**
+     *
+     */
     public function testGetProfile()
     {
         $response = $this->get(route('get_user_profile', ["user" => self::$user->id]));
@@ -35,6 +48,9 @@ class UserProfileTest extends TestCase
         $response->assertJsonStructure($expectTo);
     }
 
+    /**
+     *
+     */
     public function testPatchProfileDescription()
     {
         $data = [
@@ -45,6 +61,9 @@ class UserProfileTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     public function testPatchProfileCity()
     {
         $data = [
@@ -55,6 +74,9 @@ class UserProfileTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     public function testPatchProfileBirthday()
     {
         $data = [

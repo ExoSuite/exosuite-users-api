@@ -7,10 +7,17 @@ use App\Models\Message;
 use App\Notifications\ExoSuiteNotification;
 use Illuminate\Bus\Queueable;
 
+/**
+ * Class NewMessageNotification
+ * @package App\Notifications\Message
+ */
 class NewMessageNotification extends ExoSuiteNotification
 {
     use Queueable;
 
+    /**
+     * @var Message
+     */
     public $message;
 
     /**

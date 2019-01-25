@@ -9,6 +9,10 @@ use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class UserSearchTest
+ * @package Tests\Feature
+ */
 class UserSearchTest extends TestCase
 {
     use WithFaker;
@@ -30,6 +34,9 @@ class UserSearchTest extends TestCase
     }
 
 
+    /**
+     *
+     */
     public function testSearchUser()
     {
         Passport::actingAs($this->user);

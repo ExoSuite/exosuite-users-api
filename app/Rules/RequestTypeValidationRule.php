@@ -5,6 +5,10 @@ namespace App\Rules;
 use App\Enums\RequestTypesEnum;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Class RequestTypeValidationRule
+ * @package App\Rules
+ */
 class RequestTypeValidationRule implements Rule
 {
     /**

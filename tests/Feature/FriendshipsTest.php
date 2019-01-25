@@ -9,12 +9,25 @@ use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class FriendshipsTest
+ * @package Tests\Feature
+ */
 class FriendshipsTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -37,6 +50,9 @@ class FriendshipsTest extends TestCase
         $this->assertDatabaseHas('pending_requests', $response->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testAccept()
     {
         Passport::actingAs($this->user1);
@@ -50,6 +66,9 @@ class FriendshipsTest extends TestCase
         $this->assertDatabaseMissing('pending_requests', $send_resp->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testDecline()
     {
         Passport::actingAs($this->user1);
@@ -61,6 +80,9 @@ class FriendshipsTest extends TestCase
         $this->assertDatabaseMissing('pending_requests', $send_resp->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testGetMyFriends()
     {
         $user2 = factory(User::class)->create();
@@ -75,6 +97,9 @@ class FriendshipsTest extends TestCase
         $this->assertEquals(3, count($response->decodeResponseJson()));
     }
 
+    /**
+     *
+     */
     public function testGetSomeonesFriends()
     {
         $user2 = factory(User::class)->create();
@@ -89,6 +114,9 @@ class FriendshipsTest extends TestCase
         $this->assertEquals(3, count($response->decodeResponseJson()));
     }
 
+    /**
+     *
+     */
     public function testDeleteFriendship()
     {
 

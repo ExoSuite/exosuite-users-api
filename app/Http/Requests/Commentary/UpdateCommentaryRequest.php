@@ -4,6 +4,10 @@ namespace App\Http\Requests\Commentary;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class UpdateCommentaryRequest
+ * @package App\Http\Requests\Commentary
+ */
 class UpdateCommentaryRequest extends FormRequest
 {
     /**

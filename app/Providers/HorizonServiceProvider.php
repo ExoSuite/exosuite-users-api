@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
 
 
+/**
+ * Class HorizonServiceProvider
+ * @package App\Providers
+ */
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
     /**

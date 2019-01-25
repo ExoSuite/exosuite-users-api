@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class NotificationController
+ * @package App\Http\Controllers
+ */
 class NotificationController extends Controller
 {
     /**

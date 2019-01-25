@@ -4,6 +4,10 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
+/**
+ * Class GroupRequestType
+ * @package App\Enums
+ */
 final class GroupRequestType extends Enum
 {
     const DELETE_USER = "delete_user";

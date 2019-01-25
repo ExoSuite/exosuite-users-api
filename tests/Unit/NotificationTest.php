@@ -9,15 +9,31 @@ use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class NotificationTest
+ * @package Tests\Unit
+ */
 class NotificationTest extends TestCase
 {
 
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     * @var
+     */
     private $user2;
 
+    /**
+     * @var
+     */
     private $user3;
 
+    /**
+     * @throws \Exception
+     */
     public function testDeleteOneBadUserNotification()
     {
         Passport::actingAs($this->user1);
@@ -30,6 +46,9 @@ class NotificationTest extends TestCase
         $notifications_req->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testUpdateOneBadUserNotification()
     {
         Passport::actingAs($this->user1);
@@ -42,6 +61,9 @@ class NotificationTest extends TestCase
         $notifications_req->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();

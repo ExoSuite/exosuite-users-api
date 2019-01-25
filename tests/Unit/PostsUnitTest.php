@@ -10,14 +10,30 @@ use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class PostsUnitTest
+ * @package Tests\Unit
+ */
 class PostsUnitTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     * @var
+     */
     private $dashboard;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -43,6 +59,9 @@ class PostsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testPostOnUnauthorizedDashboard()
     {
         Passport::actingAs($this->user);
@@ -56,6 +75,9 @@ class PostsUnitTest extends TestCase
         $response->assertJson(['message' => "Permission denied: You're not authorized to post on this board."]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testUpdatePostWithWrongId()
     {
         Passport::actingAs($this->user);
@@ -68,6 +90,9 @@ class PostsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testUpdatePostAsUnauthorizedUser()
     {
         Passport::actingAs($this->user1);
@@ -87,6 +112,9 @@ class PostsUnitTest extends TestCase
         $response->assertJson(['message' => "Permission denied: You're not allowed to update this post."]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetPostsWithWrongId()
     {
         Passport::actingAs($this->user);
@@ -97,6 +125,9 @@ class PostsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testGetPostAsUnauthorizedUser()
     {
         Passport::actingAs($this->user);
@@ -108,6 +139,9 @@ class PostsUnitTest extends TestCase
         $response->assertJson(['message' => "Permission denied: You're not allowed to access this dashboard."]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testDeletePostWithWrongId()
     {
         Passport::actingAs($this->user);
@@ -119,6 +153,9 @@ class PostsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testDeletePostAsUnauthorizedUser()
     {
         $post = factory(Post::class)->create([

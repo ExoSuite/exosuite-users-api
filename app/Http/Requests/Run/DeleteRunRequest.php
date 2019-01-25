@@ -7,6 +7,10 @@ use App\Models\Run;
 use Illuminate\Support\Facades\Auth;
 
 
+/**
+ * Class DeleteRunRequest
+ * @package App\Http\Requests\Run
+ */
 class DeleteRunRequest extends RouteParamRequestUuidToId
 {
     /**

@@ -5,6 +5,10 @@ namespace App\Http\Requests\Post;
 use App\Rules\DashboardRestrictionRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class CreatePostRequest
+ * @package App\Http\Requests\Post
+ */
 class CreatePostRequest extends FormRequest
 {
     /**

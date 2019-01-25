@@ -11,6 +11,10 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
+/**
+ * Class Restriction
+ * @package App\Enums
+ */
 final class Restriction extends Enum
 {
     const PRIVATE = "private";
