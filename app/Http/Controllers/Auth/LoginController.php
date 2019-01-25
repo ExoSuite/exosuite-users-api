@@ -59,7 +59,7 @@ class LoginController extends Controller
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return JsonResponse|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response|void
+     * @return JsonResponse|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -73,7 +73,7 @@ class LoginController extends Controller
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
 
-            return $this->sendLockoutResponse($request);
+            $this->sendLockoutResponse($request);
         }
 
         if ($this->attemptLogin($request)) {
