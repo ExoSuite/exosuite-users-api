@@ -12,6 +12,11 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    /**
+     * @param $route
+     * @param array $parameters
+     * @return string
+     */
     protected function route($route, $parameters = [])
     {
         return route($route, $parameters, false);

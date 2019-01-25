@@ -57,11 +57,17 @@ class RegisterUserTest extends TestCase
         $this->assertDatabaseHas('users', $userData);
     }
 
+    /**
+     *
+     */
     public function testRegisterUserWithReturnedUser()
     {
         $this->testRegisterUser(true);
     }
 
+    /**
+     *
+     */
     public function testRegisterUserWithNickNameWithReturnedUser()
     {
         $this->testRegisterUser(true, true);

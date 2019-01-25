@@ -12,6 +12,10 @@ use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class MessageTest
+ * @package Tests\Unit
+ */
 class MessageTest extends TestCase
 {
     /**
@@ -24,6 +28,9 @@ class MessageTest extends TestCase
      */
     private $user2;
 
+    /**
+     * @throws \Exception
+     */
     public function testCreateMessageInBadGroup()
     {
         $group = factory(Group::class)->create();
@@ -38,6 +45,9 @@ class MessageTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testModifyBadMessage()
     {
         $group = factory(Group::class)->create();
@@ -53,6 +63,9 @@ class MessageTest extends TestCase
         $test->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testDeleteBadMessage()
     {
         $group = factory(Group::class)->create();
@@ -68,6 +81,9 @@ class MessageTest extends TestCase
         $test->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetBadMessages()
     {
         $group = factory(Group::class)->create();
@@ -85,6 +101,9 @@ class MessageTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();

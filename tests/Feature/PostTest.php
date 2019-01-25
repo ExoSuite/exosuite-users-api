@@ -9,14 +9,30 @@ use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class PostTest
+ * @package Tests\Feature
+ */
 class PostTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     * @var
+     */
     private $dashboard;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -43,6 +59,9 @@ class PostTest extends TestCase
         $this->assertDatabaseHas('posts', $response->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testUpdate()
     {
         Passport::actingAs($this->user);
@@ -61,6 +80,9 @@ class PostTest extends TestCase
         $this->assertDatabaseHas('posts', ['id' => $post->id, 'author_id' => $this->user->id, 'content' => $content]);
     }
 
+    /**
+     *
+     */
     public function testDelete()
     {
         Passport::actingAs($this->user);
@@ -76,6 +98,9 @@ class PostTest extends TestCase
         $this->assertDatabaseMissing('posts', $post_response->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testGetfromDashboard()
     {
         Passport::actingAs($this->user);

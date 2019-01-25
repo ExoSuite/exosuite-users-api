@@ -8,14 +8,30 @@ use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class NotificationTest
+ * @package Tests\Feature
+ */
 class NotificationTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     * @var
+     */
     private $user2;
 
+    /**
+     * @var
+     */
     private $user3;
 
+    /**
+     *
+     */
     public function testGetUserNotifications()
     {
         Passport::actingAs($this->user1);
@@ -31,6 +47,9 @@ class NotificationTest extends TestCase
         $notifications_req->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *
+     */
     public function testDeleteOneUserNotification()
     {
         Passport::actingAs($this->user1);
@@ -45,6 +64,9 @@ class NotificationTest extends TestCase
         $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
 
+    /**
+     *
+     */
     public function testDeleteAllReadUserNotification()
     {
         Passport::actingAs($this->user1);
@@ -60,6 +82,9 @@ class NotificationTest extends TestCase
         $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
 
+    /**
+     *
+     */
     public function testUpdateOneUserNotification()
     {
         Passport::actingAs($this->user1);
@@ -74,6 +99,9 @@ class NotificationTest extends TestCase
         $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
 
+    /**
+     *
+     */
     public function testUpdateAllUserNotification()
     {
         Passport::actingAs($this->user1);
@@ -86,6 +114,9 @@ class NotificationTest extends TestCase
         $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();

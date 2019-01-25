@@ -10,14 +10,30 @@ use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class CommentTest
+ * @package Tests\Feature
+ */
 class CommentTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $dash;
 
+    /**
+     * @var
+     */
     private $post;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -49,6 +65,9 @@ class CommentTest extends TestCase
         $this->assertDatabaseHas('commentaries', $response->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testGetComms()
     {
         Passport::actingAs($this->user);
@@ -64,6 +83,9 @@ class CommentTest extends TestCase
         $this->assertEquals(5, count($response->decodeResponseJson()));
     }
 
+    /**
+     *
+     */
     public function testUpdateComm()
     {
         Passport::actingAs($this->user);
@@ -96,6 +118,9 @@ class CommentTest extends TestCase
         );
     }
 
+    /**
+     *
+     */
     public function testDeleteComm()
     {
         Passport::actingAs($this->user);

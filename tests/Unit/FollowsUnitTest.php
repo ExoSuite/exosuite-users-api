@@ -9,12 +9,25 @@ use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class FollowsUnitTest
+ * @package Tests\Unit
+ */
 class FollowsUnitTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -27,6 +40,7 @@ class FollowsUnitTest extends TestCase
      * A basic test example.
      *
      * @return void
+     * @throws \Exception
      */
     public function testFollowWrongUser()
     {
@@ -35,6 +49,9 @@ class FollowsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testFollowAFollowedUser()
     {
         Passport::actingAs($this->user);
@@ -44,6 +61,9 @@ class FollowsUnitTest extends TestCase
         $response->assertJson(['message' => "You're already following this user."]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testUnfollowWithWrongUser()
     {
         Passport::actingAs($this->user);
@@ -51,6 +71,9 @@ class FollowsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testUselessUnfollow()
     {
         Passport::actingAs($this->user);
@@ -59,6 +82,9 @@ class FollowsUnitTest extends TestCase
         $response->assertJson(['message' => "You're not following this user."]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetFollowersFromWrongUser()
     {
         Passport::actingAs($this->user);
@@ -66,6 +92,9 @@ class FollowsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testAmIFollowingAWrongUser()
     {
         Passport::actingAs($this->user);

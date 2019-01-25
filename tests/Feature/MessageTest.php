@@ -33,6 +33,9 @@ class MessageTest extends TestCase
      */
     private $user2;
 
+    /**
+     *
+     */
     public function testCreateMessage()
     {
         $group = factory(Group::class)->create();
@@ -53,6 +56,9 @@ class MessageTest extends TestCase
         Notification::assertTimesSent(1, NewMessageNotification::class);
     }
 
+    /**
+     *
+     */
     public function testModifyMessage()
     {
         $group = factory(Group::class)->create();
@@ -74,6 +80,9 @@ class MessageTest extends TestCase
         Event::assertDispatched(ModifyMessageEvent::class, 1);
     }
 
+    /**
+     *
+     */
     public function testDeleteMessage()
     {
         $group = factory(Group::class)->create();
@@ -93,6 +102,9 @@ class MessageTest extends TestCase
         Event::assertDispatched(DeletedMessageEvent::class, 1);
     }
 
+    /**
+     *
+     */
     public function testGetMessages()
     {
         $group = factory(Group::class)->create();
@@ -111,6 +123,9 @@ class MessageTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();

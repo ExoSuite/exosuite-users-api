@@ -8,10 +8,20 @@ use Illuminate\Http\UploadedFile;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class UserProfilePictureTest
+ * @package Tests\Unit
+ */
 class UserProfilePictureTest extends TestCase
 {
+    /**
+     * @var
+     */
     static $user;
 
+    /**
+     *
+     */
     public function setUp()
     {
         parent::setUp();
@@ -19,6 +29,9 @@ class UserProfilePictureTest extends TestCase
             self::$user = factory(User::class)->create();
     }
 
+    /**
+     *
+     */
     public function testStoreUserProfilePictureAvatar()
     {
         Passport::actingAs(self::$user);
@@ -28,6 +41,9 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testGetUserProfilePictureAvatar()
     {
         Passport::actingAs(self::$user);
@@ -35,6 +51,9 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testStoreUserProfilePictureCover()
     {
         Passport::actingAs(self::$user);
@@ -44,6 +63,9 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testGetUserProfilePictureCover()
     {
         Passport::actingAs(self::$user);

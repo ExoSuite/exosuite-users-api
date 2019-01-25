@@ -9,12 +9,25 @@ use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class PendingRequestsUnitTest
+ * @package Tests\Unit
+ */
 class PendingRequestsUnitTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -35,6 +48,9 @@ class PendingRequestsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testCreationWithWrongUserId()
     {
         Passport::actingAs($this->user);
@@ -42,6 +58,9 @@ class PendingRequestsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testDeleteWithBadRequestId()
     {
         Passport::actingAs($this->user1);
@@ -51,6 +70,9 @@ class PendingRequestsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testDeleteAsWrongTarget()
     {
         Passport::actingAs($this->user);

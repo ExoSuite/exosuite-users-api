@@ -9,12 +9,25 @@ use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class DashboardTest
+ * @package Tests\Feature
+ */
 class DashboardTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $dash;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -36,6 +49,9 @@ class DashboardTest extends TestCase
         $this->assertEquals(1, count($response->decodeResponseJson()));
     }
 
+    /**
+     *
+     */
     public function testGetRestriction()
     {
         Passport::actingAs($this->user);
@@ -44,6 +60,9 @@ class DashboardTest extends TestCase
         $this->assertEquals(1, count($response->decodeResponseJson()));
     }
 
+    /**
+     *
+     */
     public function testChangeRestriction()
     {
         Passport::actingAs($this->user);

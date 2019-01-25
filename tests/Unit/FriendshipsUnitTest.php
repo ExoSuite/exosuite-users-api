@@ -8,12 +8,25 @@ use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class FriendshipsUnitTest
+ * @package Tests\Unit
+ */
 class FriendshipsUnitTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user;
 
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();
@@ -35,6 +48,9 @@ class FriendshipsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testAcceptFriendshipRequestWithWrongRequestId()
     {
         Passport::actingAs($this->user);
@@ -45,6 +61,9 @@ class FriendshipsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testAcceptFriendshipRequestAsWrongTarget()
     {
         Passport::actingAs($this->user);
@@ -54,6 +73,9 @@ class FriendshipsUnitTest extends TestCase
         $response->assertJson(['message' => "You're not allowed to answer this request"]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testDeclineFriendshipRequestWithWrongRequestId()
     {
         Passport::actingAs($this->user);
@@ -61,6 +83,9 @@ class FriendshipsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testDeclineFriendshipRequestAsWrongTarget()
     {
         Passport::actingAs($this->user);
@@ -70,6 +95,9 @@ class FriendshipsUnitTest extends TestCase
         $response->assertJson(['message' => "You're not allowed to answer this request"]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetFriendshipsFromWrongUser()
     {
         Passport::actingAs($this->user);
@@ -77,6 +105,9 @@ class FriendshipsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testDeleteFriendshipsWithWrongUser()
     {
         Passport::actingAs($this->user);
@@ -84,6 +115,9 @@ class FriendshipsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     public function testDeleteFalseFriendships()
     {
         Passport::actingAs($this->user);

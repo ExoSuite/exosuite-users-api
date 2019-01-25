@@ -13,6 +13,10 @@ use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class LikeTest
+ * @package Tests\Feature
+ */
 class LikeTest extends TestCase
 {
     /**
