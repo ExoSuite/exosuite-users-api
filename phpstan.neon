@@ -7,6 +7,9 @@ parameters:
     ignoreErrors:
         - '#Laravel\\Passport\\ClientRepository::createPasswordGrantClient()#'
         - '#Illuminate\\Database\\Query\\Builder::dynamicWhere()#'
+        - "#Offset 'host' does not exist on array()#"
+        - "#Offset 'scheme' does not exist on array()#"
+        - "#Builder::findOrFail#"
     paths:
         - %rootDir%/../../../app
         - %rootDir%/../../../routes
