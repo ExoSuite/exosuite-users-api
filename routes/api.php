@@ -126,13 +126,14 @@ Route::middleware('auth:api')->group(function () {
                 });
 
             Route::get('/', 'LikesController@getLikesFromLiker')->name('get_likes_from_liker');
-        });
 
             //PENDING REQUESTS-----------------------------------------------------------------------------------
             Route::prefix('pending_requests')->group(function () {
                 Route::post('/', 'PendingRequestController@store')->name('post_pending_request');
             });
+
         });
+     });
 
     Route::prefix('notification')->group(function () {
         Route::patch('/{notification?}', 'NotificationController@update')->name('patch_notification');
