@@ -8,6 +8,7 @@ use App\Http\Requests\CreateUserProfilePictureCoverRequest;
 use App\Http\Requests\CreateUserProfilePictureRequest;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
 
 class UserProfilePictureController extends Controller
 {
@@ -69,7 +70,7 @@ class UserProfilePictureController extends Controller
      * Display the avatar.
      *
      * @param User $user
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
      */
     public function show(User $user)
     {
@@ -108,7 +109,7 @@ class UserProfilePictureController extends Controller
     /**
      * Display the cover
      * @param User $user
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
      */
     public function showCover(User $user)
     {
