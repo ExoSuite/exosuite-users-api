@@ -15,10 +15,11 @@ abstract class TestCase extends BaseTestCase
     /**
      * @param $route
      * @param array $parameters
+     * @param bool $absolute
      * @return string
      */
-    protected function route($route, $parameters = [])
+    protected function route($route, $parameters = [], $absolute = false)
     {
-        return route($route, $parameters, false);
+        return route($route, $parameters, $absolute);
     }
 }

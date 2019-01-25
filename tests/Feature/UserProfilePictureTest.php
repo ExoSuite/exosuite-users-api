@@ -25,8 +25,9 @@ class UserProfilePictureTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        if (!self::$user)
+        if (!self::$user) {
             self::$user = factory(User::class)->create();
+        }
     }
 
     /**
@@ -35,10 +36,17 @@ class UserProfilePictureTest extends TestCase
     public function testStoreUserProfilePictureAvatar()
     {
         Passport::actingAs(self::$user);
-        $response = $this->post($this->route('post_picture_avatar', ["user" => self::$user->id]),
+        $response = $this->post(
+            $this->route('post_picture_avatar', ["user" => self::$user->id]),
             ['picture' => UploadedFile::fake()->image('avatar.jpg', 142, 142)],
-            ['Content-Type' => 'multipart/form-data']);
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
+            ['Content-Type' => 'multipart/form-data']
+        );
+        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertHeader('Location', $this->route(
+            'get_picture_avatar',
+            ['user' => self::$user->id],
+            true
+        ));
     }
 
     /**
@@ -57,10 +65,17 @@ class UserProfilePictureTest extends TestCase
     public function testStoreUserProfilePictureCover()
     {
         Passport::actingAs(self::$user);
-        $response = $this->post($this->route('post_picture_cover', ["user" => self::$user->id]),
+        $response = $this->post(
+            $this->route('post_picture_cover', ["user" => self::$user->id]),
             ['picture' => UploadedFile::fake()->image('cover.jpg', 1920, 640)],
-            ['Content-Type' => 'multipart/form-data']);
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
+            ['Content-Type' => 'multipart/form-data']
+        );
+        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertHeader('Location', $this->route(
+            'get_picture_cover',
+            ['user' => self::$user->id],
+            true
+        ));
     }
 
     /**

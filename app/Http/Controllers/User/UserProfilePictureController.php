@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Enums\CollectionPicture;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserProfilePictureAvatarRequest;
 use App\Http\Requests\CreateUserProfilePictureCoverRequest;
 use App\Http\Requests\CreateUserProfilePictureRequest;
 use App\Models\User;
-use App\Http\Controllers\Controller;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
  * Class UserProfilePictureController
@@ -25,8 +26,9 @@ class UserProfilePictureController extends Controller
     {
         $pictures = $user->profile()->first()->getMedia(CollectionPicture::PICTURE);
         $urls = array();
-        for ($i = 0; $i != sizeof($pictures); $i++)
+        for ($i = 0; $i != sizeof($pictures); $i++) {
             array_push($urls, $pictures[$i]->getFullUrl());
+        }
         return $this->ok($urls);
     }
 
@@ -54,19 +56,17 @@ class UserProfilePictureController extends Controller
      */
     public function storeAvatar(CreateUserProfilePictureAvatarRequest $request, User $user)
     {
-        $user->profile()->first()
-            ->addMedia($request->file("picture"))
+        $profile = $user->profile()->first();
+        $profile->addMedia($request->file("picture"))
             ->toMediaCollection(CollectionPicture::AVATAR);
-        $user->profile()->first()
-            ->update([
-                'avatar_id' =>
-                    $user->profile()
-                        ->first()
-                        ->getMedia(CollectionPicture::AVATAR)
-                        ->sortByDesc('created_at')
-                        ->first()->id
-            ]);
-        return $this->noContent();
+        $profile->update([
+            'avatar_id' =>
+                $profile->getMedia(CollectionPicture::AVATAR)
+                    ->sortByDesc('created_at')
+                    ->first()->id
+        ]);
+
+        return $this->created([], route('get_picture_avatar', ['user' => $user->id]));
     }
 
     /**
@@ -77,13 +77,17 @@ class UserProfilePictureController extends Controller
      */
     public function show(User $user)
     {
-        if ($user->profile()->first()->avatar_id == null)
-            return response('', 422);
-        return $this->file($user->profile()
-            ->first()
-            ->getMedia(CollectionPicture::AVATAR)
-            ->where('id', $user->profile()->first()->avatar_id)
-            ->last()->getPath('thumb'));
+        $profile = $user->profile()->first();
+        $avatarId = $profile->avatar_id;
+        if (!$avatarId) {
+            throw new UnprocessableEntityHttpException("Avatar id not set.");
+        }
+
+        return $this->file(
+            $profile->getMedia(CollectionPicture::AVATAR)
+                ->where('id', $avatarId)
+                ->last()->getPath('thumb')
+        );
     }
 
     /**
@@ -94,19 +98,17 @@ class UserProfilePictureController extends Controller
      */
     public function storeCover(CreateUserProfilePictureCoverRequest $request, User $user)
     {
-        $user->profile()->first()
-            ->addMedia($request->file("picture"))
+        $profile = $user->profile()->first();
+        $profile->addMedia($request->file("picture"))
             ->toMediaCollection(CollectionPicture::COVER);
-        $user->profile()->first()
-            ->update([
-                'cover_id' =>
-                    $user->profile()
-                        ->first()
-                        ->getMedia(CollectionPicture::COVER)
-                        ->sortByDesc('created_at')
-                        ->first()->id
-            ]);
-        return $this->noContent();
+        $profile->update([
+            'cover_id' =>
+                $profile->getMedia(CollectionPicture::COVER)
+                    ->sortByDesc('created_at')
+                    ->first()->id
+        ]);
+
+        return $this->created([], route('get_picture_cover', ['user' => $user->id]));
     }
 
     /**
@@ -116,14 +118,17 @@ class UserProfilePictureController extends Controller
      */
     public function showCover(User $user)
     {
-        if ($user->profile()->first()->cover_id == null)
-            return response('', 422);
-        else
-            return $this->file($user->profile()
-        ->first()
-        ->getMedia(CollectionPicture::COVER)
-        ->where('id', $user->profile()->first()->cover_id)
-        ->last()->getPath('banner'));
+        $profile = $user->profile()->first();
+        $coverId = $profile->cover_id;
+        if (!$coverId) {
+            throw new UnprocessableEntityHttpException("Profile Cover id not set.");
+        }
+
+        return $this->file(
+            $profile->getMedia(CollectionPicture::COVER)
+                ->where('id', $coverId)
+                ->last()->getPath('banner')
+        );
     }
 
     /**

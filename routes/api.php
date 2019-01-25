@@ -63,8 +63,8 @@ Route::middleware('auth:api')->group(function () {
             });
 
             Route::prefix('picture')->group(function () {
-                Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
-                Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');
+              /*  Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
+                Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');*/
                 Route::post('/avatar', 'User\UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
                 Route::get('/avatar', 'User\UserProfilePictureController@show')->name('get_picture_avatar');
                 Route::post('/cover', 'User\UserProfilePictureController@storeCover')->name('post_picture_cover');
@@ -126,11 +126,9 @@ Route::middleware('auth:api')->group(function () {
                                     Route::delete('/', 'LikesController@delete')->name('delete_like_for_commentary');
                                     Route::get('/', 'LikesController@getLikesFromID')->name('get_likes_from_commentary');
                                 });
-
                             });
                         });
                     });
-
                 });
             });
 
@@ -140,7 +138,6 @@ Route::middleware('auth:api')->group(function () {
             Route::prefix('pending_requests')->group(function () {
                 Route::post('/', 'PendingRequestController@store')->name('post_pending_request');
             });
-
         });
     });
     Route::get('search', 'User\UserController@search')->name('get_users');
@@ -205,7 +202,6 @@ Route::prefix('run')->group(function () {
 
 
             Route::prefix('{checkpoint_id}/time')->group(function () {
-
             });
         });
     });

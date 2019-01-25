@@ -25,8 +25,9 @@ class UserProfilePictureTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        if (!self::$user)
+        if (!self::$user) {
             self::$user = factory(User::class)->create();
+        }
     }
 
     /**
@@ -35,9 +36,11 @@ class UserProfilePictureTest extends TestCase
     public function testStoreUserProfilePictureAvatar()
     {
         Passport::actingAs(self::$user);
-        $response = $this->post($this->route('post_picture_avatar', ["user" => self::$user->id]),
+        $response = $this->post(
+            $this->route('post_picture_avatar', ["user" => self::$user->id]),
             ['picture' => UploadedFile::fake()->image('avatar.jpg', 50, 50)],
-            ['Content-Type' => 'multipart/form-data']);
+            ['Content-Type' => 'multipart/form-data']
+        );
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -57,9 +60,11 @@ class UserProfilePictureTest extends TestCase
     public function testStoreUserProfilePictureCover()
     {
         Passport::actingAs(self::$user);
-        $response = $this->post($this->route('post_picture_cover', ["user" => self::$user->id]),
+        $response = $this->post(
+            $this->route('post_picture_cover', ["user" => self::$user->id]),
             ['picture' => UploadedFile::fake()->image('cover.jpg', 1920, 640)->size(10500)],
-            ['Content-Type' => 'multipart/form-data']);
+            ['Content-Type' => 'multipart/form-data']
+        );
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
