@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTimesTable extends Migration
 {
@@ -21,6 +21,14 @@ class CreateTimesTable extends Migration
             $table->foreign('checkpoint_id')
                 ->references('id')
                 ->on('check_points')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->uuid('run_id');
+
+            $table->foreign('run_id')
+                ->references('id')
+                ->on('runs')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 

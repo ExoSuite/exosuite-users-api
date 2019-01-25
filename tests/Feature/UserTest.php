@@ -3,13 +3,13 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Laravel\Passport\Client;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Laravel\Passport\Client;
-use App\Models\UserProfile;
 
 /**
  * Class UserTest
@@ -80,6 +80,9 @@ class UserTest extends TestCase
             route('get_user')
         );
         $response->assertStatus(Response::HTTP_OK);
+        $expectTo = array_diff((new User())->getFillable(), (new User())->getHidden());
+        $expectTo['profile'] = (new UserProfile())->getFillable();
+        $response->assertJsonStructure($expectTo);
     }
 
     /**

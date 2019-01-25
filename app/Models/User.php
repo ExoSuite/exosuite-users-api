@@ -110,7 +110,7 @@ class User extends Authenticatable
             }
         );
 
-        static::created(function (User $user){
+        static::created(function (User $user) {
             $user->profile()->create();
         });
     }
@@ -198,5 +198,25 @@ class User extends Authenticatable
             Share::SHARE_RELATION_NAME,
             Share::getTableName()
         )->withTimestamps();
+    }
+
+    public function dashboard()
+    {
+        return $this->hasOne(Dashboard::class, 'owner_id');
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'author_id');
+    }
+
+    public function commentaries()
+    {
+        return $this->hasMany(Commentary::class, 'author_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'liker_id');
     }
 }

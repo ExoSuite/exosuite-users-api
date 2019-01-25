@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function me()
     {
-        return $this->ok(User::with('profile')->whereId(Auth::user()));
+        return $this->ok(User::with('profile')->whereId(Auth::id())->first());
     }
 
     /**
@@ -40,7 +40,7 @@ class UserController extends Controller
      */
     public function search(UserSearchRequest $request)
     {
-        $users = User::search($request->text)->with('profile')->get();
+        $users = User::search($request->text)->with('profile')->paginate();
         return $this->ok($users);
     }
 }

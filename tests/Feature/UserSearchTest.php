@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\User;
-use Laravel\Passport\Passport;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Models\UserProfile;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
+use Laravel\Passport\Passport;
+use Tests\TestCase;
 
 class UserSearchTest extends TestCase
 {
@@ -46,22 +45,14 @@ class UserSearchTest extends TestCase
 
             $uri = "$route?$queries";
 
-            $response = $this->json(
-                Request::METHOD_GET,
+            $response = $this->get(
                 $uri
             );
+            $expectTo = array_diff((new User())->getFillable(), (new User())->getHidden());
+            $expectTo['profile'] = (new UserProfile())->getFillable();
 
             $response->assertStatus(Response::HTTP_OK);
-            $response->assertJsonStructure([
-                [
-                    'id',
-                    'first_name',
-                    'last_name',
-                    'email',
-                    'nick_name',
-                    'profile' => (new UserProfile())->getFillable()
-                ]
-            ]);
+            $response->assertJsonStructure(["data" => [$expectTo]]);
         }
     }
 }

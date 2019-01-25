@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Group;
+
 /*
 |--------------------------------------------------------------------------
 | Broadcast Channels
@@ -11,7 +13,11 @@
 |
 */
 
+// private notification channel for a single user
 Broadcast::channel('users.{id}', function ($user, $id) {
-    ;
     return $user->id === $id;
+});
+
+Broadcast::channel('group.{group_id}', function ($user, Group $group) {
+    return $group->groupMembers()->whereUserId($user)->exists();
 });
