@@ -60,6 +60,9 @@ class LoginUserUnitTest extends TestCase
         );
     }
 
+    /**
+     *
+     */
     public function testBadPasswordMustFail()
     {
         $this->request(
@@ -71,6 +74,9 @@ class LoginUserUnitTest extends TestCase
         );
     }
 
+    /**
+     *
+     */
     public function testInvalidOAuthClient()
     {
         $this->request(

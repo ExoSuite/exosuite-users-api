@@ -4,6 +4,10 @@ namespace App\Http\Requests\Group;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class CreateGroupRequest
+ * @package App\Http\Requests\Group
+ */
 class CreateGroupRequest extends FormRequest
 {
     /**

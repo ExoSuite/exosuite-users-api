@@ -5,6 +5,10 @@ namespace App\Http\Requests\Run;
 use App\Rules\RunVisibilityRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class CreateRunRequest
+ * @package App\Http\Requests\Run
+ */
 class CreateRunRequest extends FormRequest
 {
     /**

@@ -13,6 +13,9 @@ class InitFeatureTest extends TestCase
 {
     use WithFaker;
 
+    /**
+     *
+     */
     public function testDatabaseConnection()
     {
         $this->artisan('passport:install');

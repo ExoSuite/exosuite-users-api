@@ -53,6 +53,8 @@ class Group extends UuidModel
         if ($this->isMember($user)) {
             return GroupMember::whereUserId($user->id)->first()->isAdmin();
         }
+
+        return false;
     }
 
     /**

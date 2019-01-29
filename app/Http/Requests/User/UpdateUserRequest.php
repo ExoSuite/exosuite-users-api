@@ -4,6 +4,10 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class UpdateUserRequest
+ * @package App\Http\Requests\User
+ */
 class UpdateUserRequest extends FormRequest
 {
     /**
@@ -26,7 +30,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'first_name' => 'sometimes|string|max:255',
             'last_name' => 'sometimes|string|max:255',
-            'nick_name' => 'sometimes|max:16|min:4'
+            'nick_name' => 'sometimes|string|max:16|min:4'
         ];
     }
 }

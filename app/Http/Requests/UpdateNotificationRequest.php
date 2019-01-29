@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class UpdateNotificationRequest
+ * @package App\Http\Requests
+ */
 class UpdateNotificationRequest extends FormRequest
 {
     /**

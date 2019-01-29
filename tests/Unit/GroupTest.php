@@ -9,14 +9,30 @@ use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class GroupTest
+ * @package Tests\Unit
+ */
 class GroupTest extends TestCase
 {
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     * @var
+     */
     private $user2;
 
+    /**
+     * @var
+     */
     private $user3;
 
+    /**
+     * @throws \Exception
+     */
     public function testCreateBadGroupWithName()
     {
         Passport::actingAs($this->user1);
@@ -24,6 +40,9 @@ class GroupTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testCreateBadGroupWithoutName()
     {
         Passport::actingAs($this->user1);
@@ -31,6 +50,9 @@ class GroupTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testAddBadNonAdminUserToExistingGroup()
     {
         Passport::actingAs($this->user1);
@@ -40,6 +62,9 @@ class GroupTest extends TestCase
         $test_req->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testAddBadAdminUserToExistingGroup()
     {
         Passport::actingAs($this->user1);
@@ -49,6 +74,9 @@ class GroupTest extends TestCase
         $test_req->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testDeleteBadUserFromGroup()
     {
         Passport::actingAs($this->user1);
@@ -58,6 +86,9 @@ class GroupTest extends TestCase
         $test_req->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testDeleteBadGroup()
     {
         Passport::actingAs($this->user1);
@@ -66,6 +97,9 @@ class GroupTest extends TestCase
         $delete_req->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetBadGroup()
     {
         Passport::actingAs($this->user1);
@@ -74,6 +108,9 @@ class GroupTest extends TestCase
         $get_req->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();

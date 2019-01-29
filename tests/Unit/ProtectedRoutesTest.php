@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
+/**
+ * Class ProtectedRoutesTest
+ * @package Tests\Unit
+ */
 class ProtectedRoutesTest extends TestCase
 {
     /**

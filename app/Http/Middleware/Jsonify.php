@@ -4,6 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 
+/**
+ * Class Jsonify
+ * @package App\Http\Middleware
+ */
 class Jsonify
 {
     /**

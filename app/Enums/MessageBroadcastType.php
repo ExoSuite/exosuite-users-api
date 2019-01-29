@@ -4,6 +4,10 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
+/**
+ * Class MessageBroadcastType
+ * @package App\Enums
+ */
 final class MessageBroadcastType extends Enum
 {
     const CREATED_MESSAGE = "NewMessage";

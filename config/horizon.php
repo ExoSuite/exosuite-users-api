@@ -5,18 +5,6 @@ use App\Enums\Queue;
 return [
 
     /*
-   |--------------------------------------------------------------------------
-   | Route Prefix
-   |--------------------------------------------------------------------------
-   |
-   | This is the name of the route prefix, and will define the base URL
-   | where your installation of AdministratorServices will live. If you would like
-   | AdministratorServices to live at the webroot, you can use a forward slash.
-   |
-   */
-    'uri' => 'monitoring/horizon',
-
-    /*
     |--------------------------------------------------------------------------
     | AdministratorServices Redis Connection
     |--------------------------------------------------------------------------
@@ -41,6 +29,21 @@ return [
     */
 
     'prefix' => env('HORIZON_PREFIX', 'horizon:'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Horizon Route Middleware
+    |--------------------------------------------------------------------------
+    |
+    | These middleware will get attached onto each Horizon route, giving you
+    | the chance to add your own middleware to this list or change any of
+    | the existing middleware. Or, you can simply stick with this list.
+    |
+    */
+    'middleware' => [
+        'web',
+        \App\Http\Middleware\AuthenticateHorizon::class
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -74,10 +77,32 @@ return [
     ],
 
 
-    'middleware' => [
-        'web',
-        \App\Http\Middleware\AuthenticateHorizon::class
-    ],
+    /*
+   |--------------------------------------------------------------------------
+   | Fast Termination
+   |--------------------------------------------------------------------------
+   |
+   | When this option is enabled, Horizon's "terminate" command will not
+   | wait on all of the workers to terminate unless the --wait option
+   | is provided. Fast termination can shorten deployment delay by
+   | allowing a new instance of Horizon to start while the last
+   | instance will continue to terminate each of its workers.
+   |
+   */
+    'fast_termination' => false,
+
+    /*
+   |--------------------------------------------------------------------------
+   | Memory Limit (MB)
+   |--------------------------------------------------------------------------
+   |
+   | This value describes the maximum amount of memory the Horizon worker
+   | may consume before it is terminated and restarted. You should set
+   | this value according to the resources available to your server.
+   |
+   */
+    'memory_limit' => 256,
+
 
     /*
     |--------------------------------------------------------------------------

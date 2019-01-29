@@ -51,7 +51,7 @@ class InternalRequest implements MakesInternalRequests
      * @param  array $headers
      * @param int $statusCode
      * @return \Illuminate\Http\Response
-     * @throws InternalRequestException if statusCode >= Response::HTTP_BAD_REQUEST
+     * @throws InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST
      */
     public function request(
         string $method,
@@ -59,8 +59,7 @@ class InternalRequest implements MakesInternalRequests
         array $data = [],
         array $headers = [],
         int $statusCode = Response::HTTP_OK
-    )
-    {
+    ) {
         $base_headers = [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json'
