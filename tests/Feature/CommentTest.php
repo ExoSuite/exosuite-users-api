@@ -32,19 +32,6 @@ class CommentTest extends TestCase
     private $post;
 
     /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-        $this->post = factory(Post::class)
-            ->create(['author_id' => $this->user->id, 'dashboard_id' => $this->dash->id, 'content' => str_random(10)]);
-    }
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -145,5 +132,18 @@ class CommentTest extends TestCase
         );
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('commentaries', $post_resp->decodeResponseJson());
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
+        $this->post = factory(Post::class)
+            ->create(['author_id' => $this->user->id, 'dashboard_id' => $this->dash->id, 'content' => str_random(10)]);
     }
 }

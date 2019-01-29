@@ -31,18 +31,6 @@ class PostTest extends TestCase
     private $dashboard;
 
     /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-        $this->user1 = factory(User::class)->create();
-    }
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -117,5 +105,17 @@ class PostTest extends TestCase
         ]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(5, count($response->decodeResponseJson()));
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
+        $this->user1 = factory(User::class)->create();
     }
 }

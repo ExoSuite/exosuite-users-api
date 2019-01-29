@@ -26,17 +26,6 @@ class DashboardUnitTest extends TestCase
     private $dash;
 
     /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-    }
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -59,5 +48,16 @@ class DashboardUnitTest extends TestCase
             'restriction' => 'wrong_value'
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
     }
 }

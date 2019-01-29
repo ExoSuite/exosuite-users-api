@@ -41,7 +41,11 @@ class MessageTest extends TestCase
         $group->load("groupMembers");
 
         Passport::actingAs($this->user);
-        $response = $this->post($this->route("post_message", [BindType::GROUP => Uuid::generate()->string]), ["contents" => str_random(10)]);
+        $response = $this->post($this->route("post_message", [
+            BindType::GROUP => Uuid::generate()->string
+        ]), [
+            "contents" => str_random(10)
+        ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -58,8 +62,18 @@ class MessageTest extends TestCase
         $group->load("groupMembers");
 
         Passport::actingAs($this->user);
-        $response = $this->post($this->route("post_message", [BindType::GROUP => $group->id]), ["contents" => str_random(10)]);
-        $test = $this->patch($this->route("patch_message", [BindType::GROUP => $group->id, BindType::MESSAGE => Uuid::generate()->string]), ["contents" => str_random(10)]);
+        $response = $this->post($this->route("post_message", [
+            BindType::GROUP => $group->id
+        ]), [
+            "contents" => str_random(10)
+        ]);
+        $response->assertStatus(Response::HTTP_CREATED);
+        $test = $this->patch($this->route("patch_message", [
+            BindType::GROUP => $group->id,
+            BindType::MESSAGE => Uuid::generate()->string
+        ]), [
+            "contents" => str_random(10)
+        ]);
         $test->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -76,8 +90,16 @@ class MessageTest extends TestCase
         $group->load("groupMembers");
 
         Passport::actingAs($this->user);
-        $response = $this->post($this->route("post_message", [BindType::GROUP => $group->id]), ["contents" => str_random(10)]);
-        $test = $this->delete($this->route("delete_message", [BindType::GROUP => $group->id, BindType::MESSAGE => Uuid::generate()->string]));
+        $response = $this->post($this->route("post_message", [
+            BindType::GROUP => $group->id
+        ]), [
+            "contents" => str_random(10)
+        ]);
+        $response->assertStatus(Response::HTTP_CREATED);
+        $test = $this->delete($this->route("delete_message", [
+            BindType::GROUP => $group->id,
+            BindType::MESSAGE => Uuid::generate()->string
+        ]));
         $test->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 

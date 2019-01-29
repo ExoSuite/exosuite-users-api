@@ -2,14 +2,19 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+
+// this class will be called first
+
+
 /**
- * Class InitFeatureTest
+ * Class AA_InitFeatureTest
  * @package Tests\Feature
  */
-class InitFeatureTest extends TestCase
+class AA_InitFeatureTest extends TestCase
 {
     use WithFaker;
 
@@ -18,7 +23,8 @@ class InitFeatureTest extends TestCase
      */
     public function testDatabaseConnection()
     {
+        $this->InitTests();
         $this->artisan('passport:install');
-        $this->assertDatabaseMissing('users', ['email' => $this->faker->safeEmail]);
+        $this->assertEmpty(User::all());
     }
 }

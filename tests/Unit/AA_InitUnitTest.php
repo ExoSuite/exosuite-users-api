@@ -2,17 +2,17 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+// this class will be called first
+
 /**
- * Class InitUnitTest
+ * Class AA_InitUnitTest
  * @package Tests\Unit
  */
-class InitUnitTest extends TestCase
+class AA_InitUnitTest extends TestCase
 {
-    use RefreshDatabase;
     use WithFaker;
 
     /**
@@ -22,6 +22,7 @@ class InitUnitTest extends TestCase
      */
     public function testDatabaseConnection()
     {
+        $this->InitTests();
         $this->assertDatabaseMissing('users', ['email' => $this->faker->safeEmail]);
     }
 }

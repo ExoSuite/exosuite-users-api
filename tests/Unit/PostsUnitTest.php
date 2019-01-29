@@ -32,18 +32,6 @@ class PostsUnitTest extends TestCase
     private $dashboard;
 
     /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->user1 = factory(User::class)->create();
-        $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user1->id]);
-    }
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -171,5 +159,17 @@ class PostsUnitTest extends TestCase
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->user1 = factory(User::class)->create();
+        $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user1->id]);
     }
 }

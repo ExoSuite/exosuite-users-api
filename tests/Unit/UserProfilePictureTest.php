@@ -41,6 +41,7 @@ class UserProfilePictureTest extends TestCase
             ['picture' => UploadedFile::fake()->image('avatar.jpg', 50, 50)],
             ['Content-Type' => 'multipart/form-data']
         );
+        $response->assertJsonValidationErrors(['picture']);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -65,6 +66,7 @@ class UserProfilePictureTest extends TestCase
             ['picture' => UploadedFile::fake()->image('cover.jpg', 1920, 640)->size(10500)],
             ['Content-Type' => 'multipart/form-data']
         );
+        $response->assertJsonValidationErrors(['picture']);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 

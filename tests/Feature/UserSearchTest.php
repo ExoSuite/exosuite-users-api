@@ -24,19 +24,6 @@ class UserSearchTest extends TestCase
     /**
      *
      */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->user = factory(User::class)->make();
-        $this->user->nick_name = $this->faker->company;
-        $user = User::create($this->user->toArray());
-        $user->searchable();
-    }
-
-
-    /**
-     *
-     */
     public function testSearchUser()
     {
         Passport::actingAs($this->user);
@@ -61,5 +48,17 @@ class UserSearchTest extends TestCase
             $response->assertStatus(Response::HTTP_OK);
             $response->assertJsonStructure(["data" => [$expectTo]]);
         }
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->user = factory(User::class)->make();
+        $this->user->nick_name = $this->faker->company;
+        $user = User::create($this->user->toArray());
+        $user->searchable();
     }
 }

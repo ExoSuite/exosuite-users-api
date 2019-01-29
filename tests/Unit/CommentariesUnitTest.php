@@ -38,25 +38,6 @@ class CommentariesUnitTest extends TestCase
     private $post;
 
     /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->user1 = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-        $this->post = factory(Post::class)
-            ->create([
-                'author_id' => $this->user->id,
-                'dashboard_id' => $this->dash->id,
-                'content' => str_random(10)
-            ]);
-    }
-
-
-    /**
      * @throws \Exception
      */
     public function testCreateCommsOnFalsePostId()
@@ -203,5 +184,23 @@ class CommentariesUnitTest extends TestCase
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->user1 = factory(User::class)->create();
+        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
+        $this->post = factory(Post::class)
+            ->create([
+                'author_id' => $this->user->id,
+                'dashboard_id' => $this->dash->id,
+                'content' => str_random(10)
+            ]);
     }
 }

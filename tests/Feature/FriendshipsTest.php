@@ -26,17 +26,6 @@ class FriendshipsTest extends TestCase
     private $user1;
 
     /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->user1 = factory(User::class)->create();
-    }
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -129,5 +118,16 @@ class FriendshipsTest extends TestCase
         $response = $this->delete(route('delete_friendship', ['user' => $this->user1->id]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('friendships', $accept_resp->decodeResponseJson());
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->user1 = factory(User::class)->create();
     }
 }

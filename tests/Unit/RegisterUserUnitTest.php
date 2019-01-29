@@ -17,21 +17,6 @@ class RegisterUserUnitTest extends TestCase
     use WithFaker;
 
     /**
-     * @param $expected
-     * @param array $data
-     */
-    private function request($expected, $data = [])
-    {
-        $response = $this->json(Request::METHOD_POST, route('register'), $data);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonStructure(
-            [
-                'message', 'errors' => $expected
-            ]
-        );
-    }
-
-    /**
      * Assert if error will be sent
      *
      * @return void
@@ -39,6 +24,17 @@ class RegisterUserUnitTest extends TestCase
     public function testRegisterUserWithInvalidData()
     {
         $this->request(['first_name', 'last_name', 'password', 'email']);
+    }
+
+    /**
+     * @param $expected
+     * @param array $data
+     */
+    private function request($expected, $data = [])
+    {
+        $response = $this->json(Request::METHOD_POST, route('register'), $data);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonValidationErrors($expected);
     }
 
     /**

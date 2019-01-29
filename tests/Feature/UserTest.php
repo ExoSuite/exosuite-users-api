@@ -32,23 +32,6 @@ class UserTest extends TestCase
     /**
      *
      */
-    protected function setUp()
-    {
-        parent::setUp();
-        /* @var User $userData */
-        $user = factory(User::class)->make();
-        /* @var array $userData */
-        $userData = $user->toArray();
-        $userData['password'] = $user->password;
-        $this->userPassword = $user->password;
-
-        $this->user = User::create($userData);
-        $this->assertTrue(UserProfile::whereId($this->user->id)->first()->id === $this->user->id);
-    }
-
-    /**
-     *
-     */
     public function testLoginMustReturnTokens()
     {
         $response = $this->json(
@@ -116,5 +99,22 @@ class UserTest extends TestCase
 
         $response = $this->patch(route("patch_user"), ["nick_name", $this->faker->name]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        /* @var User $userData */
+        $user = factory(User::class)->make();
+        /* @var array $userData */
+        $userData = $user->toArray();
+        $userData['password'] = $user->password;
+        $this->userPassword = $user->password;
+
+        $this->user = User::create($userData);
+        $this->assertTrue(UserProfile::whereId($this->user->id)->first()->id === $this->user->id);
     }
 }

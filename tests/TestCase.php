@@ -22,4 +22,13 @@ abstract class TestCase extends BaseTestCase
     {
         return route($route, $parameters, $absolute);
     }
+
+
+    /**
+     *
+     */
+    protected function InitTests()
+    {
+        $this->artisan('migrate:fresh');
+    }
 }

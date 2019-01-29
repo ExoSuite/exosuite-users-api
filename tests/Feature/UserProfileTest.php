@@ -24,18 +24,6 @@ class UserProfileTest extends TestCase
     /**
      *
      */
-    protected function setUp()
-    {
-        parent::setUp();
-        if (!self::$user) {
-            self::$user = factory(User::class)->create();
-        }
-        Passport::actingAs(self::$user);
-    }
-
-    /**
-     *
-     */
     public function testGetProfile()
     {
         $response = $this->get(route('get_user_profile', ["user" => self::$user->id]));
@@ -85,5 +73,17 @@ class UserProfileTest extends TestCase
 
         $response = $this->patch(route('patch_user_profile'), $data);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        if (!self::$user) {
+            self::$user = factory(User::class)->create();
+        }
+        Passport::actingAs(self::$user);
     }
 }

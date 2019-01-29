@@ -45,25 +45,6 @@ class LikeTest extends TestCase
     private $run;
 
     /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-        $this->post = factory(Post::class)->create([
-            'dashboard_id' => $this->dash->id,
-            'author_id' => $this->user->id
-        ]);
-        $this->comm = factory(Commentary::class)->create([
-            'post_id' => $this->post->id,
-            'author_id' => $this->user->id
-        ]);
-    }
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -277,5 +258,24 @@ class LikeTest extends TestCase
         ]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(2, count($response->decodeResponseJson()));
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
+        $this->post = factory(Post::class)->create([
+            'dashboard_id' => $this->dash->id,
+            'author_id' => $this->user->id
+        ]);
+        $this->comm = factory(Commentary::class)->create([
+            'post_id' => $this->post->id,
+            'author_id' => $this->user->id
+        ]);
     }
 }

@@ -14,6 +14,14 @@ use Tests\TestCase;
 class RegisterUserTest extends TestCase
 {
     /**
+     *
+     */
+    public function testRegisterUserWithReturnedUser()
+    {
+        $this->testRegisterUser(true);
+    }
+
+    /**
      * Register an user
      *
      * @param bool $with_user
@@ -55,14 +63,6 @@ class RegisterUserTest extends TestCase
         }
 
         $this->assertDatabaseHas('users', $userData);
-    }
-
-    /**
-     *
-     */
-    public function testRegisterUserWithReturnedUser()
-    {
-        $this->testRegisterUser(true);
     }
 
     /**

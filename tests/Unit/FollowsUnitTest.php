@@ -26,17 +26,6 @@ class FollowsUnitTest extends TestCase
     private $user1;
 
     /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->user1 = factory(User::class)->create();
-    }
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -100,5 +89,16 @@ class FollowsUnitTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_am_i_following', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->user1 = factory(User::class)->create();
     }
 }

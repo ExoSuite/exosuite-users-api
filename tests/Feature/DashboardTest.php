@@ -26,17 +26,6 @@ class DashboardTest extends TestCase
     private $dash;
 
     /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-    }
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -70,5 +59,16 @@ class DashboardTest extends TestCase
             'user' => $this->user->id
         ]), ['restriction' => Restriction::PUBLIC]);
         $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
     }
 }

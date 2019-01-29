@@ -27,16 +27,6 @@ class RunTest extends TestCase
     /**
      *
      */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-    }
-
-    /**
-     *
-     */
     public function testCreateRun()
     {
         Passport::actingAs($this->user);
@@ -162,5 +152,15 @@ class RunTest extends TestCase
         $this->run = factory(Run::class)->create();
         $response = $this->get($this->route("get_run_by_id", [$this->run->id]));
         $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
     }
 }
