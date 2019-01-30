@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Trait JsonResponses

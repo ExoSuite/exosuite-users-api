@@ -10,6 +10,7 @@ parameters:
         - "#Offset 'host' does not exist on array()#"
         - "#Offset 'scheme' does not exist on array()#"
         - "#Builder::findOrFail#"
+        - '#array<Illuminate\Http\UploadedFile>|Illuminate\Http\UploadedFile|null given#'
     paths:
         - %rootDir%/../../../app
         - %rootDir%/../../../routes
