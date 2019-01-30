@@ -69,6 +69,7 @@ return [
             'host'     => 'exosuite-vsftpd',
             'username' => 'exosuite',
             'password' => '4mFKMDwfaGKxmWT96GwXWD4',
+            'passive' => false,
 
             // Optional FTP Settings...
             // 'port'     => 21,

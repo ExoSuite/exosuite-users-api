@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CollectionPicture;
+use App\Enums\MediaConversion;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
@@ -50,11 +51,11 @@ class UserProfile extends Model implements HasMedia
      */
     public function registerMediaConversions(Media $media = null)
     {
-        $this->addMediaConversion('thumb')
+        $this->addMediaConversion(MediaConversion::THUMB)
             ->width(124)
             ->height(124)
             ->performOnCollections(CollectionPicture::AVATAR);
-        $this->addMediaConversion('banner')
+        $this->addMediaConversion(MediaConversion::BANNER)
             ->width(1920)
             ->height(640)
             ->performOnCollections(CollectionPicture::COVER);

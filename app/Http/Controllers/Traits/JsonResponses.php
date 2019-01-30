@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Traits;
 
+use App\Models\Media;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -88,11 +89,21 @@ trait JsonResponses
     }
 
     /**
-     * @param string $path
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @param Media $media
+     * @param string $conversionName
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    protected function file(string $path)
+    protected function file(Media $media, string $conversionName = '')
     {
-        return Response::file($path);
+        return Response::stream(function () use ($media, $conversionName) {
+            $stream = Storage::readStream($media->toStreamPath($conversionName));
+
+            fpassthru($stream);
+
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+        }, 200, $media->toStreamHeaders($conversionName));
     }
 }

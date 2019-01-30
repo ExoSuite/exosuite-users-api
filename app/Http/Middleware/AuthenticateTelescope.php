@@ -31,6 +31,6 @@ class AuthenticateTelescope
             });
         }
 
-        return $authenticated;
+        return $next($request);
     }
 }
