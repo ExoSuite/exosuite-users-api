@@ -68,7 +68,7 @@ return [
             'driver'   => 'ftp',
             'host'     => 'exosuite-vsftpd',
             'username' => 'exosuite',
-            'password' => '4mFKMDwfaGKxmWT96GwXWD4',
+            'password' => env('FTP_PASSWORD'),
             'passive' => false,
 
             // Optional FTP Settings...
