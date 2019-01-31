@@ -70,13 +70,8 @@ return [
             'username' => 'exosuite',
             'password' => env('FTP_PASSWORD'),
             'passive' => false,
-
-            // Optional FTP Settings...
-            // 'port'     => 21,
-            // 'root'     => '',
-            // 'passive'  => true,
-            // 'ssl'      => true,
-            // 'timeout'  => 30,
+            'port'     => 21,
+            'ssl'      => false
         ],
 
     ],

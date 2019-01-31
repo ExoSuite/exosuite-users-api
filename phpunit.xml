@@ -32,6 +32,5 @@
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="MAIL_DRIVER" value="array"/>
         <env name="SCOUT_QUEUE" value="false"/>
-        <env name="FILESYSTEM_DRIVE" value="ftp"/>
     </php>
 </phpunit>
