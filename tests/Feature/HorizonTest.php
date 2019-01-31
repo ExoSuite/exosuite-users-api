@@ -7,6 +7,10 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * Class HorizonTest
+ * @package Tests\Feature
+ */
 class HorizonTest extends TestCase
 {
     /**
