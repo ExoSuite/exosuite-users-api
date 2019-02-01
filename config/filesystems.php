@@ -71,7 +71,13 @@ return [
             'password' => env('FTP_PASSWORD'),
             'passive' => false,
             'port'     => 21,
-            'ssl'      => false
+            'ssl'      => false,
+
+            'cache' => [
+                'store' => 'memcached',
+                'expire' => 600,
+                'prefix' => 'cache-prefix',
+            ],
         ],
 
     ],
