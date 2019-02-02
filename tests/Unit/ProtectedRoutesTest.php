@@ -22,6 +22,7 @@ class ProtectedRoutesTest extends TestCase
      */
     public function testAuthException()
     {
+        \Artisan::call('passport:install');
         $response = $this->json(Request::METHOD_GET, route('get_user'));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
