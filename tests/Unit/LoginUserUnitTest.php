@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,6 +16,7 @@ use Tests\TestCase;
 class LoginUserUnitTest extends TestCase
 {
     use WithFaker;
+    use RefreshDatabase;
 
 
     /**

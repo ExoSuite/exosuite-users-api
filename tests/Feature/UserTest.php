@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\UserProfile;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,6 +18,7 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
+    use RefreshDatabase;
     use WithFaker;
 
     /**
@@ -34,6 +36,7 @@ class UserTest extends TestCase
      */
     public function testLoginMustReturnTokens()
     {
+        \Artisan::call('passport:install');
         $response = $this->json(
             Request::METHOD_POST,
             route('login'),

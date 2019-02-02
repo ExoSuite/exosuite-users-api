@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Notifications\DeletedGroupNotification;
 use App\Notifications\ExpelledFromGroupNotification;
 use App\Notifications\NewGroupNotification;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
@@ -18,6 +19,7 @@ use Tests\TestCase;
  */
 class GroupTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @var
      */

@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\Message;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -18,6 +19,8 @@ use Webpatser\Uuid\Uuid;
  */
 class MessageTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @var User
      */

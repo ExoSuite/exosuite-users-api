@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Foundation\Testing\PendingCommand;
 
 /**
  * Class TestCase
@@ -21,14 +22,5 @@ abstract class TestCase extends BaseTestCase
     protected function route($route, $parameters = [], $absolute = false)
     {
         return route($route, $parameters, $absolute);
-    }
-
-
-    /**
-     *
-     */
-    protected function InitTests()
-    {
-        $this->artisan('migrate:fresh');
     }
 }
