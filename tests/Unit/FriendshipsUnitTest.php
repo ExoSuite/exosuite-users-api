@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -14,6 +15,7 @@ use Webpatser\Uuid\Uuid;
  */
 class FriendshipsUnitTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @var
      */
@@ -23,17 +25,6 @@ class FriendshipsUnitTest extends TestCase
      * @var
      */
     private $user1;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->user1 = factory(User::class)->create();
-    }
 
     /**
      * A basic test example.
@@ -124,5 +115,16 @@ class FriendshipsUnitTest extends TestCase
         $response = $this->delete(route('delete_friendship', ['user' => $this->user1->id]));
         $response->assertStatus(Response::HTTP_BAD_REQUEST);
         $response->assertJson(['message' => "There is no such relation between you and this user."]);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->user1 = factory(User::class)->create();
     }
 }

@@ -68,6 +68,7 @@ class GroupPolicy
      */
     public function update(User $user, Group $group)
     {
+        return ($group->isAdmin($user));
     }
 
     /**
@@ -79,6 +80,7 @@ class GroupPolicy
      */
     public function delete(User $user, Group $group)
     {
+        return ($group->isAdmin($user));
     }
 
     /**

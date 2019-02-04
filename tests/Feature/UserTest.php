@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\UserProfile;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,6 +18,7 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
+    use RefreshDatabase;
     use WithFaker;
 
     /**
@@ -32,25 +34,9 @@ class UserTest extends TestCase
     /**
      *
      */
-    protected function setUp()
-    {
-        parent::setUp();
-        /* @var User $userData */
-        $user = factory(User::class)->make();
-        /* @var array $userData */
-        $userData = $user->toArray();
-        $userData['password'] = $user->password;
-        $this->userPassword = $user->password;
-
-        $this->user = User::create($userData);
-        $this->assertTrue(UserProfile::whereId($this->user->id)->first()->id === $this->user->id);
-    }
-
-    /**
-     *
-     */
     public function testLoginMustReturnTokens()
     {
+        \Artisan::call('passport:install');
         $response = $this->json(
             Request::METHOD_POST,
             route('login'),
@@ -116,5 +102,22 @@ class UserTest extends TestCase
 
         $response = $this->patch(route("patch_user"), ["nick_name", $this->faker->name]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        /* @var User $userData */
+        $user = factory(User::class)->make();
+        /* @var array $userData */
+        $userData = $user->toArray();
+        $userData['password'] = $user->password;
+        $this->userPassword = $user->password;
+
+        $this->user = User::create($userData);
+        $this->assertTrue(UserProfile::whereId($this->user->id)->first()->id === $this->user->id);
     }
 }

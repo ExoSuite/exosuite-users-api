@@ -31,6 +31,6 @@ class AuthenticateHorizon
             });
         }
 
-        return $authenticated;
+        return $next($request);
     }
 }

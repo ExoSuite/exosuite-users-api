@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\Visibility;
 use App\Models\Run;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -15,6 +16,8 @@ use Tests\TestCase;
  */
 class RunTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @var User
      */
@@ -23,16 +26,6 @@ class RunTest extends TestCase
      * @var Run
      */
     private $run;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-    }
 
     /**
      *
@@ -162,5 +155,15 @@ class RunTest extends TestCase
         $this->run = factory(Run::class)->create();
         $response = $this->get($this->route("get_run_by_id", [$this->run->id]));
         $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
     }
 }

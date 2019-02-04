@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Dashboard;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -16,6 +17,8 @@ use Webpatser\Uuid\Uuid;
  */
 class PostsUnitTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @var
      */
@@ -30,18 +33,6 @@ class PostsUnitTest extends TestCase
      * @var
      */
     private $dashboard;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->user1 = factory(User::class)->create();
-        $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user1->id]);
-    }
 
     /**
      * A basic test example.
@@ -171,5 +162,17 @@ class PostsUnitTest extends TestCase
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->user1 = factory(User::class)->create();
+        $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user1->id]);
     }
 }

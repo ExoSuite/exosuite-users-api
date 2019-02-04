@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Friendship;
 use App\Models\PendingRequest;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -15,6 +16,7 @@ use Tests\TestCase;
  */
 class FriendshipsTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @var
      */
@@ -24,17 +26,6 @@ class FriendshipsTest extends TestCase
      * @var
      */
     private $user1;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->user1 = factory(User::class)->create();
-    }
 
     /**
      * A basic test example.
@@ -129,5 +120,16 @@ class FriendshipsTest extends TestCase
         $response = $this->delete(route('delete_friendship', ['user' => $this->user1->id]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('friendships', $accept_resp->decodeResponseJson());
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->user1 = factory(User::class)->create();
     }
 }

@@ -6,7 +6,7 @@ return [
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => 'public',
+    'disk_name' => env('FILESYSTEM_DRIVER', 'local'),
 
     /*
      * The maximum file size of an item in bytes.
@@ -74,7 +74,7 @@ return [
      * When urls to files get generated, this class will be called. Leave empty
      * if your files are stored locally above the site root or on s3.
      */
-    'url_generator' => null,
+    'url_generator' => \App\Config\FtpUrlGenerator::class,
 
     /*
      * The class that contains the strategy for determining a media file's path.

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\Restriction;
 use App\Models\Dashboard;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -15,6 +16,7 @@ use Tests\TestCase;
  */
 class DashboardTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @var
      */
@@ -24,17 +26,6 @@ class DashboardTest extends TestCase
      * @var
      */
     private $dash;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-    }
 
     /**
      * A basic test example.
@@ -70,5 +61,16 @@ class DashboardTest extends TestCase
             'user' => $this->user->id
         ]), ['restriction' => Restriction::PUBLIC]);
         $response->assertStatus(Response::HTTP_OK);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
     }
 }

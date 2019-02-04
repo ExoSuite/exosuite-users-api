@@ -27,7 +27,7 @@ class AdministratorServices
      */
     public function handleAuth($data)
     {
-        if (App::isLocal()) {
+        if (App::isLocal() or App::runningUnitTests()) {
             return true;
         }
 
