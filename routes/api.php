@@ -141,24 +141,24 @@ Route::middleware('auth:api')->group(function () {
         });
     });
     Route::get('search', 'User\UserController@search')->name('get_users');
-});
 
-Route::prefix('notification')->group(function () {
-    Route::patch('/{notification?}', 'NotificationController@update')->name('patch_notification');
-    Route::get('/', 'NotificationController@index')->name('get_notification');
-    Route::delete('/{notification?}', 'NotificationController@destroy')->name('delete_notification');
-});
+    Route::prefix('notification')->group(function () {
+        Route::patch('/{notification?}', 'NotificationController@update')->name('patch_notification');
+        Route::get('/', 'NotificationController@index')->name('get_notification');
+        Route::delete('/{notification?}', 'NotificationController@destroy')->name('delete_notification');
+    });
 
-Route::prefix('group')->group(function () {
-    Route::post('/', 'GroupController@store')->name('post_group');
-    Route::patch('/{group}', 'GroupController@update')->name('patch_group')->middleware('can:update,group');;
-    Route::get('/{group}', 'GroupController@index')->name('get_group');
-    Route::delete('/{group}', 'GroupController@destroy')->name('delete_group')->middleware('can:delete,group');;
-    Route::prefix('/{group}/message')->group(function () {
-        Route::post('/', 'MessageController@store')->name('post_message')->middleware('can:createGroupMessage,group');
-        Route::patch('/{message}', 'MessageController@update')->name('patch_message')->middleware('can:update,message');
-        Route::get('/', 'MessageController@index')->name('get_message')->middleware('can:viewGroupMessages,group');
-        Route::delete('/{message}', 'MessageController@destroy')->name('delete_message')->middleware('can:delete,message');
+    Route::prefix('group')->group(function () {
+        Route::post('/', 'GroupController@store')->name('post_group');
+        Route::patch('/{group}', 'GroupController@update')->name('patch_group')->middleware('can:update,group');;
+        Route::get('/{group}', 'GroupController@index')->name('get_group');
+        Route::delete('/{group}', 'GroupController@destroy')->name('delete_group')->middleware('can:delete,group');;
+        Route::prefix('/{group}/message')->group(function () {
+            Route::post('/', 'MessageController@store')->name('post_message')->middleware('can:createGroupMessage,group');
+            Route::patch('/{message}', 'MessageController@update')->name('patch_message')->middleware('can:update,message');
+            Route::get('/', 'MessageController@index')->name('get_message')->middleware('can:viewGroupMessages,group');
+            Route::delete('/{message}', 'MessageController@destroy')->name('delete_message')->middleware('can:delete,message');
+        });
     });
 });
 
