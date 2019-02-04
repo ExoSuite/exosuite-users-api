@@ -43,6 +43,7 @@ class GroupTest extends TestCase
             "name" => str_random(100),
             "users" => Uuid::generate()->string
         ]);
+        $response->assertJsonValidationErrors(['users']);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -53,6 +54,7 @@ class GroupTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["users" => Uuid::generate()->string]);
+        $response->assertJsonValidationErrors(['users']);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -102,6 +104,20 @@ class GroupTest extends TestCase
     /**
      * @throws \Exception
      */
+    public function testUpdateGroupWithoutRights()
+    {
+        Passport::actingAs($this->user1);
+        $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
+        $group_id = $response->decodeResponseJson('id');
+        $new_name = "NameForTest";
+        Passport::actingAs($this->user2);
+        $test_req = $this->patch($this->route("patch_group", [BindType::GROUP => $group_id]), ["request_type" => "update_group_name", "name" => $new_name]);
+        $test_req->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /**
+     * @throws \Exception
+     */
     public function testDeleteBadUserFromGroup()
     {
         Passport::actingAs($this->user1);
@@ -132,6 +148,20 @@ class GroupTest extends TestCase
         ]);
         $delete_req = $this->delete($this->route('delete_group', [BindType::GROUP => Uuid::generate()->string]));
         $delete_req->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+
+    /**
+     *
+     */
+    public function testDeleteGroupWithoutRights()
+    {
+        Passport::actingAs($this->user1);
+        $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id, $this->user3->id]]);
+        $group_id = $response->decodeResponseJson('id');
+        Passport::actingAs($this->user2);
+        $delete_req = $this->delete($this->route('delete_group', [BindType::GROUP => $group_id]));
+        $delete_req->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /**

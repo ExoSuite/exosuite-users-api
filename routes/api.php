@@ -151,9 +151,9 @@ Route::prefix('notification')->group(function () {
 
 Route::prefix('group')->group(function () {
     Route::post('/', 'GroupController@store')->name('post_group');
-    Route::patch('/{group}', 'GroupController@update')->name('patch_group');
+    Route::patch('/{group}', 'GroupController@update')->name('patch_group')->middleware('can:update,group');;
     Route::get('/{group}', 'GroupController@index')->name('get_group');
-    Route::delete('/{group}', 'GroupController@destroy')->name('delete_group');
+    Route::delete('/{group}', 'GroupController@destroy')->name('delete_group')->middleware('can:delete,group');;
     Route::prefix('/{group}/message')->group(function () {
         Route::post('/', 'MessageController@store')->name('post_message')->middleware('can:createGroupMessage,group');
         Route::patch('/{message}', 'MessageController@update')->name('patch_message')->middleware('can:update,message');
