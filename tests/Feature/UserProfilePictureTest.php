@@ -87,6 +87,7 @@ class UserProfilePictureTest extends TestCase
     public function testStoreUserProfilePictureCover()
     {
         $response = $this->storeUserProfilePictureCover();
+        dd($response->decodeResponseJson());
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertHeader('Location', $this->route(
             'get_picture_cover',
