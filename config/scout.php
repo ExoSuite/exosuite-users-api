@@ -1,7 +1,11 @@
 <?php
 
-if (! function_exists('runningUnitTests')) {
-    function runningUnitTests() {
+if (!function_exists('runningUnitTests')) {
+    /**
+     * @return bool
+     */
+    function runningUnitTests()
+    {
         return env('APP_ENV') === 'testing';
     }
 }

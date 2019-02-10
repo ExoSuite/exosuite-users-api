@@ -6,7 +6,6 @@ use App\Enums\Visibility;
 use App\Models\Abstracts\UuidModel;
 use App\Models\Traits\Shareable;
 use App\Pivots\UserShare;
-use Webpatser\Uuid\Uuid;
 use Illuminate\Support\Facades\Auth;
 
 /**

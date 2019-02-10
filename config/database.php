@@ -67,6 +67,19 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'pgsql_website' => [
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST_WEBSITE', '127.0.0.1'),
+            'port' => env('DB_PORT_WEBSITE', '5432'),
+            'database' => env('DB_DATABASE_WEBSITE', 'forge'),
+            'username' => env('DB_USERNAME_WEBSITE', 'forge'),
+            'password' => env('DB_PASSWORD_WEBSITE', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'host' => env('DB_HOST', 'localhost'),
@@ -76,6 +89,12 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'prefix' => '',
+        ],
+
+        'sqlite_testing' => [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
         ],
 
     ],
@@ -124,13 +143,6 @@ return [
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_CACHE_DB', 1),
-        ],
-
-        'sessions' => [
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD', null),
-            'port' => env('REDIS_PORT', 6379),
-            'database' => env('REDIS_SESSION_DB', 2)
         ]
 
     ],

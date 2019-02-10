@@ -9,6 +9,7 @@ use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\Jsonify;
 use App\Http\Middleware\JsonResponse;
+use App\Http\Middleware\Localization;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
@@ -45,6 +46,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         TrustProxies::class,
         \Barryvdh\Cors\HandleCors::class,
+        Localization::class
     ];
 
     /**

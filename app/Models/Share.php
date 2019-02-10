@@ -25,6 +25,9 @@ class Share extends UuidModel
         'created_at', 'updated_at'
     ];
 
+    /**
+     * @var array
+     */
     protected $hidden = [
         'shareable_type', 'shareable_id'
     ];

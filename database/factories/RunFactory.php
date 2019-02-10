@@ -1,7 +1,9 @@
-<?php
+<?php /** @noinspection ALL */
 
-use Faker\Generator as Faker;
+/** @noinspection PhpUndefinedVariableInspection */
+
 use App\Models\Run;
+use Faker\Generator as Faker;
 
 $factory->define(Run::class, function (Faker $faker) {
     return [

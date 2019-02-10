@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
+use App\Enums\Roles;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
-use App\Enums\Roles;
 
 
+/**
+ * Class HorizonServiceProvider
+ * @package App\Providers
+ */
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
     /**
@@ -33,6 +37,9 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewHorizon', function ($user) {
+            if (app()->runningUnitTests())
+                return true;
+
             return $user->inRole(Roles::ADMINISTRATOR);
         });
     }

@@ -1,6 +1,6 @@
 <?php
 
-return array (
+return array(
 
     /*
     |--------------------------------------------------------------------------
@@ -50,7 +50,7 @@ return array (
 
     'include_helpers' => false,
 
-    'helper_files' => array (
+    'helper_files' => array(
         base_path() . '/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
     ),
 
@@ -64,7 +64,7 @@ return array (
     |
     */
 
-    'model_locations' => array (
+    'model_locations' => array(
         'app',
     ),
 
@@ -78,13 +78,13 @@ return array (
     |
     */
 
-    'extra' => array (
-        'Eloquent' => array ( 'Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder' ),
-        'Session' => array ( 'Illuminate\Session\Store' ),
+    'extra' => array(
+        'Eloquent' => array('Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder'),
+        'Session' => array('Illuminate\Session\Store'),
     ),
 
-    'magic' => array (
-        'Log' => array (
+    'magic' => array(
+        'Log' => array(
             'debug' => 'Monolog\Logger::addDebug',
             'info' => 'Monolog\Logger::addInfo',
             'notice' => 'Monolog\Logger::addNotice',
@@ -106,7 +106,7 @@ return array (
     |
     */
 
-    'interfaces' => array (
+    'interfaces' => array(
         \App\Contracts\MakeOAuthRequest::class,
         \App\Contracts\MakesInternalRequests::class,
         \App\Contracts\ApiHelperInterface::class
@@ -138,7 +138,7 @@ return array (
     |  ),
     |
     */
-    'custom_db_types' => array (),
+    'custom_db_types' => array(),
 
     /*
      |--------------------------------------------------------------------------
@@ -174,7 +174,7 @@ return array (
     | Cast the given "real type" to the given "type".
     |
     */
-    'type_overrides' => array (
+    'type_overrides' => array(
         'integer' => 'int',
         'boolean' => 'bool',
     ),

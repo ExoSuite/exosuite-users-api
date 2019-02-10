@@ -3,61 +3,89 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\UserProfile;
+use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * Class UserProfileTest
+ * @package Tests\Feature
+ */
 class UserProfileTest extends TestCase
 {
+    use RefreshDatabase;
 
-    private $user = null;
+    /**
+     * @var null
+     */
+    private static $user = null;
 
-    protected function setUp()
+    /**
+     *
+     */
+    public function testGetProfile()
     {
-        parent::setUp();
-        $this->user = factory(User::class)->create();
-        $this->user = Passport::actingAs($this->user);
+        $response = $this->get(route('get_user_profile', ["user" => self::$user->id]));
+        $response->assertStatus(Response::HTTP_OK);
+        $expectTo = [
+            'profile' => (new UserProfile())->getFillable()
+        ];
+        $userProperties = array_diff((new User())->getFillable(), (new User())->getHidden());
+        $expectTo = array_merge($expectTo, $userProperties);
+        $response->assertJsonStructure($expectTo);
     }
 
     /**
-     * A basic test example.
      *
-     * @return void
      */
-    public function testCreateProfile()
+    public function testPatchProfileDescription()
     {
-        $data = [
-            'description' => str_random()
-        ];
-
-        $response = $this->post(route('post_user_profile'), $data);
-        $response->assertStatus(Response::HTTP_CREATED);
-
-        $this->assertDatabaseHas('user_profiles', $data);
-    }
-
-    public function testGetProfile()
-    {
-        $this->testCreateProfile();
-
-        $response = $this->get(route('get_user_profile'));
-        $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonStructure([
-            'birthday', 'city', 'description'
-        ]);
-    }
-
-    public function testPatchProfile()
-    {
-        $this->testCreateProfile();
-
         $data = [
             'description' => str_random()
         ];
 
         $response = $this->patch(route('patch_user_profile'), $data);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     */
+    public function testPatchProfileCity()
+    {
+        $data = [
+            'city' => str_random()
+        ];
+
+        $response = $this->patch(route('patch_user_profile'), $data);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     */
+    public function testPatchProfileBirthday()
+    {
+        $data = [
+            'birthday' => Carbon::now()->format("Y-m-d")
+        ];
+
+        $response = $this->patch(route('patch_user_profile'), $data);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        if (!self::$user) {
+            self::$user = factory(User::class)->create();
+        }
+        Passport::actingAs(self::$user);
     }
 }

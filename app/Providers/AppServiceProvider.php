@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use App\Facades\ApiHelper;
+use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
-use Illuminate\Http\Resources\Json\Resource;
-use App\Facades\ApiHelper;
 
 /**
  * Class AppServiceProvider

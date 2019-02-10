@@ -5,6 +5,10 @@ namespace App\Rules;
 use App\Enums\Visibility;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Class RunVisibilityRule
+ * @package App\Rules
+ */
 class RunVisibilityRule implements Rule
 {
     /**
@@ -20,8 +24,8 @@ class RunVisibilityRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param  string $attribute
+     * @param  mixed $value
      * @return bool
      */
     public function passes($attribute, $value)

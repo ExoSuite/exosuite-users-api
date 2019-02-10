@@ -8,6 +8,7 @@
 
 namespace App\Http\Requests\Abstracts;
 
+use App\Enums\BindType;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -27,12 +28,11 @@ abstract class RouteParamRequest extends FormRequest
         // get route params
         $parameters = $this->route()->parameters();
         // swap to id instead of uuid
-        if (array_key_exists('uuid', $parameters)) {
-            $parameters['id'] = $parameters['uuid'];
+        if (array_key_exists(BindType::UUID, $parameters)) {
+            $parameters['id'] = $parameters[BindType::UUID];
             // remove uuid key from $parameters
-            unset($parameters['uuid']);
+            unset($parameters[BindType::UUID]);
         }
-
         return array_replace_recursive(
             parent::all(),
             $parameters

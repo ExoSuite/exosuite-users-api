@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests\Run;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
 use App\Models\Run;
 use Illuminate\Support\Facades\Auth;
 
 
-
+/**
+ * Class DeleteRunRequest
+ * @package App\Http\Requests\Run
+ */
 class DeleteRunRequest extends RouteParamRequestUuidToId
 {
     /**

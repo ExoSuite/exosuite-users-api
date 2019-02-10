@@ -104,11 +104,15 @@ class User extends Authenticatable
     {
         parent::boot();
         static::creating(
-            function (self $user) {
+            function (User $user) {
                 $user->password = Hash::make($user->password);
                 $user->{$user->getKeyName()} = Uuid::generate()->string;
             }
         );
+
+        static::created(function (User $user) {
+            $user->profile()->create();
+        });
     }
 
     /**
@@ -126,7 +130,7 @@ class User extends Authenticatable
      */
     public function receivesBroadcastNotificationsOn(): string
     {
-        return "user.{$this->id}";
+        return "users.{$this->id}";
     }
 
     /**
@@ -194,5 +198,73 @@ class User extends Authenticatable
             Share::SHARE_RELATION_NAME,
             Share::getTableName()
         )->withTimestamps();
+    }
+
+    /**
+     * @return HasOne
+     */
+    /**
+     * @return HasOne
+     */
+    /**
+     * @return HasOne
+     */
+    /**
+     * @return HasOne
+     */
+    public function dashboard()
+    {
+        return $this->hasOne(Dashboard::class, 'owner_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    /**
+     * @return HasMany
+     */
+    /**
+     * @return HasMany
+     */
+    /**
+     * @return HasMany
+     */
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'author_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    /**
+     * @return HasMany
+     */
+    /**
+     * @return HasMany
+     */
+    /**
+     * @return HasMany
+     */
+    public function commentaries()
+    {
+        return $this->hasMany(Commentary::class, 'author_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    /**
+     * @return HasMany
+     */
+    /**
+     * @return HasMany
+     */
+    /**
+     * @return HasMany
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'liker_id');
     }
 }

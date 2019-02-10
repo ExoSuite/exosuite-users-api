@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Foundation\Testing\PendingCommand;
 
 /**
  * Class TestCase
@@ -11,8 +12,15 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
-    protected function route($route, $parameters = [])
+
+    /**
+     * @param $route
+     * @param array $parameters
+     * @param bool $absolute
+     * @return string
+     */
+    protected function route($route, $parameters = [], $absolute = false)
     {
-        return route($route, $parameters, false);
+        return route($route, $parameters, $absolute);
     }
 }

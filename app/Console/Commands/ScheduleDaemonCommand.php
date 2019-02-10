@@ -4,6 +4,10 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+/**
+ * Class ScheduleDaemonCommand
+ * @package App\Console\Commands
+ */
 class ScheduleDaemonCommand extends Command
 {
     /**

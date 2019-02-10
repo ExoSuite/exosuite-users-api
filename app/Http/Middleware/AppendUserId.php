@@ -7,9 +7,16 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class AppendUserId
+ * @package App\Http\Middleware
+ */
 class AppendUserId
 {
 
+    /**
+     * @var string
+     */
     public static $key = "requester_user_id";
 
     /**

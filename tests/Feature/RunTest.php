@@ -5,11 +5,10 @@ namespace Tests\Feature;
 use App\Enums\Visibility;
 use App\Models\Run;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * Class RunTest
@@ -17,6 +16,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
  */
 class RunTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @var User
      */
@@ -25,16 +26,6 @@ class RunTest extends TestCase
      * @var Run
      */
     private $run;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-    }
 
     /**
      *
@@ -166,10 +157,13 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    public function testDeleteRunById(){
-        Passport::actingAs($this->user);
-        $this->run = factory(Run::class)->create();
-        $response = $this->delete($this->route("delete_run", [$this->run->id]));
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
     }
 }

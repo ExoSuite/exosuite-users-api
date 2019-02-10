@@ -9,7 +9,6 @@
 namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Illuminate\Support\Facades\App;
 
 
 /**
@@ -33,7 +32,7 @@ class ApiHelper extends Facade
      */
     public static function isStaging(): bool
     {
-        return App::environment() === 'staging';
+        return config("app.env") === 'staging';
     }
 
     /**
@@ -41,6 +40,14 @@ class ApiHelper extends Facade
      */
     public static function isProduction(): bool
     {
-        return App::environment() === 'production';
+        return config("app.env") === 'production';
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isLocal(): bool
+    {
+        return config("app.env") === 'local';
     }
 }

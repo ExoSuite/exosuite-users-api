@@ -2,8 +2,19 @@
 
 namespace App\Providers;
 
+use App\Enums\BindType;
 use App\Models\CheckPoint;
+use App\Models\Commentary;
+use App\Models\Dashboard;
+use App\Models\Follow;
+use App\Models\Friendship;
+use App\Models\Group;
+use App\Models\Message;
+use App\Models\Notification;
+use App\Models\PendingRequest;
+use App\Models\Post;
 use App\Models\Run;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -35,13 +46,23 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        Route::bind('uuid', function ($uuid) {
+        Route::bind(BindType::UUID, function ($uuid) {
             if (Uuid::validate($uuid)) {
                 return Uuid::import($uuid);
             }
             throw new UnprocessableEntityHttpException("Bad uuid");
         });
-        Route::bind('run_id', Run::class);
+        Route::model(BindType::GROUP, Group::class);
+        Route::model(BindType::MESSAGE, Message::class);
+        Route::model(BindType::NOTIFICATION, Notification::class);
+        Route::model(BindType::USER, User::class);
+        Route::model(BindType::PENDING_REQUEST, PendingRequest::class);
+        Route::model(BindType::FRIENDSHIP, Friendship::class);
+        Route::model(BindType::FOLLOW, Follow::class);
+        Route::model(BindType::DASHBOARD, Dashboard::class);
+        Route::model(BindType::POST, Post::class);
+        Route::model(BindType::COMMENTARY, Commentary::class);
+        Route::model(BindType::RUN, Run::class);
         Route::bind('checkpoint_id', CheckPoint::class);
     }
 

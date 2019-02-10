@@ -4,6 +4,10 @@ namespace App\Http\Requests\Run;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class CreateShareRunRequest
+ * @package App\Http\Requests\Run
+ */
 class CreateShareRunRequest extends FormRequest
 {
     /**
