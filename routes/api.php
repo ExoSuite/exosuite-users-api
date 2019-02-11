@@ -160,48 +160,30 @@ Route::middleware('auth:api')->group(function () {
             Route::delete('/{message}', 'MessageController@destroy')->name('delete_message')->middleware('can:delete,message');
         });
     });
-});
 
-
-Route::prefix('run')->group(function () {
-    ///////////////////////////////////////////////////////////////////
-    Route::post('/', 'Run\RunController@store')
-        ->name('post_run');
-
-    Route::patch('/{uuid}', 'Run\RunController@update')
-        ->name('patch_run');
-
-    Route::get('/id/{uuid}', 'Run\RunController@show')
-        ->name('get_run_by_id');
-
-    Route::get('/', 'Run\RunController@index')
-        ->name('get_run');
-    Route::delete('{uuid}', 'Run\RunController@delete')
-        ->name('delete_run');
-    ///////////////////////////////////////////////////////////////////
-    Route::prefix('share')->group(function () {
-        Route::post('/', 'Run\ShareRunController@store')
-            ->name('post_share_run');
-        Route::get('/', 'Run\ShareRunController@index')
-            ->name('get_share_run');
-        Route::get('/id/{uuid}', 'Run\ShareRunController@show')
-            ->name('get_share_run_by_id');
-    });
-    ///////////////////////////////////////////////////////////////////
-    Route::prefix('{run}')->group(function () {
-
-        //LIKES From Runs---------------------------------------------------------------------------------------------------
-        Route::prefix('/likes')->group(function () {
-            Route::post('/', 'LikesController@storeRun')->name('post_like_for_run');
-            Route::delete('/', 'LikesController@deleteRun')->name('delete_like_for_run');
-            Route::get('/', 'LikesController@getLikesFromRun')->name('get_likes_from_run');
+    Route::prefix('run')->group(function () {
+        Route::post('/', 'Run\RunController@store')->name('post_run');
+        Route::patch('/{run}', 'Run\RunController@update')->name('patch_run')->middleware('can:update,run');
+        Route::get('/id/{run}', 'Run\RunController@show')->name('get_run_by_id');
+        Route::get('/', 'Run\RunController@index')->name('get_run');
+        Route::delete('{run}', 'Run\RunController@delete')->name('delete_run')->middleware('can:delete,run');
+        Route::prefix('/share')->group(function () {
+            Route::post('/', 'Run\ShareRunController@store')->name('post_share_run');
+            Route::get('/', 'Run\ShareRunController@index')->name('get_share_run');
+            Route::get('/id/{run}', 'Run\ShareRunController@show')->name('get_share_run_by_id');
         });
-
-
-        Route::prefix('checkpoint')->group(function () {
-
-
-            Route::prefix('{checkpoint_id}/time')->group(function () {
+        Route::prefix('/{run}/checkpoint')->group(function () {
+            Route::post('/', 'CheckPoint\CheckPointController@store')->name('post_checkpoint');
+            Route::patch('/{checkpoint}', 'CheckPoint\CheckPointController@update')->name('patch_checkpoint')->middleware("can:update,checkpoint");
+            Route::prefix('{checkpoint}/time')->group(function () {
+            });
+        });
+        Route::prefix('/{run}')->group(function () {
+            //LIKES From Runs---------------------------------------------------------------------------------------------------
+            Route::prefix('/likes')->group(function () {
+                Route::post('/', 'LikesController@storeRun')->name('post_like_for_run');
+                Route::delete('/', 'LikesController@deleteRun')->name('delete_like_for_run');
+                Route::get('/', 'LikesController@getLikesFromRun')->name('get_likes_from_run');
             });
         });
     });

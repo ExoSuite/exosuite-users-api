@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Run;
+namespace App\Http\Requests\CheckPoint;
 
-use App\Http\Requests\Abstracts\RouteParamRequest;
+use App\Rules\CheckPointTypeRule;
+use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * Class GetRunRequest
- * @package App\Http\Requests\Run
- */
-class GetRunRequest extends RouteParamRequest
+class CreateCheckPointRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +25,9 @@ class GetRunRequest extends RouteParamRequest
     public function rules()
     {
         return [
-            'id' => 'exists:runs'
+            'type' => ['required', 'string', new CheckPointTypeRule()],
+            'location' => 'required|polygon|max:255',
+            'run_id' => 'required|uuid|exists:run,id'
         ];
     }
 }

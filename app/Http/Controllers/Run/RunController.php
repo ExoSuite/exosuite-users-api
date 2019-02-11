@@ -9,7 +9,6 @@ use App\Http\Requests\Run\GetRunRequest;
 use App\Http\Requests\Run\UpdateRunRequest;
 use App\Models\Run;
 use Illuminate\Support\Facades\Auth;
-use Webpatser\Uuid\Uuid;
 
 /**
  * Class RunController
@@ -44,13 +43,12 @@ class RunController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param GetRunRequest $request
-     * @param Uuid $id
+     * @param Run $run
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(GetRunRequest $request, Uuid $id)
+    public function show(Run $run)
     {
-        $run = Run::findOrFail($id);
+        $run = Run::findOrFail($run->id);
         return $this->ok($run);
     }
 
@@ -58,26 +56,25 @@ class RunController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateRunRequest $request
-     * @param Uuid $id
+     * @param Run $run
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateRunRequest $request, Uuid $id)
+    public function update(UpdateRunRequest $request, Run $run)
     {
-        Run::whereId($id)->update($request->validated());
+        Run::whereId($run->id)->update($request->validated());
         return $this->noContent();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param DeleteRunRequest $request
-     * @param Uuid $id
+     * @param Run $run
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(DeleteRunRequest $request, Uuid $id)
+    public function destroy(Run $run)
     {
-        Run::whereId($id)->delete();
+        Run::whereId($run->id)->delete();
         return $this->noContent();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\BindType;
 use App\Enums\Visibility;
 use App\Models\Run;
 use App\Models\User;
@@ -84,7 +85,7 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->patch($this->route("patch_run", [$this->run->id]), [
+        $response = $this->patch($this->route("patch_run", [BindType::RUN => $this->run->id]), [
             "name" => str_random(30),
         ]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
@@ -97,7 +98,7 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->patch($this->route("patch_run", [$this->run->id]), [
+        $response = $this->patch($this->route("patch_run", [BindType::RUN => $this->run->id]), [
             "description" => str_random(255),
         ]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
@@ -110,7 +111,7 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->patch($this->route("patch_run", [$this->run->id]), [
+        $response = $this->patch($this->route("patch_run", [BindType::RUN => $this->run->id]), [
             "visibility" => Visibility::PRIVATE,
         ]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
@@ -123,7 +124,7 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->patch($this->route("patch_run", [$this->run->id]), [
+        $response = $this->patch($this->route("patch_run", [BindType::RUN => $this->run->id]), [
             "visibility" => Visibility::PRIVATE,
             "name" => str_random(30),
             "description" => str_random(255)
@@ -153,7 +154,7 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->get($this->route("get_run_by_id", [$this->run->id]));
+        $response = $this->get($this->route("get_run_by_id", [BindType::RUN => $this->run->id]));
         $response->assertStatus(Response::HTTP_OK);
     }
 

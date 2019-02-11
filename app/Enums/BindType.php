@@ -23,4 +23,6 @@ final class BindType extends Enum
     const FRIENDSHIP = "friendship";
     const PENDING_REQUEST = "request";
     const RUN = 'run';
+    const CHECKPOINT = 'checkpoint';
+    const TIME = 'time';
 }

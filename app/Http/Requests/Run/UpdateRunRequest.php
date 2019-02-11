@@ -20,8 +20,7 @@ class UpdateRunRequest extends RouteParamRequestUuidToId
      */
     public function authorize()
     {
-        $run = Run::whereId($this->id());
-        return $run->firstOrFail()->creator_id === Auth::id();
+        return true;
     }
 
     /**

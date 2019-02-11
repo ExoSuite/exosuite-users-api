@@ -14,6 +14,7 @@ use App\Models\Notification;
 use App\Models\PendingRequest;
 use App\Models\Post;
 use App\Models\Run;
+use App\Models\Time;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -63,7 +64,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::model(BindType::POST, Post::class);
         Route::model(BindType::COMMENTARY, Commentary::class);
         Route::model(BindType::RUN, Run::class);
-        Route::bind('checkpoint_id', CheckPoint::class);
+        Route::model(BindType::CHECKPOINT, CheckPoint::class);
+        Route::model(BindType::TIME, Time::class);
     }
 
 

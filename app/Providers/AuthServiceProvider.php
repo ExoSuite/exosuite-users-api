@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\CheckPoint;
 use App\Models\Group;
 use App\Models\Message;
+use App\Models\Run;
+use App\Policies\CheckPointPolicy;
 use App\Policies\GroupPolicy;
 use App\Policies\MessagePolicy;
 use App\Policies\NotificationPolicy;
+use App\Policies\RunPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\App;
@@ -26,7 +30,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Message::class => MessagePolicy::class,
-        Group::class => GroupPolicy::class
+        Group::class => GroupPolicy::class,
+        Run::class => RunPolicy::class,
+        CheckPoint::class => CheckPointPolicy::class
     ];
 
 

@@ -23,7 +23,7 @@ class CheckPoint extends UuidModel
      * @var array
      */
     protected $fillable = [
-        'id', 'type', 'location'
+        'id', 'type', 'location', 'run_id'
     ];
 
     /**
