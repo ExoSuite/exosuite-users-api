@@ -5,6 +5,10 @@ namespace App\Rules;
 use App\Enums\Visibility;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Class RunVisibilityRule
+ * @package App\Rules
+ */
 class RunVisibilityRule implements Rule
 {
     /**

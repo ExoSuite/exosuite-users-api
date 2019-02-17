@@ -4,9 +4,19 @@ namespace App\Notifications;
 
 use App\Enums\NotificationType;
 
+/**
+ * Class ExpelledFromGroupNotification
+ * @package App\Notifications
+ */
 class ExpelledFromGroupNotification extends ExoSuiteNotification
 {
+    /**
+     * @var array|string
+     */
     private $message;
+    /**
+     * @var array
+     */
     private $group;
 
     /**

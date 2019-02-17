@@ -7,19 +7,37 @@ use App\Models\User;
 use App\Notifications\DeletedGroupNotification;
 use App\Notifications\ExpelledFromGroupNotification;
 use App\Notifications\NewGroupNotification;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class GroupTest
+ * @package Tests\Feature
+ */
 class GroupTest extends TestCase
 {
+    use RefreshDatabase;
+    /**
+     * @var
+     */
     private $user1;
 
+    /**
+     * @var
+     */
     private $user2;
 
+    /**
+     * @var
+     */
     private $user3;
 
+    /**
+     *
+     */
     public function testCreateGroupWithName()
     {
 
@@ -34,6 +52,9 @@ class GroupTest extends TestCase
         Notification::assertNotSentTo($this->user1, NewGroupNotification::class);
     }
 
+    /**
+     *
+     */
     public function testCreateGroupWithoutName()
     {
         Notification::fake();
@@ -47,6 +68,9 @@ class GroupTest extends TestCase
         Notification::assertNotSentTo($this->user1, NewGroupNotification::class);
     }
 
+    /**
+     *
+     */
     public function testAddNonAdminUserToExistingGroup()
     {
         Passport::actingAs($this->user1);
@@ -60,6 +84,9 @@ class GroupTest extends TestCase
         $test_req->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *
+     */
     public function testAddAdminUserToExistingGroup()
     {
         Passport::actingAs($this->user1);
@@ -73,6 +100,9 @@ class GroupTest extends TestCase
         $test_req->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *
+     */
     public function testUpdateToNonAdminUserRightsToExistingGroup()
     {
         Passport::actingAs($this->user1);
@@ -88,6 +118,9 @@ class GroupTest extends TestCase
         $req_update_rights->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *
+     */
     public function testUpdateToAdminUserRightsToExistingGroup()
     {
         Passport::actingAs($this->user1);
@@ -103,6 +136,9 @@ class GroupTest extends TestCase
         $req_update_rights->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *
+     */
     public function testDeleteUserFromGroup()
     {
         Passport::actingAs($this->user1);
@@ -118,6 +154,9 @@ class GroupTest extends TestCase
         Notification::assertSentTo($this->user3, ExpelledFromGroupNotification::class);
     }
 
+    /**
+     *
+     */
     public function testUpdateGroupName()
     {
         Passport::actingAs($this->user1);
@@ -133,6 +172,9 @@ class GroupTest extends TestCase
         $this->assertDatabaseHas("groups", $test_req->decodeResponseJson());
     }
 
+    /**
+     *
+     */
     public function testDeleteGroup()
     {
         Passport::actingAs($this->user1);
@@ -151,6 +193,9 @@ class GroupTest extends TestCase
         $this->assertDatabaseMissing("groups", array_except($response->decodeResponseJson(), "group_members"));
     }
 
+    /**
+     *
+     */
     public function testGetGroup()
     {
         Passport::actingAs($this->user1);
@@ -164,6 +209,9 @@ class GroupTest extends TestCase
         $get_req->assertStatus(Response::HTTP_OK);
     }
 
+    /**
+     *
+     */
     protected function setUp()
     {
         parent::setUp();

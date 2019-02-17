@@ -28,6 +28,9 @@ class Time extends UuidModel
         return $this->belongsTo(CheckPoint::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function run()
     {
         return $this->belongsTo(Run::class);

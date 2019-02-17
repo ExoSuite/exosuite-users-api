@@ -5,24 +5,27 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\UserProfile;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class UserProfileTest
+ * @package Tests\Feature
+ */
 class UserProfileTest extends TestCase
 {
+    use RefreshDatabase;
 
+    /**
+     * @var null
+     */
     private static $user = null;
 
-    protected function setUp()
-    {
-        parent::setUp();
-        if (!self::$user) {
-            self::$user = factory(User::class)->create();
-        }
-        Passport::actingAs(self::$user);
-    }
-
+    /**
+     *
+     */
     public function testGetProfile()
     {
         $response = $this->get(route('get_user_profile', ["user" => self::$user->id]));
@@ -35,6 +38,9 @@ class UserProfileTest extends TestCase
         $response->assertJsonStructure($expectTo);
     }
 
+    /**
+     *
+     */
     public function testPatchProfileDescription()
     {
         $data = [
@@ -45,6 +51,9 @@ class UserProfileTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     public function testPatchProfileCity()
     {
         $data = [
@@ -55,6 +64,9 @@ class UserProfileTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     *
+     */
     public function testPatchProfileBirthday()
     {
         $data = [
@@ -63,5 +75,17 @@ class UserProfileTest extends TestCase
 
         $response = $this->patch(route('patch_user_profile'), $data);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        if (!self::$user) {
+            self::$user = factory(User::class)->create();
+        }
+        Passport::actingAs(self::$user);
     }
 }

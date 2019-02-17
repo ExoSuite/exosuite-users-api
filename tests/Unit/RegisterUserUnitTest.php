@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,22 +15,8 @@ use Tests\TestCase;
  */
 class RegisterUserUnitTest extends TestCase
 {
+    use RefreshDatabase;
     use WithFaker;
-
-    /**
-     * @param $expected
-     * @param array $data
-     */
-    private function request($expected, $data = [])
-    {
-        $response = $this->json(Request::METHOD_POST, route('register'), $data);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonStructure(
-            [
-                'message', 'errors' => $expected
-            ]
-        );
-    }
 
     /**
      * Assert if error will be sent
@@ -39,6 +26,17 @@ class RegisterUserUnitTest extends TestCase
     public function testRegisterUserWithInvalidData()
     {
         $this->request(['first_name', 'last_name', 'password', 'email']);
+    }
+
+    /**
+     * @param $expected
+     * @param array $data
+     */
+    private function request($expected, $data = [])
+    {
+        $response = $this->json(Request::METHOD_POST, route('register'), $data);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonValidationErrors($expected);
     }
 
     /**

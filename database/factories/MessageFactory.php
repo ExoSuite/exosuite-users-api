@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUndefinedVariableInspection */
+
+/** @noinspection PhpUndefinedVariableInspection */
 
 use Faker\Generator as Faker;
 

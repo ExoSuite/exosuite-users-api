@@ -3,10 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Services\ClassFinder;
-use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Exception;
 
+/**
+ * Class CreateElasticsearchIndexesCommand
+ * @package App\Console\Commands
+ */
 class CreateElasticsearchIndexesCommand extends Command
 {
     /**
@@ -36,7 +40,7 @@ class CreateElasticsearchIndexesCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
     public function handle()
     {
@@ -48,7 +52,7 @@ class CreateElasticsearchIndexesCommand extends Command
                     ['index-configurator' => $index]
                 );
                 $this->output->success(Artisan::output());
-            } catch (BadRequest400Exception $e) {
+            } catch (Exception $e) {
                 $this->output->success("{$index} already created!");
             }
         }

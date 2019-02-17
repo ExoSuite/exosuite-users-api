@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Webpatser\Uuid\Uuid;
 
+/**
+ * Class ShareRunController
+ * @package App\Http\Controllers\Run
+ */
 class ShareRunController extends Controller
 {
     /**
@@ -67,7 +71,7 @@ class ShareRunController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function update(Request $request, $id)
     {
@@ -78,7 +82,7 @@ class ShareRunController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function destroy($id)
     {

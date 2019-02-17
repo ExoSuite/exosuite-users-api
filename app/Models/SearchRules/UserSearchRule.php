@@ -4,6 +4,10 @@ namespace App\Models\SearchRules;
 
 use ScoutElastic\SearchRule;
 
+/**
+ * Class UserSearchRule
+ * @package App\Models\SearchRules
+ */
 class UserSearchRule extends SearchRule
 {
     /**

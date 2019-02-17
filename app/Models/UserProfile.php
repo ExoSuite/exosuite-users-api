@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\CollectionPicture;
+use App\Enums\MediaConversion;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
+use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
  * Class UserProfile
@@ -14,8 +19,10 @@ use Webpatser\Uuid\Uuid;
  * @property string $city
  * @property string $description
  */
-class UserProfile extends Model
+class UserProfile extends Model implements HasMedia
 {
+    use HasMediaTrait;
+
     /**
      * Indicates if the IDs are auto-incrementing.
      *
@@ -27,7 +34,7 @@ class UserProfile extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'birthday', 'city', 'description'
+        'id', 'birthday', 'city', 'description', 'avatar_id', 'cover_id'
     ];
 
     /**
@@ -36,5 +43,21 @@ class UserProfile extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @param Media|null $media
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
+     */
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion(MediaConversion::THUMB)
+            ->width(124)
+            ->height(124)
+            ->performOnCollections(CollectionPicture::AVATAR);
+        $this->addMediaConversion(MediaConversion::BANNER)
+            ->width(1920)
+            ->height(640)
+            ->performOnCollections(CollectionPicture::COVER);
     }
 }

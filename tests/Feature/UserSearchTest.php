@@ -4,14 +4,22 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\UserProfile;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\Paginator;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
+/**
+ * Class UserSearchTest
+ * @package Tests\Feature
+ */
 class UserSearchTest extends TestCase
 {
+    use RefreshDatabase;
     use WithFaker;
+
     /**
      * @var User
      */
@@ -20,16 +28,6 @@ class UserSearchTest extends TestCase
     /**
      *
      */
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->user = factory(User::class)->make();
-        $this->user->nick_name = $this->faker->company;
-        $user = User::create($this->user->toArray());
-        $user->searchable();
-    }
-
-
     public function testSearchUser()
     {
         Passport::actingAs($this->user);
@@ -48,11 +46,21 @@ class UserSearchTest extends TestCase
             $response = $this->get(
                 $uri
             );
-            $expectTo = array_diff((new User())->getFillable(), (new User())->getHidden());
-            $expectTo['profile'] = (new UserProfile())->getFillable();
 
             $response->assertStatus(Response::HTTP_OK);
-            $response->assertJsonStructure(["data" => [$expectTo]]);
+            $response->assertJsonStructure(["data" => []]);
         }
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->user = factory(User::class)->make();
+        $this->user->nick_name = $this->faker->company;
+        $user = User::create($this->user->toArray());
+        $user->searchable();
     }
 }
