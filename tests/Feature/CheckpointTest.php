@@ -68,7 +68,10 @@ class CheckpointTest extends TestCase
             "description" => str_random(255)
         ]);
         $run_id = $response->decodeResponseJson('id');
-        $response = $this->post($this->route("post_checkpoint", [BindType::RUN => $run_id]), ["type" => CheckPointType::START, "location" => $this->checkpoint1Polygon]);
+        $response = $this->post($this->route("post_checkpoint", [BindType::RUN => $run_id]), [
+            "type" => CheckPointType::START,
+            "location" => $this->checkpoint1Polygon
+        ]);
         dd($response->decodeResponseJson());
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new CheckPoint())->getFillable());

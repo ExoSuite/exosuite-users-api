@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Phaza\LaravelPostgis\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 /**
  * Class CreateCheckPointsTable
@@ -16,7 +16,8 @@ class CreateCheckPointsTable extends Migration
      */
     public function up()
     {
-        Schema::create('check_points', function (Blueprint $table) {
+        Schema::create('check_points', function ($table) {
+            /** @var Blueprint $table  */
             $table->uuid('id')->primary();
             $table->string('type');
             $table->polygon('location');
