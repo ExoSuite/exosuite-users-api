@@ -11,6 +11,7 @@ use App\Models\GroupMember;
 use App\Models\Message;
 use App\Models\User;
 use App\Notifications\Message\NewMessageNotification;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
@@ -23,6 +24,7 @@ use Tests\TestCase;
  */
 class MessageTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @var User
      */

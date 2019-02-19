@@ -6,6 +6,7 @@ use App\Models\Commentary;
 use App\Models\Dashboard;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -17,6 +18,8 @@ use Webpatser\Uuid\Uuid;
  */
 class LikesUnitTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @var
      */
@@ -36,19 +39,6 @@ class LikesUnitTest extends TestCase
      * @var
      */
     private $comm;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-        $this->post = factory(Post::class)->create(['dashboard_id' => $this->dash->id, 'author_id' => $this->user->id]);
-        $this->comm = factory(Commentary::class)->create(['post_id' => $this->post->id, 'author_id' => $this->user->id]);
-    }
 
     /**
      * A basic test example.
@@ -120,5 +110,18 @@ class LikesUnitTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_likes_from_liker', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
+        $this->post = factory(Post::class)->create(['dashboard_id' => $this->dash->id, 'author_id' => $this->user->id]);
+        $this->comm = factory(Commentary::class)->create(['post_id' => $this->post->id, 'author_id' => $this->user->id]);
     }
 }

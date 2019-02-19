@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Dashboard;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -15,6 +16,7 @@ use Tests\TestCase;
  */
 class PostTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @var
      */
@@ -29,18 +31,6 @@ class PostTest extends TestCase
      * @var
      */
     private $dashboard;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-        $this->user1 = factory(User::class)->create();
-    }
 
     /**
      * A basic test example.
@@ -117,5 +107,17 @@ class PostTest extends TestCase
         ]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(5, count($response->decodeResponseJson()));
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
+        $this->user1 = factory(User::class)->create();
     }
 }

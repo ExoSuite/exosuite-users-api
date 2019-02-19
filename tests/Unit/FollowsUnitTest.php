@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Follow;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -15,6 +16,7 @@ use Webpatser\Uuid\Uuid;
  */
 class FollowsUnitTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @var
      */
@@ -24,17 +26,6 @@ class FollowsUnitTest extends TestCase
      * @var
      */
     private $user1;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->user1 = factory(User::class)->create();
-    }
 
     /**
      * A basic test example.
@@ -100,5 +91,16 @@ class FollowsUnitTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_am_i_following', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->user1 = factory(User::class)->create();
     }
 }

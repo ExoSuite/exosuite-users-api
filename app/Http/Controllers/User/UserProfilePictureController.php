@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Enums\CollectionPicture;
+use App\Enums\MediaConversion;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserProfilePictureAvatarRequest;
 use App\Http\Requests\CreateUserProfilePictureCoverRequest;
 use App\Http\Requests\CreateUserProfilePictureRequest;
 use App\Models\User;
+use App\Models\UserProfile;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
@@ -56,6 +58,7 @@ class UserProfilePictureController extends Controller
      */
     public function storeAvatar(CreateUserProfilePictureAvatarRequest $request, User $user)
     {
+        /** @var UserProfile $profile */
         $profile = $user->profile()->first();
         $profile->addMedia($request->file("picture"))
             ->toMediaCollection(CollectionPicture::AVATAR);
@@ -73,10 +76,12 @@ class UserProfilePictureController extends Controller
      * Display the avatar.
      *
      * @param User $user
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
+     * @return mixed
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function show(User $user)
     {
+        /** @var UserProfile $profile */
         $profile = $user->profile()->first();
         $avatarId = $profile->avatar_id;
         if (!$avatarId) {
@@ -86,7 +91,8 @@ class UserProfilePictureController extends Controller
         return $this->file(
             $profile->getMedia(CollectionPicture::AVATAR)
                 ->where('id', $avatarId)
-                ->last()->getPath('thumb')
+                ->last(),
+            MediaConversion::THUMB
         );
     }
 
@@ -114,7 +120,8 @@ class UserProfilePictureController extends Controller
     /**
      * Display the cover
      * @param User $user
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse|\Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function showCover(User $user)
     {
@@ -127,7 +134,8 @@ class UserProfilePictureController extends Controller
         return $this->file(
             $profile->getMedia(CollectionPicture::COVER)
                 ->where('id', $coverId)
-                ->last()->getPath('banner')
+                ->last(),
+            MediaConversion::BANNER
         );
     }
 

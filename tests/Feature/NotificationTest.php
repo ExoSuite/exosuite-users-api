@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\BindType;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -14,6 +15,8 @@ use Tests\TestCase;
  */
 class NotificationTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @var
      */
@@ -59,7 +62,9 @@ class NotificationTest extends TestCase
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route("get_notification"));
         $notification = $notifications_req->decodeResponseJson()[0];
-        $notifications_req = $this->delete($this->route("delete_notification", [BindType::NOTIFICATION => $notification['id']]));
+        $notifications_req = $this->delete($this->route("delete_notification", [
+            BindType::NOTIFICATION => $notification['id']
+        ]));
         $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
@@ -94,7 +99,9 @@ class NotificationTest extends TestCase
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route("get_notification"));
         $notification = $notifications_req->decodeResponseJson()[0];
-        $notifications_req = $this->patch($this->route("patch_notification", [BindType::NOTIFICATION => $notification['id']]));
+        $notifications_req = $this->patch($this->route("patch_notification", [
+            BindType::NOTIFICATION => $notification['id']
+        ]));
         $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
@@ -109,7 +116,7 @@ class NotificationTest extends TestCase
         Passport::actingAs($this->user3);
         $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
         Passport::actingAs($this->user2);
-        $notifications_req = $this->get($this->route("get_notification"));
+        $this->get($this->route("get_notification"));
         $notifications_req = $this->patch($this->route("patch_notification"));
         $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
     }

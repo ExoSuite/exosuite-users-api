@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\Dashboard;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -15,6 +16,7 @@ use Webpatser\Uuid\Uuid;
  */
 class DashboardUnitTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * @var
      */
@@ -24,17 +26,6 @@ class DashboardUnitTest extends TestCase
      * @var
      */
     private $dash;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-    }
 
     /**
      * A basic test example.
@@ -59,5 +50,16 @@ class DashboardUnitTest extends TestCase
             'restriction' => 'wrong_value'
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
     }
 }

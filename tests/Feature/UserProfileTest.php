@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\UserProfile;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -15,23 +16,12 @@ use Tests\TestCase;
  */
 class UserProfileTest extends TestCase
 {
+    use RefreshDatabase;
 
     /**
      * @var null
      */
     private static $user = null;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-        if (!self::$user) {
-            self::$user = factory(User::class)->create();
-        }
-        Passport::actingAs(self::$user);
-    }
 
     /**
      *
@@ -85,5 +75,17 @@ class UserProfileTest extends TestCase
 
         $response = $this->patch(route('patch_user_profile'), $data);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+        if (!self::$user) {
+            self::$user = factory(User::class)->create();
+        }
+        Passport::actingAs(self::$user);
     }
 }
