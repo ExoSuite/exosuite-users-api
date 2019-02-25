@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Notifications\Message;
 
@@ -16,14 +16,14 @@ class NewMessageNotification extends ExoSuiteNotification
     use Queueable;
 
     /**
-     * @var Message
+     * @var \App\Models\Message
      */
     public $message;
 
     /**
      * Create a new notification instance.
      *
-     * @param Message $message
+     * @param \App\Models\Message $message
      */
     public function __construct(Message $message)
     {
@@ -34,9 +34,10 @@ class NewMessageNotification extends ExoSuiteNotification
      * Get the array representation of the notification.
      *
      * @param  mixed $notifiable
+     *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
             'data' => $this->message,

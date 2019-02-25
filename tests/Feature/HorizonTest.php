@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
 use Illuminate\Http\Response;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 /**
  * Class HorizonTest
@@ -18,7 +16,7 @@ class HorizonTest extends TestCase
      *
      * @return void
      */
-    public function testViewHorizonDashboard()
+    public function testViewHorizonDashboard(): void
     {
         $response = $this->get($this->route('horizon.index'));
         $response->assertStatus(Response::HTTP_OK);

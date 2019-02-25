@@ -1,14 +1,15 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
+use App\Enums\BindType;
+use App\Models\Group;
+use App\Models\GroupMember;
+use App\Models\User;
+use Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Enums\BindType;
-use App\Models\User;
-use App\Models\Group;
-use App\Models\GroupMember;
 use Tests\TestCase;
 
 /**
@@ -24,17 +25,14 @@ class ProtectedRoutesTest extends TestCase
      *
      * @return void
      */
-    public function testAuthException()
+    public function testAuthException(): void
     {
-        \Artisan::call('passport:install');
+        Artisan::call('passport:install');
         $response = $this->json(Request::METHOD_GET, route('get_user'));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     *
-     */
-    public function testPatchGroupWithoutBeingLogged()
+    public function testPatchGroupWithoutBeingLogged(): void
     {
         $user1 = factory(User::class)->create();
         $user2 = factory(User::class)->create();
@@ -49,10 +47,7 @@ class ProtectedRoutesTest extends TestCase
         $test_req->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     *
-     */
-    public function testCreateMessageWithoutBeingLogged()
+    public function testCreateMessageWithoutBeingLogged(): void
     {
         $user1 = factory(User::class)->create();
         $user2 = factory(User::class)->create();
@@ -67,13 +62,9 @@ class ProtectedRoutesTest extends TestCase
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
-    /**
-     *
-     */
-    public function testGetNotificationsWithoutBeingLogged()
+    public function testGetNotificationsWithoutBeingLogged(): void
     {
         $response = $this->get($this->route("get_notification"));
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
-
     }
 }

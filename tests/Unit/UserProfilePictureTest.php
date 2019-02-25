@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -22,19 +22,13 @@ class UserProfilePictureTest extends TestCase
      */
     private $user;
 
-    /**
-     *
-     */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
     }
 
-    /**
-     *
-     */
-    public function testStoreUserProfilePictureAvatar()
+    public function testStoreUserProfilePictureAvatar(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(
@@ -46,20 +40,14 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testGetUserProfilePictureAvatar()
+    public function testGetUserProfilePictureAvatar(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_picture_avatar', ["user" => $this->user]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testStoreUserProfilePictureCover()
+    public function testStoreUserProfilePictureCover(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(
@@ -71,10 +59,7 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testGetUserProfilePictureCover()
+    public function testGetUserProfilePictureCover(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_picture_cover', ["user" => $this->user]));

@@ -1,10 +1,7 @@
-<?php
+<?php declare(strict_types = 1);
 
 if (!function_exists('runningUnitTests')) {
-    /**
-     * @return bool
-     */
-    function runningUnitTests()
+    function runningUnitTests(): bool
     {
         return env('APP_ENV') === 'testing';
     }

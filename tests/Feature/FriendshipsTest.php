@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -32,19 +32,16 @@ class FriendshipsTest extends TestCase
      *
      * @return void
      */
-    public function testSendRequest()
+    public function testSendRequest(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_friendship_request', ['user' => $this->user1->id]));
         $response->assertStatus(Response::HTTP_CREATED);
-        $response->assertJsonStructure((new PendingRequest())->getFillable());
+        $response->assertJsonStructure((new PendingRequest)->getFillable());
         $this->assertDatabaseHas('pending_requests', $response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testAccept()
+    public function testAccept(): void
     {
         Passport::actingAs($this->user1);
         $send_resp = $this->post(route('post_friendship_request', ['user' => $this->user->id]));
@@ -52,15 +49,12 @@ class FriendshipsTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->post(route('post_accept_friendship_request', ['request' => $send_resp->decodeResponseJson('request_id')]));
         $response->assertStatus(Response::HTTP_OK);
-        $response->assertJsonStructure((new Friendship())->getFillable());
+        $response->assertJsonStructure((new Friendship)->getFillable());
         $this->assertDatabaseHas('friendships', $response->decodeResponseJson());
         $this->assertDatabaseMissing('pending_requests', $send_resp->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testDecline()
+    public function testDecline(): void
     {
         Passport::actingAs($this->user1);
         $send_resp = $this->post(route('post_friendship_request', ['user' => $this->user->id]));
@@ -71,10 +65,7 @@ class FriendshipsTest extends TestCase
         $this->assertDatabaseMissing('pending_requests', $send_resp->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testGetMyFriends()
+    public function testGetMyFriends(): void
     {
         $user2 = factory(User::class)->create();
         $user3 = factory(User::class)->create();
@@ -88,10 +79,7 @@ class FriendshipsTest extends TestCase
         $this->assertEquals(3, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testGetSomeonesFriends()
+    public function testGetSomeonesFriends(): void
     {
         $user2 = factory(User::class)->create();
         $user3 = factory(User::class)->create();
@@ -105,10 +93,7 @@ class FriendshipsTest extends TestCase
         $this->assertEquals(3, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testDeleteFriendship()
+    public function testDeleteFriendship(): void
     {
 
         Passport::actingAs($this->user1);
@@ -122,10 +107,7 @@ class FriendshipsTest extends TestCase
         $this->assertDatabaseMissing('friendships', $accept_resp->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -35,10 +35,7 @@ class GroupTest extends TestCase
      */
     private $user3;
 
-    /**
-     *
-     */
-    public function testCreateGroupWithName()
+    public function testCreateGroupWithName(): void
     {
 
         Notification::fake();
@@ -52,10 +49,7 @@ class GroupTest extends TestCase
         Notification::assertNotSentTo($this->user1, NewGroupNotification::class);
     }
 
-    /**
-     *
-     */
-    public function testCreateGroupWithoutName()
+    public function testCreateGroupWithoutName(): void
     {
         Notification::fake();
         Passport::actingAs($this->user1);
@@ -68,10 +62,7 @@ class GroupTest extends TestCase
         Notification::assertNotSentTo($this->user1, NewGroupNotification::class);
     }
 
-    /**
-     *
-     */
-    public function testAddNonAdminUserToExistingGroup()
+    public function testAddNonAdminUserToExistingGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -84,10 +75,7 @@ class GroupTest extends TestCase
         $test_req->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    public function testAddAdminUserToExistingGroup()
+    public function testAddAdminUserToExistingGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -100,10 +88,7 @@ class GroupTest extends TestCase
         $test_req->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    public function testUpdateToNonAdminUserRightsToExistingGroup()
+    public function testUpdateToNonAdminUserRightsToExistingGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -118,10 +103,7 @@ class GroupTest extends TestCase
         $req_update_rights->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    public function testUpdateToAdminUserRightsToExistingGroup()
+    public function testUpdateToAdminUserRightsToExistingGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -136,10 +118,7 @@ class GroupTest extends TestCase
         $req_update_rights->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    public function testDeleteUserFromGroup()
+    public function testDeleteUserFromGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id, $this->user3->id]]);
@@ -154,10 +133,7 @@ class GroupTest extends TestCase
         Notification::assertSentTo($this->user3, ExpelledFromGroupNotification::class);
     }
 
-    /**
-     *
-     */
-    public function testUpdateGroupName()
+    public function testUpdateGroupName(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -172,10 +148,7 @@ class GroupTest extends TestCase
         $this->assertDatabaseHas("groups", $test_req->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testDeleteGroup()
+    public function testDeleteGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id, $this->user3->id]]);
@@ -193,10 +166,7 @@ class GroupTest extends TestCase
         $this->assertDatabaseMissing("groups", array_except($response->decodeResponseJson(), "group_members"));
     }
 
-    /**
-     *
-     */
-    public function testGetGroup()
+    public function testGetGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id, $this->user3->id]]);
@@ -209,10 +179,7 @@ class GroupTest extends TestCase
         $get_req->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user1 = factory(User::class)->create();

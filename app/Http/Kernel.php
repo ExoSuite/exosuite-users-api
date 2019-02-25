@@ -1,35 +1,47 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http;
 
 use App\Http\Middleware\AppendUserId;
 use App\Http\Middleware\Authenticate;
-use App\Http\Middleware\CheckApiToken;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\Jsonify;
-use App\Http\Middleware\JsonResponse;
 use App\Http\Middleware\Localization;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\VerifyCsrfToken;
-use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Barryvdh\Cors\HandleCors;
+use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
+use Illuminate\Auth\Middleware\Authorize;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
+use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
+use Illuminate\Http\Middleware\SetCacheHeaders;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Routing\Middleware\ValidateSignature;
+use Illuminate\Session\Middleware\AuthenticateSession;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 use Laravel\Passport\Http\Middleware\CheckForAnyScope;
 use Laravel\Passport\Http\Middleware\CheckScopes;
 
-
 /**
  * Class Kernel
+ *
  * @package App\Http
  */
 
 /**
  * Class Kernel
+ *
  * @package App\Http
  */
-class Kernel extends HttpKernel
+class Kernel extends \Illuminate\Foundation\Http\Kernel
 {
 
     /**
@@ -41,12 +53,12 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         CheckForMaintenanceMode::class,
-        \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+        ValidatePostSize::class,
         TrimStrings::class,
-        \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        ConvertEmptyStringsToNull::class,
         TrustProxies::class,
-        \Barryvdh\Cors\HandleCors::class,
-        Localization::class
+        HandleCors::class,
+        Localization::class,
     ];
 
     /**
@@ -57,18 +69,18 @@ class Kernel extends HttpKernel
     protected $middlewareGroups = [
         'web' => [
             EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            AuthenticateSession::class,
+            ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            SubstituteBindings::class,
         ],
 
         'api' => [
             Jsonify::class,
             'throttle:60,1',
-            'bindings'
+            'bindings',
         ],
     ];
 
@@ -81,17 +93,17 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-        'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'auth.basic' => AuthenticateWithBasicAuth::class,
+        'bindings' => SubstituteBindings::class,
+        'cache.headers' => SetCacheHeaders::class,
+        'can' => Authorize::class,
         'guest' => RedirectIfAuthenticated::class,
-        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'signed' => ValidateSignature::class,
+        'throttle' => ThrottleRequests::class,
+        'verified' => EnsureEmailIsVerified::class,
         'client' => CheckClientCredentials::class,
         'scopes' => CheckScopes::class,
         'scope' => CheckForAnyScope::class,
-        'append_user_id' => AppendUserId::class
+        'append_user_id' => AppendUserId::class,
     ];
 }

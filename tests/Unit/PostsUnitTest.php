@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -40,7 +40,7 @@ class PostsUnitTest extends TestCase
      * @return void
      * @throws \Exception
      */
-    public function testPostOnWrongDashboardId()
+    public function testPostOnWrongDashboardId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_Post', [
@@ -50,10 +50,7 @@ class PostsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testPostOnUnauthorizedDashboard()
+    public function testPostOnUnauthorizedDashboard(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_Post', [
@@ -69,7 +66,7 @@ class PostsUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdatePostWithWrongId()
+    public function testUpdatePostWithWrongId(): void
     {
         Passport::actingAs($this->user);
         $content = str_random(10);
@@ -81,10 +78,7 @@ class PostsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testUpdatePostAsUnauthorizedUser()
+    public function testUpdatePostAsUnauthorizedUser(): void
     {
         Passport::actingAs($this->user1);
         $content = str_random(10);
@@ -106,7 +100,7 @@ class PostsUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testGetPostsWithWrongId()
+    public function testGetPostsWithWrongId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_Posts_by_dashboard_id', [
@@ -116,10 +110,7 @@ class PostsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testGetPostAsUnauthorizedUser()
+    public function testGetPostAsUnauthorizedUser(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_Posts_by_dashboard_id', [
@@ -133,7 +124,7 @@ class PostsUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testDeletePostWithWrongId()
+    public function testDeletePostWithWrongId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->delete(route('delete_Post', [
@@ -144,10 +135,7 @@ class PostsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testDeletePostAsUnauthorizedUser()
+    public function testDeletePostAsUnauthorizedUser(): void
     {
         $post = factory(Post::class)->create([
             'dashboard_id' => $this->dashboard->id,
@@ -164,10 +152,7 @@ class PostsUnitTest extends TestCase
         $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

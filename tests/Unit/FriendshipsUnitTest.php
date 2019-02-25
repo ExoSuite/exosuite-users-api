@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -32,7 +32,7 @@ class FriendshipsUnitTest extends TestCase
      * @return void
      * @throws \Exception
      */
-    public function testSendFriendshipRequestWithWrongTarget()
+    public function testSendFriendshipRequestWithWrongTarget(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_friendship_request', ['user' => Uuid::generate()->string]));
@@ -42,7 +42,7 @@ class FriendshipsUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testAcceptFriendshipRequestWithWrongRequestId()
+    public function testAcceptFriendshipRequestWithWrongRequestId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_accept_friendship_request', [
@@ -52,10 +52,7 @@ class FriendshipsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testAcceptFriendshipRequestAsWrongTarget()
+    public function testAcceptFriendshipRequestAsWrongTarget(): void
     {
         Passport::actingAs($this->user);
         $post_resp = $this->post(route('post_friendship_request', ['user' => $this->user1->id]));
@@ -67,17 +64,14 @@ class FriendshipsUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testDeclineFriendshipRequestWithWrongRequestId()
+    public function testDeclineFriendshipRequestWithWrongRequestId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_decline_friendship_request', ['request' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testDeclineFriendshipRequestAsWrongTarget()
+    public function testDeclineFriendshipRequestAsWrongTarget(): void
     {
         Passport::actingAs($this->user);
         $post_resp = $this->post(route('post_friendship_request', ['user' => $this->user1->id]));
@@ -89,7 +83,7 @@ class FriendshipsUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testGetFriendshipsFromWrongUser()
+    public function testGetFriendshipsFromWrongUser(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_friendships', ['user' => Uuid::generate()->string]));
@@ -99,17 +93,14 @@ class FriendshipsUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testDeleteFriendshipsWithWrongUser()
+    public function testDeleteFriendshipsWithWrongUser(): void
     {
         Passport::actingAs($this->user);
         $response = $this->delete(route('delete_friendship', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testDeleteFalseFriendships()
+    public function testDeleteFalseFriendships(): void
     {
         Passport::actingAs($this->user);
         $response = $this->delete(route('delete_friendship', ['user' => $this->user1->id]));
@@ -117,10 +108,7 @@ class FriendshipsUnitTest extends TestCase
         $response->assertJson(['message' => "There is no such relation between you and this user."]);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

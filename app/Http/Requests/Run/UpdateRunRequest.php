@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Requests\Run;
 
-use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
+use App\Http\Requests\Run\RouteParamRequestUuidToId;
 use App\Models\Run;
 use App\Rules\RunVisibilityRule;
 use Illuminate\Support\Facades\Auth;
@@ -18,9 +18,10 @@ class UpdateRunRequest extends RouteParamRequestUuidToId
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         $run = Run::whereId($this->id());
+
         return $run->firstOrFail()->creator_id === Auth::id();
     }
 
@@ -29,12 +30,12 @@ class UpdateRunRequest extends RouteParamRequestUuidToId
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'sometimes|string|max:30',
             'description' => 'sometimes|string|max:255',
-            'visibility' => ['sometimes', 'string', new RunVisibilityRule()]
+            'visibility' => ['sometimes', 'string', new RunVisibilityRule]
         ];
     }
 }

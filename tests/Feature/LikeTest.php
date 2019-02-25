@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -51,7 +51,7 @@ class LikeTest extends TestCase
      *
      * @return void
      */
-    public function testLikeWithPost()
+    public function testLikeWithPost(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_like_for_Post', [
@@ -60,14 +60,11 @@ class LikeTest extends TestCase
             'post' => $this->post->id
         ]));
         $response->assertStatus(Response::HTTP_CREATED);
-        $response->assertJsonStructure((new Like())->getFillable());
+        $response->assertJsonStructure((new Like)->getFillable());
         $this->assertDatabaseHas('likes', $response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testLikeWithCommentary()
+    public function testLikeWithCommentary(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_like_for_commentary', [
@@ -77,14 +74,11 @@ class LikeTest extends TestCase
             'commentary' => $this->comm->id
         ]));
         $response->assertStatus(Response::HTTP_CREATED);
-        $response->assertJsonStructure((new Like())->getFillable());
+        $response->assertJsonStructure((new Like)->getFillable());
         $this->assertDatabaseHas('likes', $response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testUnlikeWithPost()
+    public function testUnlikeWithPost(): void
     {
         Passport::actingAs($this->user);
         $post_resp = $this->post(route('post_like_for_Post', [
@@ -101,10 +95,7 @@ class LikeTest extends TestCase
         $this->assertDatabaseMissing('likes', $post_resp->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testUnlikeWithCommentary()
+    public function testUnlikeWithCommentary(): void
     {
         Passport::actingAs($this->user);
         $post_resp = $this->post(route('post_like_for_commentary', [
@@ -123,10 +114,7 @@ class LikeTest extends TestCase
         $this->assertDatabaseMissing('likes', $post_resp->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testGetLikesFromPost()
+    public function testGetLikesFromPost(): void
     {
         $user2 = factory(User::class)->create();
         factory(Like::class)->create([
@@ -150,10 +138,7 @@ class LikeTest extends TestCase
         $this->assertEquals(2, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testGetLikesFromCommentary()
+    public function testGetLikesFromCommentary(): void
     {
         $user2 = factory(User::class)->create();
         factory(Like::class)->create([
@@ -178,10 +163,7 @@ class LikeTest extends TestCase
         $this->assertEquals(2, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testGetLikesfromLiker()
+    public function testGetLikesfromLiker(): void
     {
         $post2 = factory(Post::class)->create([
             'dashboard_id' => $this->dash->id,
@@ -204,10 +186,7 @@ class LikeTest extends TestCase
         $this->assertEquals(2, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testLikeRun()
+    public function testLikeRun(): void
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
@@ -218,10 +197,7 @@ class LikeTest extends TestCase
         $this->assertDatabaseHas('likes', $response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testUnlikeRun()
+    public function testUnlikeRun(): void
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
@@ -231,13 +207,9 @@ class LikeTest extends TestCase
         $response = $this->delete($this->route('delete_like_for_run', ['run_id' => $this->run->id]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('likes', $post_response->decodeResponseJson());
-
     }
 
-    /**
-     *
-     */
-    public function testGetLikesFromRun()
+    public function testGetLikesFromRun(): void
     {
         Passport::actingAs($this->user);
 
@@ -262,10 +234,7 @@ class LikeTest extends TestCase
         $this->assertEquals(2, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

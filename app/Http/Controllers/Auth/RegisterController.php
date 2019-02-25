@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers\Auth;
 
@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Models\Dashboard;
 use App\Models\User;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use function array_except;
 
 /**
  * Class RegisterController
+ *
  * @package App\Http\Controllers\Auth
  */
 class RegisterController extends Controller
@@ -37,36 +39,34 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-
     /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array $data
-     * @return User
-     */
-    protected function create(array $data)
-    {
-        return User::create(array_except($data, ['with_user']));
-    }
-
-
-    /**
-     * @param CreateUserRequest $request see \App\Http\Requests\CreateUserRequest
+     * @param \App\Http\Requests\User\CreateUserRequest $request see \App\Http\Requests\CreateUserRequest
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(CreateUserRequest $request)
+    public function register(CreateUserRequest $request): JsonResponse
     {
         $user = $this->create($request->validated());
 
         Dashboard::create([
-            'owner_id' => $user->id
+            'owner_id' => $user->id,
         ]);
 
-        /** @var Response $response */
+        /** @var \Illuminate\Http\Response $response */
         if ($request->exists('with_user') && $request->get('with_user')) {
             return $this->created($user);
         }
 
         return $this->created();
+    }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array $data
+     * @return \App\Models\User
+     */
+    protected function create(array $data): User
+    {
+        return User::create(array_except($data, ['with_user']));
     }
 }

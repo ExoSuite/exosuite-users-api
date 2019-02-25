@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Requests\Dashboard;
 
@@ -16,7 +16,7 @@ class ChangeRestrictionRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -26,10 +26,10 @@ class ChangeRestrictionRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            "restriction" => ['required', new RestrictionsTypeRule()]
+            "restriction" => ['required', new RestrictionsTypeRule]
         ];
     }
 }

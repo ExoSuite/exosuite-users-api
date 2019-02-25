@@ -1,5 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
 
+use App\Http\Middleware\AuthenticateTelescope;
 use Laravel\Telescope\Watchers;
 
 return [
@@ -51,7 +52,7 @@ return [
 
     'middleware' => [
         'web',
-        \App\Http\Middleware\AuthenticateTelescope::class
+        AuthenticateTelescope::class
     ],
 
     /*
@@ -66,10 +67,8 @@ return [
     */
 
     'ignore_paths' => [
-        //
     ],
     'ignore_commands' => [
-        //
     ],
 
     /*

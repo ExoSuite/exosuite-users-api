@@ -1,9 +1,11 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Pivots\RoleUser;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use function strtolower;
 
 /**
  * Class Role
@@ -27,16 +29,24 @@ class Role extends Model
         'permissions' => 'array',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function users()
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::creating(
+            static function (Role $model): void {
+                $model->slug = strtolower($model->name);
+            }
+        );
+    }
+
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->using(RoleUser::class);
     }
 
     /**
      * @param array $permissions
+     *
      * @return bool
      */
     public function hasAccess(array $permissions): bool
@@ -46,35 +56,19 @@ class Role extends Model
                 return true;
             }
         }
+
         return false;
     }
 
-    /**
-     * @param string $permission
-     * @return bool
-     */
     private function hasPermission(string $permission): bool
     {
         return $this->permissions[$permission] ?? false;
     }
 
-
-    /**
-     *
-     */
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(
-            function (Role $model) {
-                $model->slug = strtolower($model->name);
-            }
-        );
-    }
-
     /**
      * @param string $roleName
-     * @return Role|\Illuminate\Database\Eloquent\Builder|Model|null|object
+     *
+     * @return \App\Models\Role|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|null|object
      */
     public function getIdFromRoleName(string $roleName)
     {

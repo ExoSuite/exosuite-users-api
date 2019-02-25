@@ -1,15 +1,18 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Notifications;
 
 use App\Enums\NotificationType;
+use App\Notifications\ExoSuiteNotification;
 
 /**
  * Class NewGroupNotification
+ *
  * @package App\Notifications
  */
 class NewGroupNotification extends ExoSuiteNotification
 {
+
     /**
      * @var array|string
      */
@@ -37,14 +40,14 @@ class NewGroupNotification extends ExoSuiteNotification
      * @param  mixed $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
             'data' => [
                 "message" => $this->message,
-                "group" => $this->group
+                "group" => $this->group,
             ],
-            'notification_type' => NotificationType::NEW_GROUP
+            'notification_type' => NotificationType::NEW_GROUP,
         ];
     }
 }

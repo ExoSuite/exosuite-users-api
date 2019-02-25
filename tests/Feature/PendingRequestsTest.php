@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -32,19 +32,16 @@ class PendingRequestsTest extends TestCase
      *
      * @return void
      */
-    public function testCreatePendinRequest()
+    public function testCreatePendinRequest(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_pending_request', ['user' => $this->user1->id]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
         $response->assertStatus(Response::HTTP_CREATED);
-        $response->assertJsonStructure((new PendingRequest())->getFillable());
+        $response->assertJsonStructure((new PendingRequest)->getFillable());
         $this->assertDatabaseHas('pending_requests', $response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testGetMyPendingRequests()
+    public function testGetMyPendingRequests(): void
     {
         $user2 = factory(User::class)->create();
         $user3 = factory(User::class)->create();
@@ -58,10 +55,7 @@ class PendingRequestsTest extends TestCase
         $this->assertEquals(3, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testDeletePendingRequest()
+    public function testDeletePendingRequest(): void
     {
         Passport::actingAs($this->user1);
         $post_resp = $this->post(route('post_pending_request', ['user' => $this->user->id]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
@@ -71,10 +65,7 @@ class PendingRequestsTest extends TestCase
         $this->assertDatabaseMissing('pending_requests', $post_resp->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

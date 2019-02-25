@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -6,7 +7,6 @@
  * Time: 15:51
  */
 
-use Webpatser\Uuid\Uuid;
 
 /**
  * @OA\Schema(
@@ -16,6 +16,7 @@ use Webpatser\Uuid\Uuid;
  */
 class TokenResponse
 {
+
     /**
      * @var string
      * @OA\Property()
@@ -23,7 +24,7 @@ class TokenResponse
     public $token_type;
 
     /**
-     * @var integer
+     * @var int
      * @OA\Property()
      */
     public $expires_in;
@@ -144,8 +145,9 @@ class Login
  */
 class UserProfile
 {
+
     /**
-     * @var DateTime
+     * @var \DateTime
      * @OA\Property(description="Date in UTC Format YYYY-MM-DD")
      */
     public $birthday;
@@ -171,6 +173,7 @@ class UserProfile
  */
 class User
 {
+
     /**
      * @var string
      * @OA\Property()
@@ -196,7 +199,7 @@ class User
     public $nick_name;
 
     /**
-     * @var Uuid
+     * @var \Webpatser\Uuid\Uuid
      * @OA\Property()
      */
     public $id;

@@ -1,21 +1,22 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Providers;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
  * Class EventServiceProvider
+ *
  * @package App\Providers
  */
 
 /**
  * Class EventServiceProvider
+ *
  * @package App\Providers
  */
-class EventServiceProvider extends ServiceProvider
+class EventServiceProvider extends \Illuminate\Foundation\Support\Providers\EventServiceProvider
 {
 
     /**
@@ -26,7 +27,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
-        ]
+        ],
     ];
 
 
@@ -35,7 +36,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
     }

@@ -1,8 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Models\Abstracts\UuidModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * Class Group
@@ -20,32 +22,19 @@ class Group extends UuidModel
         'updated_at'
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function groupMembers()
-    {
-        return $this->hasMany(GroupMember::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
-    public function users()
+    public function users(): HasManyThrough
     {
         return $this->hasManyThrough(User::class, GroupMember::class, "group_id", 'id', "id", "user_id");
     }
 
     /**
-     * @param User $user
+     * @param \App\Models\User $user
+     *
      * @return mixed
      */
     public function isAdmin(User $user)
@@ -58,11 +47,17 @@ class Group extends UuidModel
     }
 
     /**
-     * @param User $user
+     * @param \App\Models\User $user
+     *
      * @return mixed
      */
     public function isMember(User $user)
     {
         return $this->groupMembers()->whereUserId($user->id)->exists();
+    }
+
+    public function groupMembers(): HasMany
+    {
+        return $this->hasMany(GroupMember::class);
     }
 }

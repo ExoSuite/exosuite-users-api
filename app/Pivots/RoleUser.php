@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,10 +9,14 @@
 
 namespace App\Pivots;
 
+use App\Pivots\UuidPivot;
+
 /**
  * Class RoleUser
+ *
  * @package App\Pivots
  */
 class RoleUser extends UuidPivot
 {
+
 }

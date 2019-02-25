@@ -1,22 +1,21 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\AuthenticationException;
+use App\Http\Middleware\AuthenticationException;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AppendUserId
+ *
  * @package App\Http\Middleware
  */
 class AppendUserId
 {
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public static $key = "requester_user_id";
 
     /**
@@ -43,6 +42,6 @@ class AppendUserId
             return $next($request);
         }
 
-        throw new AuthenticationException();
+        throw new AuthenticationException;
     }
 }

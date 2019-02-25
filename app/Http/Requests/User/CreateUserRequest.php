@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Requests\User;
 
@@ -6,16 +6,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class CreateUserRequest
+ *
  * @package App\Http\Requests
  */
 class CreateUserRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -25,7 +27,7 @@ class CreateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'first_name' => 'required|string|max:255',
@@ -33,7 +35,7 @@ class CreateUserRequest extends FormRequest
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|max:64|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'nick_name' => 'sometimes|max:16|min:4',
-            'with_user' => 'sometimes|boolean'
+            'with_user' => 'sometimes|boolean',
         ];
     }
 }

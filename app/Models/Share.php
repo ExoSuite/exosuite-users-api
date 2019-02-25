@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
-use App\Models\Abstracts\UuidModel;
+use App\Models\UuidModel;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -17,38 +18,30 @@ class Share extends UuidModel
      */
     const SHARE_RELATION_NAME = 'shareable';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $fillable = [
         'id', 'user_id', 'shareable_id', 'shareable_type',
         'created_at', 'updated_at'
     ];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $hidden = [
         'shareable_type', 'shareable_id'
     ];
 
-    /**
-     *
-     */
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
-        static::creating(function (self $share) {
-            if (!$share->user_id) {
-                $share->user_id = Auth::id();
+        static::creating(static function (self $share): void {
+            if ($share->user_id) {
+                return;
             }
+
+            $share->user_id = Auth::id();
         });
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
-    public function shareable()
+    public function shareable(): MorphTo
     {
         return $this->morphTo();
     }

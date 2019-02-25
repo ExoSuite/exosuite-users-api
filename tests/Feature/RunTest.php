@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -19,18 +19,15 @@ class RunTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private $user;
     /**
-     * @var Run
+     * @var \App\Models\Run
      */
     private $run;
 
-    /**
-     *
-     */
-    public function testCreateRun()
+    public function testCreateRun(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(
@@ -39,31 +36,25 @@ class RunTest extends TestCase
                 "name" => str_random(30)
             ]
         );
-        $run = new Run();
+        $run = new Run;
         $expect = collect($run->getFillable())->diff(["description"]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure($expect->toArray());
     }
 
-    /**
-     *
-     */
-    public function testCreateRunWithDescription()
+    public function testCreateRunWithDescription(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post($this->route('post_run'), [
             "name" => str_random(30),
             "description" => str_random(255)
         ]);
-        $run = new Run();
+        $run = new Run;
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure($run->getFillable());
     }
 
-    /**
-     *
-     */
-    public function testCreateRunFullFilled()
+    public function testCreateRunFullFilled(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post($this->route('post_run'), [
@@ -71,16 +62,13 @@ class RunTest extends TestCase
             "description" => str_random(255),
             "visibility" => Visibility::PUBLIC
         ]);
-        $run = new Run();
+        $run = new Run;
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure($run->getFillable());
         $response->assertJson(["visibility" => Visibility::PUBLIC]);
     }
 
-    /**
-     *
-     */
-    public function testUpdateRun()
+    public function testUpdateRun(): void
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
@@ -90,10 +78,7 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     *
-     */
-    public function testUpdateRunDescription()
+    public function testUpdateRunDescription(): void
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
@@ -103,10 +88,7 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     *
-     */
-    public function testUpdateRunVisibility()
+    public function testUpdateRunVisibility(): void
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
@@ -116,10 +98,7 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     *
-     */
-    public function testUpdateRunFullFilled()
+    public function testUpdateRunFullFilled(): void
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
@@ -131,10 +110,7 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     *
-     */
-    public function testGetAllRuns()
+    public function testGetAllRuns(): void
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
@@ -146,10 +122,7 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    public function testGetRunById()
+    public function testGetRunById(): void
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
@@ -157,10 +130,7 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

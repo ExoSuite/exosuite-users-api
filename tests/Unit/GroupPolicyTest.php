@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -32,10 +32,7 @@ class GroupPolicyTest extends TestCase
      */
     private $user3;
 
-    /**
-     *
-     */
-    public function testPatchGroupWithoutAdminRights()
+    public function testPatchGroupWithoutAdminRights(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -46,10 +43,7 @@ class GroupPolicyTest extends TestCase
         $test_req->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     *
-     */
-    public function testDeleteGroupWithoutAdminRights()
+    public function testDeleteGroupWithoutAdminRights(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -59,10 +53,7 @@ class GroupPolicyTest extends TestCase
         $delete_req->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     *
-     */
-    public function testPostGroupMessageWithoutRights()
+    public function testPostGroupMessageWithoutRights(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -72,10 +63,7 @@ class GroupPolicyTest extends TestCase
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     *
-     */
-    public function testViewGroupMessagesWithoutRights()
+    public function testViewGroupMessagesWithoutRights(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -85,10 +73,7 @@ class GroupPolicyTest extends TestCase
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user1 = factory(User::class)->create();

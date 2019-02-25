@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Events;
 
 use App\Enums\MessageBroadcastType;
 use App\Enums\Queue;
-use App\Models\Group;
-use App\Models\Message;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -14,31 +12,32 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * Class ModifyMessageEvent
+ *
  * @package App\Events
  */
 class ModifyMessageEvent implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
+
     /**
      * @var string
      */
     public $broadcastQueue = Queue::MESSAGE;
-    /**
-     * @Group Group
-     */
+    /** @Group Group */
     public $group;
-    /**
-     * @Message Message
-     */
+    /** @Message Message */
     public $message;
 
     /**
      * Create a new event instance.
      *
-     * @param Group $group_
-     * @param Message $message_
+     * @param \App\Models\Group $group_
+     * @param \App\Models\Message $message_
      */
-    public function __construct($group_, $message_)
+    public function __construct(Group $group_, Message $message_)
     {
         $this->group = $group_;
         $this->message = $message_;
@@ -54,17 +53,11 @@ class ModifyMessageEvent implements ShouldBroadcast
         return new PresenceChannel("group.{$this->group->id}");
     }
 
-    /**
-     * @return string
-     */
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return MessageBroadcastType::MODIFIED_MESSAGE;
     }
 
-    /**
-     *
-     */
     public function broadcastWith()
     {
         return $this->message->toArray();

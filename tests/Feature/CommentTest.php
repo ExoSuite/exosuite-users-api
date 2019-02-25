@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -39,7 +39,7 @@ class CommentTest extends TestCase
      *
      * @return void
      */
-    public function testCreate()
+    public function testCreate(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route(
@@ -51,19 +51,18 @@ class CommentTest extends TestCase
             ]
         ), ['content' => str_random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
-        $response->assertJsonStructure((new Commentary())->getFillable());
+        $response->assertJsonStructure((new Commentary)->getFillable());
         $this->assertDatabaseHas('commentaries', $response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testGetComms()
+    public function testGetComms(): void
     {
         Passport::actingAs($this->user);
+
         for ($it = 0; $it < 5; $it++) {
             factory(Commentary::class)->create(['post_id' => $this->post->id, 'author_id' => $this->user->id, 'content' => str_random(10)]);
         }
+
         $response = $this->get(route('get_commentaries_by_post_id', [
             'user' => $this->user->id,
             'dashboard' => $this->dash->id,
@@ -73,10 +72,7 @@ class CommentTest extends TestCase
         $this->assertEquals(5, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testUpdateComm()
+    public function testUpdateComm(): void
     {
         Passport::actingAs($this->user);
         $content = str_random(10);
@@ -108,10 +104,7 @@ class CommentTest extends TestCase
         );
     }
 
-    /**
-     *
-     */
-    public function testDeleteComm()
+    public function testDeleteComm(): void
     {
         Passport::actingAs($this->user);
         $post_resp = $this->post(
@@ -137,10 +130,7 @@ class CommentTest extends TestCase
         $this->assertDatabaseMissing('commentaries', $post_resp->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

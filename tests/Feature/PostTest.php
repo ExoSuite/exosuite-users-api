@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -37,7 +37,7 @@ class PostTest extends TestCase
      *
      * @return void
      */
-    public function testPost()
+    public function testPost(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_Post', [
@@ -45,14 +45,11 @@ class PostTest extends TestCase
             'dashboard' => $this->dashboard->id
         ]), ['content' => str_random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
-        $response->assertJsonStructure((new Post())->getFillable());
+        $response->assertJsonStructure((new Post)->getFillable());
         $this->assertDatabaseHas('posts', $response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testUpdate()
+    public function testUpdate(): void
     {
         Passport::actingAs($this->user);
         $content = str_random(10);
@@ -70,10 +67,7 @@ class PostTest extends TestCase
         $this->assertDatabaseHas('posts', ['id' => $post->id, 'author_id' => $this->user->id, 'content' => $content]);
     }
 
-    /**
-     *
-     */
-    public function testDelete()
+    public function testDelete(): void
     {
         Passport::actingAs($this->user);
         $post_response = $this->post(route('post_Post', [
@@ -88,12 +82,10 @@ class PostTest extends TestCase
         $this->assertDatabaseMissing('posts', $post_response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testGetfromDashboard()
+    public function testGetfromDashboard(): void
     {
         Passport::actingAs($this->user);
+
         for ($i = 0; $i < 5; $i++) {
             factory(Post::class)->create([
                 'dashboard_id' => $this->dashboard->id,
@@ -101,6 +93,7 @@ class PostTest extends TestCase
                 'content' => str_random(10)
             ]);
         }
+
         $response = $this->get(route('get_Posts_by_dashboard_id', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id
@@ -109,10 +102,7 @@ class PostTest extends TestCase
         $this->assertEquals(5, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

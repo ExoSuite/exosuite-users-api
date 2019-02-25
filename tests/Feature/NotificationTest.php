@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -32,10 +32,7 @@ class NotificationTest extends TestCase
      */
     private $user3;
 
-    /**
-     *
-     */
-    public function testGetUserNotifications()
+    public function testGetUserNotifications(): void
     {
         Passport::actingAs($this->user1);
         $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -44,16 +41,15 @@ class NotificationTest extends TestCase
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route("get_notification"));
         $notifs = $notifications_req->decodeResponseJson();
+
         foreach ($notifs as $notif) {
             $this->assertDatabaseHas("notifications", array_except($notif, "data"));
         }
+
         $notifications_req->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    public function testDeleteOneUserNotification()
+    public function testDeleteOneUserNotification(): void
     {
         Passport::actingAs($this->user1);
         $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -69,10 +65,7 @@ class NotificationTest extends TestCase
         $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
 
-    /**
-     *
-     */
-    public function testDeleteAllReadUserNotification()
+    public function testDeleteAllReadUserNotification(): void
     {
         Passport::actingAs($this->user1);
         $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -87,10 +80,7 @@ class NotificationTest extends TestCase
         $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
 
-    /**
-     *
-     */
-    public function testUpdateOneUserNotification()
+    public function testUpdateOneUserNotification(): void
     {
         Passport::actingAs($this->user1);
         $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -106,10 +96,7 @@ class NotificationTest extends TestCase
         $this->assertDatabaseMissing("notifications", array_except($notification, "data"));
     }
 
-    /**
-     *
-     */
-    public function testUpdateAllUserNotification()
+    public function testUpdateAllUserNotification(): void
     {
         Passport::actingAs($this->user1);
         $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -121,10 +108,7 @@ class NotificationTest extends TestCase
         $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user1 = factory(User::class)->create();

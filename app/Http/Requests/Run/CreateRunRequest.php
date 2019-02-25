@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Requests\Run;
 
@@ -16,7 +16,7 @@ class CreateRunRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -26,12 +26,12 @@ class CreateRunRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'required|string|max:30',
             'description' => 'sometimes|string|max:255',
-            'visibility' => ['sometimes', 'string', new RunVisibilityRule()]
+            'visibility' => ['sometimes', 'string', new RunVisibilityRule]
         ];
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -26,19 +26,16 @@ class MessageTest extends TestCase
 {
     use RefreshDatabase;
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private $user;
 
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private $user2;
 
-    /**
-     *
-     */
-    public function testCreateMessage()
+    public function testCreateMessage(): void
     {
         $group = factory(Group::class)->create();
         $members = collect();
@@ -52,16 +49,13 @@ class MessageTest extends TestCase
         Event::fake([NewMessageEvent::class]);
         $response = $this->post($this->route("post_message", [BindType::GROUP => $group->id]), ["contents" => str_random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
-        $response->assertJsonStructure((new Message())->getFillable());
+        $response->assertJsonStructure((new Message)->getFillable());
         $this->assertDatabaseHas("messages", $response->decodeResponseJson());
         Event::assertDispatched(NewMessageEvent::class, 1);
         Notification::assertTimesSent(1, NewMessageNotification::class);
     }
 
-    /**
-     *
-     */
-    public function testModifyMessage()
+    public function testModifyMessage(): void
     {
         $group = factory(Group::class)->create();
         $members = collect();
@@ -77,15 +71,12 @@ class MessageTest extends TestCase
         $test = $this->patch($this->route("patch_message", [BindType::GROUP => $group->id, BindType::MESSAGE => $message_id]), ["contents" => str_random(10)]);
         $this->assertTrue($response->decodeResponseJson("contents") !== $test->decodeResponseJson("contents"));
         $test->assertStatus(Response::HTTP_OK);
-        $test->assertJsonStructure((new Message())->getFillable());
+        $test->assertJsonStructure((new Message)->getFillable());
         $this->assertDatabaseHas("messages", $test->decodeResponseJson());
         Event::assertDispatched(ModifyMessageEvent::class, 1);
     }
 
-    /**
-     *
-     */
-    public function testDeleteMessage()
+    public function testDeleteMessage(): void
     {
         $group = factory(Group::class)->create();
         $members = collect();
@@ -104,10 +95,7 @@ class MessageTest extends TestCase
         Event::assertDispatched(DeletedMessageEvent::class, 1);
     }
 
-    /**
-     *
-     */
-    public function testGetMessages()
+    public function testGetMessages(): void
     {
         $group = factory(Group::class)->create();
         $members = collect();
@@ -117,18 +105,17 @@ class MessageTest extends TestCase
         $group->load("groupMembers");
 
         Passport::actingAs($this->user);
+
         for ($i = 0; $i < 5; $i++) {
             factory(Message::class)->create(["group_id" => $group->id, "user_id" => $this->user->id]);
         }
+
         $response = $this->get($this->route("get_message", [BindType::GROUP => $group->id]));
         $this->assertEquals(5, count($response->decodeResponseJson()));
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();

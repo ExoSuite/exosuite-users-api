@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Requests;
 
@@ -6,16 +6,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class UpdateNotificationRequest
+ *
  * @package App\Http\Requests
  */
 class UpdateNotificationRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -25,10 +27,9 @@ class UpdateNotificationRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
         ];
     }
 }

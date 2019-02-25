@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Requests\Group;
 
@@ -17,7 +17,7 @@ class UpdateGroupRequest extends RouteParamRequestUuidToId
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -27,12 +27,13 @@ class UpdateGroupRequest extends RouteParamRequestUuidToId
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $update_rights = GroupRequestType::UPDATE_USER_RIGHTS;
         $update_name = GroupRequestType::UPDATE_GROUP_NAME;
+
         return [
-            "request_type" => ["required", new RequestTypeRule()],
+            "request_type" => ["required", new RequestTypeRule],
             "user_id" => "sometimes|uuid|exists:users,id|required_unless:request_type,{$update_name}",
             "is_admin" => "sometimes|boolean|required_if:request_type,{$update_rights}|required",
             "name" => "sometimes|string|max:100|required_if:request_type,{$update_name}"

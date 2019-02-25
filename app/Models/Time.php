@@ -1,37 +1,31 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
-use App\Models\Abstracts\UuidModel;
-use Webpatser\Uuid\Uuid;
+use App\Models\UuidModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Time
+ *
  * @package App\Models
  * @property Uuid $id
  * @property int $interval
  */
 class Time extends UuidModel
 {
-    /**
-     * @var array
-     */
+
+    /** @var array */
     protected $fillable = [
-        'id', 'interval'
+        'id', 'interval',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function checkPoint()
+    public function checkPoint(): BelongsTo
     {
         return $this->belongsTo(CheckPoint::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function run()
+    public function run(): BelongsTo
     {
         return $this->belongsTo(Run::class);
     }

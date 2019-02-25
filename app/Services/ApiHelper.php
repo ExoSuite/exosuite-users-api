@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,8 +9,16 @@
 
 namespace App\Services;
 
-use App\Contracts\ApiHelperInterface;
+use App\Services\ApiHelperInterface;
+use App\Services\OAuth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\URL;
+use function config;
+use function env;
+use function redirect;
+use function strpos;
+use function substr;
+use function url;
 
 /**
  * Class ApiHelper
@@ -18,7 +27,7 @@ use Illuminate\Support\Facades\URL;
 class ApiHelper implements ApiHelperInterface
 {
     /**
-     * @var OAuth
+     * @var \App\Services\OAuth
      */
     private $_OAuth;
 
@@ -32,60 +41,43 @@ class ApiHelper implements ApiHelperInterface
         };
     }
 
-    /**
-     * @return OAuth
-     */
-    public function OAuth()
-    {
-        return $this->_OAuth;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getDomain(): string
-    {
-        $parsed_url = parse_url(env('APP_URL') ?? config('app.url'));
-        $domain = substr($parsed_url['host'], strpos($parsed_url['host'], '.') + 1);
-        if (config('app.env') === 'staging') {
-            $domain = "website.{$domain}";
-        }
-        return $domain;
-    }
-
-    /**
-     * @return string
-     */
     public static function getSessionDomain(): string
     {
         return '.' . self::getDomain();
     }
 
-    /**
-     * @return string
-     */
-    public static function getHttpScheme(): string
+    public static function getDomain(): string
     {
         $parsed_url = parse_url(env('APP_URL') ?? config('app.url'));
-        return $parsed_url["scheme"];
+        $domain = substr($parsed_url['host'], strpos($parsed_url['host'], '.') + 1);
+
+        if (config('app.env') === 'staging') {
+            $domain = "website.{$domain}";
+        }
+
+        return $domain;
     }
 
-    /**
-     * @param string|null $redirectUrl
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function redirectToLogin($redirectUrl = null)
+    public function OAuth(): OAuth
+    {
+        return $this->_OAuth;
+    }
+
+    public function redirectToLogin(?string $redirectUrl = null): RedirectResponse
     {
         $scheme = ApiHelper::getHttpScheme();
         $domain = ApiHelper::getDomain();
 
-        if ($redirectUrl) {
-            $redirectBack = url($redirectUrl);
-        } else {
-            $redirectBack = URL::full();
-        }
+        $redirectBack = $redirectUrl ? url($redirectUrl) : URL::full();
 
         return redirect()
             ->to("{$scheme}://{$domain}/login?redirect_uri={$redirectBack}");
+    }
+
+    public static function getHttpScheme(): string
+    {
+        $parsed_url = parse_url(env('APP_URL') ?? config('app.url'));
+
+        return $parsed_url["scheme"];
     }
 }

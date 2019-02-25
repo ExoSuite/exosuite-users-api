@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Abstracts\GetRouteParamRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UserSearchRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -16,31 +16,22 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
+    public function me(): JsonResponse
     {
         return $this->ok(User::with('profile')->whereId(Auth::id())->first());
     }
 
-    /**
-     * @param UpdateUserRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(UpdateUserRequest $request)
+    public function update(UpdateUserRequest $request): JsonResponse
     {
         Auth::user()->update($request->validated());
+
         return $this->noContent();
     }
 
-    /**
-     * @param UserSearchRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function search(UserSearchRequest $request)
+    public function search(UserSearchRequest $request): JsonResponse
     {
         $users = User::search($request->text)->with('profile')->paginate();
+
         return $this->ok($users);
     }
 }

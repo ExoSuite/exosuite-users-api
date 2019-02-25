@@ -1,4 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
+
+use App\Contracts\ApiHelperInterface;
+use App\Contracts\MakeOAuthRequest;
+use App\Contracts\MakesInternalRequests;
 
 return array(
 
@@ -107,9 +111,9 @@ return array(
     */
 
     'interfaces' => array(
-        \App\Contracts\MakeOAuthRequest::class,
-        \App\Contracts\MakesInternalRequests::class,
-        \App\Contracts\ApiHelperInterface::class
+        MakeOAuthRequest::class,
+        MakesInternalRequests::class,
+        ApiHelperInterface::class
     ),
 
     /*

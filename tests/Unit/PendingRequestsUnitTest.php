@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -33,7 +33,7 @@ class PendingRequestsUnitTest extends TestCase
      *
      * @return void
      */
-    public function testCreationWithBadType()
+    public function testCreationWithBadType(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_pending_request', [
@@ -48,7 +48,7 @@ class PendingRequestsUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreationWithWrongUserId()
+    public function testCreationWithWrongUserId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_pending_request', [
@@ -62,7 +62,7 @@ class PendingRequestsUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testDeleteWithBadRequestId()
+    public function testDeleteWithBadRequestId(): void
     {
         Passport::actingAs($this->user1);
         $this->post(route('post_pending_request', [
@@ -75,10 +75,7 @@ class PendingRequestsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testDeleteAsWrongTarget()
+    public function testDeleteAsWrongTarget(): void
     {
         Passport::actingAs($this->user);
         $post_response = $this->post(route('post_pending_request', [
@@ -92,10 +89,7 @@ class PendingRequestsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

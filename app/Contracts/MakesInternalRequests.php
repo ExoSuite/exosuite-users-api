@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,6 +9,7 @@
 
 namespace App\Contracts;
 
+use Illuminate\Http\Response;
 
 /**
  * Interface MakesInternalRequests
@@ -24,6 +26,7 @@ interface MakesInternalRequests
      * @param  string $uri The API uri to look up.
      * @param  array $data The request body.
      * @param  array $headers Additional headers
+     *
      * @return \Illuminate\Http\Response
      */
     public function request(
@@ -31,5 +34,5 @@ interface MakesInternalRequests
         string $uri,
         array $data = [],
         array $headers = []
-    );
+    ): Response;
 }

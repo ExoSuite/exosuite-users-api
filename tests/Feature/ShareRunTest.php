@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -20,7 +20,7 @@ class ShareRunTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * @var Run
+     * @var \App\Models\Run
      */
     private $run;
 
@@ -28,9 +28,9 @@ class ShareRunTest extends TestCase
     /**
      * A basic test example.
      *
-     * @return User
+     * @return \App\Models\User
      */
-    public function testCreateShareOfARun()
+    public function testCreateShareOfARun(): User
     {
         $user = factory(User::class)->create();
         Passport::actingAs($user);
@@ -42,7 +42,7 @@ class ShareRunTest extends TestCase
             ['id' => $this->run->id]
         );
 
-        $share = new Share();
+        $share = new Share;
         $expectToSee = collect($share->getFillable())->diff($share->getHidden());
         $response->assertStatus(Response::HTTP_CREATED)
             ->assertJsonStructure($expectToSee->toArray());
@@ -52,9 +52,9 @@ class ShareRunTest extends TestCase
 
     /**
      * @depends testCreateShareOfARun
-     * @param User $user
+     * @param \App\Models\User $user
      */
-    public function testGetAllSharedRuns(User $user)
+    public function testGetAllSharedRuns(User $user): void
     {
         Passport::actingAs($user);
 

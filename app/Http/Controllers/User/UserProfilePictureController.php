@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers\User;
 
@@ -9,8 +9,10 @@ use App\Http\Requests\CreateUserProfilePictureAvatarRequest;
 use App\Http\Requests\CreateUserProfilePictureCoverRequest;
 use App\Http\Requests\CreateUserProfilePictureRequest;
 use App\Models\User;
-use App\Models\UserProfile;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use function route;
 
 /**
  * Class UserProfilePictureController
@@ -21,44 +23,51 @@ class UserProfilePictureController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param User $user
+     * @param \App\Models\User $user
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(User $user)
+    public function index(User $user): JsonResponse
     {
         $pictures = $user->profile()->first()->getMedia(CollectionPicture::PICTURE);
-        $urls = array();
+        $urls = [];
+
         for ($i = 0; $i != sizeof($pictures); $i++) {
             array_push($urls, $pictures[$i]->getFullUrl());
         }
+
         return $this->ok($urls);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param CreateUserProfilePictureRequest $request
-     * @param User $user
+     * @param \App\Http\Requests\CreateUserProfilePictureRequest $request
+     * @param \App\Models\User $user
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateUserProfilePictureRequest $request, User $user)
+    public function store(CreateUserProfilePictureRequest $request, User $user): JsonResponse
     {
         $user->profile()->first()
             ->addMedia($request->file("picture"))
             ->preservingOriginal()
             ->toMediaCollection(CollectionPicture::PICTURE);
+
         return $this->noContent();
     }
 
     /**
      * Store a newly avatar
-     * @param CreateUserProfilePictureAvatarRequest $request
-     * @param User $user
+     *
+     * @param \App\Http\Requests\CreateUserProfilePictureAvatarRequest $request
+     * @param \App\Models\User $user
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function storeAvatar(CreateUserProfilePictureAvatarRequest $request, User $user)
+    public function storeAvatar(CreateUserProfilePictureAvatarRequest $request, User $user): JsonResponse
     {
-        /** @var UserProfile $profile */
+        /** @var \App\Models\UserProfile $profile */
         $profile = $user->profile()->first();
         $profile->addMedia($request->file("picture"))
             ->toMediaCollection(CollectionPicture::AVATAR);
@@ -75,15 +84,17 @@ class UserProfilePictureController extends Controller
     /**
      * Display the avatar.
      *
-     * @param User $user
+     * @param \App\Models\User $user
+     *
      * @return mixed
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function show(User $user)
     {
-        /** @var UserProfile $profile */
+        /** @var \App\Models\UserProfile $profile */
         $profile = $user->profile()->first();
         $avatarId = $profile->avatar_id;
+
         if (!$avatarId) {
             throw new UnprocessableEntityHttpException("Avatar id not set.");
         }
@@ -98,11 +109,13 @@ class UserProfilePictureController extends Controller
 
     /**
      * Store a newly cover
-     * @param CreateUserProfilePictureCoverRequest $request
-     * @param User $user
+     *
+     * @param \App\Http\Requests\CreateUserProfilePictureCoverRequest $request
+     * @param \App\Models\User $user
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function storeCover(CreateUserProfilePictureCoverRequest $request, User $user)
+    public function storeCover(CreateUserProfilePictureCoverRequest $request, User $user): JsonResponse
     {
         $profile = $user->profile()->first();
         $profile->addMedia($request->file("picture"))
@@ -119,14 +132,17 @@ class UserProfilePictureController extends Controller
 
     /**
      * Display the cover
-     * @param User $user
+     *
+     * @param \App\Models\User $user
+     *
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    public function showCover(User $user)
+    public function showCover(User $user): StreamedResponse
     {
         $profile = $user->profile()->first();
         $coverId = $profile->cover_id;
+
         if (!$coverId) {
             throw new UnprocessableEntityHttpException("Profile Cover id not set.");
         }
@@ -143,10 +159,10 @@ class UserProfilePictureController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
+     *
      * @return void
      */
-    public function destroy($id)
+    public function destroy(int $id): void
     {
-        //
     }
 }

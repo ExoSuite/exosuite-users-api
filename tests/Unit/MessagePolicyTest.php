@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -29,10 +29,7 @@ class MessagePolicyTest extends TestCase
     private $user3;
 
 
-    /**
-     *
-     */
-    public function testModifyGroupMessageWithoutRights()
+    public function testModifyGroupMessageWithoutRights(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -44,10 +41,7 @@ class MessagePolicyTest extends TestCase
         $test->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     *
-     */
-    public function testDeleteGroupMessageWithoutRights()
+    public function testDeleteGroupMessageWithoutRights(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -59,10 +53,7 @@ class MessagePolicyTest extends TestCase
         $test->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user1 = factory(User::class)->create();

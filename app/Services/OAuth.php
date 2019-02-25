@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -9,21 +10,22 @@
 namespace App\Services;
 
 use App\Contracts\MakeOAuthRequest;
-use App\Exceptions\InternalRequestException;
 use App\Facades\InternalRequest;
+use App\Services\InternalRequestException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
  * Class OAuth
+ *
  * @package App\Services
  */
 abstract class OAuth implements MakeOAuthRequest
 {
 
     /**
-     * @param Authenticatable $user
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
      * @param int $client_id
      * @param string $client_secret
      * @param int $statusCode

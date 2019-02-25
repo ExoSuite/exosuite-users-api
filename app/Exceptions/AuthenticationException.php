@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,15 +9,17 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\HttpException;
 use Illuminate\Http\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class AuthenticationException
+ *
  * @package App\Exceptions
  */
 class AuthenticationException extends HttpException
 {
+
     /**
      * All of the guards that were checked.
      *
@@ -30,7 +33,7 @@ class AuthenticationException extends HttpException
      * @param  string $message
      * @param  array $guards
      */
-    public function __construct($message = 'Unauthenticated.', array $guards = [])
+    public function __construct(string $message = 'Unauthenticated.', array $guards = [])
     {
         parent::__construct(Response::HTTP_UNAUTHORIZED, $message);
 
@@ -42,7 +45,7 @@ class AuthenticationException extends HttpException
      *
      * @return array
      */
-    public function guards()
+    public function guards(): array
     {
         return $this->guards;
     }

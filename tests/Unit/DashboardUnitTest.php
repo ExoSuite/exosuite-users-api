@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -33,17 +33,14 @@ class DashboardUnitTest extends TestCase
      * @return void
      * @throws \Exception
      */
-    public function testGetIdWithWrongUser()
+    public function testGetIdWithWrongUser(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_dashboard_id', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testChangeRestrictionWithWrongValue()
+    public function testChangeRestrictionWithWrongValue(): void
     {
         Passport::actingAs($this->user);
         $response = $this->patch(route('patch_dashboard_restriction', ['user' => $this->user->id]), [
@@ -52,10 +49,7 @@ class DashboardUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

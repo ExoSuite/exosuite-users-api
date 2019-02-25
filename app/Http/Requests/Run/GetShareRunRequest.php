@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Requests\Run;
 
@@ -6,16 +6,18 @@ use App\Http\Requests\Abstracts\RouteParamRequest;
 
 /**
  * Class GetShareRunRequest
+ *
  * @package App\Http\Requests\Run
  */
 class GetShareRunRequest extends RouteParamRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -25,10 +27,10 @@ class GetShareRunRequest extends RouteParamRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'id' => 'exists:shares'
+            'id' => 'exists:shares',
         ];
     }
 }

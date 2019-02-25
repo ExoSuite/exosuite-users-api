@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -36,7 +36,7 @@ class NotificationTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testDeleteOneBadUserNotification()
+    public function testDeleteOneBadUserNotification(): void
     {
         Passport::actingAs($this->user1);
         $this->post($this->route("post_group"), [
@@ -59,7 +59,7 @@ class NotificationTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdateOneBadUserNotification()
+    public function testUpdateOneBadUserNotification(): void
     {
         Passport::actingAs($this->user1);
         $this->post($this->route("post_group"), [
@@ -79,10 +79,7 @@ class NotificationTest extends TestCase
         $notifications_req->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user1 = factory(User::class)->create();

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -36,7 +36,7 @@ class GroupTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateBadGroupWithName()
+    public function testCreateBadGroupWithName(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), [
@@ -50,7 +50,7 @@ class GroupTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateBadGroupWithoutName()
+    public function testCreateBadGroupWithoutName(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["users" => Uuid::generate()->string]);
@@ -61,7 +61,7 @@ class GroupTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testAddBadNonAdminUserToExistingGroup()
+    public function testAddBadNonAdminUserToExistingGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), [
@@ -82,7 +82,7 @@ class GroupTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testAddBadAdminUserToExistingGroup()
+    public function testAddBadAdminUserToExistingGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), [
@@ -104,7 +104,7 @@ class GroupTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdateGroupWithoutRights()
+    public function testUpdateGroupWithoutRights(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);
@@ -118,7 +118,7 @@ class GroupTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testDeleteBadUserFromGroup()
+    public function testDeleteBadUserFromGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), [
@@ -139,7 +139,7 @@ class GroupTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testDeleteBadGroup()
+    public function testDeleteBadGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), [
@@ -151,10 +151,7 @@ class GroupTest extends TestCase
     }
 
 
-    /**
-     *
-     */
-    public function testDeleteGroupWithoutRights()
+    public function testDeleteGroupWithoutRights(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id, $this->user3->id]]);
@@ -167,7 +164,7 @@ class GroupTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testGetBadGroup()
+    public function testGetBadGroup(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), [
@@ -178,10 +175,7 @@ class GroupTest extends TestCase
         $get_req->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user1 = factory(User::class)->create();

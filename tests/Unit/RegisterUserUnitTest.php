@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -23,7 +23,7 @@ class RegisterUserUnitTest extends TestCase
      *
      * @return void
      */
-    public function testRegisterUserWithInvalidData()
+    public function testRegisterUserWithInvalidData(): void
     {
         $this->request(['first_name', 'last_name', 'password', 'email']);
     }
@@ -32,7 +32,7 @@ class RegisterUserUnitTest extends TestCase
      * @param $expected
      * @param array $data
      */
-    private function request($expected, $data = [])
+    private function request($expected, array $data = []): void
     {
         $response = $this->json(Request::METHOD_POST, route('register'), $data);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -44,17 +44,18 @@ class RegisterUserUnitTest extends TestCase
      *
      * @return void
      */
-    public function testLoopWithInvalidData()
+    public function testLoopWithInvalidData(): void
     {
-        /* @var User $userData */
+        /** @var \App\Models\User $userData */
         $user = factory(User::class)->make();
-        /* @var array $userData */
+        /** @var array $userData */
         $userData = $user->toArray();
         $userData['password'] = $user->password;
         $userData['password_confirmation'] = $user->password;
         $userData = array_except($userData, ['password_confirmation']);
 
         $data = array_keys($userData);
+
         foreach ($userData as $key => $value) {
             $this->request($data, $data);
             $data = array_diff($data, [$key]);

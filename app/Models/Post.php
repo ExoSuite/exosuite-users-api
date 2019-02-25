@@ -1,9 +1,11 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Post
@@ -14,15 +16,13 @@ class Post extends Model
     use Uuids;
 
     /**
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
      * @var bool
      */
     public $incrementing = false;
-
+    /**
+     * @var string
+     */
+    protected $primaryKey = 'id';
     /**
      * @var array
      */
@@ -33,7 +33,7 @@ class Post extends Model
     /**
      * @return array
      */
-    public function globalInfos()
+    public function globalInfos(): array
     {
         $author = User::whereId($this->author_id)->first();
         $author_names = $author['first_name'] . ' ' . $author['last_name'];
@@ -45,26 +45,17 @@ class Post extends Model
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function dashboard()
+    public function dashboard(): BelongsTo
     {
         return $this->belongsTo(Dashboard::class, 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function commentaries()
+    public function commentaries(): HasMany
     {
         return $this->hasMany(Commentary::class, 'id');
     }

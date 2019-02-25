@@ -1,15 +1,18 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Notifications;
 
 use App\Enums\NotificationType;
+use App\Notifications\ExoSuiteNotification;
 
 /**
  * Class FollowNotification
+ *
  * @package App\Notifications
  */
 class FollowNotification extends ExoSuiteNotification
 {
+
     /**
      * Create a new notification instance.
      *
@@ -17,7 +20,6 @@ class FollowNotification extends ExoSuiteNotification
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -26,11 +28,11 @@ class FollowNotification extends ExoSuiteNotification
      * @param  mixed $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
             'data' => 'new follow!',
-            'notification_type' => NotificationType::FOLLOW
+            'notification_type' => NotificationType::FOLLOW,
         ];
     }
 }

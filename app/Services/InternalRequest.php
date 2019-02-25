@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,11 +9,12 @@
 
 namespace App\Services;
 
-use App\Contracts\MakesInternalRequests;
 use App\Exceptions\InternalRequestException;
+use App\Services\MakesInternalRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use function array_merge;
 
 /**
  * Internal request service
@@ -24,7 +26,7 @@ class InternalRequest implements MakesInternalRequests
     /**
      * The app instance
      *
-     * @var Application $_app
+     * @var \Illuminate\Foundation\Application $_app
      */
     private $_app;
 
@@ -32,7 +34,7 @@ class InternalRequest implements MakesInternalRequests
     /**
      * Constructor
      *
-     * @param Application $app The app instance.
+     * @param \Illuminate\Foundation\Application $app The app instance.
      *
      * @return void
      */
@@ -50,8 +52,9 @@ class InternalRequest implements MakesInternalRequests
      * @param  array $data The request body.
      * @param  array $headers
      * @param int $statusCode
+     *
      * @return \Illuminate\Http\Response
-     * @throws InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST
+     * @throws \App\Exceptions\InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST
      */
     public function request(
         string $method,
@@ -59,7 +62,7 @@ class InternalRequest implements MakesInternalRequests
         array $data = [],
         array $headers = [],
         int $statusCode = Response::HTTP_OK
-    ) {
+    ): Response {
         $base_headers = [
             'Accept' => 'application/json',
             'Content-Type' => 'application/json'
@@ -79,7 +82,7 @@ class InternalRequest implements MakesInternalRequests
         );
 
         // Get response
-        /** @var Response $response */
+        /** @var \Illuminate\Http\Response $response */
         $response = $this->_app->handle($request);
 
         // Check if the request was not successful

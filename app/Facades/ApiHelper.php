@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,8 +9,8 @@
 
 namespace App\Facades;
 
-use Illuminate\Support\Facades\Facade;
-
+use App\Facades\Facade;
+use function config;
 
 /**
  * Class ApiHelper
@@ -19,35 +20,23 @@ use Illuminate\Support\Facades\Facade;
  */
 class ApiHelper extends Facade
 {
-    /**
-     * @return string
-     */
-    protected static function getFacadeAccessor()
-    {
-        return 'ApiHelper';
-    }
-
-    /**
-     * @return bool
-     */
     public static function isStaging(): bool
     {
         return config("app.env") === 'staging';
     }
 
-    /**
-     * @return bool
-     */
     public static function isProduction(): bool
     {
         return config("app.env") === 'production';
     }
 
-    /**
-     * @return bool
-     */
     public static function isLocal(): bool
     {
         return config("app.env") === 'local';
+    }
+
+    protected static function getFacadeAccessor(): string
+    {
+        return 'ApiHelper';
     }
 }

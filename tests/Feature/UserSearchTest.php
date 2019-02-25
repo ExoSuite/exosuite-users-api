@@ -1,13 +1,11 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
 use App\Models\User;
-use App\Models\UserProfile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\Paginator;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -21,14 +19,11 @@ class UserSearchTest extends TestCase
     use WithFaker;
 
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private $user;
 
-    /**
-     *
-     */
-    public function testSearchUser()
+    public function testSearchUser(): void
     {
         Passport::actingAs($this->user);
         $userQueries = [
@@ -52,10 +47,7 @@ class UserSearchTest extends TestCase
         }
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->make();

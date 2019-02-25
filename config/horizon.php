@@ -1,6 +1,7 @@
-<?php
+<?php declare(strict_types = 1);
 
 use App\Enums\Queue;
+use App\Http\Middleware\AuthenticateHorizon;
 
 return [
 
@@ -42,7 +43,7 @@ return [
     */
     'middleware' => [
         'web',
-        \App\Http\Middleware\AuthenticateHorizon::class
+        AuthenticateHorizon::class
     ],
 
     /*

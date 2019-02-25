@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -22,19 +22,19 @@ class MessageTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private $user;
 
     /**
-     * @var User
+     * @var \App\Models\User
      */
     private $user2;
 
     /**
      * @throws \Exception
      */
-    public function testCreateMessageInBadGroup()
+    public function testCreateMessageInBadGroup(): void
     {
         $group = factory(Group::class)->create();
         $members = collect();
@@ -55,7 +55,7 @@ class MessageTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testModifyBadMessage()
+    public function testModifyBadMessage(): void
     {
         $group = factory(Group::class)->create();
         $members = collect();
@@ -83,7 +83,7 @@ class MessageTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testDeleteBadMessage()
+    public function testDeleteBadMessage(): void
     {
         $group = factory(Group::class)->create();
         $members = collect();
@@ -109,7 +109,7 @@ class MessageTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testGetBadMessages()
+    public function testGetBadMessages(): void
     {
         $group = factory(Group::class)->create();
         $members = collect();
@@ -119,17 +119,16 @@ class MessageTest extends TestCase
         $group->load("groupMembers");
 
         Passport::actingAs($this->user);
+
         for ($i = 0; $i < 5; $i++) {
             factory(Message::class)->create(["group_id" => $group->id, "user_id" => $this->user->id]);
         }
+
         $response = $this->get($this->route("get_message", [BindType::GROUP => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();

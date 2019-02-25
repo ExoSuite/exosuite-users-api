@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Providers;
 
@@ -9,18 +9,18 @@ use Laravel\Passport\Passport;
 
 /**
  * Class AppServiceProvider
+ *
  * @package App\Providers
  */
 class AppServiceProvider extends ServiceProvider
 {
-
 
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Resource::withoutWrapping();
     }
@@ -31,11 +31,14 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         Passport::ignoreMigrations();
-        if ($this->app->isLocal() or ApiHelper::isStaging()) {
-            $this->app->register(TelescopeServiceProvider::class);
+
+        if (!$this->app->isLocal() and !ApiHelper::isStaging()) {
+            return;
         }
+
+        $this->app->register(TelescopeServiceProvider::class);
     }
 }

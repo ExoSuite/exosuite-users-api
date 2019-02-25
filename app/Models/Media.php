@@ -1,57 +1,35 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
 use Illuminate\Support\Facades\Storage;
-use Spatie\MediaLibrary\Models\Media as BaseMedia;
-use Spatie\MediaLibrary\Filesystem\Filesystem;
 use Spatie\MediaLibrary\Conversion\ConversionCollection;
-use Illuminate\Support\Facades\Response;
 
 /**
  * Class Media
  * @package App\Models
  */
-class Media extends BaseMedia
+class Media extends \Spatie\MediaLibrary\Models\Media
 {
     use Uuids;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $incrementing = false;
 
     /**
      * @param string $conversionName
-     * @return string
-     */
-    public function toStreamPath(string $conversionName)
-    {
-        /** @var Filesystem $filesystem */
-        if ($conversionName !== '') {
-            $path = $this->getPath($conversionName);
-        }
-        else {
-            $path = $this->getPath();
-        }
-
-        return $path;
-    }
-
-    /**
-     * @param string $conversionName
+     *
      * @return array
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    public function toStreamHeaders(string $conversionName)
+    public function toStreamHeaders(string $conversionName): array
     {
-        /** @var Filesystem $filesystem */
+        /** @var \Spatie\MediaLibrary\Filesystem\Filesystem $filesystem */
         if ($conversionName !== '') {
             $fileName = ConversionCollection::createForMedia($this)->getByName($conversionName);
             $fileName = $fileName->getConversionFile($this->file_name);
-        }
-        else {
+        } else {
             $fileName = $this->file_name;
         }
 
@@ -64,5 +42,13 @@ class Media extends BaseMedia
             'Content-Disposition' => "attachment; filename='$fileName'",
             'Pragma' => 'public',
         ];
+    }
+
+    public function toStreamPath(string $conversionName): string
+    {
+        /** @var \Spatie\MediaLibrary\Filesystem\Filesystem $filesystem */
+        $path = $conversionName !== '' ? $this->getPath($conversionName) : $this->getPath();
+
+        return $path;
     }
 }

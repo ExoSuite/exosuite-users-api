@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -31,20 +31,17 @@ class FollowTest extends TestCase
      *
      * @return void
      */
-    public function testFollowSomeone()
+    public function testFollowSomeone(): void
     {
         Passport::actingAs($this->user);
-        $follower = new Follow();
+        $follower = new Follow;
         $response = $this->post(route("post_follow", ["user" => $this->user1->id]));
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure(($follower)->getFillable());
         $this->assertDatabaseHas('follows', $response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testUnfollow()
+    public function testUnfollow(): void
     {
         Passport::actingAs($this->user);
         $follow_response = $this->post(route("post_follow", ["user" => $this->user1->id]));
@@ -53,10 +50,7 @@ class FollowTest extends TestCase
         $this->assertDatabaseMissing('follows', $follow_response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testGetFollowers()
+    public function testGetFollowers(): void
     {
         $user2 = factory(User::class)->create();
         $user3 = factory(User::class)->create();
@@ -72,10 +66,7 @@ class FollowTest extends TestCase
         $this->assertEquals(4, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testAmIFollowing()
+    public function testAmIFollowing(): void
     {
         Passport::actingAs($this->user);
         factory(Follow::class)->create(['user_id' => $this->user1->id, 'followed_id' => $this->user->id]);
@@ -83,10 +74,7 @@ class FollowTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

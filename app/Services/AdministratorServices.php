@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -11,7 +12,6 @@ namespace App\Services;
 use App\Enums\Roles;
 use App\Facades\ApiHelper;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,8 +22,9 @@ use Illuminate\Support\Facades\Auth;
 class AdministratorServices
 {
     /**
-     * @param User|Request $data
-     * @return boolean|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @param \App\Models\User|\Illuminate\Http\Request $data
+     *
+     * @return bool|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function handleAuth($data)
     {
@@ -32,6 +33,7 @@ class AdministratorServices
         }
 
         $user = $data instanceof User ? $data : $data->user();
+
         // if user is authenticated
         if (Auth::check()) {
             return $this->isAdministrator($user);
@@ -40,10 +42,6 @@ class AdministratorServices
         return ApiHelper::redirectToLogin();
     }
 
-    /**
-     * @param User $user
-     * @return bool
-     */
     private function isAdministrator(User $user): bool
     {
         return $user->inRole(Roles::ADMINISTRATOR);

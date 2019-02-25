@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Providers;
 
@@ -6,7 +6,6 @@ use App\Services\AdministratorServices;
 use App\Services\ApiHelper;
 use App\Services\InternalRequest;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\ServiceProvider;
 
 /**
  * Class FacadesServiceProvider
@@ -19,9 +18,8 @@ class FacadesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        //
     }
 
     /**
@@ -29,18 +27,18 @@ class FacadesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        App::singleton('InternalRequest', function ($app) {
+        App::singleton('InternalRequest', static function ($app) {
             return new InternalRequest($app);
         });
 
-        App::singleton('ApiHelper', function () {
-            return new ApiHelper();
+        App::singleton('ApiHelper', static function () {
+            return new ApiHelper;
         });
 
-        App::singleton('AdministratorServices', function () {
-            return new AdministratorServices();
+        App::singleton('AdministratorServices', static function () {
+            return new AdministratorServices;
         });
     }
 }

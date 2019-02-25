@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Enums\CollectionPicture;
 use App\Enums\MediaConversion;
+use App\Models\Model;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Webpatser\Uuid\Uuid;
-use Spatie\MediaLibrary\Models\Media;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\Models\Media;
+use Webpatser\Uuid\Uuid;
 
 /**
  * Class UserProfile
@@ -26,7 +26,7 @@ class UserProfile extends Model implements HasMedia
     /**
      * Indicates if the IDs are auto-incrementing.
      *
-     * @var boolean
+     * @var bool
      */
     public $incrementing = false;
 
@@ -37,19 +37,12 @@ class UserProfile extends Model implements HasMedia
         'id', 'birthday', 'city', 'description', 'avatar_id', 'cover_id'
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @param Media|null $media
-     * @throws \Spatie\Image\Exceptions\InvalidManipulation
-     */
-    public function registerMediaConversions(Media $media = null)
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion(MediaConversion::THUMB)
             ->width(124)

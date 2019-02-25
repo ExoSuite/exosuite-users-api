@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -43,7 +43,7 @@ class CommentariesUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateCommsOnFalsePostId()
+    public function testCreateCommsOnFalsePostId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(
@@ -64,7 +64,7 @@ class CommentariesUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateCommsAsUnauthorizedUser()
+    public function testCreateCommsAsUnauthorizedUser(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->post(route('post_commentary', [
@@ -79,7 +79,7 @@ class CommentariesUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testGetCommsOnFalsePostId()
+    public function testGetCommsOnFalsePostId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route(
@@ -93,10 +93,7 @@ class CommentariesUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testGetCommsAsUnauthorizedUser()
+    public function testGetCommsAsUnauthorizedUser(): void
     {
         Passport::actingAs($this->user1);
         $response = $this->get(route(
@@ -114,7 +111,7 @@ class CommentariesUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdateCommOnFalseCommId()
+    public function testUpdateCommOnFalseCommId(): void
     {
         Passport::actingAs($this->user);
         $content = str_random(10);
@@ -129,10 +126,7 @@ class CommentariesUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testUpdateCommAsUnauthorizedUser()
+    public function testUpdateCommAsUnauthorizedUser(): void
     {
         Passport::actingAs($this->user1);
         $content = str_random(10);
@@ -156,7 +150,7 @@ class CommentariesUnitTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testDeleteCommOnFalseCommId()
+    public function testDeleteCommOnFalseCommId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->delete(route('delete_commentary', [
@@ -168,10 +162,7 @@ class CommentariesUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testDeleteCommAsUnauthorizedUser()
+    public function testDeleteCommAsUnauthorizedUser(): void
     {
         Passport::actingAs($this->user1);
         $comm = factory(Commentary::class)->create([
@@ -189,10 +180,7 @@ class CommentariesUnitTest extends TestCase
         $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

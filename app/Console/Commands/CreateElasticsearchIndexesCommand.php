@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Console\Commands;
 
+use App\Console\Commands\Command;
 use App\Services\ClassFinder;
-use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Exception;
+use Throwable;
 
 /**
  * Class CreateElasticsearchIndexesCommand
@@ -42,9 +42,10 @@ class CreateElasticsearchIndexesCommand extends Command
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $indexes = ClassFinder::getIndexesClasses();
+
         foreach ($indexes as $index) {
             try {
                 Artisan::call(
@@ -52,7 +53,7 @@ class CreateElasticsearchIndexesCommand extends Command
                     ['index-configurator' => $index]
                 );
                 $this->output->success(Artisan::output());
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 $this->output->success("{$index} already created!");
             }
         }

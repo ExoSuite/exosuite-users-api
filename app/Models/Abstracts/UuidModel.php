@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -24,11 +25,8 @@ abstract class UuidModel extends Model
      */
     public $incrementing = false;
 
-    /**
-     * @return string
-     */
-    public static function getTableName()
+    public static function getTableName(): string
     {
-        return (new static())->getTable();
+        return (new static)->getTable();
     }
 }
