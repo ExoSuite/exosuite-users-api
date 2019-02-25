@@ -1,9 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
 use App\Enums\Restriction;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\CreatePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Dashboard;
@@ -32,35 +31,28 @@ class PostsController extends Controller
 
         switch ($dashboard->restriction) {
             case Restriction::PUBLIC:
-                {
-                    return $this->created($this->createPost($request->validated(), $dashboard->id));
-                }
+                return $this->created($this->createPost($request->validated(), $dashboard->id));
             case Restriction::FRIENDS:
-                {
-                    return Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()
-                        ? $this->created($this->createPost($request->validated(), $dashboard->id))
-                        : $this->forbidden("Permission denied: You're not authorized to post on this board.");
-                }
+                return Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()
+                    ? $this->created($this->createPost($request->validated(), $dashboard->id))
+                    : $this->forbidden("Permission denied: You're not authorized to post on this board.");
             case Restriction::FRIENDS_FOLLOWERS:
-                {
-                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
+                if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
                     return $this->created($this->createPost($request->validated(), $dashboard->id));
-                    }
+                }
 
                 return Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists()
                     ? $this->created($this->createPost($request->validated(), $dashboard->id))
                     : $this->forbidden("Permission denied: You're not authorized to post on this board.");
-                }
             default:
-                {
-                    return $this->forbidden("Permission denied: You're not authorized to post on this board.");
-                }
+                return $this->forbidden("Permission denied: You're not authorized to post on this board.");
         }
     }
 
     /**
      * @param array $data
      * @param mixed $dashboard_id
+     *
      * @return \App\Models\Post|\Illuminate\Database\Eloquent\Model
      */
     private function createPost(array $data, $dashboard_id)
@@ -83,8 +75,9 @@ class PostsController extends Controller
     }
 
     /**
-     * @param array $data
+     * @param string[] $data
      * @param mixed $post_id
+     *
      * @return \App\Models\Post|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
     private function editPost(array $data, $post_id)
@@ -117,12 +110,12 @@ class PostsController extends Controller
             case Restriction::FRIENDS_FOLLOWERS:
                 {
                     if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
-                    return $this->getPosts($dashboard);
+                        return $this->getPosts($dashboard);
                     }
 
-                return Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists()
-                    ? $this->getPosts($dashboard)
-                    : $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
+                    return Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists()
+                        ? $this->getPosts($dashboard)
+                        : $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
                 }
             default:
                 {
@@ -130,28 +123,6 @@ class PostsController extends Controller
                 }
         }
     }
-
-    /**
-     * @param \App\Http\Requests\Post\UpdatePostRequest $request
-     * @param \App\Models\User $user
-     * @param \App\Models\Dashboard $dashboard
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\JsonResponse
-     */
-    /**
-     * @param \App\Http\Requests\Post\UpdatePostRequest $request
-     * @param \App\Models\User $user
-     * @param \App\Models\Dashboard $dashboard
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\JsonResponse
-     */
-    /**
-     * @param \App\Http\Requests\Post\UpdatePostRequest $request
-     * @param \App\Models\User $user
-     * @param \App\Models\Dashboard $dashboard
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\JsonResponse
-     */
 
     private function getPosts(Dashboard $dashboard): JsonResponse
     {
@@ -169,26 +140,6 @@ class PostsController extends Controller
             : $this->forbidden("Permission denied: You're not allowed to delete this post.");
     }
 
-    /**
-     * @param \App\Models\User $user
-     * @param \App\Models\Dashboard $dashboard
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\JsonResponse
-     */
-    /**
-     * @param \App\Models\User $user
-     * @param \App\Models\Dashboard $dashboard
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    /**
-     * @param \App\Models\User $user
-     * @param \App\Models\Dashboard $dashboard
-     * @param \App\Models\Post $post
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
 
     private function deletePost(Post $post): JsonResponse
     {

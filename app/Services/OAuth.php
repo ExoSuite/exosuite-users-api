@@ -10,8 +10,8 @@
 namespace App\Services;
 
 use App\Contracts\MakeOAuthRequest;
+use App\Exceptions\InternalRequestException;
 use App\Facades\InternalRequest;
-use App\Services\InternalRequestException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

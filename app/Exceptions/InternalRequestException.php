@@ -11,6 +11,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Class FailedInternalRequestException
@@ -49,8 +50,6 @@ class InternalRequestException extends Exception
 
     /**
      * Get request object
-     *
-     * @return \Illuminate\Http\Request
      */
     public function getRequest(): Request
     {

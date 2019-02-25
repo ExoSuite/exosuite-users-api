@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Middleware\AuthenticationException;
+use App\Exceptions\AuthenticationException;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

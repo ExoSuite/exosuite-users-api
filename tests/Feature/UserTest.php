@@ -45,7 +45,6 @@ class UserTest extends TestCase
                 'client_secret' => Client::whereId(2)->first()->secret
             ]
         );
-        dd($response->decodeResponseJson());
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure(
             [
