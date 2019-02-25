@@ -4,6 +4,8 @@ namespace App\Events;
 
 use App\Enums\MessageBroadcastType;
 use App\Enums\Queue;
+use App\Models\Group;
+use App\Models\Message;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;

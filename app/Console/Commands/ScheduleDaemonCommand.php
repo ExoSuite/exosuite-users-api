@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Commands\Command;
+use Illuminate\Console\Command;
 use function sleep;
 use function sprintf;
 use function time;
@@ -18,7 +18,7 @@ class ScheduleDaemonCommand extends Command
     /**
      * The interval (in seconds) the scheduler is run daemon mode.
      */
-    const SCHEDULE_INTERVAL = 30;
+    private const SCHEDULE_INTERVAL = 30;
     /**
      * The console command name.
      *

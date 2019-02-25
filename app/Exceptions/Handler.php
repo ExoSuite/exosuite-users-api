@@ -2,13 +2,12 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\URL;
-use Throwable;
 use function config;
 
 /**
@@ -44,20 +43,15 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
      * @return void
      * @throws \Exception
      */
-    public function report(Throwable $exception): void
+    public function report(Exception $exception): void
     {
         parent::report($exception);
     }
 
     /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Exception $exception
-     *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+    * @inheritdoc
      */
-    public function render(Request $request, Throwable $exception)
+    public function render($request, Exception $exception)
     {
         if ($exception instanceof ModelNotFoundException) {
             return $this->modelNotFound($exception);

@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Commands\Command;
 use App\Services\ClassFinder;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Throwable;
 
@@ -27,11 +27,6 @@ class CreateElasticsearchIndexesCommand extends Command
      */
     protected $description = 'Create all ExoSuite ElasticSearchIndexes';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();

@@ -10,7 +10,6 @@ use App\Models\PendingRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use Webpatser\Uuid\Uuid;
 
 /**
  * Class RelationsController
@@ -34,11 +33,11 @@ class RelationsController extends Controller
     }
 
     /**
-     * @param \Webpatser\Uuid\Uuid $id
+     * @param string $id
      *
      * @return \App\Models\Friendship|\Illuminate\Database\Eloquent\Model
      */
-    public function createFriendship(Uuid $id)
+    public function createFriendship(string $id)
     {
         return Friendship::create(['user_id' => Auth::user()->id,
             'friend_id' => $id]);

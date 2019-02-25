@@ -9,7 +9,7 @@
 
 namespace App\Facades;
 
-use App\Facades\Facade;
+use Illuminate\Support\Facades\Facade;
 use function config;
 
 /**

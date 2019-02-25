@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Rules;
 
@@ -35,33 +35,17 @@ class ValidateLikeTargetRule implements Rule
      *
      * @return bool
      */
-    public function passes(string $attribute, $value): bool
+    public function passes($attribute, $value): bool
     {
         switch ($this->target_type) {
             case LikableEntities::COMMENTARY :
-                {
-                    return Commentary::whereId($value)->exists() ? true : false;
-
-				break;
-                }
+                return Commentary::whereId($value)->exists();
             case LikableEntities::POST :
-                {
-                    return Post::whereId($value)->exists() ? true : false;
-
-				break;
-                }
+                return Post::whereId($value)->exists();
             case LikableEntities::RUN :
-                {
-                    return Run::whereId($value)->exists() ? true : false;
-
-				break;
-                }
+                return Run::whereId($value)->exists();
             default :
-                {
-                    return false;
-
-                    break;
-                }
+                return false;
         }
     }
 

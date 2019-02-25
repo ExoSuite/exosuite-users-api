@@ -2,9 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Http\Middleware\AuthenticationException;
+use App\Exceptions\AuthenticationException;
 use Closure;
-use Illuminate\Http\Request;
 
 /**
  * Class Authenticate
@@ -22,7 +21,7 @@ class Authenticate extends \Illuminate\Auth\Middleware\Authenticate
      * @param  string[] ...$guards
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, ...$guards)
+    public function handle($request, Closure $next, ...$guards)
     {
         $this->authenticate($request, $guards);
 
@@ -36,7 +35,7 @@ class Authenticate extends \Illuminate\Auth\Middleware\Authenticate
      * @param  array $guards
      * @return void
      */
-    protected function authenticate(Request $request, array $guards): void
+    protected function authenticate($request, array $guards): void
     {
         if (empty($guards)) {
             $guards = [null];

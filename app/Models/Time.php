@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\UuidModel;
+use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Time
  *
  * @package App\Models
- * @property Uuid $id
+ * @property \App\Models\Uuid $id
  * @property int $interval
  */
 class Time extends UuidModel

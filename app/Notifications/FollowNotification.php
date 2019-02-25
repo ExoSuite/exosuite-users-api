@@ -15,8 +15,6 @@ class FollowNotification extends ExoSuiteNotification
 
     /**
      * Create a new notification instance.
-     *
-     * @return void
      */
     public function __construct()
     {

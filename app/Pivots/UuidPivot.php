@@ -37,7 +37,7 @@ abstract class UuidPivot extends Pivot
      * @return \Illuminate\Database\Eloquent\Relations\Pivot
      * @throws \Exception
      */
-    public static function fromRawAttributes(Model $parent, array $attributes, string $table, bool $exists = false): Pivot
+    public static function fromRawAttributes(Model $parent, $attributes, $table, $exists = false): Pivot
     {
         if (!$exists and !array_key_exists('id', $attributes)) {
             $attributes['id'] = Uuid::generate()->string;

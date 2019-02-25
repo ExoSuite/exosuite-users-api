@@ -22,27 +22,27 @@ class LikeTest extends TestCase
 {
     use RefreshDatabase;
     /**
-     * @var
+     * @var \App\Models\User
      */
     private $user;
 
     /**
-     * @var
+     * @var \App\Models\Dashboard
      */
     private $dash;
 
     /**
-     * @var
+     * @var \App\Models\Post
      */
     private $post;
 
     /**
-     * @var
+     * @var \App\Models\Commentary
      */
     private $comm;
 
     /**
-     * @var
+     * @var \App\Models\Run
      */
     private $run;
 

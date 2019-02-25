@@ -9,6 +9,8 @@
 
 namespace App\Contracts;
 
+use App\Services\OAuth;
+
 /**
  * Interface ApiHelperInterface
  *
@@ -16,9 +18,5 @@ namespace App\Contracts;
  */
 interface ApiHelperInterface
 {
-
-    /**
-     * @return \App\Services\OAuth
-     */
     public function OAuth(): OAuth;
 }

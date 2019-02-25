@@ -2,7 +2,7 @@
 
 namespace App\Models\Indexes;
 
-use App\Models\Indexes\IndexConfigurator;
+use ScoutElastic\IndexConfigurator;
 use ScoutElastic\Migratable;
 
 /**

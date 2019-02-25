@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * Class AdministratorServices
  *
  * @package App\Services
- * @method boolean|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse handleAuth($request)
+ * @method bool|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse handleAuth($request)
  */
 class AdministratorServices extends Facade
 {

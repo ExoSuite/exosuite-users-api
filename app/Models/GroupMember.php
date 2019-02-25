@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\UuidModel;
+use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -36,6 +36,6 @@ class GroupMember extends UuidModel
 
     public function isAdmin(): bool
     {
-        return $this->is_admin;
+        return (bool)$this->is_admin;
     }
 }

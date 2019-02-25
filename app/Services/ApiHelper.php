@@ -9,7 +9,7 @@
 
 namespace App\Services;
 
-use App\Services\ApiHelperInterface;
+use App\Contracts\ApiHelperInterface;
 use App\Services\OAuth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\URL;
@@ -29,14 +29,14 @@ class ApiHelper implements ApiHelperInterface
     /**
      * @var \App\Services\OAuth
      */
-    private $_OAuth;
+    private $OAuth;
 
     /**
      * ApiHelper constructor.
      */
     public function __construct()
     {
-        $this->_OAuth = new class extends OAuth
+        $this->OAuth = new class extends OAuth
         {
         };
     }
@@ -60,7 +60,7 @@ class ApiHelper implements ApiHelperInterface
 
     public function OAuth(): OAuth
     {
-        return $this->_OAuth;
+        return $this->OAuth;
     }
 
     public function redirectToLogin(?string $redirectUrl = null): RedirectResponse

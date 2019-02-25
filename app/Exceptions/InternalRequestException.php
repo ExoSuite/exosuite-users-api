@@ -9,7 +9,7 @@
 
 namespace App\Exceptions;
 
-use App\Exceptions\Exception;
+use Exception;
 use Illuminate\Http\Request;
 
 /**
@@ -38,7 +38,6 @@ class InternalRequestException extends Exception
      *
      * @param \Illuminate\Http\Request $request The request object.
      * @param mixed $response The response object.
-     * @return void
      */
     public function __construct(Request $request, $response)
     {

@@ -10,6 +10,7 @@ use App\Models\Like;
 use App\Models\Post;
 use App\Models\Run;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,11 +27,6 @@ class LikesController extends Controller
         return $commentary !== null ? $this->createLike($commentary, LikableEntities::COMMENTARY) : $this->createLike($post, LikableEntities::POST);
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $entity
-     * @param string $type
-     * @return \Illuminate\Http\JsonResponse
-     */
     private function createLike(Model $entity, string $type): JsonResponse
     {
         return $this->created(Like::create([

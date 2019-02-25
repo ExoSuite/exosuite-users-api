@@ -7,15 +7,13 @@ use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Phaza\LaravelPostgis\Eloquent\PostgisTrait;
-use Phaza\LaravelPostgis\Geometries\Polygon;
-use Webpatser\Uuid\Uuid;
 
 /**
  * Class CheckPoint
  * @package App\Models
- * @property Uuid $id
- * @property CheckPointType $type
- * @property Polygon $location
+ * @property \Webpatser\Uuid\Uuid $id
+ * @property \App\Enums\CheckPointType $type
+ * @property \Phaza\LaravelPostgis\Geometries\Polygon $location
  */
 class CheckPoint extends UuidModel
 {

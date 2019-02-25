@@ -9,17 +9,15 @@
 
 namespace App\Exceptions;
 
-use App\Exceptions\HttpException;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class AuthenticationException
- *
  * @package App\Exceptions
  */
 class AuthenticationException extends HttpException
 {
-
     /**
      * All of the guards that were checked.
      *

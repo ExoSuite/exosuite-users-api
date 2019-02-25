@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\UuidModel;
+use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Auth;
 

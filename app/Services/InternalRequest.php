@@ -9,8 +9,8 @@
 
 namespace App\Services;
 
+use App\Contracts\MakesInternalRequests;
 use App\Exceptions\InternalRequestException;
-use App\Services\MakesInternalRequests;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -26,21 +26,19 @@ class InternalRequest implements MakesInternalRequests
     /**
      * The app instance
      *
-     * @var \Illuminate\Foundation\Application $_app
+     * @var \Illuminate\Foundation\Application $app
      */
-    private $_app;
+    private $app;
 
 
     /**
      * Constructor
      *
      * @param \Illuminate\Foundation\Application $app The app instance.
-     *
-     * @return void
      */
     public function __construct(Application $app)
     {
-        $this->_app = $app;
+        $this->app = $app;
     }
 
 
@@ -83,7 +81,7 @@ class InternalRequest implements MakesInternalRequests
 
         // Get response
         /** @var \Illuminate\Http\Response $response */
-        $response = $this->_app->handle($request);
+        $response = $this->app->handle($request);
 
         // Check if the request was not successful
         if ($response->getStatusCode() >= Response::HTTP_BAD_REQUEST) {

@@ -17,12 +17,12 @@ class FriendshipsUnitTest extends TestCase
 {
     use RefreshDatabase;
     /**
-     * @var
+     * @var \App\Models\User
      */
     private $user;
 
     /**
-     * @var
+     * @var \App\Models\User
      */
     private $user1;
 

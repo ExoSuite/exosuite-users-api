@@ -29,7 +29,7 @@ class RequestTypeRule implements Rule
      * @param  mixed $value
      * @return bool
      */
-    public function passes(string $attribute, $value): bool
+    public function passes($attribute, $value): bool
     {
         return GroupRequestType::hasValue($value);
     }

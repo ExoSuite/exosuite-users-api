@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Run;
 
-use App\Http\Requests\Run\RouteParamRequestUuidToId;
+use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
 use App\Models\Run;
 use Illuminate\Support\Facades\Auth;
 

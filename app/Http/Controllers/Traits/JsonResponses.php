@@ -10,8 +10,8 @@
 namespace App\Http\Controllers\Traits;
 
 use App\Models\Media;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
@@ -34,7 +34,7 @@ trait JsonResponses
     }
 
     /**
-     * @param array|\Illuminate\Database\Eloquent\Model|\Illuminate\Contracts\Auth\Authenticatable $data
+     * @param mixed $data
      * @param string $location
      *
      * @return \Illuminate\Http\JsonResponse
@@ -49,11 +49,11 @@ trait JsonResponses
     /**
      * @param mixed $data
      *
-     * @return array
+     * @return mixed
      */
-    private function toArray($data): array
+    private function toArray($data)
     {
-        if ($data instanceof Model) {
+        if (is_object($data) && !($data instanceof ResourceCollection)) {
             $data = $data->toArray();
         }
 
@@ -61,7 +61,7 @@ trait JsonResponses
     }
 
     /**
-     * @param array|\Illuminate\Database\Eloquent\Model|\Illuminate\Contracts\Auth\Authenticatable|\Illuminate\Support\Collection|\Illuminate\Http\Resources\Json\ResourceCollection|\Illuminate\Http\Resources\Json\JsonResource|\Illuminate\Contracts\Pagination\LengthAwarePaginator $data
+     * @param mixed $data
      *
      * @return \Illuminate\Http\JsonResponse
      */

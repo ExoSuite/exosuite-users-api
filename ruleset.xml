@@ -90,7 +90,6 @@
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint"/>
-    <rule ref="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly"/>
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
     <rule ref="SlevomatCodingStandard.Classes.DisallowLateStaticBindingForConstants"/>
     <rule ref="SlevomatCodingStandard.ControlStructures.AssignmentInCondition"/>
@@ -124,7 +123,6 @@
     <rule ref="SlevomatCodingStandard.PHP.TypeCast"/>
     <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
     <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
-    <rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
     <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
         <properties>
             <property name="allowFullyQualifiedNameForCollidingClasses" value="true" />
@@ -134,10 +132,19 @@
     <rule ref="SlevomatCodingStandard.Commenting.EmptyComment" />
     <rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation" />
     <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
+    <rule ref="SlevomatCodingStandard.ControlStructures.UselessTernaryOperator" />
+    <rule ref="SlevomatCodingStandard.ControlStructures.UselessIfConditionWithReturn" />
 
     <file>app/</file>
     <file>routes/</file>
     <file>tests/</file>
     <file>config/</file>
+    <exclude-pattern>**/Handler.php</exclude-pattern>
+    <exclude-pattern>**/UuidPivot.php</exclude-pattern>
+    <exclude-pattern>**/Middleware/**</exclude-pattern>
+    <exclude-pattern>**/Resources/**</exclude-pattern>
+    <exclude-pattern>**/Rules/**</exclude-pattern>
+    <exclude-pattern>vendor</exclude-pattern>
+
 
 </ruleset>
