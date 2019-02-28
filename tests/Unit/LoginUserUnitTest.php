@@ -40,7 +40,12 @@ class LoginUserUnitTest extends TestCase
         );
     }
 
-    private function request($data, $status): TestResponse
+    /**
+     * @param string[] $data
+     * @param int $status
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    private function request(array $data, int $status): TestResponse
     {
         $response = $this->json(Request::METHOD_POST, route('login'), $data);
         $response->assertStatus($status);

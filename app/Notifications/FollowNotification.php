@@ -23,7 +23,7 @@ class FollowNotification extends ExoSuiteNotification
      * Get the array representation of the notification.
      *
      * @param  mixed $notifiable
-     * @return array
+     * @return string[]
      */
     public function toArray($notifiable): array
     {

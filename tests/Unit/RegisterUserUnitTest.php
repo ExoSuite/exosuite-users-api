@@ -29,11 +29,12 @@ class RegisterUserUnitTest extends TestCase
         $this->request(['first_name', 'last_name', 'password', 'email']);
     }
 
+
     /**
-     * @param $expected
-     * @param array $data
+     * @param string[] $expected
+     * @param string[] $data
      */
-    private function request($expected, array $data = []): void
+    private function request(array $expected, array $data = []): void
     {
         $response = $this->json(Request::METHOD_POST, route('register'), $data);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);

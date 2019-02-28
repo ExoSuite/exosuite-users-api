@@ -18,11 +18,9 @@ use Tests\TestCase;
 class PostTest extends TestCase
 {
     use RefreshDatabase;
-    /** @var \App\Models\User */
-    private $user;
 
     /** @var \App\Models\User */
-    private $user1;
+    private $user;
 
     /** @var \App\Models\Dashboard */
     private $dashboard;

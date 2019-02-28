@@ -14,14 +14,13 @@ use Illuminate\Notifications\Notification;
  */
 abstract class ExoSuiteNotification extends Notification
 {
-
     use Queueable;
 
     /**
      * Get the notification's delivery channels.
      *
      * @param  mixed $notifiable
-     * @return array
+     * @return string[]
      */
     public function via($notifiable): array
     {
@@ -43,7 +42,7 @@ abstract class ExoSuiteNotification extends Notification
 
     /**
      * @param mixed $notifiable
-     * @return array
+     * @return string[]
      */
     abstract public function toArray($notifiable): array;
 }

@@ -48,8 +48,8 @@ class InternalRequest implements MakesInternalRequests
      *
      * @param  string $method The HTTP verb to use.
      * @param  string $uri The API uri to look up.
-     * @param  array $data The request body.
-     * @param  array $headers
+     * @param  string[] $data The request body.
+     * @param  string[] $headers
      * @param int $statusCode
      * @return \Illuminate\Http\Response
      * @throws \App\Exceptions\InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST

@@ -21,9 +21,6 @@ class DashboardTest extends TestCase
     /** @var \App\Models\User */
     private $user;
 
-    /** @var \App\Models\Dashboard */
-    private $dash;
-
     /**
      * A basic test example.
      *

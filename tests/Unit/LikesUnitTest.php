@@ -30,9 +30,6 @@ class LikesUnitTest extends TestCase
     /** @var \App\Models\Post */
     private $post;
 
-    /** @var \App\Models\Commentary */
-    private $comm;
-
     /**
      * A basic test example.
      *

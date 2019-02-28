@@ -32,8 +32,8 @@ class NewMessageNotification extends ExoSuiteNotification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed $notifiable
-     * @return array
+     * @param mixed $notifiable
+     * @return string[]
      */
     public function toArray($notifiable): array
     {

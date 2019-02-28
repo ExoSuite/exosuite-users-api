@@ -85,12 +85,16 @@ class GroupController extends Controller
         } elseif (GroupRequestType::UPDATE_USER_RIGHTS === $requestType) {
             $group->groupMembers()->whereUserId($user_id)->update(["is_admin" => $request->get("is_admin")]);
         } elseif (GroupRequestType::DELETE_USER === $requestType) {
-            $message = str_replace([":group_name", ":user_name"], [$group->name, "{$current_user->first_name} {$current_user->last_name}"], trans("notification.expelled_from_group"));
+            $message = str_replace(
+                [":group_name", ":user_name"],
+                [$group->name, "{$current_user->first_name} {$current_user->last_name}"],
+                trans("notification.expelled_from_group")
+            );
             $users = $group->users()->get();
             $users = $users->filter(static function ($user) use ($user_id) {
                 return $user->id === $user_id;
             });
-            Notification::send($users, new ExpelledFromGroupNotification($message, $group->toArray()));
+            Notification::send($users, new ExpelledFromGroupNotification($message, $group));
             $group->groupMembers()->whereUserId($request->get("user_id"))->delete();
         } elseif (GroupRequestType::UPDATE_GROUP_NAME === $requestType) {
             $group->name = $request->get('name');
