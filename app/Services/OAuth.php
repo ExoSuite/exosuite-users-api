@@ -36,7 +36,8 @@ abstract class OAuth implements MakeOAuthRequest
         int $client_id,
         string $client_secret,
         int $statusCode = Response::HTTP_OK
-    ) {
+    )
+    {
         $data = [
             'grant_type' => 'password',
             'client_id' => $client_id,

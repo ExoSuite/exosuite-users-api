@@ -40,7 +40,7 @@ class PostsUnitTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->post(route('post_Post', [
             'user' => $this->user->id,
-            'dashboard' => Uuid::generate()->string
+            'dashboard' => Uuid::generate()->string,
         ]), ['content' => str_random(10)]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -50,9 +50,9 @@ class PostsUnitTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->post(route('post_Post', [
             'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id
+            'dashboard' => $this->dashboard->id,
         ]), [
-            'content' => str_random(10)
+            'content' => str_random(10),
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not authorized to post on this board."]);
@@ -68,7 +68,7 @@ class PostsUnitTest extends TestCase
         $response = $this->patch(route('patch_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
-            'post' => Uuid::generate()->string
+            'post' => Uuid::generate()->string,
         ]), ['content' => $content]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -80,13 +80,13 @@ class PostsUnitTest extends TestCase
         $post = factory(Post::class)->create([
             'dashboard_id' => $this->dashboard->id,
             'author_id' => $this->user1->id,
-            'content' => str_random(10)
+            'content' => str_random(10),
         ]);
         Passport::actingAs($this->user);
         $response = $this->patch(route('patch_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
-            'post' => $post->id
+            'post' => $post->id,
         ]), ['content' => $content]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to update this post."]);
@@ -100,7 +100,7 @@ class PostsUnitTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_Posts_by_dashboard_id', [
             'user' => $this->user->id,
-            'dashboard' => Uuid::generate()->string
+            'dashboard' => Uuid::generate()->string,
         ]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -110,7 +110,7 @@ class PostsUnitTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_Posts_by_dashboard_id', [
             'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id
+            'dashboard' => $this->dashboard->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to access this dashboard."]);
@@ -125,7 +125,7 @@ class PostsUnitTest extends TestCase
         $response = $this->delete(route('delete_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
-            'post_id' => Uuid::generate()->string
+            'post_id' => Uuid::generate()->string,
         ]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -135,13 +135,13 @@ class PostsUnitTest extends TestCase
         $post = factory(Post::class)->create([
             'dashboard_id' => $this->dashboard->id,
             'author_id' => $this->user1->id,
-            'content' => str_random(10)
+            'content' => str_random(10),
         ]);
         Passport::actingAs($this->user);
         $response = $this->delete(route('delete_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
-            'post_id' => $post->id
+            'post_id' => $post->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);

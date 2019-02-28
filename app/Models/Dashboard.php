@@ -18,11 +18,17 @@ class Dashboard extends Model
 
     /** @var bool */
     public $incrementing = false;
+
     /** @var string */
     protected $primaryKey = 'id';
+
     /** @var string[] */
     protected $fillable = [
-        'id', 'owner_id', 'restriction', 'created_at', 'updated_at'
+        'id',
+        'owner_id',
+        'restriction',
+        'created_at',
+        'updated_at',
     ];
 
     public function user(): BelongsTo

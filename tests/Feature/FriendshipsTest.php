@@ -18,6 +18,7 @@ use Tests\TestCase;
 class FriendshipsTest extends TestCase
 {
     use RefreshDatabase;
+
     /** @var \App\Models\User */
     private $user;
 
@@ -44,7 +45,12 @@ class FriendshipsTest extends TestCase
         $send_resp = $this->post(route('post_friendship_request', ['user' => $this->user->id]));
 
         Passport::actingAs($this->user);
-        $response = $this->post(route('post_accept_friendship_request', ['request' => $send_resp->decodeResponseJson('request_id')]));
+        $response = $this->post(
+            route(
+                'post_accept_friendship_request',
+                ['request' => $send_resp->decodeResponseJson('request_id')]
+            )
+        );
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure((new Friendship)->getFillable());
         $this->assertDatabaseHas('friendships', $response->decodeResponseJson());
@@ -57,7 +63,12 @@ class FriendshipsTest extends TestCase
         $send_resp = $this->post(route('post_friendship_request', ['user' => $this->user->id]));
 
         Passport::actingAs($this->user);
-        $response = $this->post(route('post_decline_friendship_request', ['user' => $this->user->id, 'request' => $send_resp->decodeResponseJson('request_id')]));
+        $response = $this->post(
+            route(
+                'post_decline_friendship_request',
+                ['user' => $this->user->id, 'request' => $send_resp->decodeResponseJson('request_id')]
+            )
+        );
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('pending_requests', $send_resp->decodeResponseJson());
     }
@@ -92,12 +103,16 @@ class FriendshipsTest extends TestCase
 
     public function testDeleteFriendship(): void
     {
-
         Passport::actingAs($this->user1);
         $send_resp = $this->post(route('post_friendship_request', ['user' => $this->user->id]));
 
         Passport::actingAs($this->user);
-        $accept_resp = $this->post(route('post_accept_friendship_request', ['request' => $send_resp->decodeResponseJson('request_id')]));
+        $accept_resp = $this->post(
+            route(
+                'post_accept_friendship_request',
+                ['request' => $send_resp->decodeResponseJson('request_id')]
+            )
+        );
         $this->assertDatabaseHas('friendships', $accept_resp->decodeResponseJson());
         $response = $this->delete(route('delete_friendship', ['user' => $this->user1->id]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);

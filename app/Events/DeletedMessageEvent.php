@@ -26,8 +26,10 @@ class DeletedMessageEvent implements ShouldBroadcast
 
     /** @var string */
     public $broadcastQueue = Queue::MESSAGE;
+
     /** @var \App\Models\Group */
     public $group;
+
     /** @var \App\Models\Message */
     public $message;
 
@@ -64,6 +66,6 @@ class DeletedMessageEvent implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        return ["id" => $this->message->id];
+        return ['id' => $this->message->id];
     }
 }

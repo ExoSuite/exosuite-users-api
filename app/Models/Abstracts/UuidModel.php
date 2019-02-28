@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 abstract class UuidModel extends Model
 {
     use Uuids;
+
     /**
      * Indicates if the IDs are auto-incrementing.
      *

@@ -33,7 +33,6 @@ class InternalRequestException extends Exception
      */
     private $response;
 
-
     /**
      * Constructor
      *

@@ -29,11 +29,10 @@ class DeleteRunRequest extends RouteParamRequestUuidToId
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return string[]
+     * @return mixed[]
      */
     public function rules(): array
     {
-        return [
-        ];
+        return [];
     }
 }

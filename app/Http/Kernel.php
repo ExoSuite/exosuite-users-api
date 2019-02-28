@@ -58,7 +58,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
     /**
      * The application's route middleware groups.
      *
-     * @var string[]
+     * @var mixed[]
      */
     protected $middlewareGroups = [
         'web' => [

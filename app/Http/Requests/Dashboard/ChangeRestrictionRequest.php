@@ -12,6 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class ChangeRestrictionRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,12 +26,12 @@ class ChangeRestrictionRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return string[]
+     * @return mixed[]
      */
     public function rules(): array
     {
         return [
-            "restriction" => ['required', new RestrictionsTypeRule]
+            'restriction' => ['required', new RestrictionsTypeRule],
         ];
     }
 }

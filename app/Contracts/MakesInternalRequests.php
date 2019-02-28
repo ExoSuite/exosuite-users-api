@@ -19,7 +19,6 @@ use Illuminate\Http\Response;
 interface MakesInternalRequests
 {
 
-
     /**
      * Make an internal request
      *

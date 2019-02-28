@@ -23,6 +23,8 @@ class Friendship extends Model
 
     /** @var string[] */
     protected $fillable = [
-        'friendship_id', 'user_id', 'friend_id',
+        'friendship_id',
+        'user_id',
+        'friend_id',
     ];
 }

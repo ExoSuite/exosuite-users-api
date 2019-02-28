@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Passport::ignoreMigrations();
 
-        if (!$this->app->isLocal() and !ApiHelper::isStaging()) {
+        if (!$this->app->isLocal() && !ApiHelper::isStaging()) {
             return;
         }
 

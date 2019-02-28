@@ -14,6 +14,7 @@ use function now;
  */
 class NotificationController extends Controller
 {
+
     public function update(?Notification $notification = null): JsonResponse
     {
         if ($notification instanceof Notification) {

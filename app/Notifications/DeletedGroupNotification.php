@@ -15,6 +15,7 @@ class DeletedGroupNotification extends ExoSuiteNotification
 
     /** @var string **/
     private $message;
+
     /** @var \App\Models\Group */
     private $group;
 
@@ -34,14 +35,14 @@ class DeletedGroupNotification extends ExoSuiteNotification
      * Get the array representation of the notification.
      *
      * @param  mixed $notifiable
-     * @return string[]
+     * @return array<string, array<string, \App\Models\Group|string>|string>
      */
     public function toArray($notifiable): array
     {
         return [
             'data' => [
-                "message" => $this->message,
-                "group" => $this->group,
+                'message' => $this->message,
+                'group' => $this->group,
             ],
             'notification_type' => NotificationType::DELETED_GROUP,
         ];

@@ -52,7 +52,7 @@ class PostsController extends Controller
     /**
      * @param string[] $data
      * @param mixed $dashboard_id
-     * @return \App\Models\Post|\Illuminate\Database\Eloquent\Model
+     * @return \App\Models\Post
      */
     private function createPost(array $data, $dashboard_id): Post
     {

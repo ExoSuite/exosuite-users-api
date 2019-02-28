@@ -21,13 +21,18 @@ class Share extends UuidModel
 
     /** @var string[] */
     protected $fillable = [
-        'id', 'user_id', 'shareable_id', 'shareable_type',
-        'created_at', 'updated_at'
+        'id',
+        'user_id',
+        'shareable_id',
+        'shareable_type',
+        'created_at',
+        'updated_at',
     ];
 
     /** @var string[] */
     protected $hidden = [
-        'shareable_type', 'shareable_id'
+        'shareable_type',
+        'shareable_id',
     ];
 
     protected static function boot(): void

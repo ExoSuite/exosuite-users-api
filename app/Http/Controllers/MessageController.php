@@ -22,6 +22,7 @@ use function broadcast;
  */
 class MessageController extends Controller
 {
+
     public function store(CreateMessageRequest $request, Group $group): JsonResponse
     {
         //$this->authorize("createGroupMessage", $group);

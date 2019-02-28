@@ -23,7 +23,6 @@ class ShareRunTest extends TestCase
     /** @var \App\Models\Run */
     private $run;
 
-
     /**
      * A basic test example.
      *

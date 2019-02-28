@@ -21,6 +21,7 @@ use function route;
  */
 class UserProfilePictureController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -32,7 +33,7 @@ class UserProfilePictureController extends Controller
         $pictures = $user->profile()->first()->getMedia(CollectionPicture::PICTURE);
         $urls = [];
 
-        for ($i = 0; $i !== sizeof($pictures); $i++) {
+        for ($i = 0; $i !== count($pictures); $i++) {
             array_push($urls, $pictures[$i]->getFullUrl());
         }
 
@@ -49,7 +50,7 @@ class UserProfilePictureController extends Controller
     public function store(CreateUserProfilePictureRequest $request, User $user): JsonResponse
     {
         $user->profile()->first()
-            ->addMedia($request->file("picture"))
+            ->addMedia($request->file('picture'))
             ->preservingOriginal()
             ->toMediaCollection(CollectionPicture::PICTURE);
 
@@ -67,13 +68,13 @@ class UserProfilePictureController extends Controller
     {
         /** @var \App\Models\UserProfile $profile */
         $profile = $user->profile()->first();
-        $profile->addMedia($request->file("picture"))
+        $profile->addMedia($request->file('picture'))
             ->toMediaCollection(CollectionPicture::AVATAR);
         $profile->update([
             'avatar_id' =>
                 $profile->getMedia(CollectionPicture::AVATAR)
                     ->sortByDesc('created_at')
-                    ->first()->id
+                    ->first()->id,
         ]);
 
         return $this->created([], route('get_picture_avatar', ['user' => $user->id]));
@@ -93,7 +94,7 @@ class UserProfilePictureController extends Controller
         $avatarId = $profile->avatar_id;
 
         if (!$avatarId) {
-            throw new UnprocessableEntityHttpException("Avatar id not set.");
+            throw new UnprocessableEntityHttpException('Avatar id not set.');
         }
 
         return $this->file(
@@ -114,13 +115,13 @@ class UserProfilePictureController extends Controller
     public function storeCover(CreateUserProfilePictureCoverRequest $request, User $user): JsonResponse
     {
         $profile = $user->profile()->first();
-        $profile->addMedia($request->file("picture"))
+        $profile->addMedia($request->file('picture'))
             ->toMediaCollection(CollectionPicture::COVER);
         $profile->update([
             'cover_id' =>
                 $profile->getMedia(CollectionPicture::COVER)
                     ->sortByDesc('created_at')
-                    ->first()->id
+                    ->first()->id,
         ]);
 
         return $this->created([], route('get_picture_cover', ['user' => $user->id]));
@@ -139,7 +140,7 @@ class UserProfilePictureController extends Controller
         $coverId = $profile->cover_id;
 
         if (!$coverId) {
-            throw new UnprocessableEntityHttpException("Profile Cover id not set.");
+            throw new UnprocessableEntityHttpException('Profile Cover id not set.');
         }
 
         return $this->file(

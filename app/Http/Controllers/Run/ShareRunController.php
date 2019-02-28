@@ -20,6 +20,7 @@ use Webpatser\Uuid\Uuid;
  */
 class ShareRunController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *

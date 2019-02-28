@@ -10,26 +10,19 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
  *
  * @package App\Providers
  */
-
-/**
- * Class EventServiceProvider
- *
- * @package App\Providers
- */
 class EventServiceProvider extends \Illuminate\Foundation\Support\Providers\EventServiceProvider
 {
 
     /**
      * The event listener mappings for the application.
      *
-     * @var string[string[]]
+     * @var array<string, array<int, string>>
      */
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
     ];
-
 
     /**
      * Register any events for your application.

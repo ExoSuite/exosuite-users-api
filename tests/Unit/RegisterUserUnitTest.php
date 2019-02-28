@@ -58,7 +58,7 @@ class RegisterUserUnitTest extends TestCase
 
         $data = array_keys($userData);
 
-        foreach ($userData as $key => $value) {
+        foreach ($userData as $key) {
             $this->request($data, $data);
             $data = array_diff($data, [$key]);
         }

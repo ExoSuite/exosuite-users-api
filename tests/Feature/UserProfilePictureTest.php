@@ -33,7 +33,7 @@ class UserProfilePictureTest extends TestCase
         Passport::actingAs($this->user);
 
         return $this->post(
-            $this->route('post_picture_avatar', ["user" => $this->user]),
+            $this->route('post_picture_avatar', ['user' => $this->user]),
             ['picture' => UploadedFile::fake()->image('avatar.jpg', 142, 142)],
             ['Content-Type' => 'multipart/form-data']
         );
@@ -44,7 +44,7 @@ class UserProfilePictureTest extends TestCase
         Passport::actingAs($this->user);
 
         return $this->post(
-            $this->route('post_picture_cover', ["user" => $this->user]),
+            $this->route('post_picture_cover', ['user' => $this->user]),
             ['picture' => UploadedFile::fake()->image('cover.jpg', 1920, 640)],
             ['Content-Type' => 'multipart/form-data']
         );
@@ -65,7 +65,7 @@ class UserProfilePictureTest extends TestCase
     {
         $this->storeUserProfilePictureAvatar();
         Passport::actingAs($this->user);
-        $response = $this->get(route('get_picture_avatar', ["user" => $this->user]));
+        $response = $this->get(route('get_picture_avatar', ['user' => $this->user]));
         $response->assertStatus(Response::HTTP_OK);
     }
 
@@ -84,7 +84,7 @@ class UserProfilePictureTest extends TestCase
     {
         $this->storeUserProfilePictureCover();
         Passport::actingAs($this->user);
-        $response = $this->get(route('get_picture_cover', ["user" => $this->user]));
+        $response = $this->get(route('get_picture_cover', ['user' => $this->user]));
         $response->assertStatus(Response::HTTP_OK);
     }
 }

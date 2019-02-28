@@ -26,8 +26,10 @@ class ModifyMessageEvent implements ShouldBroadcast
 
     /** @var string */
     public $broadcastQueue = Queue::MESSAGE;
+
     /** @var \App\Models\Group */
     public $group;
+
     /** @var \App\Models\Message */
     public $message;
 

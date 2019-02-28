@@ -21,6 +21,6 @@ class Controller extends \Illuminate\Routing\Controller
 
     public function alive(): string
     {
-        return "OK";
+        return 'OK';
     }
 }

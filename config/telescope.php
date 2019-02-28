@@ -7,16 +7,16 @@ return [
 
     'path' => 'monitoring/telescope',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Telescope Storage Driver
-    |--------------------------------------------------------------------------
-    |
-    | This configuration options determines the storage driver that will
-    | be used to store Telescope's data. In addition, you may set any
-    | custom options as needed by the particular driver you choose.
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Telescope Storage Driver
+	|--------------------------------------------------------------------------
+	|
+	| This configuration options determines the storage driver that will
+	| be used to store Telescope's data. In addition, you may set any
+	| custom options as needed by the particular driver you choose.
+	|
+	*/
 
 
     'driver' => env('TELESCOPE_DRIVER', 'database'),
@@ -52,7 +52,7 @@ return [
 
     'middleware' => [
         'web',
-        AuthenticateTelescope::class
+        AuthenticateTelescope::class,
     ],
 
     /*
@@ -66,10 +66,8 @@ return [
     |
     */
 
-    'ignore_paths' => [
-    ],
-    'ignore_commands' => [
-    ],
+    'ignore_paths' => [],
+    'ignore_commands' => [],
 
     /*
     |--------------------------------------------------------------------------

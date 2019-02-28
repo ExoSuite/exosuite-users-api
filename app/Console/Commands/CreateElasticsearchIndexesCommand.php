@@ -14,6 +14,7 @@ use Throwable;
  */
 class CreateElasticsearchIndexesCommand extends Command
 {
+
     /**
      * The name and signature of the console command.
      *

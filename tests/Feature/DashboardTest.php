@@ -18,6 +18,7 @@ use Tests\TestCase;
 class DashboardTest extends TestCase
 {
     use RefreshDatabase;
+
     /** @var \App\Models\User */
     private $user;
 
@@ -45,8 +46,8 @@ class DashboardTest extends TestCase
     public function testChangeRestriction(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->patch(route("patch_dashboard_restriction", [
-            'user' => $this->user->id
+        $response = $this->patch(route('patch_dashboard_restriction', [
+            'user' => $this->user->id,
         ]), ['restriction' => Restriction::PUBLIC]);
         $response->assertStatus(Response::HTTP_OK);
     }

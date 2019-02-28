@@ -26,6 +26,7 @@ use function url;
  */
 class ApiHelper implements ApiHelperInterface
 {
+
     /** @var \App\Services\OAuth */
     private $OAuth;
 
@@ -63,10 +64,12 @@ class ApiHelper implements ApiHelperInterface
 
     public function redirectToLogin(?string $redirectUrl = null): RedirectResponse
     {
-        $scheme = ApiHelper::getHttpScheme();
-        $domain = ApiHelper::getDomain();
+        $scheme = self::getHttpScheme();
+        $domain = self::getDomain();
 
-        $redirectBack = $redirectUrl ? url($redirectUrl) : URL::full();
+        $redirectBack = $redirectUrl
+            ? url($redirectUrl)
+            : URL::full();
 
         return redirect()
             ->to("{$scheme}://{$domain}/login?redirect_uri={$redirectBack}");
@@ -76,6 +79,6 @@ class ApiHelper implements ApiHelperInterface
     {
         $parsed_url = parse_url(env('APP_URL') ?? config('app.url'));
 
-        return $parsed_url["scheme"];
+        return $parsed_url['scheme'];
     }
 }

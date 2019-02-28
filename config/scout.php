@@ -1,12 +1,5 @@
 <?php declare(strict_types = 1);
 
-if (!function_exists('runningUnitTests')) {
-    function runningUnitTests(): bool
-    {
-        return env('APP_ENV') === 'testing';
-    }
-}
-
 return [
 
     /*
@@ -48,7 +41,7 @@ return [
     |
     */
 
-    'queue' => env('SCOUT_QUEUE', !runningUnitTests()), // bug with queue enabled
+    'queue' => env('SCOUT_QUEUE', !(env('APP_ENV') === 'testing')), // bug with queue enabled
 
     /*
     |--------------------------------------------------------------------------

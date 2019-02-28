@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Response;
  */
 class DashboardsController extends Controller
 {
+
     public function changeRestriction(ChangeRestrictionRequest $new_policy): JsonResponse
     {
         $new_policy->validated();
@@ -31,9 +32,9 @@ class DashboardsController extends Controller
                 $dash->update(['restriction' => $new_policy->get('restriction')]);
 
                 return $this->ok(['restriction status' => $dash['restriction']]);
-
             default:
-                return Response::json('Wrong restriction type provided.')->setStatusCode(HttpResponse::HTTP_BAD_REQUEST);
+                return Response::json('Wrong restriction type provided.')
+                    ->setStatusCode(HttpResponse::HTTP_BAD_REQUEST);
         }
     }
 

@@ -17,11 +17,18 @@ class Commentary extends Model
 
     /** @var bool */
     public $incrementing = false;
+
     /** @var string */
     protected $primaryKey = 'id';
+
     /** @var string[] */
     protected $fillable = [
-        'id', 'post_id', 'content', 'author_id', 'created_at', 'updated_at'
+        'id',
+        'post_id',
+        'content',
+        'author_id',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -35,7 +42,7 @@ class Commentary extends Model
         return [
             'content' => $this->content,
             'created_at' => $this->created_at,
-            'author' => $author_names
+            'author' => $author_names,
         ];
     }
 

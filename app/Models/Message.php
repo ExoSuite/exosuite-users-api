@@ -15,7 +15,12 @@ class Message extends UuidModel
 
     /** @var string[] */
     protected $fillable = [
-        'id', 'contents', 'group_id', 'user_id', 'created_at', 'updated_at',
+        'id',
+        'contents',
+        'group_id',
+        'user_id',
+        'created_at',
+        'updated_at',
     ];
 
     public function group(): BelongsTo

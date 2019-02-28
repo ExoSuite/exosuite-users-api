@@ -42,7 +42,7 @@ class UserSearchTest extends TestCase
             );
 
             $response->assertStatus(Response::HTTP_OK);
-            $response->assertJsonStructure(["data" => []]);
+            $response->assertJsonStructure(['data' => []]);
         }
     }
 

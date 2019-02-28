@@ -19,6 +19,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class AuthenticationException extends HttpException
 {
+
     /**
      * All of the guards that were checked.
      *

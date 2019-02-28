@@ -18,11 +18,18 @@ class Post extends Model
 
     /** @var bool */
     public $incrementing = false;
+
     /** @var string */
     protected $primaryKey = 'id';
+
     /** @var string[] */
     protected $fillable = [
-        'id', 'dashboard_id', 'content', 'author_id', 'created_at', 'updated_at'
+        'id',
+        'dashboard_id',
+        'content',
+        'author_id',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -36,7 +43,7 @@ class Post extends Model
         return [
             'content' => $this->content,
             'created_at' => $this->created_at,
-            'author' => $author_names
+            'author' => $author_names,
         ];
     }
 

@@ -12,6 +12,7 @@ use Tests\TestCase;
  */
 class TelescopeTest extends TestCase
 {
+
     /**
      * A basic test example.
      *

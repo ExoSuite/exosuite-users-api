@@ -60,7 +60,7 @@ class MessagePolicy
      */
     public function delete(User $user, Message $message)
     {
-        return $user->id === $message->user_id or $message->group->first()->isAdmin($user);
+        return $user->id === $message->user_id || $message->group->first()->isAdmin($user);
     }
 
     /**

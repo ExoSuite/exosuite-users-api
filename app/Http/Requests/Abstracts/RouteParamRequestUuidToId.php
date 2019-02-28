@@ -20,7 +20,7 @@ abstract class RouteParamRequestUuidToId extends RouteParamRequest
 {
 
     /**
-     * @return string[]
+     * @return mixed[]
      */
     public function validated(): array
     {

@@ -35,7 +35,7 @@ class PostTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->post(route('post_Post', [
             'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id
+            'dashboard' => $this->dashboard->id,
         ]), ['content' => str_random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Post)->getFillable());
@@ -49,12 +49,12 @@ class PostTest extends TestCase
         $post = factory(Post::class)->create([
             'dashboard_id' => $this->dashboard->id,
             'author_id' => $this->user->id,
-            'content' => str_random(10)
+            'content' => str_random(10),
         ]);
         $response = $this->patch(route('patch_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
-            'post' => $post->id
+            'post' => $post->id,
         ]), ['content' => $content]);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas('posts', ['id' => $post->id, 'author_id' => $this->user->id, 'content' => $content]);
@@ -63,16 +63,16 @@ class PostTest extends TestCase
     public function testDelete(): void
     {
         Passport::actingAs($this->user);
-        $post_response = $this->post(route('post_Post', [
+        $postResponse = $this->post(route('post_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id]), ['content' => str_random(10)]);
         $response = $this->delete(route('delete_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
-            'post' => $post_response->decodeResponseJson('id')
+            'post' => $postResponse->decodeResponseJson('id'),
         ]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
-        $this->assertDatabaseMissing('posts', $post_response->decodeResponseJson());
+        $this->assertDatabaseMissing('posts', $postResponse->decodeResponseJson());
     }
 
     public function testGetfromDashboard(): void
@@ -83,13 +83,13 @@ class PostTest extends TestCase
             factory(Post::class)->create([
                 'dashboard_id' => $this->dashboard->id,
                 'author_id' => $this->user->id,
-                'content' => str_random(10)
+                'content' => str_random(10),
             ]);
         }
 
         $response = $this->get(route('get_Posts_by_dashboard_id', [
             'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id
+            'dashboard' => $this->dashboard->id,
         ]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(5, count($response->decodeResponseJson()));

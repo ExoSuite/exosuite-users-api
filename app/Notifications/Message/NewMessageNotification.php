@@ -33,13 +33,13 @@ class NewMessageNotification extends ExoSuiteNotification
      * Get the array representation of the notification.
      *
      * @param mixed $notifiable
-     * @return string[]
+     * @return  array<string, \App\Models\Message|string>
      */
     public function toArray($notifiable): array
     {
         return [
             'data' => $this->message,
-            'notification_type' => NotificationType::NEW_MESSAGE
+            'notification_type' => NotificationType::NEW_MESSAGE,
         ];
     }
 }

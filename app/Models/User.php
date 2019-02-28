@@ -47,25 +47,25 @@ class User extends \Illuminate\Foundation\Auth\User
 
     /** @var string[] */
     protected $searchRules = [
-        UserSearchRule::class
+        UserSearchRule::class,
     ];
 
-    /** @var string[] */
+    /** @var array<string, array<string, array<string, string>>> */
     protected $mapping = [
         'properties' => [
             'first_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard'
+                'analyzer' => 'standard',
             ],
             'last_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard'
+                'analyzer' => 'standard',
             ],
             'nick_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard'
+                'analyzer' => 'standard',
             ],
-        ]
+        ],
     ];
 
     /**
@@ -80,7 +80,7 @@ class User extends \Illuminate\Foundation\Auth\User
         'nick_name',
         'email',
         'password',
-        'remember_token'
+        'remember_token',
     ];
 
     /**
@@ -89,7 +89,9 @@ class User extends \Illuminate\Foundation\Auth\User
      * @var string[]
      */
     protected $hidden = [
-        'password', 'email_verified_at', 'remember_token'
+        'password',
+        'email_verified_at',
+        'remember_token',
     ];
 
     protected static function boot(): void

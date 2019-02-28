@@ -21,6 +21,7 @@ class RunTest extends TestCase
 
     /** @var \App\Models\User */
     private $user;
+
     /** @var \App\Models\Run */
     private $run;
 
@@ -30,11 +31,11 @@ class RunTest extends TestCase
         $response = $this->post(
             $this->route('post_run'),
             [
-                "name" => str_random(30)
+                'name' => str_random(30),
             ]
         );
         $run = new Run;
-        $expect = collect($run->getFillable())->diff(["description"]);
+        $expect = collect($run->getFillable())->diff(['description']);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure($expect->toArray());
     }
@@ -43,8 +44,8 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->post($this->route('post_run'), [
-            "name" => str_random(30),
-            "description" => str_random(255)
+            'name' => str_random(30),
+            'description' => str_random(255),
         ]);
         $run = new Run;
         $response->assertStatus(Response::HTTP_CREATED);
@@ -55,22 +56,22 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->post($this->route('post_run'), [
-            "name" => str_random(30),
-            "description" => str_random(255),
-            "visibility" => Visibility::PUBLIC
+            'name' => str_random(30),
+            'description' => str_random(255),
+            'visibility' => Visibility::PUBLIC,
         ]);
         $run = new Run;
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure($run->getFillable());
-        $response->assertJson(["visibility" => Visibility::PUBLIC]);
+        $response->assertJson(['visibility' => Visibility::PUBLIC]);
     }
 
     public function testUpdateRun(): void
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->patch($this->route("patch_run", [$this->run->id]), [
-            "name" => str_random(30),
+        $response = $this->patch($this->route('patch_run', [$this->run->id]), [
+            'name' => str_random(30),
         ]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
@@ -79,8 +80,8 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->patch($this->route("patch_run", [$this->run->id]), [
-            "description" => str_random(255),
+        $response = $this->patch($this->route('patch_run', [$this->run->id]), [
+            'description' => str_random(255),
         ]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
@@ -89,8 +90,8 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->patch($this->route("patch_run", [$this->run->id]), [
-            "visibility" => Visibility::PRIVATE,
+        $response = $this->patch($this->route('patch_run', [$this->run->id]), [
+            'visibility' => Visibility::PRIVATE,
         ]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
@@ -99,10 +100,10 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->patch($this->route("patch_run", [$this->run->id]), [
-            "visibility" => Visibility::PRIVATE,
-            "name" => str_random(30),
-            "description" => str_random(255)
+        $response = $this->patch($this->route('patch_run', [$this->run->id]), [
+            'visibility' => Visibility::PRIVATE,
+            'name' => str_random(30),
+            'description' => str_random(255),
         ]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
@@ -123,7 +124,7 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->get($this->route("get_run_by_id", [$this->run->id]));
+        $response = $this->get($this->route('get_run_by_id', [$this->run->id]));
         $response->assertStatus(Response::HTTP_OK);
     }
 

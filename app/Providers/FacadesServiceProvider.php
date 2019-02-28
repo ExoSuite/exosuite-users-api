@@ -15,6 +15,7 @@ use Illuminate\Support\ServiceProvider;
  */
 class FacadesServiceProvider extends ServiceProvider
 {
+
     /**
      * Bootstrap services.
      *

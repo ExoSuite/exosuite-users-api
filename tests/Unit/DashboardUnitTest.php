@@ -18,9 +18,9 @@ use Webpatser\Uuid\Uuid;
 class DashboardUnitTest extends TestCase
 {
     use RefreshDatabase;
+
     /** @var \App\Models\User */
     private $user;
-
 
     /**
      * A basic test example.
@@ -39,7 +39,7 @@ class DashboardUnitTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->patch(route('patch_dashboard_restriction', ['user' => $this->user->id]), [
-            'restriction' => 'wrong_value'
+            'restriction' => 'wrong_value',
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }

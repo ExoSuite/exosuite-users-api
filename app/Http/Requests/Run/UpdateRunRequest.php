@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class UpdateRunRequest extends RouteParamRequestUuidToId
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -29,14 +30,14 @@ class UpdateRunRequest extends RouteParamRequestUuidToId
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return string[]
+     * @return mixed[]
      */
     public function rules(): array
     {
         return [
             'name' => 'sometimes|string|max:30',
             'description' => 'sometimes|string|max:255',
-            'visibility' => ['sometimes', 'string', new RunVisibilityRule]
+            'visibility' => ['sometimes', 'string', new RunVisibilityRule],
         ];
     }
 }

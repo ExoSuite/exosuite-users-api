@@ -16,7 +16,12 @@ class GroupMember extends UuidModel
 
     /** @var string[] */
     protected $fillable = [
-        'id', 'group_id', 'user_id', 'is_admin', 'created_at', 'updated_at',
+        'id',
+        'group_id',
+        'user_id',
+        'is_admin',
+        'created_at',
+        'updated_at',
     ];
 
     /** @var string[] */
@@ -36,6 +41,6 @@ class GroupMember extends UuidModel
 
     public function isAdmin(): bool
     {
-        return (bool)$this->is_admin;
+        return (bool) $this->is_admin;
     }
 }

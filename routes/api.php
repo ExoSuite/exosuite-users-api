@@ -22,19 +22,16 @@ Route::prefix('auth')->group(static function (): void {
 });
 
 Route::prefix('monitoring')->group(static function (): void {
-    Route::get('/alive', "Controller@alive");
+    Route::get('/alive', 'Controller@alive');
 });
 
 Route::middleware('auth:api')->group(static function (): void {
-
     Route::prefix('user')->group(static function (): void {
-
         Route::prefix('me')->group(static function (): void {
-
             Route::get('/', 'User\UserController@me')
                 ->name('get_user');
 
-            Route::patch('/', "User\UserController@update")->name("patch_user");
+            Route::patch('/', 'User\UserController@update')->name('patch_user');
 
             Route::prefix('profile')->group(static function (): void {
                 Route::patch('/', 'User\UserProfileController@update')
@@ -59,14 +56,13 @@ Route::middleware('auth:api')->group(static function (): void {
         Route::get('search', 'User\UserController@search')->name('get_users');
 
         Route::prefix('{user}')->group(static function (): void {
-
             Route::prefix('profile')->group(static function (): void {
                 Route::get('/', 'User\UserProfileController@show')
                     ->name('get_user_profile');
             });
 
             Route::prefix('picture')->group(static function (): void {
-              /*  Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
+                /*  Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
                 Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');*/
                 Route::post('/avatar', 'User\UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
                 Route::get('/avatar', 'User\UserProfilePictureController@show')->name('get_picture_avatar');
@@ -77,8 +73,8 @@ Route::middleware('auth:api')->group(static function (): void {
             //FOLLOWS-----------------------------------------------------------------------------------
             Route::prefix('follows')->group(static function (): void {
                 Route::post('/', 'FollowsController@store')->name('post_follow');
-                Route::get('/followers', 'FollowsController@WhoIsFollowing')->name('get_followers');
-                Route::get('/', 'FollowsController@AmIFollowing')->name('get_am_i_following');
+                Route::get('/followers', 'FollowsController@whoIsFollowing')->name('get_followers');
+                Route::get('/', 'FollowsController@amIFollowing')->name('get_am_i_following');
                 Route::delete('/', 'FollowsController@delete')->name('delete_follow');
             });
 
@@ -104,7 +100,6 @@ Route::middleware('auth:api')->group(static function (): void {
                     Route::post('/', 'PostsController@store')->name('post_Post');
 
                     Route::get('/', 'PostsController@getPostsFromDashboard')->name('get_Posts_by_dashboard_id');
-
 
                     Route::prefix('{post}')->group(static function (): void {
                         Route::patch('/', 'PostsController@update')->name('patch_Post');
@@ -213,7 +208,6 @@ Route::prefix('run')->group(static function (): void {
     });
     ///////////////////////////////////////////////////////////////////
     Route::prefix('{run}')->group(static function (): void {
-
         //LIKES From Runs-----------------------------------------------------------------
         Route::prefix('/likes')->group(static function (): void {
             Route::post('/', 'LikesController@storeRun')->name('post_like_for_run');
@@ -221,27 +215,24 @@ Route::prefix('run')->group(static function (): void {
             Route::get('/', 'LikesController@getLikesFromRun')->name('get_likes_from_run');
         });
 
-
         Route::prefix('checkpoint')->group(static function (): void {
-
-
             Route::prefix('{checkpoint_id}/time')->group(static function (): void {
             });
         });
     });
 });
 
-if (!App::environment("production")) {
+if (!App::environment('production')) {
     Route::get('staging/client', 'StagingController@get')->name('staging-client');
 }
 
-if (App::environment("local")) {
+if (App::environment('local')) {
     Route::get('test', static function () {
         Notification::send(
             App\Models\User::all(),
             new FollowNotification
         );
 
-        return ["SENT!"];
+        return ['SENT!'];
     });
 }

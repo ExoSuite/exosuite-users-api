@@ -22,12 +22,14 @@ class CheckPoint extends UuidModel
 
     /** @var string[] */
     protected $fillable = [
-        'id', 'type', 'location'
+        'id',
+        'type',
+        'location',
     ];
 
     /** @var string[] */
     protected $postgisFields = [
-        'location'
+        'location',
     ];
 
     /**

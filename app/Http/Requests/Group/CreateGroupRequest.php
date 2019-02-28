@@ -25,14 +25,14 @@ class CreateGroupRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return string[]
+     * @return mixed[]
      */
     public function rules(): array
     {
         return [
-            "users" => "required|array",
-            "users.*" => "required|distinct|uuid|exists:users,id",
-            "name" => "sometimes|string|max:100",
+            'users' => 'required|array',
+            'users.*' => 'required|distinct|uuid|exists:users,id',
+            'name' => 'sometimes|string|max:100',
         ];
     }
 }

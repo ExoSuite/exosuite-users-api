@@ -23,6 +23,9 @@ class PendingRequest extends Model
 
     /** @var string[] */
     protected $fillable = [
-        'request_id', 'requester_id', 'type', 'target_id',
+        'request_id',
+        'requester_id',
+        'type',
+        'target_id',
     ];
 }

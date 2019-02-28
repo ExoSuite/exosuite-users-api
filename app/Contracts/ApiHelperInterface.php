@@ -18,5 +18,6 @@ use App\Services\OAuth;
  */
 interface ApiHelperInterface
 {
+
     public function OAuth(): OAuth;
 }

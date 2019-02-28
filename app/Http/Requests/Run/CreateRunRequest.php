@@ -12,6 +12,7 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class CreateRunRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,14 +26,14 @@ class CreateRunRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return string[]
+     * @return mixed[]
      */
     public function rules(): array
     {
         return [
             'name' => 'required|string|max:30',
             'description' => 'sometimes|string|max:255',
-            'visibility' => ['sometimes', 'string', new RunVisibilityRule]
+            'visibility' => ['sometimes', 'string', new RunVisibilityRule],
         ];
     }
 }

@@ -98,7 +98,13 @@ class CommentaryController extends Controller
         return $this->ok($comms);
     }
 
-    public function updateComm(UpdateCommentaryRequest $request, User $user, Dashboard $dashboard, Post $post, Commentary $commentary): JsonResponse
+    public function updateComm(
+        UpdateCommentaryRequest $request,
+        User $user,
+        Dashboard $dashboard,
+        Post $post,
+        Commentary $commentary
+    ): JsonResponse
     {
         if ($commentary->author_id === Auth::user()->id) {
             $comm = $this->updateCommentary($request->validated(), $commentary);

@@ -18,10 +18,9 @@ class Media extends \Spatie\MediaLibrary\Models\Media
     /** @var bool */
     public $incrementing = false;
 
-
     /**
      * @param string $conversionName
-     * @return string[]
+     * @return array<string, mixed>
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function toStreamHeaders(string $conversionName): array
@@ -48,6 +47,8 @@ class Media extends \Spatie\MediaLibrary\Models\Media
     public function toStreamPath(string $conversionName): string
     {
         /** @var \Spatie\MediaLibrary\Filesystem\Filesystem $filesystem */
-        return $conversionName !== '' ? $this->getPath($conversionName) : $this->getPath();
+        return $conversionName !== ''
+            ? $this->getPath($conversionName)
+            : $this->getPath();
     }
 }

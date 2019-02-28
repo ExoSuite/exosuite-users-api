@@ -12,6 +12,7 @@ use Laravel\Passport\ClientRepository;
  */
 class StagingController extends Controller
 {
+
     /** @var \Laravel\Passport\ClientRepository */
     private $clientRepository;
 
@@ -36,7 +37,7 @@ class StagingController extends Controller
 
         return $this->created([
             'client_id' => $client->id,
-            'client_secret' => $client->secret
+            'client_secret' => $client->secret,
         ]);
     }
 }

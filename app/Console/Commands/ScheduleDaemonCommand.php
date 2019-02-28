@@ -19,12 +19,14 @@ class ScheduleDaemonCommand extends Command
      * The interval (in seconds) the scheduler is run daemon mode.
      */
     private const SCHEDULE_INTERVAL = 30;
+
     /**
      * The console command name.
      *
      * @var string
      */
     protected $name = 'schedule:daemon';
+
     /**
      * The console command description.
      *
@@ -45,7 +47,7 @@ class ScheduleDaemonCommand extends Command
 
             $sleepTime = max(0, self::SCHEDULE_INTERVAL - (time() - $start));
 
-            if (0 === $sleepTime) {
+            if ($sleepTime === 0) {
                 $this->error(sprintf(
                     'schedule:run did not finish in %d seconds. Some events might have been skipped.',
                     self::SCHEDULE_INTERVAL

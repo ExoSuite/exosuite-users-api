@@ -34,9 +34,9 @@ class PendingRequestsUnitTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_pending_request', [
-            'user' => $this->user1->id
+            'user' => $this->user1->id,
         ]), [
-            'type' => 'wrong_type'
+            'type' => 'wrong_type',
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         $response->assertJsonValidationErrors(['type']);
@@ -49,9 +49,9 @@ class PendingRequestsUnitTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_pending_request', [
-            'user' => Uuid::generate()->string
+            'user' => Uuid::generate()->string,
         ]), [
-            'type' => RequestTypesEnum::FRIENDSHIP_REQUEST
+            'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -63,9 +63,9 @@ class PendingRequestsUnitTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $this->post(route('post_pending_request', [
-            'user' => $this->user->id
+            'user' => $this->user->id,
         ]), [
-            'type' => RequestTypesEnum::FRIENDSHIP_REQUEST
+            'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
         ]);
         Passport::actingAs($this->user);
         $response = $this->delete(route('delete_pending_request', ['request' => Uuid::generate()->string]));
@@ -76,12 +76,12 @@ class PendingRequestsUnitTest extends TestCase
     {
         Passport::actingAs($this->user);
         $post_response = $this->post(route('post_pending_request', [
-            'user' => $this->user1->id
+            'user' => $this->user1->id,
         ]), [
-            'type' => RequestTypesEnum::FRIENDSHIP_REQUEST
+            'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
         ]);
         $response = $this->delete(route('delete_pending_request', [
-            'request' => $post_response->decodeResponseJson('request_id')
+            'request' => $post_response->decodeResponseJson('request_id'),
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }

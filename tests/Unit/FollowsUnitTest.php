@@ -18,6 +18,7 @@ use Webpatser\Uuid\Uuid;
 class FollowsUnitTest extends TestCase
 {
     use RefreshDatabase;
+
     /** @var \App\Models\User */
     private $user;
 

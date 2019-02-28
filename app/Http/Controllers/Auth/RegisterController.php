@@ -28,7 +28,6 @@ class RegisterController extends Controller
         |
     */
 
-
     /**
      * Create a new controller instance.
      */

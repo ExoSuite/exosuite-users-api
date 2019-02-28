@@ -39,13 +39,16 @@ class UserTest extends TestCase
                 'email' => $this->user->email,
                 'password' => $this->userPassword,
                 'client_id' => 2,
-                'client_secret' => Client::whereId(2)->first()->secret
+                'client_secret' => Client::whereId(2)->first()->secret,
             ]
         );
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure(
             [
-                "token_type", "expires_in", "access_token", "refresh_token"
+                'token_type',
+                'expires_in',
+                'access_token',
+                'refresh_token',
             ]
         );
     }
@@ -67,7 +70,7 @@ class UserTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->patch(route("patch_user"), ["first_name", $this->faker->firstName]);
+        $response = $this->patch(route('patch_user'), ['first_name', $this->faker->firstName]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
@@ -75,7 +78,7 @@ class UserTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->patch(route("patch_user"), ["last_name", $this->faker->lastName]);
+        $response = $this->patch(route('patch_user'), ['last_name', $this->faker->lastName]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
@@ -83,7 +86,7 @@ class UserTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->patch(route("patch_user"), ["nick_name", $this->faker->name]);
+        $response = $this->patch(route('patch_user'), ['nick_name', $this->faker->name]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 

@@ -17,15 +17,20 @@ class Like extends Model
 
     /** @var bool */
     public $incrementing = false;
+
     /** @var string */
     protected $primaryKey = 'like_id';
+
     /** @var string[] */
     protected $fillable = [
-        'like_id', 'liked_id', "liked_type", 'liker_id',
+        'like_id',
+        'liked_id',
+        'liked_type',
+        'liker_id',
     ];
 
-    public function User(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo('App\Models\User', 'id');
+        return $this->belongsTo(User::class);
     }
 }

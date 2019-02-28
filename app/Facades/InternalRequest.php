@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Facade;
  * Class InternalRequest
  *
  * @package App\Facades
- * @method \App\Facades\Response request(string $method, string $uri, array $data = [], array $headers = [], int $statusCode = Response::HTTP_OK)
+ * @method \App\Facades\Response request(string $m, string $uri, array $data = [], array $headers = [], int $code = 200)
+ * $m is for an HTTP method
  */
 class InternalRequest extends Facade
 {

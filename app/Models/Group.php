@@ -13,12 +13,13 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  */
 class Group extends UuidModel
 {
+
     /** @var string[] */
     protected $fillable = [
         'id',
         'name',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     public function messages(): HasMany
@@ -31,10 +32,10 @@ class Group extends UuidModel
         return $this->hasManyThrough(
             User::class,
             GroupMember::class,
-            "group_id",
+            'group_id',
             'id',
-            "id",
-            "user_id"
+            'id',
+            'user_id'
         );
     }
 

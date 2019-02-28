@@ -21,19 +21,20 @@ use function config;
  */
 class ApiHelper extends Facade
 {
+
     public static function isStaging(): bool
     {
-        return config("app.env") === 'staging';
+        return config('app.env') === 'staging';
     }
 
     public static function isProduction(): bool
     {
-        return config("app.env") === 'production';
+        return config('app.env') === 'production';
     }
 
     public static function isLocal(): bool
     {
-        return config("app.env") === 'local';
+        return config('app.env') === 'local';
     }
 
     protected static function getFacadeAccessor(): string

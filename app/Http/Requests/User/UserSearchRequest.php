@@ -26,7 +26,7 @@ class UserSearchRequest extends RouteParamRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return string[]
+     * @return mixed[]
      */
     public function rules(): array
     {

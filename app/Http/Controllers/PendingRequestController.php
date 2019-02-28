@@ -51,6 +51,6 @@ class PendingRequestController extends Controller
             return $this->noContent();
         }
 
-        return $this->forbidden("Permission denied: Wrong user.");
+        return $this->forbidden('Permission denied: Wrong user.');
     }
 }

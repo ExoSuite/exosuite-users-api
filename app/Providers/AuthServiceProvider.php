@@ -25,9 +25,8 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
      */
     protected $policies = [
         Message::class => MessagePolicy::class,
-        Group::class => GroupPolicy::class
+        Group::class => GroupPolicy::class,
     ];
-
 
     /**
      * Register any authentication / authorization services.

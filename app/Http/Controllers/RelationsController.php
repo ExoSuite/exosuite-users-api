@@ -26,7 +26,7 @@ class RelationsController extends Controller
         $request = PendingRequest::create([
             'requester_id' => Auth::user()->id,
             'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
-            'target_id' => $user->id
+            'target_id' => $user->id,
         ]);
 
         return $this->created($request);
@@ -100,6 +100,6 @@ class RelationsController extends Controller
             return $this->noContent();
         }
 
-        return $this->badRequest("There is no such relation between you and this user.");
+        return $this->badRequest('There is no such relation between you and this user.');
     }
 }

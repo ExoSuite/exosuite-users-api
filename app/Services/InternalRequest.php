@@ -31,7 +31,6 @@ class InternalRequest implements MakesInternalRequests
      */
     private $app;
 
-
     /**
      * Constructor
      *
@@ -48,8 +47,8 @@ class InternalRequest implements MakesInternalRequests
      *
      * @param  string $method The HTTP verb to use.
      * @param  string $uri The API uri to look up.
-     * @param  string[] $data The request body.
-     * @param  string[] $headers
+     * @param  string[]|mixed[] $data The request body.
+     * @param  string[]|mixed[] $headers
      * @param int $statusCode
      * @return \Illuminate\Http\Response
      * @throws \App\Exceptions\InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST
@@ -60,10 +59,11 @@ class InternalRequest implements MakesInternalRequests
         array $data = [],
         array $headers = [],
         int $statusCode = Response::HTTP_OK
-    ): Response {
+    ): Response
+    {
         $base_headers = [
             'Accept' => 'application/json',
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
         ];
 
         // Merge base_headers and headers passed from parameters

@@ -23,7 +23,9 @@ class LikesController extends Controller
 
     public function store(User $user, Dashboard $dashboard, Post $post, ?Commentary $commentary = null): JsonResponse
     {
-        return $commentary !== null ? $this->createLike($commentary, LikableEntities::COMMENTARY) : $this->createLike($post, LikableEntities::POST);
+        return $commentary !== null
+            ? $this->createLike($commentary, LikableEntities::COMMENTARY)
+            : $this->createLike($post, LikableEntities::POST);
     }
 
     private function createLike(Model $entity, string $type): JsonResponse
@@ -56,7 +58,12 @@ class LikesController extends Controller
         }
     }
 
-    public function getLikesFromID(User $user, Dashboard $dashboard, Post $post, ?Commentary $commentary = null): JsonResponse
+    public function getLikesFromID(
+        User $user,
+        Dashboard $dashboard,
+        Post $post,
+        ?Commentary $commentary = null
+    ): JsonResponse
     {
         return $commentary !== null
             ? $this->ok(Like::whereLikedId($commentary->id)->get())
@@ -83,7 +90,7 @@ class LikesController extends Controller
             return $this->noContent();
         }
 
-        return $this->badRequest("Unknown entity provided.");
+        return $this->badRequest('Unknown entity provided.');
     }
 
     public function getLikesFromRun(Run $run): JsonResponse

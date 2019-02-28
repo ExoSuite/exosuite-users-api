@@ -42,7 +42,7 @@ class CommentTest extends TestCase
             [
                 'user' => $this->user->id,
                 'dashboard' => $this->dash->id,
-                "post" => $this->post->id
+                'post' => $this->post->id,
             ]
         ), ['content' => str_random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
@@ -55,13 +55,16 @@ class CommentTest extends TestCase
         Passport::actingAs($this->user);
 
         for ($it = 0; $it < 5; $it++) {
-            factory(Commentary::class)->create(['post_id' => $this->post->id, 'author_id' => $this->user->id, 'content' => str_random(10)]);
+            factory(Commentary::class)->create([
+                'post_id' => $this->post->id,
+                'author_id' => $this->user->id,
+                'content' => str_random(10)]);
         }
 
         $response = $this->get(route('get_commentaries_by_post_id', [
             'user' => $this->user->id,
             'dashboard' => $this->dash->id,
-            "post" => $this->post->id
+            'post' => $this->post->id,
         ]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(5, count($response->decodeResponseJson()));
@@ -75,7 +78,7 @@ class CommentTest extends TestCase
             [
                 'post_id' => $this->post->id,
                 'author_id' => $this->user->id,
-                'content' => str_random(10)
+                'content' => str_random(10),
             ]
         );
 
@@ -83,8 +86,8 @@ class CommentTest extends TestCase
             route('patch_commentary', [
                 'user' => $this->user->id,
                 'dashboard' => $this->dash->id,
-                "post" => $this->post->id,
-                'commentary' => $comm->id
+                'post' => $this->post->id,
+                'commentary' => $comm->id,
             ]),
             ['content' => $content]
         );
@@ -94,7 +97,7 @@ class CommentTest extends TestCase
             [
                 'id' => $comm->id,
                 'author_id' => $this->user->id,
-                'content' => $content
+                'content' => $content,
             ]
         );
     }
@@ -106,7 +109,7 @@ class CommentTest extends TestCase
             route('post_commentary', [
                 'user' => $this->user->id,
                 'dashboard' => $this->dash->id,
-                "post" => $this->post->id
+                'post' => $this->post->id,
             ]),
             ['content' => str_random(10)]
         );
@@ -116,8 +119,8 @@ class CommentTest extends TestCase
                 [
                     'user' => $this->user->id,
                     'dashboard' => $this->dash->id,
-                    "post" => $this->post->id,
-                    'commentary' => $post_resp->decodeResponseJson('id')
+                    'post' => $this->post->id,
+                    'commentary' => $post_resp->decodeResponseJson('id'),
                 ]
             )
         );

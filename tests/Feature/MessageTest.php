@@ -26,6 +26,7 @@ use Tests\TestCase;
 class MessageTest extends TestCase
 {
     use RefreshDatabase;
+
     /** @var \App\Models\User */
     private $user;
 
@@ -36,18 +37,21 @@ class MessageTest extends TestCase
     {
         $group = factory(Group::class)->create();
         $members = collect();
-        $members->push(new GroupMember(["user_id" => $this->user->id, "is_admin" => true]));
-        $members->push(new GroupMember(["user_id" => $this->user2->id]));
+        $members->push(new GroupMember(['user_id' => $this->user->id, 'is_admin' => true]));
+        $members->push(new GroupMember(['user_id' => $this->user2->id]));
         $group->groupMembers()->saveMany($members);
-        $group->load("groupMembers");
+        $group->load('groupMembers');
 
         Passport::actingAs($this->user);
         Notification::fake();
         Event::fake([NewMessageEvent::class]);
-        $response = $this->post($this->route("post_message", [BindType::GROUP => $group->id]), ["contents" => str_random(10)]);
+        $response = $this->post(
+            $this->route('post_message', [BindType::GROUP => $group->id]),
+            ['contents' => str_random(10)]
+        );
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Message)->getFillable());
-        $this->assertDatabaseHas("messages", $response->decodeResponseJson());
+        $this->assertDatabaseHas('messages', $response->decodeResponseJson());
         Event::assertDispatched(NewMessageEvent::class, 1);
         Notification::assertTimesSent(1, NewMessageNotification::class);
     }
@@ -56,20 +60,26 @@ class MessageTest extends TestCase
     {
         $group = factory(Group::class)->create();
         $members = collect();
-        $members->push(new GroupMember(["user_id" => $this->user->id, "is_admin" => true]));
-        $members->push(new GroupMember(["user_id" => $this->user2->id]));
+        $members->push(new GroupMember(['user_id' => $this->user->id, 'is_admin' => true]));
+        $members->push(new GroupMember(['user_id' => $this->user2->id]));
         $group->groupMembers()->saveMany($members);
-        $group->load("groupMembers");
+        $group->load('groupMembers');
 
         Passport::actingAs($this->user);
-        $response = $this->post($this->route("post_message", [BindType::GROUP => $group->id]), ["contents" => str_random(10)]);
-        $message_id = $response->decodeResponseJson("id");
+        $response = $this->post(
+            $this->route('post_message', [BindType::GROUP => $group->id]),
+            ['contents' => str_random(10)]
+        );
+        $message_id = $response->decodeResponseJson('id');
         Event::fake([ModifyMessageEvent::class]);
-        $test = $this->patch($this->route("patch_message", [BindType::GROUP => $group->id, BindType::MESSAGE => $message_id]), ["contents" => str_random(10)]);
-        $this->assertTrue($response->decodeResponseJson("contents") !== $test->decodeResponseJson("contents"));
+        $test = $this->patch(
+            $this->route('patch_message', [BindType::GROUP => $group->id, BindType::MESSAGE => $message_id]),
+            ['contents' => str_random(10)]
+        );
+        $this->assertTrue($response->decodeResponseJson('contents') !== $test->decodeResponseJson('contents'));
         $test->assertStatus(Response::HTTP_OK);
         $test->assertJsonStructure((new Message)->getFillable());
-        $this->assertDatabaseHas("messages", $test->decodeResponseJson());
+        $this->assertDatabaseHas('messages', $test->decodeResponseJson());
         Event::assertDispatched(ModifyMessageEvent::class, 1);
     }
 
@@ -77,17 +87,22 @@ class MessageTest extends TestCase
     {
         $group = factory(Group::class)->create();
         $members = collect();
-        $members->push(new GroupMember(["user_id" => $this->user->id, "is_admin" => true]));
-        $members->push(new GroupMember(["user_id" => $this->user2->id]));
+        $members->push(new GroupMember(['user_id' => $this->user->id, 'is_admin' => true]));
+        $members->push(new GroupMember(['user_id' => $this->user2->id]));
         $group->groupMembers()->saveMany($members);
-        $group->load("groupMembers");
+        $group->load('groupMembers');
 
         Passport::actingAs($this->user);
-        $response = $this->post($this->route("post_message", [BindType::GROUP => $group->id]), ["contents" => str_random(10)]);
-        $message_id = $response->decodeResponseJson("id");
+        $response = $this->post(
+            $this->route('post_message', [BindType::GROUP => $group->id]),
+            ['contents' => str_random(10)]
+        );
+        $message_id = $response->decodeResponseJson('id');
         Event::fake([DeletedMessageEvent::class]);
-        $test = $this->delete($this->route("delete_message", [BindType::GROUP => $group->id, BindType::MESSAGE => $message_id]));
-        $this->assertDatabaseMissing("messages", $response->decodeResponseJson());
+        $test = $this->delete(
+            $this->route('delete_message', [BindType::GROUP => $group->id, BindType::MESSAGE => $message_id])
+        );
+        $this->assertDatabaseMissing('messages', $response->decodeResponseJson());
         $test->assertStatus(Response::HTTP_NO_CONTENT);
         Event::assertDispatched(DeletedMessageEvent::class, 1);
     }
@@ -96,18 +111,18 @@ class MessageTest extends TestCase
     {
         $group = factory(Group::class)->create();
         $members = collect();
-        $members->push(new GroupMember(["user_id" => $this->user->id, "is_admin" => true]));
-        $members->push(new GroupMember(["user_id" => $this->user2->id]));
+        $members->push(new GroupMember(['user_id' => $this->user->id, 'is_admin' => true]));
+        $members->push(new GroupMember(['user_id' => $this->user2->id]));
         $group->groupMembers()->saveMany($members);
-        $group->load("groupMembers");
+        $group->load('groupMembers');
 
         Passport::actingAs($this->user);
 
         for ($i = 0; $i < 5; $i++) {
-            factory(Message::class)->create(["group_id" => $group->id, "user_id" => $this->user->id]);
+            factory(Message::class)->create(['group_id' => $group->id, 'user_id' => $this->user->id]);
         }
 
-        $response = $this->get($this->route("get_message", [BindType::GROUP => $group->id]));
+        $response = $this->get($this->route('get_message', [BindType::GROUP => $group->id]));
         $this->assertEquals(5, count($response->decodeResponseJson()));
         $response->assertStatus(Response::HTTP_OK);
     }

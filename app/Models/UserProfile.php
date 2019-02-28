@@ -32,7 +32,12 @@ class UserProfile extends Model implements HasMedia
 
     /** @var string[] */
     protected $fillable = [
-        'id', 'birthday', 'city', 'description', 'avatar_id', 'cover_id'
+        'id',
+        'birthday',
+        'city',
+        'description',
+        'avatar_id',
+        'cover_id',
     ];
 
     public function user(): BelongsTo

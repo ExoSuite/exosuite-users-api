@@ -17,10 +17,14 @@ use function strtolower;
  */
 class Role extends Model
 {
+
     /** @var string[] */
     protected $fillable = [
-        'name', 'slug', 'permissions',
+        'name',
+        'slug',
+        'permissions',
     ];
+
     /** @var string[] */
     protected $casts = [
         'permissions' => 'array',
@@ -63,7 +67,7 @@ class Role extends Model
 
     /**
      * @param string $roleName
-     * @return \App\Models\Role|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|null|object
+     * @return \App\Models\Role|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
      */
     public function getIdFromRoleName(string $roleName)
     {

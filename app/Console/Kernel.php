@@ -17,9 +17,8 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
 
     /** @var string[] */
     protected $commands = [
-        ClientCommand::class
+        ClientCommand::class,
     ];
-
 
     /**
      * Define the application's command schedule.
@@ -28,7 +27,7 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        if (ApiHelper::isProduction() or ApiHelper::isStaging()) {
+        if (ApiHelper::isProduction() || ApiHelper::isStaging()) {
             $schedule->command('horizon:snapshot')->everyFiveMinutes();
         } else {
             $schedule->command('horizon:snapshot')->everyMinute();

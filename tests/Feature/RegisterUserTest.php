@@ -16,6 +16,7 @@ use Tests\TestCase;
 class RegisterUserTest extends TestCase
 {
     use RefreshDatabase;
+
     public function testRegisterUserWithReturnedUser(): void
     {
         $this->testRegisterUser(true);
@@ -51,7 +52,12 @@ class RegisterUserTest extends TestCase
 
         if ($with_user) {
             $structure = [
-                'email', 'id', 'first_name', 'created_at', 'updated_at', 'last_name'
+                'email',
+                'id',
+                'first_name',
+                'created_at',
+                'updated_at',
+                'last_name',
             ];
 
             if ($with_nick_name) {

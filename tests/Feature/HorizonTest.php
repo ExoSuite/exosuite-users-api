@@ -12,6 +12,7 @@ use Tests\TestCase;
  */
 class HorizonTest extends TestCase
 {
+
     /**
      * A basic test example.
      *

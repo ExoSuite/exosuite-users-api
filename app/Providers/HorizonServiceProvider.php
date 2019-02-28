@@ -14,6 +14,7 @@ use function app;
  */
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
+
     /**
      * Bootstrap any application services.
      *

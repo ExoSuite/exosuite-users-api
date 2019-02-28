@@ -44,8 +44,8 @@ class CommentariesUnitTest extends TestCase
                 'post_commentary',
                 [
                     'user' => $this->user->id,
-                    "dashboard" => $this->dash->id,
-                    "post" => Uuid::generate()->string
+                    'dashboard' => $this->dash->id,
+                    'post' => Uuid::generate()->string,
                 ]
             ),
             ['content' => str_random(10)]
@@ -62,8 +62,8 @@ class CommentariesUnitTest extends TestCase
         Passport::actingAs($this->user1);
         $response = $this->post(route('post_commentary', [
             'user' => $this->user->id,
-            "dashboard" => $this->dash->id,
-            "post" => $this->post->id
+            'dashboard' => $this->dash->id,
+            'post' => $this->post->id,
         ]), ['content' => str_random(10)]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to post a commentary on this post"]);
@@ -79,8 +79,8 @@ class CommentariesUnitTest extends TestCase
             'get_commentaries_by_post_id',
             [
                 'user' => $this->user,
-                "dashboard" => $this->dash->id,
-                "post" => Uuid::generate()->string
+                'dashboard' => $this->dash->id,
+                'post' => Uuid::generate()->string,
             ]
         ));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -93,8 +93,8 @@ class CommentariesUnitTest extends TestCase
             'get_commentaries_by_post_id',
             [
                 'user' => $this->user,
-                "dashboard" => $this->dash->id,
-                "post" => $this->post->id
+                'dashboard' => $this->dash->id,
+                'post' => $this->post->id,
             ]
         ));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
@@ -110,11 +110,11 @@ class CommentariesUnitTest extends TestCase
         $content = str_random(10);
         $response = $this->patch(route('patch_commentary', [
             'user' => $this->user->id,
-            "dashboard" => $this->dash->id,
-            "post" => $this->post->id,
-            'commentary' => Uuid::generate()->string
+            'dashboard' => $this->dash->id,
+            'post' => $this->post->id,
+            'commentary' => Uuid::generate()->string,
         ]), [
-            'content' => $content
+            'content' => $content,
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -126,15 +126,15 @@ class CommentariesUnitTest extends TestCase
         $comm = factory(Commentary::class)->create([
             'post_id' => $this->post->id,
             'author_id' => $this->user->id,
-            'content' => str_random(10)
+            'content' => str_random(10),
         ]);
         $response = $this->patch(route('patch_commentary', [
             'user' => $this->user->id,
-            "dashboard" => $this->dash->id,
-            "post" => $this->post->id,
-            'commentary' => $comm->id
+            'dashboard' => $this->dash->id,
+            'post' => $this->post->id,
+            'commentary' => $comm->id,
         ]), [
-            'content' => $content
+            'content' => $content,
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allow to modify this commentary."]);
@@ -148,9 +148,9 @@ class CommentariesUnitTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->delete(route('delete_commentary', [
             'user' => $this->user->id,
-            "dashboard" => $this->dash->id,
-            "post" => $this->post->id,
-            'commentary_id' => Uuid::generate()->string
+            'dashboard' => $this->dash->id,
+            'post' => $this->post->id,
+            'commentary_id' => Uuid::generate()->string,
         ]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -161,13 +161,13 @@ class CommentariesUnitTest extends TestCase
         $comm = factory(Commentary::class)->create([
             'post_id' => $this->post->id,
             'author_id' => $this->user->id,
-            'content' => str_random(10)
+            'content' => str_random(10),
         ]);
         $response = $this->delete(route('delete_commentary', [
             'user' => $this->user->id,
-            "dashboard" => $this->dash->id,
-            "post" => $this->post->id,
-            'commentary_id' => $comm->id
+            'dashboard' => $this->dash->id,
+            'post' => $this->post->id,
+            'commentary_id' => $comm->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);
@@ -184,7 +184,7 @@ class CommentariesUnitTest extends TestCase
             ->create([
                 'author_id' => $this->user->id,
                 'dashboard_id' => $this->dash->id,
-                'content' => str_random(10)
+                'content' => str_random(10),
             ]);
     }
 }

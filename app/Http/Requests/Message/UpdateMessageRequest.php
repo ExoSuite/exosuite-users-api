@@ -25,12 +25,12 @@ class UpdateMessageRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return string[]
+     * @return mixed[]
      */
     public function rules(): array
     {
         return [
-            "contents" => "required|min:1|string|max:2048",
+            'contents' => 'required|min:1|string|max:2048',
         ];
     }
 }

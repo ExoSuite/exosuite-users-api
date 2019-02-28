@@ -22,17 +22,20 @@ use Illuminate\Support\Facades\Auth;
  */
 class AdministratorServices
 {
+
     /**
      * @param \App\Models\User|\Illuminate\Http\Request $data
      * @return bool|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function handleAuth($data)
     {
-        if (App::isLocal() or App::runningUnitTests()) {
+        if (App::isLocal() || App::runningUnitTests()) {
             return true;
         }
 
-        $user = $data instanceof User ? $data : $data->user();
+        $user = $data instanceof User
+            ? $data
+            : $data->user();
 
         // if user is authenticated
         if (Auth::check()) {

@@ -23,12 +23,12 @@ class UpdatePostRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return string[]
+     * @return mixed[]
      */
     public function rules(): array
     {
         return [
-            "content" => 'required|min:1',
+            'content' => 'required|min:1',
         ];
     }
 }

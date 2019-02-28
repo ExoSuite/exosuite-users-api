@@ -37,7 +37,6 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
      */
     protected $namespace = 'App\Http\Controllers';
 
-
     /**
      * Define your route model bindings, pattern filters, etc.
      *
@@ -52,7 +51,7 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
                 return Uuid::import($uuid);
             }
 
-            throw new UnprocessableEntityHttpException("Bad uuid");
+            throw new UnprocessableEntityHttpException('Bad uuid');
         });
         Route::model(BindType::GROUP, Group::class);
         Route::model(BindType::MESSAGE, Message::class);

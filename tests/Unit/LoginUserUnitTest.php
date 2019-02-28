@@ -20,7 +20,6 @@ class LoginUserUnitTest extends TestCase
     use WithFaker;
     use RefreshDatabase;
 
-
     /** @var \App\Models\User */
     protected $user;
 
@@ -34,7 +33,7 @@ class LoginUserUnitTest extends TestCase
         $this->request(
             [
                 'email' => $this->faker->email,
-                'password' => $this->faker->password
+                'password' => $this->faker->password,
             ],
             Response::HTTP_UNPROCESSABLE_ENTITY
         );
@@ -58,7 +57,7 @@ class LoginUserUnitTest extends TestCase
         $response = $this->request(
             [
                 'email' => $this->user['email'],
-                'password' => $this->faker->password
+                'password' => $this->faker->password,
             ],
             Response::HTTP_UNPROCESSABLE_ENTITY
         );
@@ -72,7 +71,7 @@ class LoginUserUnitTest extends TestCase
                 'email' => $this->user->email,
                 'password' => $this->user->getAuthPassword(),
                 'client_id' => rand(0, 10),
-                'client_secret' => str_random()
+                'client_secret' => str_random(),
             ],
             Response::HTTP_UNPROCESSABLE_ENTITY
         );

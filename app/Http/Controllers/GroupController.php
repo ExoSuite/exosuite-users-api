@@ -36,26 +36,31 @@ class GroupController extends Controller
      */
     public function store(CreateGroupRequest $request): JsonResponse
     {
-        if ($request->exists("name")) {
-            $name = $request->get("name");
+        if ($request->exists('name')) {
+            $name = $request->get('name');
         } else {
             /** @var \Faker\Generator $faker */
             $faker = Faker::create(app()->getLocale());
             $name = $faker->city;
         }
 
-        $group = Group::create(["name" => $name]);
+        $group = Group::create(['name' => $name]);
         $members = collect();
         $current_user = Auth::user();
-        $members->push(new GroupMember(["user_id" => $current_user->id, "is_admin" => true]));
+        $members->push(new GroupMember(['user_id' => $current_user->id, 'is_admin' => true]));
 
-        foreach ($request->get("users") as $user_id) {
-            $members->push(new GroupMember(["user_id" => $user_id]));
+        foreach ($request->get('users') as $user_id) {
+            $members->push(new GroupMember(['user_id' => $user_id]));
         }
 
         $group->groupMembers()->saveMany($members);
-        $group->load("groupMembers");
-        $message = str_replace([":group_name", ":user_name"], [$group->name, "{$current_user->first_name} {$current_user->last_name}"], trans("notification.new_group"));
+        $group->load('groupMembers');
+        /** @var string $message */
+        $message = str_replace(
+            [':group_name', ':user_name'],
+            [$group->name, "{$current_user->first_name} {$current_user->last_name}"],
+            trans('notification.new_group')
+        );
         $users = $group->users()->get();
         $users = $users->filter(static function ($user) use ($current_user) {
             return $user->id !== $current_user->id;
@@ -75,28 +80,29 @@ class GroupController extends Controller
     public function update(UpdateGroupRequest $request, Group $group): JsonResponse
     {
         $current_user = Auth::user();
-        $user_id = $request->get("user_id");
-        $requestType = $request->get("request_type");
+        $user_id = $request->get('user_id');
+        $requestType = $request->get('request_type');
 
         if ($requestType === GroupRequestType::ADD_USER) {
-            $group->groupMembers()->create(["user_id" => $user_id]);
-        } elseif (GroupRequestType::ADD_USER_AS_ADMIN === $requestType) {
-            $group->groupMembers()->create(["user_id" => $user_id, "is_admin" => true]);
-        } elseif (GroupRequestType::UPDATE_USER_RIGHTS === $requestType) {
-            $group->groupMembers()->whereUserId($user_id)->update(["is_admin" => $request->get("is_admin")]);
-        } elseif (GroupRequestType::DELETE_USER === $requestType) {
+            $group->groupMembers()->create(['user_id' => $user_id]);
+        } elseif ($requestType === GroupRequestType::ADD_USER_AS_ADMIN) {
+            $group->groupMembers()->create(['user_id' => $user_id, 'is_admin' => true]);
+        } elseif ($requestType === GroupRequestType::UPDATE_USER_RIGHTS) {
+            $group->groupMembers()->whereUserId($user_id)->update(['is_admin' => $request->get('is_admin')]);
+        } elseif ($requestType === GroupRequestType::DELETE_USER) {
+            /** @var string $message */
             $message = str_replace(
-                [":group_name", ":user_name"],
+                [':group_name', ':user_name'],
                 [$group->name, "{$current_user->first_name} {$current_user->last_name}"],
-                trans("notification.expelled_from_group")
+                trans('notification.expelled_from_group')
             );
             $users = $group->users()->get();
             $users = $users->filter(static function ($user) use ($user_id) {
                 return $user->id === $user_id;
             });
             Notification::send($users, new ExpelledFromGroupNotification($message, $group));
-            $group->groupMembers()->whereUserId($request->get("user_id"))->delete();
-        } elseif (GroupRequestType::UPDATE_GROUP_NAME === $requestType) {
+            $group->groupMembers()->whereUserId($request->get('user_id'))->delete();
+        } elseif ($requestType === GroupRequestType::UPDATE_GROUP_NAME) {
             $group->name = $request->get('name');
             $group->save();
         }
@@ -136,10 +142,11 @@ class GroupController extends Controller
     public function destroy(Group $group): JsonResponse
     {
         $current_user = Auth::user();
+        /** @var string $message */
         $message = str_replace(
-            [":group_name", ":user_name"],
+            [':group_name', ':user_name'],
             [$group->name, "{$current_user->first_name} {$current_user->last_name}"],
-            trans("notification.deleted_group")
+            trans('notification.deleted_group')
         );
         $users = $group->users()->get();
         $users = $users->filter(static function ($user) use ($current_user) {

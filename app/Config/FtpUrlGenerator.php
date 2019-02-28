@@ -27,7 +27,7 @@ class FtpUrlGenerator extends BaseUrlGenerator
      */
     public function getUrl(): string
     {
-        return "";
+        return '';
     }
 
     /**
@@ -39,7 +39,7 @@ class FtpUrlGenerator extends BaseUrlGenerator
      */
     public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string
     {
-        return "";
+        return '';
     }
 
     /**
@@ -59,6 +59,6 @@ class FtpUrlGenerator extends BaseUrlGenerator
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        return "";
+        return '';
     }
 }
