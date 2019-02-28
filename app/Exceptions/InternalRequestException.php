@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -12,7 +13,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-
 /**
  * Class FailedInternalRequestException
  */
@@ -22,7 +22,7 @@ class InternalRequestException extends Exception
     /**
      * Request instance
      *
-     * @var Request $request
+     * @var \Illuminate\Http\Request $request
      */
     private $request;
 
@@ -33,14 +33,11 @@ class InternalRequestException extends Exception
      */
     private $response;
 
-
     /**
      * Constructor
      *
-     * @param Request $request The request object.
+     * @param \Illuminate\Http\Request $request The request object.
      * @param mixed $response The response object.
-     *
-     * @return void
      */
     public function __construct(Request $request, $response)
     {
@@ -52,10 +49,8 @@ class InternalRequestException extends Exception
 
     /**
      * Get request object
-     *
-     * @return Request
      */
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->request;
     }
@@ -64,9 +59,9 @@ class InternalRequestException extends Exception
     /**
      * Get response object
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function getResponse()
+    public function getResponse(): Response
     {
         return $this->response;
     }

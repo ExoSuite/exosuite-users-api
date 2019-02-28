@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -13,14 +14,16 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class AuthenticationException
+ *
  * @package App\Exceptions
  */
 class AuthenticationException extends HttpException
 {
+
     /**
      * All of the guards that were checked.
      *
-     * @var array
+     * @var string[]
      */
     protected $guards;
 
@@ -28,9 +31,9 @@ class AuthenticationException extends HttpException
      * Create a new authentication exception.
      *
      * @param  string $message
-     * @param  array $guards
+     * @param  string[] $guards
      */
-    public function __construct($message = 'Unauthenticated.', array $guards = [])
+    public function __construct(string $message = 'Unauthenticated.', array $guards = [])
     {
         parent::__construct(Response::HTTP_UNAUTHORIZED, $message);
 
@@ -40,9 +43,9 @@ class AuthenticationException extends HttpException
     /**
      * Get the guards that were checked.
      *
-     * @return array
+     * @return string[]
      */
-    public function guards()
+    public function guards(): array
     {
         return $this->guards;
     }

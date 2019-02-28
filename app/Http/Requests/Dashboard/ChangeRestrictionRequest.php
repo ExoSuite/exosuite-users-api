@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Requests\Dashboard;
 
@@ -7,16 +7,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class ChangeRestrictionRequest
+ *
  * @package App\Http\Requests\Dashboard
  */
 class ChangeRestrictionRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -24,12 +26,12 @@ class ChangeRestrictionRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return mixed[]
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            "restriction" => ['required', new RestrictionsTypeRule()]
+            'restriction' => ['required', new RestrictionsTypeRule],
         ];
     }
 }

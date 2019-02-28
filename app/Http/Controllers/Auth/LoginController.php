@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers\Auth;
 
@@ -6,15 +6,17 @@ use App\Facades\ApiHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Class LoginController
+ *
  * @package App\Http\Controllers\Auth
  */
 class LoginController extends Controller
 {
+
     /*
         |--------------------------------------------------------------------------
         | Login Controller
@@ -30,8 +32,6 @@ class LoginController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -39,28 +39,10 @@ class LoginController extends Controller
     }
 
     /**
-     * Validate the user login request.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return void
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function validateLogin(Request $request)
-    {
-        $this->validate($request, [
-            $this->username() => 'required|string',
-            'password' => 'required|string',
-            'client_id' => 'required|integer',
-            'client_secret' => 'required|string'
-        ]);
-    }
-
-    /**
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return JsonResponse|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @throws \Illuminate\Validation\ValidationException
      */
     public function login(Request $request)
@@ -89,12 +71,29 @@ class LoginController extends Controller
     }
 
     /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return void
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function validateLogin(Request $request): void
+    {
+        $this->validate($request, [
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+            'client_id' => 'required|integer',
+            'client_secret' => 'required|string',
+        ]);
+    }
+
+    /**
      * Attempt to log the user into the application.
      *
      * @param  \Illuminate\Http\Request $request
      * @return bool
      */
-    protected function attemptLogin(Request $request)
+    protected function attemptLogin(Request $request): bool
     {
         return $this->guard()->attempt($this->credentials($request));
     }
@@ -103,9 +102,9 @@ class LoginController extends Controller
      * Send the response after the user was authenticated.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response
      */
-    protected function sendLoginResponse(Request $request)
+    protected function sendLoginResponse(Request $request): Response
     {
         $this->clearLoginAttempts($request);
 
@@ -117,11 +116,12 @@ class LoginController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Illuminate\Contracts\Auth\Authenticatable $user
-     * @return JsonResponse
+     * @return \Illuminate\Http\Response
      */
-    protected function authenticated(Request $request, Authenticatable $user)
+    protected function authenticated(Request $request, Authenticatable $user): Response
     {
         $user->password = $request->get('password');
+
         return ApiHelper::OAuth()->passwordGrant(
             $user,
             $request->get('client_id'),

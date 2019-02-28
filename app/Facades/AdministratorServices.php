@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -12,15 +13,14 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * Class AdministratorServices
+ *
  * @package App\Services
- * @method boolean|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse handleAuth($request)
+ * @method bool|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse handleAuth($request)
  */
 class AdministratorServices extends Facade
 {
-    /**
-     * @return string
-     */
-    protected static function getFacadeAccessor()
+
+    protected static function getFacadeAccessor(): string
     {
         return 'AdministratorServices';
     }

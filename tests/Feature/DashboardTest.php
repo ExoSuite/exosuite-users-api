@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -12,27 +12,22 @@ use Tests\TestCase;
 
 /**
  * Class DashboardTest
+ *
  * @package Tests\Feature
  */
 class DashboardTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
-    private $user;
 
-    /**
-     * @var
-     */
-    private $dash;
+    /** @var \App\Models\User */
+    private $user;
 
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testGetDashboardId()
+    public function testGetDashboardId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_dashboard_id', ['user' => $this->user->id]));
@@ -40,10 +35,7 @@ class DashboardTest extends TestCase
         $this->assertEquals(1, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testGetRestriction()
+    public function testGetRestriction(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_dashboard_restriction', ['user' => $this->user->id]));
@@ -51,22 +43,16 @@ class DashboardTest extends TestCase
         $this->assertEquals(1, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testChangeRestriction()
+    public function testChangeRestriction(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->patch(route("patch_dashboard_restriction", [
-            'user' => $this->user->id
+        $response = $this->patch(route('patch_dashboard_restriction', [
+            'user' => $this->user->id,
         ]), ['restriction' => Restriction::PUBLIC]);
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
