@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +9,7 @@ use function now;
 
 /**
  * Class NotificationController
+ *
  * @package App\Http\Controllers
  */
 class NotificationController extends Controller

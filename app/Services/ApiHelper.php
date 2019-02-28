@@ -10,7 +10,6 @@
 namespace App\Services;
 
 use App\Contracts\ApiHelperInterface;
-use App\Services\OAuth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\URL;
 use function config;
@@ -22,13 +21,12 @@ use function url;
 
 /**
  * Class ApiHelper
+ *
  * @package App\Services
  */
 class ApiHelper implements ApiHelperInterface
 {
-    /**
-     * @var \App\Services\OAuth
-     */
+    /** @var \App\Services\OAuth */
     private $OAuth;
 
     /**

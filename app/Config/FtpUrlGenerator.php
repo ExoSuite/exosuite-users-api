@@ -34,7 +34,7 @@ class FtpUrlGenerator extends BaseUrlGenerator
      * Get the temporary url for a media item.
      *
      * @param \DateTimeInterface $expiration
-     * @param array $options
+     * @param string[] $options
      * @return string
      */
     public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string

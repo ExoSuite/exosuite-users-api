@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\PendingRequest\CreatePendingRequest;
 use App\Models\PendingRequest;
 use App\Models\User;
@@ -25,11 +24,11 @@ class PendingRequestController extends Controller
     }
 
     /**
-     * @param array $data
+     * @param string[] $data
      * @param \App\Models\User $user
-     * @return \App\Models\PendingRequest|\Illuminate\Database\Eloquent\Model
+     * @return \App\Models\PendingRequest
      */
-    public function create(array $data, User $user)
+    public function create(array $data, User $user): PendingRequest
     {
         $data['requester_id'] = Auth::user()->id;
         $data['target_id'] = $user->id;

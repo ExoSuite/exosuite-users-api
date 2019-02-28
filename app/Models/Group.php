@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * Class Group
+ *
  * @package App\Models
  */
 class Group extends UuidModel
 {
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
         'id',
         'name',
@@ -29,12 +28,18 @@ class Group extends UuidModel
 
     public function users(): HasManyThrough
     {
-        return $this->hasManyThrough(User::class, GroupMember::class, "group_id", 'id', "id", "user_id");
+        return $this->hasManyThrough(
+            User::class,
+            GroupMember::class,
+            "group_id",
+            'id',
+            "id",
+            "user_id"
+        );
     }
 
     /**
      * @param \App\Models\User $user
-     *
      * @return mixed
      */
     public function isAdmin(User $user)
@@ -48,7 +53,6 @@ class Group extends UuidModel
 
     /**
      * @param \App\Models\User $user
-     *
      * @return mixed
      */
     public function isMember(User $user)

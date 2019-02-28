@@ -3,7 +3,7 @@
 namespace App\Notifications;
 
 use App\Enums\NotificationType;
-use App\Notifications\ExoSuiteNotification;
+use App\Models\Group;
 
 /**
  * Class DeletedGroupNotification
@@ -13,22 +13,18 @@ use App\Notifications\ExoSuiteNotification;
 class DeletedGroupNotification extends ExoSuiteNotification
 {
 
-    /**
-     * @var array|string
-     */
+    /** @var string **/
     private $message;
-    /**
-     * @var array
-     */
+    /** @var \App\Models\Group */
     private $group;
 
     /**
      * Create a new notification instance.
      *
-     * @param string|array $message
-     * @param array $group
+     * @param string $message
+     * @param \App\Models\Group $group
      */
-    public function __construct($message, array $group)
+    public function __construct(string $message, Group $group)
     {
         $this->message = $message;
         $this->group = $group;
@@ -38,7 +34,7 @@ class DeletedGroupNotification extends ExoSuiteNotification
      * Get the array representation of the notification.
      *
      * @param  mixed $notifiable
-     * @return array
+     * @return string[]
      */
     public function toArray($notifiable): array
     {

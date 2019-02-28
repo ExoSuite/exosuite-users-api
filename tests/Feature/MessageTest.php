@@ -20,19 +20,16 @@ use Tests\TestCase;
 
 /**
  * Class MessageTest
+ *
  * @package Tests\Feature
  */
 class MessageTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user2;
 
     public function testCreateMessage(): void

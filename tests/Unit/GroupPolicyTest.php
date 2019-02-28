@@ -11,25 +11,20 @@ use Tests\TestCase;
 
 /**
  * Class GroupPolicyTest
+ *
  * @package Tests\Unit
  */
 class GroupPolicyTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user1;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user2;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user3;
 
     public function testPatchGroupWithoutAdminRights(): void

@@ -14,6 +14,7 @@ use Webpatser\Uuid\Uuid;
 
 /**
  * Class RunController
+ *
  * @package App\Http\Controllers\Run
  */
 class RunController extends Controller
@@ -32,7 +33,6 @@ class RunController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\Run\CreateRunRequest $request
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateRunRequest $request): JsonResponse
@@ -48,7 +48,6 @@ class RunController extends Controller
      *
      * @param \App\Http\Requests\Run\GetRunRequest $request
      * @param \Webpatser\Uuid\Uuid $id
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(GetRunRequest $request, Uuid $id): JsonResponse
@@ -63,7 +62,6 @@ class RunController extends Controller
      *
      * @param \App\Http\Requests\Run\UpdateRunRequest $request
      * @param \Webpatser\Uuid\Uuid $id
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateRunRequest $request, Uuid $id): JsonResponse
@@ -78,7 +76,6 @@ class RunController extends Controller
      *
      * @param \App\Http\Requests\Run\DeleteRunRequest $request
      * @param \Webpatser\Uuid\Uuid $id
-     *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

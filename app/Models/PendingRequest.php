@@ -21,7 +21,7 @@ class PendingRequest extends Model
     /** @var string */
     protected $primaryKey = 'request_id';
 
-    /** @var array */
+    /** @var string[] */
     protected $fillable = [
         'request_id', 'requester_id', 'type', 'target_id',
     ];

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UuidModel
+ *
  * @package App\Models\Abstracts
  */
 abstract class UuidModel extends Model
@@ -21,6 +22,7 @@ abstract class UuidModel extends Model
     use Uuids;
     /**
      * Indicates if the IDs are auto-incrementing.
+     *
      * @var bool
      */
     public $incrementing = false;

@@ -16,34 +16,25 @@ use Tests\TestCase;
 
 /**
  * Class LikeTest
+ *
  * @package Tests\Feature
  */
 class LikeTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var \App\Models\Dashboard
-     */
+    /** @var \App\Models\Dashboard */
     private $dash;
 
-    /**
-     * @var \App\Models\Post
-     */
+    /** @var \App\Models\Post */
     private $post;
 
-    /**
-     * @var \App\Models\Commentary
-     */
+    /** @var \App\Models\Commentary */
     private $comm;
 
-    /**
-     * @var \App\Models\Run
-     */
+    /** @var \App\Models\Run */
     private $run;
 
     /**

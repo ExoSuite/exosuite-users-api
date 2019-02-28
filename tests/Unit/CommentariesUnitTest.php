@@ -14,30 +14,23 @@ use Webpatser\Uuid\Uuid;
 
 /**
  * Class CommentariesUnitTest
+ *
  * @package Tests\Unit
  */
 class CommentariesUnitTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user1;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\Dashboard */
     private $dash;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\Post */
     private $post;
 
     /**

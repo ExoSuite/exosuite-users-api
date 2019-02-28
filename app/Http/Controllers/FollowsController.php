@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -19,9 +18,9 @@ class FollowsController extends Controller
     public function store(User $user): JsonResponse
     {
         return !Follow::whereFollowedId($user->id)->whereUserId(Auth::user()->id)->exists() ? $this->created(Follow::create([
-                "user_id" => Auth::user()->id,
-                "followed_id" => $user->id,
-            ])) : $this->badRequest("You're already following this user.");
+            "user_id" => Auth::user()->id,
+            "followed_id" => $user->id,
+        ])) : $this->badRequest("You're already following this user.");
     }
 
     public function AmIFollowing(User $user): JsonResponse

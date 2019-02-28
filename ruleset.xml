@@ -61,7 +61,6 @@
     <rule ref="PSR1.Files.SideEffects"/>
     <rule ref="PSR2.Classes.ClassDeclaration"/>
     <rule ref="PSR2.Classes.PropertyDeclaration"/>
-    <rule ref="PSR2.ControlStructures.ControlStructureSpacing"/>
     <rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
     <rule ref="PSR2.ControlStructures.SwitchDeclaration"/>
     <rule ref="PSR2.Files.EndFileNewline"/>
@@ -90,6 +89,7 @@
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint"/>
+    <rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator"/>
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
     <rule ref="SlevomatCodingStandard.Classes.DisallowLateStaticBindingForConstants"/>
     <rule ref="SlevomatCodingStandard.ControlStructures.AssignmentInCondition"/>
@@ -103,6 +103,7 @@
     <rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
     <rule ref="SlevomatCodingStandard.Classes.UnusedPrivateElements"/>
     <rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure"/>
+    <rule ref="SlevomatCodingStandard.Functions.UselessParameterDefaultValue"/>
     <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
         <properties>
             <property name="searchAnnotations" value="true"/>
@@ -115,7 +116,14 @@
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireTernaryOperator"/>
     <rule ref="SlevomatCodingStandard.ControlStructures.RequireShortTernaryOperator"/>
     <rule ref="SlevomatCodingStandard.ControlStructures.NewWithoutParentheses"/>
-    <rule ref="SlevomatCodingStandard.ControlStructures.ControlStructureSpacing"/>
+    <rule ref="SlevomatCodingStandard.ControlStructures.ControlStructureSpacing">
+        <properties>
+            <property name="tokensToCheck" type="array">
+                <element value="T_IF"/>
+                <element value="T_SWITCH"/>
+            </property>
+        </properties>
+    </rule>
     <rule ref="SlevomatCodingStandard.Classes.TraitUseDeclaration"/>
     <rule ref="SlevomatCodingStandard.PHP.UselessSemicolon"/>
     <rule ref="SlevomatCodingStandard.PHP.OptimizedFunctionsWithoutUnpacking"/>
@@ -133,6 +141,17 @@
     <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
     <rule ref="SlevomatCodingStandard.ControlStructures.UselessTernaryOperator" />
     <rule ref="SlevomatCodingStandard.ControlStructures.UselessIfConditionWithReturn" />
+    <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators" />
+    <rule ref="SlevomatCodingStandard.Operators.RequireCombinedAssignmentOperator" />
+    <rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace" />
+    <rule ref="SlevomatCodingStandard.Namespaces.UselessAlias" />
+    <rule ref="SlevomatCodingStandard.PHP.UselessParentheses" />
+    <rule ref="SlevomatCodingStandard.Variables.UselessVariable" />
+    <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference" />
+    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing" />
+    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing" />
+    <rule ref="SlevomatCodingStandard.Commenting.DocCommentSpacing" />
+    <rule ref="SlevomatCodingStandard.Commenting.RequireOneLinePropertyDocComment" />
 
     <file>app/</file>
     <file>routes/</file>
@@ -143,6 +162,7 @@
     <exclude-pattern>**/Middleware/**</exclude-pattern>
     <exclude-pattern>**/Resources/**</exclude-pattern>
     <exclude-pattern>**/Rules/**</exclude-pattern>
+    <exclude-pattern>**/Enums/**</exclude-pattern>
     <exclude-pattern>vendor</exclude-pattern>
 
 

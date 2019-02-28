@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\GroupRequestType;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Group\CreateGroupRequest;
 use App\Http\Requests\Group\UpdateGroupRequest;
 use App\Models\Group;
@@ -24,7 +23,7 @@ use function trans;
 /**
  * Class GroupController
  *
- * @package App\Http\Controllers
+ * @package \App\Http\Controllers
  */
 class GroupController extends Controller
 {
@@ -61,7 +60,7 @@ class GroupController extends Controller
         $users = $users->filter(static function ($user) use ($current_user) {
             return $user->id !== $current_user->id;
         });
-        Notification::send($users, new NewGroupNotification($message, $group->toArray()));
+        Notification::send($users, new NewGroupNotification($message, $group));
 
         return $this->created($group);
     }
@@ -133,14 +132,17 @@ class GroupController extends Controller
     public function destroy(Group $group): JsonResponse
     {
         $current_user = Auth::user();
-        $message = str_replace([":group_name", ":user_name"], [$group->name, "{$current_user->first_name} {$current_user->last_name}"], trans("notification.deleted_group"));
+        $message = str_replace(
+            [":group_name", ":user_name"],
+            [$group->name, "{$current_user->first_name} {$current_user->last_name}"],
+            trans("notification.deleted_group")
+        );
         $users = $group->users()->get();
         $users = $users->filter(static function ($user) use ($current_user) {
             return $user->id !== $current_user->id;
         });
-        //dd($users);
-        Notification::send($users, new DeletedGroupNotification($message, $group->toArray()));
-        //dd($users);
+
+        Notification::send($users, new DeletedGroupNotification($message, $group));
         $members = $group->groupMembers()->get();
 
         foreach ($members as $member) {

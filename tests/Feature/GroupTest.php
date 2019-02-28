@@ -15,29 +15,23 @@ use Tests\TestCase;
 
 /**
  * Class GroupTest
+ *
  * @package Tests\Feature
  */
 class GroupTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user1;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user2;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user3;
 
     public function testCreateGroupWithName(): void
     {
-
         Notification::fake();
         Passport::actingAs($this->user1);
         $response = $this->post($this->route("post_group"), ["name" => str_random(100), "users" => [$this->user2->id]]);

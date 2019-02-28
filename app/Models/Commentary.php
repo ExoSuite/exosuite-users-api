@@ -8,29 +8,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Commentary
+ *
  * @package App\Models
  */
 class Commentary extends Model
 {
     use Uuids;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $incrementing = false;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $primaryKey = 'id';
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
         'id', 'post_id', 'content', 'author_id', 'created_at', 'updated_at'
     ];
 
     /**
-     * @return array
+     * @return string[]
      */
     public function globalInfos(): array
     {

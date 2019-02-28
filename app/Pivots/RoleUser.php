@@ -9,8 +9,6 @@
 
 namespace App\Pivots;
 
-use App\Pivots\UuidPivot;
-
 /**
  * Class RoleUser
  *

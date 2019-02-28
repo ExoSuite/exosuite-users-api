@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
@@ -19,6 +19,7 @@ class Authenticate extends \Illuminate\Auth\Middleware\Authenticate
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
      * @param  string[] ...$guards
+     *
      * @return mixed
      */
     public function handle($request, Closure $next, ...$guards)
@@ -33,6 +34,7 @@ class Authenticate extends \Illuminate\Auth\Middleware\Authenticate
      *
      * @param  \Illuminate\Http\Request $request
      * @param  array $guards
+     *
      * @return void
      */
     protected function authenticate($request, array $guards): void

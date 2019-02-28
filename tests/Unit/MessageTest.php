@@ -15,20 +15,17 @@ use Webpatser\Uuid\Uuid;
 
 /**
  * Class MessageTest
+ *
  * @package Tests\Unit
  */
 class MessageTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user2;
 
     /**

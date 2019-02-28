@@ -14,6 +14,7 @@ use function config;
 
 /**
  * Class ApiHelper
+ *
  * @package App\Facades
  * @method \App\Services\OAuth OAuth()
  * @method \Illuminate\Http\RedirectResponse redirectToLogin($redirectUrl = null)

@@ -12,19 +12,16 @@ use Tests\TestCase;
 
 /**
  * Class PendingRequestsTest
+ *
  * @package Tests\Feature
  */
 class PendingRequestsTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user1;
 
     /**

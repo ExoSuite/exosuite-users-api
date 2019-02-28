@@ -13,15 +13,14 @@ use Tests\TestCase;
 
 /**
  * Class ShareRunTest
+ *
  * @package Tests\Feature
  */
 class ShareRunTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var \App\Models\Run
-     */
+    /** @var \App\Models\Run */
     private $run;
 
 

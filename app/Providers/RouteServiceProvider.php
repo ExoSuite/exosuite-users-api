@@ -22,6 +22,7 @@ use function base_path;
 
 /**
  * Class RouteServiceProvider
+ *
  * @package App\Providers
  */
 class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\RouteServiceProvider
@@ -34,7 +35,7 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
      *
      * @var string
      */
-    protected $_namespace = 'App\Http\Controllers';
+    protected $namespace = 'App\Http\Controllers';
 
 
     /**
@@ -91,7 +92,7 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
         // uncomment this line to add api/ on all api routes
         // Route::prefix('api')
         Route::middleware('api')
-            ->namespace($this->_namespace)
+            ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
     }
 
@@ -105,7 +106,7 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
     protected function mapWebRoutes(): void
     {
         Route::middleware('web')
-            ->namespace($this->_namespace)
+            ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
     }
 }

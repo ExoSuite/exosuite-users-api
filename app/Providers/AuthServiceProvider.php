@@ -12,6 +12,7 @@ use function now;
 
 /**
  * Class AuthServiceProvider
+ *
  * @package App\Providers
  */
 class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthServiceProvider

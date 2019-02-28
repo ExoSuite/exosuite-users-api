@@ -12,25 +12,20 @@ use Webpatser\Uuid\Uuid;
 
 /**
  * Class NotificationTest
+ *
  * @package Tests\Unit
  */
 class NotificationTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user1;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user2;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user3;
 
     /**

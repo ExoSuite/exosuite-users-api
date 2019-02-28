@@ -21,7 +21,7 @@ class Friendship extends Model
     /** @var string */
     protected $primaryKey = 'friendship_id';
 
-    /** @var array */
+    /** @var string[] */
     protected $fillable = [
         'friendship_id', 'user_id', 'friend_id',
     ];

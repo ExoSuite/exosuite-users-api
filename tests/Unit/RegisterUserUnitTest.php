@@ -11,6 +11,7 @@ use Tests\TestCase;
 
 /**
  * Class RegisterUserUnitTest
+ *
  * @package Tests\Unit
  */
 class RegisterUserUnitTest extends TestCase

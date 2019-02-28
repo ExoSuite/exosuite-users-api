@@ -9,6 +9,7 @@ use function strtolower;
 
 /**
  * Class Role
+ *
  * @package App\Models
  * @property string $name
  * @property string $slug
@@ -16,15 +17,11 @@ use function strtolower;
  */
 class Role extends Model
 {
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
         'name', 'slug', 'permissions',
     ];
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $casts = [
         'permissions' => 'array',
     ];
@@ -45,8 +42,7 @@ class Role extends Model
     }
 
     /**
-     * @param array $permissions
-     *
+     * @param string[] $permissions
      * @return bool
      */
     public function hasAccess(array $permissions): bool
@@ -67,7 +63,6 @@ class Role extends Model
 
     /**
      * @param string $roleName
-     *
      * @return \App\Models\Role|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|null|object
      */
     public function getIdFromRoleName(string $roleName)

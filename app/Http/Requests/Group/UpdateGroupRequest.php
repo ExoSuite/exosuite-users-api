@@ -3,14 +3,15 @@
 namespace App\Http\Requests\Group;
 
 use App\Enums\GroupRequestType;
-use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
 use App\Rules\RequestTypeRule;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class UpdateGroupRequest
+ *
  * @package App\Http\Requests\Group
  */
-class UpdateGroupRequest extends RouteParamRequestUuidToId
+class UpdateGroupRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +26,7 @@ class UpdateGroupRequest extends RouteParamRequestUuidToId
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return string[]
      */
     public function rules(): array
     {

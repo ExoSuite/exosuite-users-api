@@ -13,19 +13,13 @@ class MessagePolicyTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user1;
 
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user2;
 
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user3;
 
 

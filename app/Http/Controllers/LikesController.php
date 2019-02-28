@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\LikableEntities;
-use App\Http\Controllers\Controller;
 use App\Models\Commentary;
 use App\Models\Dashboard;
 use App\Models\Like;

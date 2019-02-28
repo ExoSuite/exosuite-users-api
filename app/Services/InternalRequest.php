@@ -18,6 +18,7 @@ use function array_merge;
 
 /**
  * Internal request service
+ *
  * @package App\Services
  */
 class InternalRequest implements MakesInternalRequests
@@ -50,7 +51,6 @@ class InternalRequest implements MakesInternalRequests
      * @param  array $data The request body.
      * @param  array $headers
      * @param int $statusCode
-     *
      * @return \Illuminate\Http\Response
      * @throws \App\Exceptions\InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST
      */

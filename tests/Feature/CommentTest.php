@@ -13,25 +13,20 @@ use Tests\TestCase;
 
 /**
  * Class CommentTest
+ *
  * @package Tests\Feature
  */
 class CommentTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\Dashboard */
     private $dash;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\Post */
     private $post;
 
     /**

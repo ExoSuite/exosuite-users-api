@@ -12,19 +12,16 @@ use Tests\TestCase;
 
 /**
  * Class RunTest
+ *
  * @package Tests\Feature
  */
 class RunTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user;
-    /**
-     * @var \App\Models\Run
-     */
+    /** @var \App\Models\Run */
     private $run;
 
     public function testCreateRun(): void

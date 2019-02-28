@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class CreatePendingRequest
+ *
  * @package App\Http\Requests\PendingRequest
  */
 class CreatePendingRequest extends FormRequest
@@ -24,7 +25,7 @@ class CreatePendingRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return string[]
      */
     public function rules(): array
     {

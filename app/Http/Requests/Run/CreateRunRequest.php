@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class CreateRunRequest
+ *
  * @package App\Http\Requests\Run
  */
 class CreateRunRequest extends FormRequest
@@ -24,7 +25,7 @@ class CreateRunRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return string[]
      */
     public function rules(): array
     {

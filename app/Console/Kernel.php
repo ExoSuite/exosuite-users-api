@@ -15,9 +15,7 @@ use function base_path;
 class Kernel extends \Illuminate\Foundation\Console\Kernel
 {
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected $commands = [
         ClientCommand::class
     ];
@@ -27,7 +25,6 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule $schedule
-     *
      */
     protected function schedule(Schedule $schedule): void
     {

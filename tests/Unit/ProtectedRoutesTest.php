@@ -14,6 +14,7 @@ use Tests\TestCase;
 
 /**
  * Class ProtectedRoutesTest
+ *
  * @package Tests\Unit
  */
 class ProtectedRoutesTest extends TestCase

@@ -11,6 +11,7 @@ use Tests\TestCase;
 
 /**
  * Class UserSearchTest
+ *
  * @package Tests\Feature
  */
 class UserSearchTest extends TestCase
@@ -18,9 +19,7 @@ class UserSearchTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user;
 
     public function testSearchUser(): void

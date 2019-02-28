@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\Conversion\ConversionCollection;
 
 /**
  * Class Media
+ *
  * @package App\Models
  */
 class Media extends \Spatie\MediaLibrary\Models\Media
@@ -17,10 +18,10 @@ class Media extends \Spatie\MediaLibrary\Models\Media
     /** @var bool */
     public $incrementing = false;
 
+
     /**
      * @param string $conversionName
-     *
-     * @return array
+     * @return string[]
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
     public function toStreamHeaders(string $conversionName): array
@@ -47,8 +48,6 @@ class Media extends \Spatie\MediaLibrary\Models\Media
     public function toStreamPath(string $conversionName): string
     {
         /** @var \Spatie\MediaLibrary\Filesystem\Filesystem $filesystem */
-        $path = $conversionName !== '' ? $this->getPath($conversionName) : $this->getPath();
-
-        return $path;
+        return $conversionName !== '' ? $this->getPath($conversionName) : $this->getPath();
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Events\DeletedMessageEvent;
 use App\Events\ModifyMessageEvent;
 use App\Events\NewMessageEvent;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Message\CreateMessageRequest;
 use App\Http\Requests\Message\UpdateMessageRequest;
 use App\Models\Group;
@@ -18,6 +17,7 @@ use function broadcast;
 
 /**
  * Class MessageController
+ *
  * @package App\Http\Controllers
  */
 class MessageController extends Controller
@@ -33,7 +33,7 @@ class MessageController extends Controller
         broadcast(new NewMessageEvent($group, $message));
         $users = $group->users()->get();
         $users = $users->filter(static function ($user) use ($current_user) {
-            return $user->id != $current_user->id;
+            return $user->id !== $current_user->id;
         });
         Notification::send($users, new NewMessageNotification($message));
 
@@ -51,7 +51,6 @@ class MessageController extends Controller
 
     /**
      * @param \App\Models\Group $group
-     *
      * @return mixed
      */
     public function index(Group $group)

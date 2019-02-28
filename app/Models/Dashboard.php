@@ -9,23 +9,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Dashboard
+ *
  * @package App\Models
  */
 class Dashboard extends Model
 {
     use Uuids;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $incrementing = false;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $primaryKey = 'id';
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
         'id', 'owner_id', 'restriction', 'created_at', 'updated_at'
     ];

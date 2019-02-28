@@ -9,15 +9,14 @@ use Illuminate\Bus\Queueable;
 
 /**
  * Class NewMessageNotification
+ *
  * @package App\Notifications\Message
  */
 class NewMessageNotification extends ExoSuiteNotification
 {
     use Queueable;
 
-    /**
-     * @var \App\Models\Message
-     */
+    /** @var \App\Models\Message */
     public $message;
 
     /**
@@ -34,7 +33,6 @@ class NewMessageNotification extends ExoSuiteNotification
      * Get the array representation of the notification.
      *
      * @param  mixed $notifiable
-     *
      * @return array
      */
     public function toArray($notifiable): array

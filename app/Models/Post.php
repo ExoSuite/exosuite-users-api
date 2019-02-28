@@ -9,29 +9,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Post
+ *
  * @package App\Models
  */
 class Post extends Model
 {
     use Uuids;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $incrementing = false;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $primaryKey = 'id';
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
         'id', 'dashboard_id', 'content', 'author_id', 'created_at', 'updated_at'
     ];
 
     /**
-     * @return array
+     * @return string[]
      */
     public function globalInfos(): array
     {

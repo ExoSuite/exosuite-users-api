@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Laravel\Passport\ClientRepository;
 
 /**
  * Class StagingController
+ *
  * @package App\Http\Controllers
  */
 class StagingController extends Controller
 {
-    /**
-     * @var \Laravel\Passport\ClientRepository
-     */
+    /** @var \Laravel\Passport\ClientRepository */
     private $clientRepository;
 
     /**

@@ -12,15 +12,14 @@ use Tests\TestCase;
 
 /**
  * Class UserProfilePictureTest
+ *
  * @package Tests\Feature
  */
 class UserProfilePictureTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user;
 
     public function setUp(): void
@@ -32,25 +31,23 @@ class UserProfilePictureTest extends TestCase
     private function storeUserProfilePictureAvatar(): TestResponse
     {
         Passport::actingAs($this->user);
-        $response = $this->post(
+
+        return $this->post(
             $this->route('post_picture_avatar', ["user" => $this->user]),
             ['picture' => UploadedFile::fake()->image('avatar.jpg', 142, 142)],
             ['Content-Type' => 'multipart/form-data']
         );
-
-        return $response;
     }
 
-    private function storeUserProfilePictureCover()
+    private function storeUserProfilePictureCover(): TestResponse
     {
         Passport::actingAs($this->user);
-        $response = $this->post(
+
+        return $this->post(
             $this->route('post_picture_cover', ["user" => $this->user]),
             ['picture' => UploadedFile::fake()->image('cover.jpg', 1920, 640)],
             ['Content-Type' => 'multipart/form-data']
         );
-
-        return $response;
     }
 
     public function testStoreUserProfilePictureAvatar(): void

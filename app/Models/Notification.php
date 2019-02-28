@@ -12,9 +12,7 @@ use App\Models\Abstracts\UuidModel;
 class Notification extends UuidModel
 {
 
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
         'id',
         'type',

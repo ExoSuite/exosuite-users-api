@@ -35,12 +35,6 @@ use Laravel\Passport\Http\Middleware\CheckScopes;
  *
  * @package App\Http
  */
-
-/**
- * Class Kernel
- *
- * @package App\Http
- */
 class Kernel extends \Illuminate\Foundation\Http\Kernel
 {
 
@@ -49,7 +43,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      *
      * These middleware are run during every request to your application.
      *
-     * @var array
+     * @var string[]
      */
     protected $middleware = [
         CheckForMaintenanceMode::class,
@@ -64,7 +58,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
     /**
      * The application's route middleware groups.
      *
-     * @var array
+     * @var string[]
      */
     protected $middlewareGroups = [
         'web' => [
@@ -89,7 +83,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
      *
      * These middleware may be assigned to groups or used individually.
      *
-     * @var array
+     * @var string[]
      */
     protected $routeMiddleware = [
         'auth' => Authenticate::class,

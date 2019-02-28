@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class UserProfileController
+ *
  * @package App\Http\Controllers\User
  */
 class UserProfileController extends Controller
@@ -19,7 +20,6 @@ class UserProfileController extends Controller
      * Display the specified resource.
      *
      * @param \App\Models\User $user
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(User $user): JsonResponse
@@ -31,7 +31,6 @@ class UserProfileController extends Controller
      * Update the specified resource in storage.
      *
      * @param \App\Http\Requests\User\UserProfileRequest $request
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UserProfileRequest $request): JsonResponse

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class UpdateRunRequest
+ *
  * @package App\Http\Requests\Run
  */
 class UpdateRunRequest extends RouteParamRequestUuidToId
@@ -28,7 +29,7 @@ class UpdateRunRequest extends RouteParamRequestUuidToId
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return string[]
      */
     public function rules(): array
     {

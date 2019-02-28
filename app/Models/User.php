@@ -18,6 +18,7 @@ use function strtolower;
 
 /**
  * Class User
+ *
  * @package App\Models
  * @property \Webpatser\Uuid\Uuid $id
  * @property string $first_name
@@ -36,25 +37,20 @@ class User extends \Illuminate\Foundation\Auth\User
 
     /**
      * Indicates if the IDs are auto-incrementing.
+     *
      * @var bool
      */
     public $incrementing = false;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $indexConfigurator = UserIndexConfigurator::class;
 
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $searchRules = [
         UserSearchRule::class
     ];
 
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $mapping = [
         'properties' => [
             'first_name' => [
@@ -75,7 +71,7 @@ class User extends \Illuminate\Foundation\Auth\User
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = [
         'id',
@@ -90,7 +86,7 @@ class User extends \Illuminate\Foundation\Auth\User
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var string[]
      */
     protected $hidden = [
         'password', 'email_verified_at', 'remember_token'
@@ -129,8 +125,7 @@ class User extends \Illuminate\Foundation\Auth\User
     /**
      * Checks if User has access to $permissions.
      *
-     * @param array $permissions
-     *
+     * @param string[] $permissions
      * @return bool
      */
     public function hasAccess(array $permissions): bool
@@ -157,7 +152,6 @@ class User extends \Illuminate\Foundation\Auth\User
      * Checks if the user belongs to role.
      *
      * @param string $roleSlug
-     *
      * @return bool
      */
     public function inRole(string $roleSlug): bool

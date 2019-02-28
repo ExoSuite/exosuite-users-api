@@ -12,6 +12,7 @@ use Spatie\MediaLibrary\Models\Media;
 
 /**
  * Class UserProfile
+ *
  * @package App\Models
  * @property \Webpatser\Uuid\Uuid $id
  * @property \Carbon\Carbon $birthday
@@ -29,9 +30,7 @@ class UserProfile extends Model implements HasMedia
      */
     public $incrementing = false;
 
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
         'id', 'birthday', 'city', 'description', 'avatar_id', 'cover_id'
     ];

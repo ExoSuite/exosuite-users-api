@@ -12,19 +12,16 @@ use Webpatser\Uuid\Uuid;
 
 /**
  * Class DashboardUnitTest
+ *
  * @package Tests\Unit
  */
 class DashboardUnitTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\Dashboard */
     private $dash;
 
     /**

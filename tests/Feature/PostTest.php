@@ -12,24 +12,19 @@ use Tests\TestCase;
 
 /**
  * Class PostTest
+ *
  * @package Tests\Feature
  */
 class PostTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user1;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\Dashboard */
     private $dashboard;
 
     /**

@@ -12,15 +12,14 @@ use Tests\TestCase;
 
 /**
  * Class UserProfileTest
+ *
  * @package Tests\Feature
  */
 class UserProfileTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var null
-     */
+    /** @var null */
     private static $user = null;
 
     public function testGetProfile(): void

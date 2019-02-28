@@ -15,7 +15,7 @@ class UserIndexConfigurator extends IndexConfigurator
 
     use Migratable;
 
-    /** @var array */
+    /** @var string[] */
     protected $settings = [
     ];
 }

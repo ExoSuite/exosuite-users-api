@@ -14,12 +14,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class GroupMember extends UuidModel
 {
 
-    /** @var array */
+    /** @var string[] */
     protected $fillable = [
         'id', 'group_id', 'user_id', 'is_admin', 'created_at', 'updated_at',
     ];
 
-    /** @var array */
+    /** @var string[] */
     protected $hidden = [
         'id',
     ];

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RequestTypesEnum;
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\JsonResponses;
 use App\Models\Friendship;
 use App\Models\PendingRequest;
@@ -13,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class RelationsController
+ *
  * @package App\Http\Controllers
  */
 class RelationsController extends Controller
@@ -34,7 +34,6 @@ class RelationsController extends Controller
 
     /**
      * @param string $id
-     *
      * @return \App\Models\Friendship|\Illuminate\Database\Eloquent\Model
      */
     public function createFriendship(string $id)
@@ -45,7 +44,7 @@ class RelationsController extends Controller
 
     public function acceptRequest(PendingRequest $request): JsonResponse
     {
-        if ($request->target_id == Auth::user()->id) {
+        if ($request->target_id === Auth::user()->id) {
             $friendship = $this->createFriendship($request->requester_id);
             $request->delete();
 
@@ -57,7 +56,7 @@ class RelationsController extends Controller
 
     public function declineRequest(PendingRequest $request): JsonResponse
     {
-        if ($request->target_id == Auth::user()->id) {
+        if ($request->target_id === Auth::user()->id) {
             $friendship = Friendship::whereFriendId($request->target_id)->whereUserId($request->requester_id);
 
             if ($friendship->exists()) {

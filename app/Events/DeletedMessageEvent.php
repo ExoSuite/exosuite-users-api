@@ -24,13 +24,11 @@ class DeletedMessageEvent implements ShouldBroadcast
     use InteractsWithSockets;
     use SerializesModels;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public $broadcastQueue = Queue::MESSAGE;
-    /** @Group Group */
+    /** @var \App\Models\Group */
     public $group;
-    /** @Message Message */
+    /** @var \App\Models\Message */
     public $message;
 
     /**
@@ -48,9 +46,9 @@ class DeletedMessageEvent implements ShouldBroadcast
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return \Illuminate\Broadcasting\PresenceChannel;
      */
-    public function broadcastOn()
+    public function broadcastOn(): PresenceChannel
     {
         return new PresenceChannel("group.{$this->group->id}");
     }
@@ -60,6 +58,10 @@ class DeletedMessageEvent implements ShouldBroadcast
         return MessageBroadcastType::DELETED_MESSAGE;
     }
 
+
+    /**
+     * @return mixed
+     */
     public function broadcastWith()
     {
         return ["id" => $this->message->id];

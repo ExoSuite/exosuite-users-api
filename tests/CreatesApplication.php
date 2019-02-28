@@ -7,6 +7,7 @@ use Illuminate\Foundation\Application;
 
 /**
  * Trait CreatesApplication
+ *
  * @package Tests
  */
 trait CreatesApplication

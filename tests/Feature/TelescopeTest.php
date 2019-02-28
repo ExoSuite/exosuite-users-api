@@ -7,6 +7,7 @@ use Tests\TestCase;
 
 /**
  * Class TelescopeTest
+ *
  * @package Tests\Feature
  */
 class TelescopeTest extends TestCase

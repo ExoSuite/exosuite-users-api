@@ -9,7 +9,6 @@
 
 namespace App\Http\Requests\Abstracts;
 
-use App\Http\Requests\Abstracts\RouteParamRequest;
 use function array_except;
 
 /**
@@ -21,7 +20,7 @@ abstract class RouteParamRequestUuidToId extends RouteParamRequest
 {
 
     /**
-     * @return array
+     * @return string[]
      */
     public function validated(): array
     {

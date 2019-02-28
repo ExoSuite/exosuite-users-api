@@ -22,7 +22,7 @@ class EventServiceProvider extends \Illuminate\Foundation\Support\Providers\Even
     /**
      * The event listener mappings for the application.
      *
-     * @var array
+     * @var string[string[]]
      */
     protected $listen = [
         Registered::class => [

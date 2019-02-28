@@ -15,6 +15,7 @@ use Webpatser\Uuid\Uuid;
 
 /**
  * Class ShareRunController
+ *
  * @package App\Http\Controllers\Run
  */
 class ShareRunController extends Controller
@@ -37,7 +38,6 @@ class ShareRunController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\Run\CreateShareRunRequest $request
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateShareRunRequest $request): JsonResponse
@@ -59,7 +59,6 @@ class ShareRunController extends Controller
      *
      * @param \App\Http\Requests\Run\GetShareRunRequest $request
      * @param \Webpatser\Uuid\Uuid $id
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(GetShareRunRequest $request, Uuid $id): JsonResponse
@@ -76,7 +75,6 @@ class ShareRunController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
-     *
      * @return void
      */
     public function update(Request $request, int $id): void
@@ -87,7 +85,6 @@ class ShareRunController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     *
      * @return void
      */
     public function destroy(int $id): void

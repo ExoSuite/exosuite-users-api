@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Time extends UuidModel
 {
 
-    /** @var array */
+    /** @var string[] */
     protected $fillable = [
         'id', 'interval',
     ];

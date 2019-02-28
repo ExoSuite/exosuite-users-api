@@ -22,6 +22,7 @@ use function is_resource;
 
 /**
  * Trait JsonResponses
+ *
  * @package App\Http\Controllers\Traits
  */
 trait JsonResponses
@@ -36,7 +37,6 @@ trait JsonResponses
     /**
      * @param mixed $data
      * @param string $location
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     protected function created($data = [], ?string $location = null): JsonResponse
@@ -48,7 +48,6 @@ trait JsonResponses
 
     /**
      * @param mixed $data
-     *
      * @return mixed
      */
     private function toArray($data)
@@ -62,7 +61,6 @@ trait JsonResponses
 
     /**
      * @param mixed $data
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     protected function ok($data): JsonResponse

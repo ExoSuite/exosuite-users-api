@@ -10,6 +10,7 @@ use Tests\TestCase;
 
 /**
  * Class RegisterUserTest
+ *
  * @package Tests\Feature
  */
 class RegisterUserTest extends TestCase

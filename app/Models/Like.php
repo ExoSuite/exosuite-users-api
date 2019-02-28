@@ -13,14 +13,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Like extends Model
 {
-
     use Uuids;
 
     /** @var bool */
     public $incrementing = false;
     /** @var string */
     protected $primaryKey = 'like_id';
-    /** @var array */
+    /** @var string[] */
     protected $fillable = [
         'like_id', 'liked_id', "liked_type", 'liker_id',
     ];

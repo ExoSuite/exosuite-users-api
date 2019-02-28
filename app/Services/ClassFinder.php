@@ -11,6 +11,7 @@ namespace App\Services;
 
 /**
  * Class ClassFinder
+ *
  * @package App\Services
  */
 class ClassFinder
@@ -29,7 +30,6 @@ class ClassFinder
 
     /**
      * @param string $namespace
-     *
      * @return string[]|null
      */
     private static function getClassesInNamespace(string $namespace): ?array
@@ -57,7 +57,6 @@ class ClassFinder
 
     /**
      * @param string $namespace
-     *
      * @return string|bool
      */
     private static function getNamespaceDirectory(string $namespace)

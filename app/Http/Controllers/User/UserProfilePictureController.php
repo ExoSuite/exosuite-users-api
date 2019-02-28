@@ -16,6 +16,7 @@ use function route;
 
 /**
  * Class UserProfilePictureController
+ *
  * @package App\Http\Controllers\User
  */
 class UserProfilePictureController extends Controller
@@ -24,7 +25,6 @@ class UserProfilePictureController extends Controller
      * Display a listing of the resource.
      *
      * @param \App\Models\User $user
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(User $user): JsonResponse
@@ -32,7 +32,7 @@ class UserProfilePictureController extends Controller
         $pictures = $user->profile()->first()->getMedia(CollectionPicture::PICTURE);
         $urls = [];
 
-        for ($i = 0; $i != sizeof($pictures); $i++) {
+        for ($i = 0; $i !== sizeof($pictures); $i++) {
             array_push($urls, $pictures[$i]->getFullUrl());
         }
 
@@ -44,7 +44,6 @@ class UserProfilePictureController extends Controller
      *
      * @param \App\Http\Requests\CreateUserProfilePictureRequest $request
      * @param \App\Models\User $user
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateUserProfilePictureRequest $request, User $user): JsonResponse
@@ -62,7 +61,6 @@ class UserProfilePictureController extends Controller
      *
      * @param \App\Http\Requests\CreateUserProfilePictureAvatarRequest $request
      * @param \App\Models\User $user
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function storeAvatar(CreateUserProfilePictureAvatarRequest $request, User $user): JsonResponse
@@ -85,7 +83,6 @@ class UserProfilePictureController extends Controller
      * Display the avatar.
      *
      * @param \App\Models\User $user
-     *
      * @return mixed
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
@@ -112,7 +109,6 @@ class UserProfilePictureController extends Controller
      *
      * @param \App\Http\Requests\CreateUserProfilePictureCoverRequest $request
      * @param \App\Models\User $user
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function storeCover(CreateUserProfilePictureCoverRequest $request, User $user): JsonResponse
@@ -134,7 +130,6 @@ class UserProfilePictureController extends Controller
      * Display the cover
      *
      * @param \App\Models\User $user
-     *
      * @return \Symfony\Component\HttpFoundation\StreamedResponse
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
@@ -159,7 +154,6 @@ class UserProfilePictureController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     *
      * @return void
      */
     public function destroy(int $id): void

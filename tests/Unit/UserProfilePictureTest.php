@@ -11,15 +11,14 @@ use Tests\TestCase;
 
 /**
  * Class UserProfilePictureTest
+ *
  * @package Tests\Unit
  */
 class UserProfilePictureTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user;
 
     public function setUp(): void

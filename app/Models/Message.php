@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Message extends UuidModel
 {
 
-    /** @var array */
+    /** @var string[] */
     protected $fillable = [
         'id', 'contents', 'group_id', 'user_id', 'created_at', 'updated_at',
     ];

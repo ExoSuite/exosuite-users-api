@@ -17,13 +17,13 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AdministratorServices
+ *
  * @package App\Services
  */
 class AdministratorServices
 {
     /**
      * @param \App\Models\User|\Illuminate\Http\Request $data
-     *
      * @return bool|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function handleAuth($data)

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Run
+ *
  * @package App\Models
  * @property \App\Models\Uuid $id
  * @property string $description
@@ -25,11 +26,9 @@ class Run extends UuidModel
     /**
      * define relation key
      */
-    const USER_FOREIGN_KEY = 'creator_id';
+    public const USER_FOREIGN_KEY = 'creator_id';
 
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
         'id', 'description', 'creator_id', 'visibility', 'name', 'updated_at', 'created_at'
     ];

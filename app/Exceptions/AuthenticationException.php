@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class AuthenticationException
+ *
  * @package App\Exceptions
  */
 class AuthenticationException extends HttpException
@@ -21,7 +22,7 @@ class AuthenticationException extends HttpException
     /**
      * All of the guards that were checked.
      *
-     * @var array
+     * @var string[]
      */
     protected $guards;
 
@@ -29,7 +30,7 @@ class AuthenticationException extends HttpException
      * Create a new authentication exception.
      *
      * @param  string $message
-     * @param  array $guards
+     * @param  string[] $guards
      */
     public function __construct(string $message = 'Unauthenticated.', array $guards = [])
     {
@@ -41,7 +42,7 @@ class AuthenticationException extends HttpException
     /**
      * Get the guards that were checked.
      *
-     * @return array
+     * @return string[]
      */
     public function guards(): array
     {

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
@@ -50,12 +50,11 @@ class PostsController extends Controller
     }
 
     /**
-     * @param array $data
+     * @param string[] $data
      * @param mixed $dashboard_id
-     *
      * @return \App\Models\Post|\Illuminate\Database\Eloquent\Model
      */
-    private function createPost(array $data, $dashboard_id)
+    private function createPost(array $data, $dashboard_id): Post
     {
         $data['author_id'] = Auth::user()->id;
         $data['dashboard_id'] = $dashboard_id;
@@ -74,13 +73,13 @@ class PostsController extends Controller
         return $this->forbidden("Permission denied: You're not allowed to update this post.");
     }
 
+
     /**
      * @param string[] $data
-     * @param mixed $post_id
-     *
-     * @return \App\Models\Post|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
+     * @param string $post_id
+     * @return \App\Models\Post
      */
-    private function editPost(array $data, $post_id)
+    private function editPost(array $data, string $post_id): Post
     {
         $post = Post::whereId($post_id)->first();
         $post->update(['content' => $data['content']]);
@@ -98,29 +97,21 @@ class PostsController extends Controller
 
         switch ($dashboard->restriction) {
             case Restriction::PUBLIC:
-                {
+                return $this->getPosts($dashboard);
+            case Restriction::FRIENDS:
+                return Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()
+                    ? $this->getPosts($dashboard)
+                    : $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
+            case Restriction::FRIENDS_FOLLOWERS:
+                if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
                     return $this->getPosts($dashboard);
                 }
-            case Restriction::FRIENDS:
-                {
-                    return Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()
-                        ? $this->getPosts($dashboard)
-                        : $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
-                }
-            case Restriction::FRIENDS_FOLLOWERS:
-                {
-                    if (Friendship::whereUserId(Auth::user()->id)->where('friend_id', $owner_id)->exists()) {
-                        return $this->getPosts($dashboard);
-                    }
 
-                    return Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists()
-                        ? $this->getPosts($dashboard)
-                        : $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
-                }
+                return Follow::whereFollowedId($owner_id)->where('user_id', Auth::user()->id)->exists()
+                    ? $this->getPosts($dashboard)
+                    : $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
             default:
-                {
-                    return $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
-                }
+                return $this->forbidden("Permission denied: You're not allowed to access this dashboard.");
         }
     }
 

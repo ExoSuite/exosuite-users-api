@@ -12,19 +12,16 @@ use Tests\TestCase;
 
 /**
  * Class FriendshipsTest
+ *
  * @package Tests\Feature
  */
 class FriendshipsTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user1;
 
     /**

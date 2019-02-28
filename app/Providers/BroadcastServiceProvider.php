@@ -8,6 +8,7 @@ use function base_path;
 
 /**
  * Class BroadcastServiceProvider
+ *
  * @package App\Providers
  */
 class BroadcastServiceProvider extends ServiceProvider

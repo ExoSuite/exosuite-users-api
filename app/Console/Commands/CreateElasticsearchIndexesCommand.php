@@ -9,6 +9,7 @@ use Throwable;
 
 /**
  * Class CreateElasticsearchIndexesCommand
+ *
  * @package App\Console\Commands
  */
 class CreateElasticsearchIndexesCommand extends Command

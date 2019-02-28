@@ -10,6 +10,7 @@ use Phaza\LaravelPostgis\Eloquent\PostgisTrait;
 
 /**
  * Class CheckPoint
+ *
  * @package App\Models
  * @property \Webpatser\Uuid\Uuid $id
  * @property \App\Enums\CheckPointType $type
@@ -19,16 +20,12 @@ class CheckPoint extends UuidModel
 {
     use PostgisTrait;
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected $fillable = [
         'id', 'type', 'location'
     ];
 
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected $postgisFields = [
         'location'
     ];

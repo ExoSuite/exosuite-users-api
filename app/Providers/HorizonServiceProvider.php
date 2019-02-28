@@ -9,7 +9,8 @@ use function app;
 
 /**
  * Class HorizonServiceProvider
- * @package App\Providers
+ *
+ * @package \App\Providers
  */
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {

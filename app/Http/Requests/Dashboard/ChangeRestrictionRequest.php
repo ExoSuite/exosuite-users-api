@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class ChangeRestrictionRequest
+ *
  * @package App\Http\Requests\Dashboard
  */
 class ChangeRestrictionRequest extends FormRequest
@@ -24,7 +25,7 @@ class ChangeRestrictionRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return string[]
      */
     public function rules(): array
     {

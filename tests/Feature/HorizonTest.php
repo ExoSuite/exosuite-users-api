@@ -7,6 +7,7 @@ use Tests\TestCase;
 
 /**
  * Class HorizonTest
+ *
  * @package Tests\Feature
  */
 class HorizonTest extends TestCase

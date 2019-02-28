@@ -12,19 +12,16 @@ use Tests\TestCase;
 
 /**
  * Class DashboardTest
+ *
  * @package Tests\Feature
  */
 class DashboardTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\Dashboard */
     private $dash;
 
     /**

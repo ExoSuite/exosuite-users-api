@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 /**
  * Class FacadesServiceProvider
+ *
  * @package App\Providers
  */
 class FacadesServiceProvider extends ServiceProvider

@@ -15,6 +15,7 @@ use Tests\TestCase;
 
 /**
  * Class UserTest
+ *
  * @package Tests\Feature
  */
 class UserTest extends TestCase
@@ -22,14 +23,10 @@ class UserTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    /**
-     * @var \App\Models\User
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $userPassword = null;
 
     public function testLoginMustReturnTokens(): void

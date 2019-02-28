@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Exceptions;
 
@@ -49,7 +49,7 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
     }
 
     /**
-    * @inheritdoc
+     * @inheritdoc
      */
     public function render($request, Exception $exception)
     {

@@ -23,8 +23,7 @@ abstract class RouteParamRequest extends FormRequest
     /**
      * Get all of the input and files for the request.
      *
-     * @param  array|mixed $keys
-     * @return array
+     * @inheritdoc
      */
     public function all($keys = null): array
     {

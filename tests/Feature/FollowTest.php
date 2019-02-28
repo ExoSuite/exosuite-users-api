@@ -11,19 +11,16 @@ use Tests\TestCase;
 
 /**
  * Class FollowTest
+ *
  * @package Tests\Feature
  */
 class FollowTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user1;
 
     /**
@@ -37,7 +34,7 @@ class FollowTest extends TestCase
         $follower = new Follow;
         $response = $this->post(route("post_follow", ["user" => $this->user1->id]));
         $response->assertStatus(Response::HTTP_CREATED);
-        $response->assertJsonStructure(($follower)->getFillable());
+        $response->assertJsonStructure($follower->getFillable());
         $this->assertDatabaseHas('follows', $response->decodeResponseJson());
     }
 
