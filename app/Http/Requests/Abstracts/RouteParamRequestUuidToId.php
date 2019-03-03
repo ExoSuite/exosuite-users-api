@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,19 +9,23 @@
 
 namespace App\Http\Requests\Abstracts;
 
+use function array_except;
 
 /**
  * Class RouteParamRequest
+ *
  * @package App\Http\Requests\Abstracts
  */
 abstract class RouteParamRequestUuidToId extends RouteParamRequest
 {
+
     /**
-     * @return array
+     * @return mixed[]
      */
-    public function validated()
+    public function validated(): array
     {
         $data = parent::validated();
+
         return array_except($data, 'id');
     }
 

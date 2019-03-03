@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Providers;
 
@@ -11,23 +11,25 @@ use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
 /**
  * Class TelescopeServiceProvider
+ *
  * @package App\Providers
  */
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
+
     /**
      * Register any application services.
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         Telescope::night();
 
         $this->hideSensitiveRequestDetails();
 
-        Telescope::filter(function (IncomingEntry $entry) {
-            if (ApiHelper::isLocal() or ApiHelper::isStaging()) {
+        Telescope::filter(static function (IncomingEntry $entry) {
+            if (ApiHelper::isLocal() || ApiHelper::isStaging()) {
                 return true;
             }
 
@@ -43,7 +45,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      *
      * @return void
      */
-    protected function hideSensitiveRequestDetails()
+    protected function hideSensitiveRequestDetails(): void
     {
         if ($this->app->isLocal()) {
             return;
@@ -65,9 +67,9 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      *
      * @return void
      */
-    protected function gate()
+    protected function gate(): void
     {
-        Gate::define('viewTelescope', function ($user) {
+        Gate::define('viewTelescope', static function ($user) {
             return $user->inRole(Roles::ADMINISTRATOR);
         });
     }

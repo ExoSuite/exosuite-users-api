@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Notifications;
 
@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notification;
 
 /**
  * Class ExoSuiteNotification
+ *
  * @package App\Notifications
  */
 abstract class ExoSuiteNotification extends Notification
@@ -19,28 +20,29 @@ abstract class ExoSuiteNotification extends Notification
      * Get the notification's delivery channels.
      *
      * @param  mixed $notifiable
-     * @return array
+     * @return string[]
      */
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['database', 'broadcast'];
     }
 
     /**
-     * @param mixed $notifiable
-     * @return array
-     */
-    abstract public function toArray($notifiable);
-
-    /**
      * Get the broadcastable representation of the notification.
      *
      * @param  mixed $notifiable
-     * @return BroadcastMessage
+     * @return \Illuminate\Notifications\Messages\BroadcastMessage
      */
-    public function toBroadcast($notifiable)
+    public function toBroadcast($notifiable): BroadcastMessage
     {
         $message = new BroadcastMessage($this->toArray($notifiable));
+
         return $message->onQueue(Queue::NOTIFICATION);
     }
+
+    /**
+     * @param mixed $notifiable
+     * @return string[]
+     */
+    abstract public function toArray($notifiable): array;
 }

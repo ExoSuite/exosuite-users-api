@@ -1,16 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
 use App\Exceptions\AuthenticationException;
 use Closure;
-use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
 /**
  * Class Authenticate
+ *
  * @package App\Http\Middleware
  */
-class Authenticate extends Middleware
+class Authenticate extends \Illuminate\Auth\Middleware\Authenticate
 {
 
     /**
@@ -19,8 +19,8 @@ class Authenticate extends Middleware
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
      * @param  string[] ...$guards
-     * @return mixed
      *
+     * @return mixed
      */
     public function handle($request, Closure $next, ...$guards)
     {
@@ -34,10 +34,10 @@ class Authenticate extends Middleware
      *
      * @param  \Illuminate\Http\Request $request
      * @param  array $guards
-     * @return void
      *
+     * @return void
      */
-    protected function authenticate($request, array $guards)
+    protected function authenticate($request, array $guards): void
     {
         if (empty($guards)) {
             $guards = [null];
@@ -46,6 +46,7 @@ class Authenticate extends Middleware
         foreach ($guards as $guard) {
             if ($this->auth->guard($guard)->check()) {
                 $this->auth->shouldUse($guard);
+
                 return;
             }
         }

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -13,9 +14,11 @@ use App\Exceptions\InternalRequestException;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use function array_merge;
 
 /**
  * Internal request service
+ *
  * @package App\Services
  */
 class InternalRequest implements MakesInternalRequests
@@ -24,21 +27,18 @@ class InternalRequest implements MakesInternalRequests
     /**
      * The app instance
      *
-     * @var Application $_app
+     * @var \Illuminate\Foundation\Application $app
      */
-    private $_app;
-
+    private $app;
 
     /**
      * Constructor
      *
-     * @param Application $app The app instance.
-     *
-     * @return void
+     * @param \Illuminate\Foundation\Application $app The app instance.
      */
     public function __construct(Application $app)
     {
-        $this->_app = $app;
+        $this->app = $app;
     }
 
 
@@ -47,11 +47,11 @@ class InternalRequest implements MakesInternalRequests
      *
      * @param  string $method The HTTP verb to use.
      * @param  string $uri The API uri to look up.
-     * @param  array $data The request body.
-     * @param  array $headers
+     * @param  string[]|mixed[] $data The request body.
+     * @param  string[]|mixed[] $headers
      * @param int $statusCode
      * @return \Illuminate\Http\Response
-     * @throws InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST
+     * @throws \App\Exceptions\InternalRequestException|\Exception if statusCode >= Response::HTTP_BAD_REQUEST
      */
     public function request(
         string $method,
@@ -59,10 +59,11 @@ class InternalRequest implements MakesInternalRequests
         array $data = [],
         array $headers = [],
         int $statusCode = Response::HTTP_OK
-    ) {
+    ): Response
+    {
         $base_headers = [
             'Accept' => 'application/json',
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
         ];
 
         // Merge base_headers and headers passed from parameters
@@ -79,8 +80,8 @@ class InternalRequest implements MakesInternalRequests
         );
 
         // Get response
-        /** @var Response $response */
-        $response = $this->_app->handle($request);
+        /** @var \Illuminate\Http\Response $response */
+        $response = $this->app->handle($request);
 
         // Check if the request was not successful
         if ($response->getStatusCode() >= Response::HTTP_BAD_REQUEST) {

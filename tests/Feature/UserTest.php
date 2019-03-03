@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\UserProfile;
+use Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ use Tests\TestCase;
 
 /**
  * Class UserTest
+ *
  * @package Tests\Feature
  */
 class UserTest extends TestCase
@@ -21,22 +23,15 @@ class UserTest extends TestCase
     use RefreshDatabase;
     use WithFaker;
 
-    /**
-     * @var User
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $userPassword = null;
 
-    /**
-     *
-     */
-    public function testLoginMustReturnTokens()
+    public function testLoginMustReturnTokens(): void
     {
-        \Artisan::call('passport:install');
+        Artisan::call('passport:install');
         $response = $this->json(
             Request::METHOD_POST,
             route('login'),
@@ -44,21 +39,21 @@ class UserTest extends TestCase
                 'email' => $this->user->email,
                 'password' => $this->userPassword,
                 'client_id' => 2,
-                'client_secret' => Client::whereId(2)->first()->secret
+                'client_secret' => Client::whereId(2)->first()->secret,
             ]
         );
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonStructure(
             [
-                "token_type", "expires_in", "access_token", "refresh_token"
+                'token_type',
+                'expires_in',
+                'access_token',
+                'refresh_token',
             ]
         );
     }
 
-    /**
-     *
-     */
-    public function testGetPersonalInfos()
+    public function testGetPersonalInfos(): void
     {
         Passport::actingAs(factory(User::class)->create());
 
@@ -66,53 +61,41 @@ class UserTest extends TestCase
             route('get_user')
         );
         $response->assertStatus(Response::HTTP_OK);
-        $expectTo = array_diff((new User())->getFillable(), (new User())->getHidden());
-        $expectTo['profile'] = (new UserProfile())->getFillable();
+        $expectTo = array_diff((new User)->getFillable(), (new User)->getHidden());
+        $expectTo['profile'] = (new UserProfile)->getFillable();
         $response->assertJsonStructure($expectTo);
     }
 
-    /**
-     *
-     */
-    public function testUpdateUserFirstName()
+    public function testUpdateUserFirstName(): void
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->patch(route("patch_user"), ["first_name", $this->faker->firstName]);
+        $response = $this->patch(route('patch_user'), ['first_name', $this->faker->firstName]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     *
-     */
-    public function testUpdateUserLastName()
+    public function testUpdateUserLastName(): void
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->patch(route("patch_user"), ["last_name", $this->faker->lastName]);
+        $response = $this->patch(route('patch_user'), ['last_name', $this->faker->lastName]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     *
-     */
-    public function testUpdateUserNickname()
+    public function testUpdateUserNickname(): void
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->patch(route("patch_user"), ["nick_name", $this->faker->name]);
+        $response = $this->patch(route('patch_user'), ['nick_name', $this->faker->name]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        /* @var User $userData */
+        /** @var \App\Models\User $userData */
         $user = factory(User::class)->make();
-        /* @var array $userData */
+        /** @var array $userData */
         $userData = $user->toArray();
         $userData['password'] = $user->password;
         $this->userPassword = $user->password;

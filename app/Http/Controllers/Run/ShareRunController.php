@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers\Run;
 
@@ -8,24 +8,28 @@ use App\Http\Requests\Run\GetShareRunRequest;
 use App\Http\Resources\SharedRunCollection;
 use App\Http\Resources\SharedRunResource;
 use App\Models\Run;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Webpatser\Uuid\Uuid;
 
 /**
  * Class ShareRunController
+ *
  * @package App\Http\Controllers\Run
  */
 class ShareRunController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         $runs = Auth::user()->sharedRuns()->get();
+
         return $this->ok(
             new SharedRunCollection($runs)
         );
@@ -34,10 +38,10 @@ class ShareRunController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CreateShareRunRequest $request
+     * @param \App\Http\Requests\Run\CreateShareRunRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateShareRunRequest $request)
+    public function store(CreateShareRunRequest $request): JsonResponse
     {
         $run = Run::whereId($request->get('id'))->first();
         $data = [];
@@ -47,17 +51,18 @@ class ShareRunController extends Controller
         }
 
         $share = $run->share()->create($data);
+
         return $this->created($share);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param GetShareRunRequest $request
-     * @param Uuid $id
+     * @param \App\Http\Requests\Run\GetShareRunRequest $request
+     * @param \Webpatser\Uuid\Uuid $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(GetShareRunRequest $request, Uuid $id)
+    public function show(GetShareRunRequest $request, Uuid $id): JsonResponse
     {
         return $this->ok(
             SharedRunResource::make(
@@ -73,9 +78,8 @@ class ShareRunController extends Controller
      * @param  int $id
      * @return void
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): void
     {
-        //
     }
 
     /**
@@ -84,7 +88,7 @@ class ShareRunController extends Controller
      * @param  int $id
      * @return void
      */
-    public function destroy($id)
+    public function destroy(int $id): void
     {
         // url /run/share/{run}/{share} DELETE
     }

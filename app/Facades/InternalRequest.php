@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,21 +9,19 @@
 
 namespace App\Facades;
 
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Facade;
-
 
 /**
  * Class InternalRequest
+ *
  * @package App\Facades
- * @method Response request(string $method, string $uri, array $data = [], array $headers = [], int $statusCode = Response::HTTP_OK)
+ * @method \App\Facades\Response request(string $m, string $uri, array $data = [], array $headers = [], int $code = 200)
+ * $m is for an HTTP method
  */
 class InternalRequest extends Facade
 {
-    /**
-     * @return string
-     */
-    protected static function getFacadeAccessor()
+
+    protected static function getFacadeAccessor(): string
     {
         return 'InternalRequest';
     }

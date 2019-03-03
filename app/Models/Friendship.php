@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
@@ -7,26 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Friendship
+ *
  * @package App\Models
  */
 class Friendship extends Model
 {
+
     use Uuids;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $incrementing = false;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $primaryKey = 'friendship_id';
 
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
-        'friendship_id', 'user_id', 'friend_id'
+        'friendship_id',
+        'user_id',
+        'friend_id',
     ];
 }

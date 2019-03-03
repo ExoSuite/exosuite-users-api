@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -13,22 +14,22 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class UuidModel
+ *
  * @package App\Models\Abstracts
  */
 abstract class UuidModel extends Model
 {
     use Uuids;
+
     /**
      * Indicates if the IDs are auto-incrementing.
+     *
      * @var bool
      */
     public $incrementing = false;
 
-    /**
-     * @return string
-     */
-    public static function getTableName()
+    public static function getTableName(): string
     {
-        return (new static())->getTable();
+        return (new static)->getTable();
     }
 }

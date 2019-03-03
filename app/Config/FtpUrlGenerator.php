@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,17 +9,17 @@
 
 namespace App\Config;
 
-use Spatie\MediaLibrary\UrlGenerator\BaseUrlGenerator;
-use Illuminate\Filesystem\FilesystemManager;
 use DateTimeInterface;
-use Illuminate\Contracts\Config\Repository as Config;
+use Spatie\MediaLibrary\UrlGenerator\BaseUrlGenerator;
 
 /**
  * Class UrlGenerator
+ *
  * @package App\Config
  */
 class FtpUrlGenerator extends BaseUrlGenerator
 {
+
     /**
      * Get the url for a media item.
      *
@@ -26,20 +27,19 @@ class FtpUrlGenerator extends BaseUrlGenerator
      */
     public function getUrl(): string
     {
-       return "";
+        return '';
     }
 
     /**
      * Get the temporary url for a media item.
      *
      * @param \DateTimeInterface $expiration
-     * @param array $options
-     *
+     * @param string[] $options
      * @return string
      */
     public function getTemporaryUrl(DateTimeInterface $expiration, array $options = []): string
     {
-        return "";
+        return '';
     }
 
     /**
@@ -59,6 +59,6 @@ class FtpUrlGenerator extends BaseUrlGenerator
      */
     public function getResponsiveImagesDirectoryUrl(): string
     {
-        return "";
+        return '';
     }
 }
