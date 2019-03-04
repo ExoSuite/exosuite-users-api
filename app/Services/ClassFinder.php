@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,54 +9,50 @@
 
 namespace App\Services;
 
-
 /**
  * Class ClassFinder
+ *
  * @package App\Services
  */
 class ClassFinder
 {
     //This value should be the directory that contains composer.json
-    const appRoot = __DIR__ . "/../../";
-    const indexesNamespace = "App\Models\Indexes";
+    private const APP_ROOT = __DIR__ . '/../../';
+    private const INDEXES_NAMESPACE = 'App\Models\Indexes';
+
+    /**
+     * @return string[]
+     */
+    public static function getIndexesClasses(): array
+    {
+        return self::getClassesInNamespace(self::INDEXES_NAMESPACE);
+    }
 
     /**
      * @param string $namespace
-     * @return array|null
+     * @return string[]|null
      */
-    private static function getClassesInNamespace(string $namespace)
+    private static function getClassesInNamespace(string $namespace): ?array
     {
         $namespaceDir = self::getNamespaceDirectory($namespace);
-        if (is_bool($namespaceDir))
+
+        if (is_bool($namespaceDir)) {
             return null;
+        }
+
         $files = scandir($namespaceDir);
+
         if (!$files) {
             return null;
         }
 
-        $classes = array_map(function (string $file) use ($namespace) {
+        $classes = array_map(static function (string $file) use ($namespace) {
             return $namespace . '\\' . str_replace('.php', '', $file);
         }, $files);
 
-
-        return array_filter($classes, function ($possibleClass) {
+        return array_filter($classes, static function ($possibleClass) {
             return class_exists($possibleClass);
         });
-    }
-
-    /**
-     * @return array|null
-     */
-    private static function getDefinedNamespaces()
-    {
-        $composerJsonPath = self::appRoot . 'composer.json';
-        $content = file_get_contents($composerJsonPath);
-        if (!$content) {
-            return null;
-        }
-        $composerConfig = json_decode($content);
-
-        return (array)$composerConfig->autoload->{"psr-4"};
     }
 
     /**
@@ -74,7 +71,7 @@ class ClassFinder
 
             if (array_key_exists($possibleNamespace, $composerNamespaces)) {
                 return realpath(
-                    self::appRoot
+                    self::APP_ROOT
                     . $composerNamespaces[$possibleNamespace]
                     . implode('/', $undefinedNamespaceFragments)
                 );
@@ -87,10 +84,19 @@ class ClassFinder
     }
 
     /**
-     * @return array
+     * @return string[]|null
      */
-    public static function getIndexesClasses(): array
+    private static function getDefinedNamespaces(): ?array
     {
-        return self::getClassesInNamespace(self::indexesNamespace);
+        $composerJsonPath = self::APP_ROOT . 'composer.json';
+        $content = file_get_contents($composerJsonPath);
+
+        if (!$content) {
+            return null;
+        }
+
+        $composerConfig = json_decode($content);
+
+        return (array) $composerConfig->autoload->{'psr-4'};
     }
 }

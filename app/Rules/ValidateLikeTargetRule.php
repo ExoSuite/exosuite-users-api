@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Rules;
 
@@ -24,7 +24,7 @@ class ValidateLikeTargetRule implements Rule
      *
      * @param string $target_type
      */
-    public function __construct($target_type)
+    public function __construct(string $target_type)
     {
         $this->target_type = $target_type;
     }
@@ -32,43 +32,20 @@ class ValidateLikeTargetRule implements Rule
     /**
      * @param string $attribute
      * @param mixed $value
+     *
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         switch ($this->target_type) {
             case LikableEntities::COMMENTARY :
-                {
-                if (Commentary::whereId($value)->exists()) {
-                    return true;
-                } else {
-                    return false;
-                }
-                break;
-            }
+                return Commentary::whereId($value)->exists();
             case LikableEntities::POST :
-                {
-                if (Post::whereId($value)->exists()) {
-                    return true;
-                } else {
-                    return false;
-                }
-                break;
-            }
+                return Post::whereId($value)->exists();
             case LikableEntities::RUN :
-                {
-                if (Run::whereId($value)->exists()) {
-                    return true;
-                } else {
-                    return false;
-                }
-                break;
-            }
+                return Run::whereId($value)->exists();
             default :
-                {
-                    return false;
-                    break;
-            }
+                return false;
         }
     }
 
@@ -77,7 +54,7 @@ class ValidateLikeTargetRule implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'Unknown entity id provided.';
     }

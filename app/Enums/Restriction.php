@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * Created by PhpStorm.
  * User: root
@@ -8,15 +9,16 @@
 
 namespace App\Enums;
 
-
 use BenSampo\Enum\Enum;
 
 /**
  * Class Restriction
+ *
  * @package App\Enums
  */
 final class Restriction extends Enum
 {
+
     const PRIVATE = "private";
     const FRIENDS = "friends";
     const FRIENDS_FOLLOWERS = "followers";

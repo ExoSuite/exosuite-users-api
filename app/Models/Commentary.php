@@ -1,39 +1,40 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Commentary
+ *
  * @package App\Models
  */
 class Commentary extends Model
 {
     use Uuids;
 
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $incrementing = false;
 
-    /**
-     * @var array
-     */
+    /** @var string */
+    protected $primaryKey = 'id';
+
+    /** @var string[] */
     protected $fillable = [
-        'id', 'post_id', 'content', 'author_id', 'created_at', 'updated_at'
+        'id',
+        'post_id',
+        'content',
+        'author_id',
+        'created_at',
+        'updated_at',
     ];
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function globalInfos()
+    public function globalInfos(): array
     {
         $author = User::whereId($this->author_id)->first();
         $author_names = $author['first_name'] . ' ' . $author['last_name'];
@@ -41,22 +42,16 @@ class Commentary extends Model
         return [
             'content' => $this->content,
             'created_at' => $this->created_at,
-            'author' => $author_names
+            'author' => $author_names,
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function post()
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class, 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id');
     }

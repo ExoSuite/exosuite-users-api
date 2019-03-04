@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -11,6 +12,7 @@ namespace App\Pivots;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Webpatser\Uuid\Uuid;
+use function array_key_exists;
 
 /**
  * Class UuidPivot
@@ -26,18 +28,21 @@ abstract class UuidPivot extends Pivot
 
     /**
      * Create a new pivot model from raw values returned from a query.
-     * @param  Model $parent
+     *
+     * @param  \Illuminate\Database\Eloquent\Model $parent
      * @param  array $attributes
      * @param  string $table
      * @param  bool $exists
-     * @return Pivot
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\Pivot
      * @throws \Exception
      */
-    public static function fromRawAttributes(Model $parent, $attributes, $table, $exists = false)
+    public static function fromRawAttributes(Model $parent, $attributes, $table, $exists = false): Pivot
     {
         if (!$exists and !array_key_exists('id', $attributes)) {
             $attributes['id'] = Uuid::generate()->string;
         }
+
         return parent::fromRawAttributes($parent, $attributes, $table, $exists);
     }
 }

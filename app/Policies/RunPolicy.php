@@ -1,13 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\Run;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * Class RunPolicy
+ *
  * @package App\Policies
  */
 class RunPolicy
@@ -18,12 +19,12 @@ class RunPolicy
      * Determine whether the user can view the run.
      *
      * @param  \App\Models\User $user
-     * @param Run $run
+     * @param \App\Models\Run $run
+     *
      * @return mixed
      */
     public function view(User $user, Run $run)
     {
-        //
     }
 
     /**
@@ -34,14 +35,14 @@ class RunPolicy
      */
     public function create(User $user)
     {
-        //
     }
 
     /**
      * Determine whether the user can update the run.
      *
      * @param  \App\Models\User $user
-     * @param Run $run
+     * @param \App\Models\Run $run
+     *
      * @return mixed
      */
     public function update(User $user, Run $run)
@@ -53,7 +54,8 @@ class RunPolicy
      * Determine whether the user can delete the run.
      *
      * @param  \App\Models\User $user
-     * @param Run $run
+     * @param \App\Models\Run $run
+     *
      * @return mixed
      */
     public function delete(User $user, Run $run)
@@ -65,23 +67,23 @@ class RunPolicy
      * Determine whether the user can restore the run.
      *
      * @param  \App\Models\User $user
-     * @param Run $run
+     * @param \App\Models\Run $run
+     *
      * @return mixed
      */
     public function restore(User $user, Run $run)
     {
-        //
     }
 
     /**
      * Determine whether the user can permanently delete the run.
      *
      * @param  \App\Models\User $user
-     * @param Run $run
+     * @param \App\Models\Run $run
+     *
      * @return mixed
      */
     public function forceDelete(User $user, Run $run)
     {
-        //
     }
 }

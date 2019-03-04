@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Unit;
 
@@ -12,20 +12,15 @@ use Webpatser\Uuid\Uuid;
 
 /**
  * Class DashboardUnitTest
+ *
  * @package Tests\Unit
  */
 class DashboardUnitTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
-    private $user;
 
-    /**
-     * @var
-     */
-    private $dash;
+    /** @var \App\Models\User */
+    private $user;
 
     /**
      * A basic test example.
@@ -33,29 +28,23 @@ class DashboardUnitTest extends TestCase
      * @return void
      * @throws \Exception
      */
-    public function testGetIdWithWrongUser()
+    public function testGetIdWithWrongUser(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_dashboard_id', ['user' => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    public function testChangeRestrictionWithWrongValue()
+    public function testChangeRestrictionWithWrongValue(): void
     {
         Passport::actingAs($this->user);
         $response = $this->patch(route('patch_dashboard_restriction', ['user' => $this->user->id]), [
-            'restriction' => 'wrong_value'
+            'restriction' => 'wrong_value',
         ]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

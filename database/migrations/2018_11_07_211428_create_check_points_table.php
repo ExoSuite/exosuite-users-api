@@ -17,7 +17,7 @@ class CreateCheckPointsTable extends Migration
     public function up()
     {
         Schema::create('check_points', function ($table) {
-            /** @var Blueprint $table  */
+            /** @var Blueprint $table */
             $table->uuid('id')->primary();
             $table->string('type');
             $table->polygon('location');

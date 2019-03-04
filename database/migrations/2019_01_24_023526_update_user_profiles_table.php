@@ -17,8 +17,8 @@ class UpdateUserProfilesTable extends Migration
     public function up()
     {
         Schema::table('user_profiles', function (Blueprint $table) {
-           $table->uuid('avatar_id')->nullable();
-           $table->uuid('cover_id')->nullable();
+            $table->uuid('avatar_id')->nullable();
+            $table->uuid('cover_id')->nullable();
         });
     }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -12,19 +12,17 @@ use Tests\TestCase;
 
 /**
  * Class PendingRequestsTest
+ *
  * @package Tests\Feature
  */
 class PendingRequestsTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
+
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user1;
 
     /**
@@ -32,25 +30,40 @@ class PendingRequestsTest extends TestCase
      *
      * @return void
      */
-    public function testCreatePendinRequest()
+    public function testCreatePendinRequest(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route('post_pending_request', ['user' => $this->user1->id]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
+        $response = $this->post(
+            route(
+                'post_pending_request',
+                ['user' => $this->user1->id]
+            ),
+            ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]
+        );
         $response->assertStatus(Response::HTTP_CREATED);
-        $response->assertJsonStructure((new PendingRequest())->getFillable());
+        $response->assertJsonStructure((new PendingRequest)->getFillable());
         $this->assertDatabaseHas('pending_requests', $response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testGetMyPendingRequests()
+    public function testGetMyPendingRequests(): void
     {
         $user2 = factory(User::class)->create();
         $user3 = factory(User::class)->create();
-        factory(PendingRequest::class)->create(['requester_id' => $this->user1->id, 'type' => RequestTypesEnum::FRIENDSHIP_REQUEST, 'target_id' => $this->user->id]);
-        factory(PendingRequest::class)->create(['requester_id' => $user2->id, 'type' => RequestTypesEnum::FRIENDSHIP_REQUEST, 'target_id' => $this->user->id]);
-        factory(PendingRequest::class)->create(['requester_id' => $user3->id, 'type' => RequestTypesEnum::FRIENDSHIP_REQUEST, 'target_id' => $this->user->id]);
+        factory(PendingRequest::class)->create([
+            'requester_id' => $this->user1->id,
+            'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
+            'target_id' => $this->user->id,
+        ]);
+        factory(PendingRequest::class)->create([
+            'requester_id' => $user2->id,
+            'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
+            'target_id' => $this->user->id,
+        ]);
+        factory(PendingRequest::class)->create([
+            'requester_id' => $user3->id,
+            'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
+            'target_id' => $this->user->id,
+        ]);
 
         Passport::actingAs($this->user);
         $response = $this->get(route('get_my_pending_request'));
@@ -58,23 +71,25 @@ class PendingRequestsTest extends TestCase
         $this->assertEquals(3, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testDeletePendingRequest()
+    public function testDeletePendingRequest(): void
     {
         Passport::actingAs($this->user1);
-        $post_resp = $this->post(route('post_pending_request', ['user' => $this->user->id]), ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]);
+        $post_resp = $this->post(
+            route('post_pending_request', ['user' => $this->user->id]),
+            ['type' => RequestTypesEnum::FRIENDSHIP_REQUEST]
+        );
         Passport::actingAs($this->user);
-        $response = $this->delete(route('delete_pending_request', ['request' => $post_resp->decodeResponseJson('request_id')]));
+        $response = $this->delete(
+            route(
+                'delete_pending_request',
+                ['request' => $post_resp->decodeResponseJson('request_id')]
+            )
+        );
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('pending_requests', $post_resp->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

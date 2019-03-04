@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Providers;
 
@@ -16,16 +16,15 @@ use App\Models\Post;
 use App\Models\Run;
 use App\Models\Time;
 use App\Models\User;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Webpatser\Uuid\Uuid;
+use function base_path;
 
 /**
  * Class RouteServiceProvider
+ *
  * @package App\Providers
  */
-class RouteServiceProvider extends ServiceProvider
+class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\RouteServiceProvider
 {
 
     /**
@@ -35,24 +34,17 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $_namespace = 'App\Http\Controllers';
-
+    protected $namespace = 'App\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 
-        Route::bind(BindType::UUID, function ($uuid) {
-            if (Uuid::validate($uuid)) {
-                return Uuid::import($uuid);
-            }
-            throw new UnprocessableEntityHttpException("Bad uuid");
-        });
         Route::model(BindType::GROUP, Group::class);
         Route::model(BindType::MESSAGE, Message::class);
         Route::model(BindType::NOTIFICATION, Notification::class);
@@ -74,27 +66,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function map()
+    public function map(): void
     {
         $this->mapApiRoutes();
         $this->mapWebRoutes();
     }
-
-
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapWebRoutes()
-    {
-        Route::middleware('web')
-            ->namespace($this->_namespace)
-            ->group(base_path('routes/web.php'));
-    }
-
 
     /**
      * Define the "api" routes for the application.
@@ -103,12 +79,26 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function mapApiRoutes(): void
     {
         // uncomment this line to add api/ on all api routes
         // Route::prefix('api')
         Route::middleware('api')
-            ->namespace($this->_namespace)
+            ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes(): void
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 }

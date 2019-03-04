@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Models\Run;
-use App\Models\User;
 use App\Models\CheckPoint;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 /**
  * Class CheckPointPolicy
+ *
  * @package App\Policies
  */
 class CheckPointPolicy
@@ -19,12 +19,12 @@ class CheckPointPolicy
      * Determine whether the user can view the check point.
      *
      * @param  \App\Models\User $user
-     * @param CheckPoint $checkPoint
+     * @param \App\Models\CheckPoint $checkPoint
+     *
      * @return mixed
      */
     public function view(User $user, CheckPoint $checkPoint)
     {
-        //
     }
 
     /**
@@ -35,14 +35,14 @@ class CheckPointPolicy
      */
     public function create(User $user)
     {
-        //
     }
 
     /**
      * Determine whether the user can update the check point.
      *
      * @param  \App\Models\User $user
-     * @param CheckPoint $checkpoint
+     * @param \App\Models\CheckPoint $checkpoint
+     *
      * @return mixed
      */
     public function update(User $user, CheckPoint $checkpoint)
@@ -54,7 +54,8 @@ class CheckPointPolicy
      * Determine whether the user can delete the check point.
      *
      * @param  \App\Models\User $user
-     * @param CheckPoint $checkpoint
+     * @param \App\Models\CheckPoint $checkpoint
+     *
      * @return mixed
      */
     public function delete(User $user, CheckPoint $checkpoint)
@@ -66,23 +67,23 @@ class CheckPointPolicy
      * Determine whether the user can restore the check point.
      *
      * @param  \App\Models\User $user
-     * @param CheckPoint $checkpoint
+     * @param \App\Models\CheckPoint $checkpoint
+     *
      * @return mixed
      */
     public function restore(User $user, CheckPoint $checkpoint)
     {
-        //
     }
 
     /**
      * Determine whether the user can permanently delete the check point.
      *
      * @param  \App\Models\User $user
-     * @param CheckPoint $checkpoint
+     * @param \App\Models\CheckPoint $checkpoint
+     *
      * @return mixed
      */
     public function forceDelete(User $user, CheckPoint $checkpoint)
     {
-        //
     }
 }

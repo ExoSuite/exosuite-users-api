@@ -1,33 +1,32 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Laravel\Passport\ClientRepository;
 
 /**
  * Class StagingController
+ *
  * @package App\Http\Controllers
  */
 class StagingController extends Controller
 {
-    /**
-     * @var ClientRepository
-     */
+
+    /** @var \Laravel\Passport\ClientRepository */
     private $clientRepository;
 
     /**
      * StagingController constructor.
-     * @param ClientRepository $clientRepository
+     *
+     * @param \Laravel\Passport\ClientRepository $clientRepository
      */
     public function __construct(ClientRepository $clientRepository)
     {
         $this->clientRepository = $clientRepository;
     }
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function get()
+    public function get(): JsonResponse
     {
         // create new passport client
         $client = $this->clientRepository->createPasswordGrantClient(
@@ -38,7 +37,7 @@ class StagingController extends Controller
 
         return $this->created([
             'client_id' => $client->id,
-            'client_secret' => $client->secret
+            'client_secret' => $client->secret,
         ]);
     }
 }

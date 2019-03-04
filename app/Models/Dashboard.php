@@ -1,47 +1,42 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Dashboard
+ *
  * @package App\Models
  */
 class Dashboard extends Model
 {
     use Uuids;
 
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'id';
-
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $incrementing = false;
 
-    /**
-     * @var array
-     */
+    /** @var string */
+    protected $primaryKey = 'id';
+
+    /** @var string[] */
     protected $fillable = [
-        'id', 'owner_id', 'restriction', 'created_at', 'updated_at'
+        'id',
+        'owner_id',
+        'restriction',
+        'created_at',
+        'updated_at',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function posts()
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'id');
     }

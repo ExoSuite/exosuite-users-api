@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -9,17 +10,17 @@
 namespace App\Models\Traits;
 
 use App\Models\Share;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * Trait Shareable
+ *
  * @package App\Models\Traits
  */
 trait Shareable
 {
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function share()
+
+    public function share(): MorphMany
     {
         return $this->morphMany(
             Share::class,

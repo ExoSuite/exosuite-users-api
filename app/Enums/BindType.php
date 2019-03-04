@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Enums;
 
@@ -6,15 +6,16 @@ use BenSampo\Enum\Enum;
 
 /**
  * Class BindType
+ *
  * @package App\Enums
  */
 final class BindType extends Enum
 {
+
     const GROUP = "group";
     const MESSAGE = "message";
     const NOTIFICATION = "notification";
     const USER = "user";
-    const UUID = "uuid";
     const DASHBOARD = "dashboard";
     const POST = "post";
     const COMMENTARY = "commentary";

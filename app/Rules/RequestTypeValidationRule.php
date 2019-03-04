@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Rules;
 
@@ -7,10 +7,12 @@ use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Class RequestTypeValidationRule
+ *
  * @package App\Rules
  */
 class RequestTypeValidationRule implements Rule
 {
+
     /**
      * Create a new rule instance.
      *
@@ -18,7 +20,6 @@ class RequestTypeValidationRule implements Rule
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -26,9 +27,10 @@ class RequestTypeValidationRule implements Rule
      *
      * @param  string $attribute
      * @param  mixed $value
+     *
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         return RequestTypesEnum::hasValue($value);
     }
@@ -38,7 +40,7 @@ class RequestTypeValidationRule implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'Unknown request type provided.';
     }

@@ -1,51 +1,46 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Models\Abstracts\UuidModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class GroupMember
+ *
  * @property bool $is_admin
  * @package App\Models
  */
 class GroupMember extends UuidModel
 {
-    /**
-     * @var array
-     */
+
+    /** @var string[] */
     protected $fillable = [
-        'id', 'group_id', 'user_id', 'is_admin', 'created_at', 'updated_at'
+        'id',
+        'group_id',
+        'user_id',
+        'is_admin',
+        'created_at',
+        'updated_at',
     ];
 
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $hidden = [
-        'id'
+        'id',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function group()
+    public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * @return bool
-     */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
-        return $this->is_admin;
+        return (bool) $this->is_admin;
     }
 }

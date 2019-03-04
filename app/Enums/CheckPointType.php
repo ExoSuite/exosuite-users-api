@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Enums;
 
@@ -6,10 +6,12 @@ use BenSampo\Enum\Enum;
 
 /**
  * Class CheckPointType define type of a \App\Models\CheckPoint
+ *
  * @package App\Enums
  */
 final class CheckPointType extends Enum
 {
+
     /**
      * start of the Run
      */

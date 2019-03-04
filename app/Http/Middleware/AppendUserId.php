@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
@@ -9,14 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AppendUserId
+ *
  * @package App\Http\Middleware
  */
 class AppendUserId
 {
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public static $key = "requester_user_id";
 
     /**
@@ -24,6 +23,7 @@ class AppendUserId
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next
+     *
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
@@ -43,6 +43,6 @@ class AppendUserId
             return $next($request);
         }
 
-        throw new AuthenticationException();
+        throw new AuthenticationException;
     }
 }

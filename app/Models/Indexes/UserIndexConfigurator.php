@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models\Indexes;
 
@@ -7,16 +7,14 @@ use ScoutElastic\Migratable;
 
 /**
  * Class UserIndexConfigurator
+ *
  * @package App\Models\Indexes
  */
 class UserIndexConfigurator extends IndexConfigurator
 {
+
     use Migratable;
 
-    /**
-     * @var array
-     */
-    protected $settings = [
-        //
-    ];
+    /** @var string[] */
+    protected $settings = [];
 }

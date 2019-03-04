@@ -1,23 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Requests\CheckPoint;
 
-use App\Models\CheckPoint;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
+use App\Models\CheckPoint;
 use Illuminate\Support\Facades\Auth;
-
 
 class DeleteCheckPointRequest extends RouteParamRequestUuidToId
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         $checkpoint = CheckPoint::whereId($this->id());
+
         return $checkpoint->firstOrFail()->creator_id === Auth::id();
     }
 
@@ -26,10 +26,8 @@ class DeleteCheckPointRequest extends RouteParamRequestUuidToId
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 }

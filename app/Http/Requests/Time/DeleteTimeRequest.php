@@ -1,34 +1,38 @@
-<?php
+<?php declare(strict_types = 1);
 
-namespace App\Http\Requests\Time;
+namespace App\Http\Requests\Run;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
+use App\Models\Run;
 use Illuminate\Support\Facades\Auth;
 
-
-class DeleteTimeRequest extends RouteParamRequestUuidToId
+/**
+ * Class DeleteRunRequest
+ *
+ * @package App\Http\Requests\Run
+ */
+class DeleteRunRequest extends RouteParamRequestUuidToId
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        $time = Time::whereId($this->id());
-        return $time->firstOrFail()->creator_id === Auth::id();
+        $run = Run::whereId($this->id());
+
+        return $run->firstOrFail()->creator_id === Auth::id();
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return mixed[]
      */
-    public function rules()
+    public function rules(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 }
