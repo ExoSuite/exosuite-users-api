@@ -45,7 +45,7 @@ class CheckPointPolicy
      */
     public function update(User $user, CheckPoint $checkpoint)
     {
-        return $user->id === $checkpoint->run()->get()->creator_id;
+       // return $user->id === $checkpoint->run()->first()->creator_id;
     }
 
     /**
@@ -57,7 +57,7 @@ class CheckPointPolicy
      */
     public function delete(User $user, CheckPoint $checkpoint)
     {
-        return $user->id === $checkpoint->run()->get()->creator_id;
+        // return $user->id === $checkpoint->run()->get()->creator_id;
     }
 
     /**

@@ -58,11 +58,10 @@ class ShareRunController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Http\Requests\Run\GetShareRunRequest $request
      * @param \Webpatser\Uuid\Uuid $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(GetShareRunRequest $request, Uuid $id): JsonResponse
+    public function show(Uuid $id): JsonResponse
     {
         return $this->ok(
             SharedRunResource::make(
