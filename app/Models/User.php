@@ -128,7 +128,6 @@ class User extends \Illuminate\Foundation\Auth\User
      * Checks if User has access to $permissions.
      *
      * @param string[] $permissions
-     *
      * @return bool
      */
     public function hasAccess(array $permissions): bool
@@ -155,7 +154,6 @@ class User extends \Illuminate\Foundation\Auth\User
      * Checks if the user belongs to role.
      *
      * @param string $roleSlug
-     *
      * @return bool
      */
     public function inRole(string $roleSlug): bool
