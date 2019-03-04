@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers\CheckPoint;
 
@@ -34,7 +34,6 @@ class CheckPointController extends Controller
      *
      * @param \App\Http\Requests\CheckPoint\CreateCheckPointRequest $request
      * @param \App\Models\Run $run
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateCheckPointRequest $request, Run $run): JsonResponse
@@ -54,12 +53,11 @@ class CheckPointController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Run $run
      * @param \App\Models\CheckPoint $checkPointParam
-     *
+     * @param \App\Models\Run $run
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Run $run, CheckPoint $checkPointParam): JsonResponse
+    public function show(CheckPoint $checkPointParam, Run $run): JsonResponse
     {
         $checkpoint = CheckPoint::findOrFail($checkPointParam->id);
 
@@ -71,7 +69,6 @@ class CheckPointController extends Controller
      *
      * @param \App\Http\Requests\CheckPoint\UpdateCheckPointRequest $request
      * @param \App\Models\CheckPoint $checkpoint
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateCheckPointRequest $request, CheckPoint $checkpoint): JsonResponse
@@ -86,7 +83,6 @@ class CheckPointController extends Controller
      *
      * @param \App\Models\Run $run
      * @param \App\Models\CheckPoint $checkpoint
-     *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

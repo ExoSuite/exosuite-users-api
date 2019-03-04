@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Http\Requests\CheckPoint;
 
@@ -20,7 +20,7 @@ class GetCheckPointRequest extends RouteParamRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return mixed[]
      */
     public function rules(): array
     {

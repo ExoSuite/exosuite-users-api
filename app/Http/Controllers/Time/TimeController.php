@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers\Time;
 
@@ -27,7 +27,6 @@ class TimeController extends Controller
      *
      * @param \App\Http\Requests\Time\CreateTimeRequest $request
      * @param \App\Models\CheckPoint $checkpoint
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateTimeRequest $request, CheckPoint $checkpoint): JsonResponse
@@ -43,7 +42,6 @@ class TimeController extends Controller
      *
      * @param \App\Http\Requests\Time\UpdateTimeRequest $request
      * @param \App\Models\Time $time
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateTimeRequest $request, Time $time): JsonResponse
@@ -58,7 +56,6 @@ class TimeController extends Controller
      *
      * @param \App\Http\Requests\Time\DeleteTimeRequest $request
      * @param \App\Models\Time $time
-     *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

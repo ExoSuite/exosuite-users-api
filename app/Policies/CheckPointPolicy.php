@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Policies;
 
@@ -20,7 +20,6 @@ class CheckPointPolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\CheckPoint $checkPoint
-     *
      * @return mixed
      */
     public function view(User $user, CheckPoint $checkPoint)
@@ -42,7 +41,6 @@ class CheckPointPolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\CheckPoint $checkpoint
-     *
      * @return mixed
      */
     public function update(User $user, CheckPoint $checkpoint)
@@ -55,7 +53,6 @@ class CheckPointPolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\CheckPoint $checkpoint
-     *
      * @return mixed
      */
     public function delete(User $user, CheckPoint $checkpoint)
@@ -68,7 +65,6 @@ class CheckPointPolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\CheckPoint $checkpoint
-     *
      * @return mixed
      */
     public function restore(User $user, CheckPoint $checkpoint)
@@ -80,7 +76,6 @@ class CheckPointPolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\CheckPoint $checkpoint
-     *
      * @return mixed
      */
     public function forceDelete(User $user, CheckPoint $checkpoint)

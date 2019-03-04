@@ -1,10 +1,8 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace App\Http\Requests\Time;
 
 use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
-use App\Models\Time;
-use Illuminate\Support\Facades\Auth;
 
 class UpdateTimeRequest extends RouteParamRequestUuidToId
 {
@@ -16,15 +14,16 @@ class UpdateTimeRequest extends RouteParamRequestUuidToId
      */
     public function authorize(): bool
     {
-        $time = Time::whereId($this->id());
+        /*$time = Time::whereId($this->id());
 
-        return $time->firstOrFail()->creator_id === Auth::id();
+        return $time->firstOrFail()->creator_id === Auth::id();*/
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return mixed[]
      */
     public function rules(): array
     {

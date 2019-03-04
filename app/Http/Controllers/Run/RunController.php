@@ -47,7 +47,6 @@ class RunController extends Controller
      *
      * @param \App\Http\Requests\Run\UpdateRunRequest $request
      * @param \App\Models\Run $run
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateRunRequest $request, Run $run): JsonResponse
@@ -62,7 +61,6 @@ class RunController extends Controller
      *
      * @param \App\Http\Requests\Run\DeleteRunRequest $request
      * @param \App\Models\Run $run
-     *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

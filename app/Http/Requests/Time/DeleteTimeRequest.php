@@ -1,17 +1,15 @@
 <?php declare(strict_types = 1);
 
-namespace App\Http\Requests\Run;
+namespace App\Http\Requests\Time;
 
-use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
-use App\Models\Run;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class DeleteRunRequest
  *
- * @package App\Http\Requests\Run
+ * @package App\Http\Requests\Time
  */
-class DeleteRunRequest extends RouteParamRequestUuidToId
+class DeleteTimeRequest extends FormRequest
 {
 
     /**
@@ -21,9 +19,7 @@ class DeleteRunRequest extends RouteParamRequestUuidToId
      */
     public function authorize(): bool
     {
-        $run = Run::whereId($this->id());
-
-        return $run->firstOrFail()->creator_id === Auth::id();
+        return true;
     }
 
     /**
