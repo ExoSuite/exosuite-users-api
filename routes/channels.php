@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 use App\Models\Group;
 use App\Models\User;
@@ -20,8 +20,7 @@ Broadcast::channel('users.{id}', static function ($user, $id) {
 });
 
 Broadcast::channel('group.{group}', static function (User $user, Group $group) {
-    if ($group->groupMembers()->whereUserId($user->id)->exists()) {
+    if ($group->groupMembers()->whereUserId($user->id)->exists())
         return $group;
-    }
     return false;
 });
