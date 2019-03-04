@@ -1,15 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace App\Http\Requests\Run;
+namespace App\Http\Requests\Time;
 
-use App\Http\Requests\Abstracts\RouteParamRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * Class GetRunRequest
- *
- * @package App\Http\Requests\Run
- */
-class GetRunRequest extends RouteParamRequest
+class CreateTimeRequest extends FormRequest
 {
 
     /**
@@ -30,7 +25,9 @@ class GetRunRequest extends RouteParamRequest
     public function rules(): array
     {
         return [
-            'id' => 'exists:runs',
+            'run_id' => 'required|uuid|exists:run,id',
+            'interval' => 'required|unsignedTinyInteger|max:255',
+            'checkpoint_id' => 'required|uuid|exist:check_points,id',
         ];
     }
 }

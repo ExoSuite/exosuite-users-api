@@ -120,14 +120,6 @@ class RunTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    public function testGetRunById(): void
-    {
-        Passport::actingAs($this->user);
-        $this->run = factory(Run::class)->create();
-        $response = $this->get($this->route('get_run_by_id', [$this->run->id]));
-        $response->assertStatus(Response::HTTP_OK);
-    }
-
     protected function setUp(): void
     {
         parent::setUp();

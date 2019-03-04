@@ -14,10 +14,9 @@ use App\Models\Notification;
 use App\Models\PendingRequest;
 use App\Models\Post;
 use App\Models\Run;
+use App\Models\Time;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Webpatser\Uuid\Uuid;
 use function base_path;
 
 /**
@@ -46,13 +45,6 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
     {
         parent::boot();
 
-        Route::bind(BindType::UUID, static function ($uuid) {
-            if (Uuid::validate($uuid)) {
-                return Uuid::import($uuid);
-            }
-
-            throw new UnprocessableEntityHttpException('Bad uuid');
-        });
         Route::model(BindType::GROUP, Group::class);
         Route::model(BindType::MESSAGE, Message::class);
         Route::model(BindType::NOTIFICATION, Notification::class);
@@ -64,7 +56,8 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
         Route::model(BindType::POST, Post::class);
         Route::model(BindType::COMMENTARY, Commentary::class);
         Route::model(BindType::RUN, Run::class);
-        Route::bind('checkpoint_id', CheckPoint::class);
+        Route::model(BindType::CHECKPOINT, CheckPoint::class);
+        Route::model(BindType::TIME, Time::class);
     }
 
 

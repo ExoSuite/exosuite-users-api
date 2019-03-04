@@ -1,15 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace App\Http\Requests\Run;
+namespace App\Http\Requests\CheckPoint;
 
-use App\Http\Requests\Abstracts\RouteParamRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * Class GetShareRunRequest
- *
- * @package App\Http\Requests\Run
- */
-class GetShareRunRequest extends RouteParamRequest
+class DeleteCheckPointRequest extends FormRequest
 {
 
     /**
@@ -19,7 +14,7 @@ class GetShareRunRequest extends RouteParamRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -29,8 +24,6 @@ class GetShareRunRequest extends RouteParamRequest
      */
     public function rules(): array
     {
-        return [
-            'id' => 'exists:shares',
-        ];
+        return [];
     }
 }

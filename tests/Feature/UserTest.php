@@ -31,7 +31,6 @@ class UserTest extends TestCase
 
     public function testLoginMustReturnTokens(): void
     {
-        Artisan::call('passport:install');
         $response = $this->json(
             Request::METHOD_POST,
             route('login'),
@@ -93,6 +92,7 @@ class UserTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        Artisan::call('passport:install');
         /** @var \App\Models\User $userData */
         $user = factory(User::class)->make();
         /** @var array $userData */
