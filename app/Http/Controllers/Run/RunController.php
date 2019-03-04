@@ -59,12 +59,11 @@ class RunController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Http\Requests\Run\DeleteRunRequest $request
      * @param \App\Models\Run $run
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */
-    public function destroy(DeleteRunRequest $request, Run $run): JsonResponse
+    public function destroy(Run $run): JsonResponse
     {
         $run->delete();
 
