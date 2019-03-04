@@ -19,6 +19,8 @@ class Time extends UuidModel
     protected $fillable = [
         'id',
         'interval',
+        'checkpoint_id',
+        'run_id',
     ];
 
     public function checkPoint(): BelongsTo

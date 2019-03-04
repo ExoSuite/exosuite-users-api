@@ -1,24 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Requests\CheckPoint;
 
-use App\Models\CheckPoint;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
-use Illuminate\Support\Facades\Auth;
+use App\Models\CheckPoint;
 use App\Rules\CheckPointTypeRule;
-
+use Illuminate\Support\Facades\Auth;
 
 class UpdateCheckPointRequest extends RouteParamRequestUuidToId
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         $checkpoint = CheckPoint::whereId($this->id());
+
         return $checkpoint->firstOrFail()->creator_id === Auth::id();
     }
 
@@ -27,12 +27,12 @@ class UpdateCheckPointRequest extends RouteParamRequestUuidToId
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'type' => ['required', 'string', new CheckPointTypeRule()],
+            'type' => ['required', 'string', new CheckPointTypeRule],
             'location' => 'required|polygon|max:255',
-            'run_id' => 'required|uuid|exists:run,id'
+            'run_id' => 'required|uuid|exists:run,id',
         ];
     }
 }

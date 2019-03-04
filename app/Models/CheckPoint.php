@@ -25,6 +25,7 @@ class CheckPoint extends UuidModel
         'id',
         'type',
         'location',
+        "run_id",
     ];
 
     /** @var string[] */

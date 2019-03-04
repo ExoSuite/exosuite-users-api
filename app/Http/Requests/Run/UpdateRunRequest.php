@@ -2,17 +2,15 @@
 
 namespace App\Http\Requests\Run;
 
-use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
-use App\Models\Run;
 use App\Rules\RunVisibilityRule;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class UpdateRunRequest
  *
  * @package App\Http\Requests\Run
  */
-class UpdateRunRequest extends RouteParamRequestUuidToId
+class UpdateRunRequest extends FormRequest
 {
 
     /**
@@ -22,9 +20,10 @@ class UpdateRunRequest extends RouteParamRequestUuidToId
      */
     public function authorize(): bool
     {
-        $run = Run::whereId($this->id());
-
-        return $run->firstOrFail()->creator_id === Auth::id();
+        /* $run = Run::whereId($this->id());
+        TODO : MOVE TO POLICY
+        return $run->firstOrFail()->creator_id === Auth::id();*/
+        return true;
     }
 
     /**

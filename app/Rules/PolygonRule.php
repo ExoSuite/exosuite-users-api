@@ -2,9 +2,12 @@
 
 namespace App\Rules;
 
-use App\Models\User;
-use Phaza\LaravelPostgis\Geometries\Polygon;
+use App\Models\CheckPoint;
 use Illuminate\Contracts\Validation\Rule;
+use GuzzleHttp\Client;
+use Phaza\LaravelPostgis\Geometries\Polygon;
+use Phaza\LaravelPostgis\Geometries\Point;
+use Phaza\LaravelPostgis\Geometries\LineString;
 
 /**
  * Class PolygonRule
@@ -27,11 +30,12 @@ class PolygonRule implements Rule
      *
      * @param  string $attribute
      * @param  mixed $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
     {
-        return $value instanceof Polygon;
+        return (count($value) >= 5);
     }
 
     /**
