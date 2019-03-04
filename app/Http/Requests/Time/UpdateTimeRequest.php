@@ -28,9 +28,7 @@ class UpdateTimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'run_id' => 'required|uuid|exists:run,id',
             'interval' => 'required|unsignedTinyInteger|max:255',
-            'checkpoint_id' => 'required|uuid|exist:check_points,id',
         ];
     }
 }
