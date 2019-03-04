@@ -124,7 +124,7 @@ class LoginController extends Controller
 
         return ApiHelper::OAuth()->passwordGrant(
             $user,
-            $request->get('client_id'),
+            intval($request->get('client_id')),
             $request->get('client_secret')
         );
     }

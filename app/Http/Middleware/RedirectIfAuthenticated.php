@@ -27,7 +27,7 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, ?string $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            return redirect(route('horizon.monitoring.index'));
         }
 
         return $next($request);

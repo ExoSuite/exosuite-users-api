@@ -51,6 +51,7 @@ Route::middleware('auth:api')->group(static function (): void {
                 Route::post('/accept', 'RelationsController@acceptRequest')->name('post_accept_friendship_request');
                 Route::post('/decline', 'RelationsController@declineRequest')->name('post_decline_friendship_request');
             });
+            Route::get('/groups', 'User\UserController@groups')->name('get_my_groups');
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');

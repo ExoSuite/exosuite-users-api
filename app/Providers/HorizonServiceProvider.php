@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\Roles;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
 use function app;
 
@@ -36,6 +37,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     public function register(): void
     {
+        Horizon::night();
     }
 
     /**

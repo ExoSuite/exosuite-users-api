@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1);
 
 use App\Models\Group;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,10 @@ Broadcast::channel('users.{id}', static function ($user, $id) {
     return $user->id === $id;
 });
 
-Broadcast::channel('group.{group_id}', static function ($user, Group $group) {
-    return $group->groupMembers()->whereUserId($user)->exists();
+Broadcast::channel('group.{group}', static function (User $user, Group $group) {
+    if ($group->groupMembers()->whereUserId($user->id)->exists()) {
+        return $group;
+    }
+
+    return false;
 });

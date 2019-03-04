@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UserSearchRequest;
+use App\Models\GroupMember;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -34,5 +35,10 @@ class UserController extends Controller
         $users = User::search($request->text)->with('profile')->paginate();
 
         return $this->ok($users);
+    }
+
+    public function groups(): string
+    {
+        return GroupMember::whereUserId(Auth::id())->get()->toJson();
     }
 }

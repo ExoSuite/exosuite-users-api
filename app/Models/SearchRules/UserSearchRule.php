@@ -15,13 +15,6 @@ class UserSearchRule extends SearchRule
     /**
      * @inheritdoc
      */
-    public function buildHighlightPayload()
-    {
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function buildQueryPayload()
     {
         $query = $this->builder->query;
