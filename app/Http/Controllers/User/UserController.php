@@ -37,7 +37,7 @@ class UserController extends Controller
         return $this->ok($users);
     }
 
-    public function groups(): JsonResponse
+    public function groups(): string
     {
         return GroupMember::whereUserId(Auth::id())->get()->toJson();
     }
