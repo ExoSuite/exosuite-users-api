@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Time;
 
-use App\Http\Requests\Abstracts\RouteParamRequestUuidToId;
+use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTimeRequest extends RouteParamRequestUuidToId
+class UpdateTimeRequest extends FormRequest
 {
 
     /**
