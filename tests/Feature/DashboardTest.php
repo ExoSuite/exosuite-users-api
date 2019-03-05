@@ -57,6 +57,6 @@ class DashboardTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
+        factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
     }
 }

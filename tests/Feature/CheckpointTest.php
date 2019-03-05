@@ -7,6 +7,8 @@ use App\Enums\CheckPointType;
 use App\Models\CheckPoint;
 use App\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -32,8 +34,8 @@ class CheckpointTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->post($this->route('post_run'), [
-            "name" => str_random(30),
-            "description" => str_random(255),
+            "name" => Str::random(30),
+            "description" => Str::random(255),
         ]);
         $run_id = $response->decodeResponseJson('id');
         $response = $this->post(
@@ -43,7 +45,7 @@ class CheckpointTest extends TestCase
         );
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new CheckPoint)->getFillable());
-        $this->assertDatabaseHas("check_points", array_except($response->decodeResponseJson(), "location"));
+        $this->assertDatabaseHas("check_points", Arr::except($response->decodeResponseJson(), "location"));
     }
 
     /*
@@ -52,8 +54,8 @@ class CheckpointTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->post($this->route('post_run'), [
-            "name" => str_random(30),
-            "description" => str_random(255),
+            "name" => Str::random(30),
+            "description" => Str::random(255),
         ]);
         $run_id = $response->decodeResponseJson('id');
         $response = $this->post(
@@ -83,8 +85,8 @@ class CheckpointTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->post($this->route('post_run'), [
-            "name" => str_random(30),
-            "description" => str_random(255),
+            "name" => Str::random(30),
+            "description" => Str::random(255),
         ]);
         $run_id = $response->decodeResponseJson('id');
         $response = $this->post(
@@ -103,8 +105,8 @@ class CheckpointTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->post($this->route('post_run'), [
-            "name" => str_random(30),
-            "description" => str_random(255),
+            "name" => Str::random(30),
+            "description" => Str::random(255),
         ]);
         $run_id = $response->decodeResponseJson('id');
         $response = $this->post(

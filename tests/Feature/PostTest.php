@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -36,7 +37,7 @@ class PostTest extends TestCase
         $response = $this->post(route('post_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
-        ]), ['content' => str_random(10)]);
+        ]), ['content' => Str::random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Post)->getFillable());
         $this->assertDatabaseHas('posts', $response->decodeResponseJson());
@@ -45,11 +46,11 @@ class PostTest extends TestCase
     public function testUpdate(): void
     {
         Passport::actingAs($this->user);
-        $content = str_random(10);
+        $content = Str::random(10);
         $post = factory(Post::class)->create([
             'dashboard_id' => $this->dashboard->id,
             'author_id' => $this->user->id,
-            'content' => str_random(10),
+            'content' => Str::random(10),
         ]);
         $response = $this->patch(route('patch_Post', [
             'user' => $this->user->id,
@@ -65,7 +66,7 @@ class PostTest extends TestCase
         Passport::actingAs($this->user);
         $postResponse = $this->post(route('post_Post', [
             'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id]), ['content' => str_random(10)]);
+            'dashboard' => $this->dashboard->id]), ['content' => Str::random(10)]);
         $response = $this->delete(route('delete_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
@@ -83,7 +84,7 @@ class PostTest extends TestCase
             factory(Post::class)->create([
                 'dashboard_id' => $this->dashboard->id,
                 'author_id' => $this->user->id,
-                'content' => str_random(10),
+                'content' => Str::random(10),
             ]);
         }
 
@@ -101,6 +102,5 @@ class PostTest extends TestCase
 
         $this->user = factory(User::class)->create();
         $this->dashboard = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-        $this->user1 = factory(User::class)->create();
     }
 }

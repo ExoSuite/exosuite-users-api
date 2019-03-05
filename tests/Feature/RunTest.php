@@ -7,9 +7,9 @@ use App\Models\Run;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Support\Str;
 
 /**
  * Class RunTest

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -40,7 +41,7 @@ class LoginUserUnitTest extends TestCase
     }
 
     /**
-     * @param string[] $data
+     * @param mixed[] $data
      * @param int $status
      * @return \Illuminate\Foundation\Testing\TestResponse
      */
@@ -71,7 +72,7 @@ class LoginUserUnitTest extends TestCase
                 'email' => $this->user->email,
                 'password' => $this->user->getAuthPassword(),
                 'client_id' => rand(0, 10),
-                'client_secret' => str_random(),
+                'client_secret' => Str::random(),
             ],
             Response::HTTP_UNPROCESSABLE_ENTITY
         );

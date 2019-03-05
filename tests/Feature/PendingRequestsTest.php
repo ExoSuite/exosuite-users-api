@@ -67,7 +67,7 @@ class PendingRequestsTest extends TestCase
 
         Passport::actingAs($this->user);
         $response = $this->get(route('get_my_pending_request'));
-        $response->decodeResponseJson(Response::HTTP_OK);
+        $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(3, count($response->decodeResponseJson()));
     }
 

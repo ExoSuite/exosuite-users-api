@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models\Dashboard;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -49,6 +48,5 @@ class DashboardUnitTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
     }
 }

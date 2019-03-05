@@ -7,6 +7,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -54,7 +56,7 @@ class RegisterUserUnitTest extends TestCase
         $userData = $user->toArray();
         $userData['password'] = $user->password;
         $userData['password_confirmation'] = $user->password;
-        $userData = array_except($userData, ['password_confirmation']);
+        $userData = Arr::except($userData, ['password_confirmation']);
 
         $data = array_keys($userData);
 
@@ -66,7 +68,7 @@ class RegisterUserUnitTest extends TestCase
         $data = ['password_confirmation' => $userData['password']];
         $this->request(['password'], $data);
 
-        $userData['password_confirmation'] = str_random();
+        $userData['password_confirmation'] = Str::random();
         $this->request(['password'], $userData);
     }
 }

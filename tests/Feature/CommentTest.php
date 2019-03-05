@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -44,7 +45,7 @@ class CommentTest extends TestCase
                 'dashboard' => $this->dash->id,
                 'post' => $this->post->id,
             ]
-        ), ['content' => str_random(10)]);
+        ), ['content' => Str::random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Commentary)->getFillable());
         $this->assertDatabaseHas('commentaries', $response->decodeResponseJson());
@@ -58,7 +59,7 @@ class CommentTest extends TestCase
             factory(Commentary::class)->create([
                 'post_id' => $this->post->id,
                 'author_id' => $this->user->id,
-                'content' => str_random(10)]);
+                'content' => Str::random(10)]);
         }
 
         $response = $this->get(route('get_commentaries_by_post_id', [
@@ -73,12 +74,12 @@ class CommentTest extends TestCase
     public function testUpdateComm(): void
     {
         Passport::actingAs($this->user);
-        $content = str_random(10);
+        $content = Str::random(10);
         $comm = factory(Commentary::class)->create(
             [
                 'post_id' => $this->post->id,
                 'author_id' => $this->user->id,
-                'content' => str_random(10),
+                'content' => Str::random(10),
             ]
         );
 
@@ -111,7 +112,7 @@ class CommentTest extends TestCase
                 'dashboard' => $this->dash->id,
                 'post' => $this->post->id,
             ]),
-            ['content' => str_random(10)]
+            ['content' => Str::random(10)]
         );
         $response = $this->delete(
             route(
@@ -135,6 +136,6 @@ class CommentTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
         $this->post = factory(Post::class)
-            ->create(['author_id' => $this->user->id, 'dashboard_id' => $this->dash->id, 'content' => str_random(10)]);
+            ->create(['author_id' => $this->user->id, 'dashboard_id' => $this->dash->id, 'content' => Str::random(10)]);
     }
 }

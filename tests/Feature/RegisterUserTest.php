@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -43,12 +45,12 @@ class RegisterUserTest extends TestCase
         }
 
         if ($with_nick_name) {
-            $userData['nick_name'] = str_random();
+            $userData['nick_name'] = Str::random();
         }
 
         $response = $this->json(Request::METHOD_POST, route('register'), $userData);
         $response->assertStatus(Response::HTTP_CREATED);
-        $userData = array_except($userData, ['password_confirmation', 'password', 'with_user']);
+        $userData = Arr::except($userData, ['password_confirmation', 'password', 'with_user']);
 
         if ($with_user) {
             $structure = [

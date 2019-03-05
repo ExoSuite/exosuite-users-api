@@ -10,6 +10,7 @@ use Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -64,7 +65,7 @@ class ProtectedRoutesTest extends TestCase
 
         $response = $this->post(
             $this->route('post_message', [BindType::GROUP => $group->id]),
-            ['contents' => str_random(10)]
+            ['contents' => Str::random()]
         );
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
