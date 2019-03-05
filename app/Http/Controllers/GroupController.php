@@ -26,7 +26,7 @@ use function trans;
 class GroupController extends Controller
 {
 
-    /** @var $updateFunctions */
+    /** @var array<string> */
     public $updateFunctions;
 
     public function __construct()
