@@ -15,7 +15,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use function app;
-use function array_push;
 use function collect;
 use function str_replace;
 use function trans;
@@ -121,10 +120,10 @@ class GroupController extends Controller
         $data = [];
         $data['group_name'] = $group->name;
         $group_members = $group->groupMembers()->get();
-        $members = [];
+        $members = collect();
 
         foreach ($group_members as $member) {
-            array_push($members, $member);
+            $members->push($member);
         }
 
         $data['group_members'] = $members;
