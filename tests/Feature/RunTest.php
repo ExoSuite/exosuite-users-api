@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Enums\Visibility;
 use App\Models\Run;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class RunTest extends TestCase
 {
-    use RefreshDatabase;
 
     /** @var \App\Models\User */
     private $user;

@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -16,7 +15,6 @@ use Webpatser\Uuid\Uuid;
  */
 class FriendshipsUnitTest extends TestCase
 {
-    use RefreshDatabase;
 
     /** @var \App\Models\User */
     private $user;

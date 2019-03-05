@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\User;
 use App\Models\UserProfile;
 use Artisan;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,7 +19,7 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
+
     use WithFaker;
 
     /** @var \App\Models\User */
@@ -92,7 +91,6 @@ class UserTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        Artisan::call('passport:install');
         /** @var \App\Models\User $userData */
         $user = factory(User::class)->make();
         /** @var array $userData */

@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -15,7 +14,6 @@ use Tests\TestCase;
  */
 class RegisterUserTest extends TestCase
 {
-    use RefreshDatabase;
 
     public function testRegisterUserWithReturnedUser(): void
     {

@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
@@ -16,7 +15,7 @@ use Tests\TestCase;
  */
 class UserSearchTest extends TestCase
 {
-    use RefreshDatabase;
+
     use WithFaker;
 
     /** @var \App\Models\User */

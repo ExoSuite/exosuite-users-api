@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\Enums\BindType;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -17,7 +16,6 @@ use Webpatser\Uuid\Uuid;
  */
 class GroupTest extends TestCase
 {
-    use RefreshDatabase;
 
     /** @var \App\Models\User */
     private $user1;

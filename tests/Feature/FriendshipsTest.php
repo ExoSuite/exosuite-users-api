@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Friendship;
 use App\Models\PendingRequest;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -17,7 +16,6 @@ use Tests\TestCase;
  */
 class FriendshipsTest extends TestCase
 {
-    use RefreshDatabase;
 
     /** @var \App\Models\User */
     private $user;
