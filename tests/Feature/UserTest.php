@@ -4,10 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use App\Models\UserProfile;
+use Artisan;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Client;
+use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -18,7 +22,7 @@ use Tests\TestCase;
  */
 class UserTest extends TestCase
 {
-
+    use RefreshDatabase;
     use WithFaker;
 
     /** @var \App\Models\User */
@@ -29,14 +33,17 @@ class UserTest extends TestCase
 
     public function testLoginMustReturnTokens(): void
     {
+        $clientRepository = new ClientRepository;
+        $client = $clientRepository->createPasswordGrantClient(null, Str::random(), "http://localhost");
+
         $response = $this->json(
             Request::METHOD_POST,
             route('login'),
             [
                 'email' => $this->user->email,
                 'password' => $this->userPassword,
-                'client_id' => 2,
-                'client_secret' => Client::whereId(2)->first()->secret,
+                'client_id' => $client->id,
+                'client_secret' => $client->secret,
             ]
         );
         $response->assertStatus(Response::HTTP_OK);
@@ -83,8 +90,7 @@ class UserTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $nickname = str_random();
-        $response = $this->patch(route('patch_user'), ['nick_name', "{$this->faker->name}{$nickname}"]);
+        $response = $this->patch(route('patch_user'), ['nick_name', $this->faker->name]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 

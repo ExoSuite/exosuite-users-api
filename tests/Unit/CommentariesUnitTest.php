@@ -6,6 +6,7 @@ use App\Models\Commentary;
 use App\Models\Dashboard;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -18,6 +19,7 @@ use Webpatser\Uuid\Uuid;
  */
 class CommentariesUnitTest extends TestCase
 {
+    use RefreshDatabase;
 
     /** @var \App\Models\User */
     private $user;

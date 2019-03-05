@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\User;
 use Artisan;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -18,6 +19,7 @@ use Tests\TestCase;
  */
 class ProtectedRoutesTest extends TestCase
 {
+    use RefreshDatabase;
 
     /**
      * A basic test example.

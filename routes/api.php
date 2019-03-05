@@ -1,5 +1,6 @@
 <?php declare(strict_types = 1);
 
+use App\Models\User;
 use App\Notifications\FollowNotification;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
@@ -230,7 +231,7 @@ if (!App::environment('production')) {
 if (App::environment('local')) {
     Route::get('test', static function () {
         Notification::send(
-            App\Models\User::all(),
+            User::all(),
             new FollowNotification
         );
 

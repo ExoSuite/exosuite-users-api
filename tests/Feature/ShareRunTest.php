@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Run;
 use App\Models\Share;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
@@ -17,6 +18,7 @@ use Tests\TestCase;
  */
 class ShareRunTest extends TestCase
 {
+    use RefreshDatabase;
 
     /** @var \App\Models\Run */
     private $run;

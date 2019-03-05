@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\Restriction;
 use App\Models\Dashboard;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -16,6 +17,7 @@ use Tests\TestCase;
  */
 class DashboardTest extends TestCase
 {
+    use RefreshDatabase;
 
     /** @var \App\Models\User */
     private $user;

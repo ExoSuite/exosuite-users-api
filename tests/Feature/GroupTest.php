@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Notifications\DeletedGroupNotification;
 use App\Notifications\ExpelledFromGroupNotification;
 use App\Notifications\NewGroupNotification;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Passport\Passport;
@@ -19,6 +20,7 @@ use Tests\TestCase;
  */
 class GroupTest extends TestCase
 {
+    use RefreshDatabase;
 
     /** @var \App\Models\User */
     private $user1;
@@ -202,21 +204,6 @@ class GroupTest extends TestCase
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         $group_id = $response->decodeResponseJson('id');
         $get_req = $this->get($this->route('get_group', [BindType::GROUP => $group_id]));
-        $get_req->assertStatus(Response::HTTP_OK);
-    }
-
-    public function testGetGroupByUser(): void
-    {
-        Passport::actingAs($this->user1);
-        $response = $this->post(
-            $this->route('post_group'),
-            ['name' => str_random(100), 'users' => [$this->user2->id, $this->user3->id]]
-        );
-        $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
-        $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
-        $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
-        $get_req = $this->get($this->route('get_my_groups'));
         $get_req->assertStatus(Response::HTTP_OK);
     }
 
