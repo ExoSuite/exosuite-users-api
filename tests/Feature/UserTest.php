@@ -83,7 +83,8 @@ class UserTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->patch(route('patch_user'), ['nick_name', $this->faker->name]);
+        $nickname = str_random();
+        $response = $this->patch(route('patch_user'), ['nick_name', "{$this->faker->name}{$nickname}"]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
