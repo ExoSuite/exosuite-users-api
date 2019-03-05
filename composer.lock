@@ -183,16 +183,16 @@
         },
         {
             "name": "bensampo/laravel-enum",
-            "version": "1.17.0",
+          "version": "1.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BenSampo/laravel-enum.git",
-                "reference": "d7db62cbdf803244aba863bc19c76e0f7202b972"
+              "reference": "612ae4c7a986aaf0e3c4666d48731e1f8e2ee19b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BenSampo/laravel-enum/zipball/d7db62cbdf803244aba863bc19c76e0f7202b972",
-                "reference": "d7db62cbdf803244aba863bc19c76e0f7202b972",
+              "url": "https://api.github.com/repos/BenSampo/laravel-enum/zipball/612ae4c7a986aaf0e3c4666d48731e1f8e2ee19b",
+              "reference": "612ae4c7a986aaf0e3c4666d48731e1f8e2ee19b",
                 "shasum": ""
             },
             "require": {
@@ -202,7 +202,7 @@
             "require-dev": {
                 "laravel/framework": "5.8.*",
                 "orchestra/testbench": "3.8.*",
-                "phpunit/phpunit": "8.0.*",
+              "phpunit/phpunit": "7.5.*",
                 "squizlabs/php_codesniffer": "^3.0"
             },
             "type": "library",
@@ -241,7 +241,7 @@
                 "package",
                 "validation"
             ],
-            "time": "2019-03-03T22:46:48+00:00"
+          "time": "2019-03-05T10:29:46+00:00"
         },
         {
             "name": "bosnadev/database",
@@ -1702,16 +1702,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.2",
+          "version": "v5.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "c3b7cbe700efb0f4c9a5359feaedb0a1f0a741ca"
+              "reference": "d36d74acd3added5abbe7e7a84342b54bb0b0521"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/c3b7cbe700efb0f4c9a5359feaedb0a1f0a741ca",
-                "reference": "c3b7cbe700efb0f4c9a5359feaedb0a1f0a741ca",
+              "url": "https://api.github.com/repos/laravel/framework/zipball/d36d74acd3added5abbe7e7a84342b54bb0b0521",
+              "reference": "d36d74acd3added5abbe7e7a84342b54bb0b0521",
                 "shasum": ""
             },
             "require": {
@@ -1845,20 +1845,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-02-27T14:02:36+00:00"
+          "time": "2019-03-05T13:51:19+00:00"
         },
         {
             "name": "laravel/horizon",
-            "version": "v3.0.1",
+          "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "25b3dfeb01a4c6dd06f65689340c5b174a5b04cc"
+              "reference": "dd7698ee6b5901a02b276ffa7eff78aeda9033c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/25b3dfeb01a4c6dd06f65689340c5b174a5b04cc",
-                "reference": "25b3dfeb01a4c6dd06f65689340c5b174a5b04cc",
+              "url": "https://api.github.com/repos/laravel/horizon/zipball/dd7698ee6b5901a02b276ffa7eff78aeda9033c2",
+              "reference": "dd7698ee6b5901a02b276ffa7eff78aeda9033c2",
                 "shasum": ""
             },
             "require": {
@@ -1914,7 +1914,7 @@
                 "laravel",
                 "queue"
             ],
-            "time": "2019-03-04T14:22:12+00:00"
+          "time": "2019-03-05T10:31:56+00:00"
         },
         {
             "name": "laravel/passport",
@@ -5189,16 +5189,16 @@
         },
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.6.0",
+          "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "754bb4d075d7fb2b23b1a416802c0e45884df495"
+              "reference": "725711022be71c6fa2e7bc8f9648bf125986f027"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/754bb4d075d7fb2b23b1a416802c0e45884df495",
-                "reference": "754bb4d075d7fb2b23b1a416802c0e45884df495",
+              "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/725711022be71c6fa2e7bc8f9648bf125986f027",
+              "reference": "725711022be71c6fa2e7bc8f9648bf125986f027",
                 "shasum": ""
             },
             "require": {
@@ -5259,7 +5259,7 @@
                 "phpstorm",
                 "sublime"
             ],
-            "time": "2019-02-18T19:54:27+00:00"
+          "time": "2019-03-05T09:24:51+00:00"
         },
         {
             "name": "barryvdh/reflection-docblock",
@@ -6222,16 +6222,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v2.0",
+          "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "8194db54d1a5982750c3a8f59551355c393c927a"
+              "reference": "d7a3ca4338b1a1527b8d19a5d62015a468f8ca56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/8194db54d1a5982750c3a8f59551355c393c927a",
-                "reference": "8194db54d1a5982750c3a8f59551355c393c927a",
+              "url": "https://api.github.com/repos/laravel/telescope/zipball/d7a3ca4338b1a1527b8d19a5d62015a468f8ca56",
+              "reference": "d7a3ca4338b1a1527b8d19a5d62015a468f8ca56",
                 "shasum": ""
             },
             "require": {
@@ -6281,7 +6281,7 @@
                 "laravel",
                 "monitoring"
             ],
-            "time": "2019-02-26T20:43:16+00:00"
+          "time": "2019-03-05T13:47:35+00:00"
         },
         {
             "name": "mockery/mockery",
