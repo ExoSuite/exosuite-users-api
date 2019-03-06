@@ -30,16 +30,6 @@ class ApiHelper implements ApiHelperInterface
     /** @var \App\Services\OAuth */
     private $OAuth;
 
-    /**
-     * ApiHelper constructor.
-     */
-    public function __construct()
-    {
-        $this->OAuth = new class extends OAuth
-        {
-        };
-    }
-
     public static function getSessionDomain(): string
     {
         return '.' . self::getDomain();
@@ -55,6 +45,23 @@ class ApiHelper implements ApiHelperInterface
         }
 
         return $domain;
+    }
+
+    public static function getHttpScheme(): string
+    {
+        $parsed_url = parse_url(env('APP_URL') ?? config('app.url'));
+
+        return $parsed_url['scheme'];
+    }
+
+    /**
+     * ApiHelper constructor.
+     */
+    public function __construct()
+    {
+        $this->OAuth = new class extends OAuth
+        {
+        };
     }
 
     public function OAuth(): OAuth
@@ -73,12 +80,5 @@ class ApiHelper implements ApiHelperInterface
 
         return redirect()
             ->to("{$scheme}://{$domain}/login?redirect_uri={$redirectBack}");
-    }
-
-    public static function getHttpScheme(): string
-    {
-        $parsed_url = parse_url(env('APP_URL') ?? config('app.url'));
-
-        return $parsed_url['scheme'];
     }
 }

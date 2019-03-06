@@ -23,13 +23,6 @@ class CheckpointTest extends TestCase
     /** @var \App\Models\User */
     private $user;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-    }
-
     public function testCreateCheckpoint(): void
     {
         Passport::actingAs($this->user);
@@ -46,6 +39,13 @@ class CheckpointTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new CheckPoint)->getFillable());
         $this->assertDatabaseHas("check_points", Arr::except($response->decodeResponseJson(), "location"));
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
     }
 
     /*

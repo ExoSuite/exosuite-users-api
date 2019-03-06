@@ -50,19 +50,6 @@ class CommentaryController extends Controller
         }
     }
 
-    /**
-     * @param string[] $data
-     * @param \App\Models\Post $post
-     * @return \App\Models\Commentary
-     */
-    private function createComm(array $data, Post $post): Commentary
-    {
-        $data['author_id'] = Auth::user()->id;
-        $data['post_id'] = $post->id;
-
-        return Commentary::create($data);
-    }
-
     public function getCommsFromPost(User $user, Dashboard $dashboard, Post $post): JsonResponse
     {
         $owner_id = $dashboard->owner_id;
@@ -91,13 +78,6 @@ class CommentaryController extends Controller
         }
     }
 
-    private function getComms(Post $post): JsonResponse
-    {
-        $comms = Commentary::wherePostId($post->id)->get();
-
-        return $this->ok($comms);
-    }
-
     public function updateComm(
         UpdateCommentaryRequest $request,
         User $user,
@@ -115,19 +95,6 @@ class CommentaryController extends Controller
         return $this->forbidden("Permission denied: You're not allow to modify this commentary.");
     }
 
-    /**
-     * @param string[] $data
-     * @param \App\Models\Commentary $commentary
-     * @return \App\Models\Commentary
-     */
-    private function updateCommentary(array $data, Commentary $commentary): Commentary
-    {
-        $comm = Commentary::whereId($commentary->id)->first();
-        $comm->update(['content' => $data['content']]);
-
-        return $comm;
-    }
-
     public function deleteComm(User $user, Dashboard $dashboard, Post $post, Commentary $commentary): JsonResponse
     {
         $owner = $dashboard->owner_id;
@@ -141,6 +108,39 @@ class CommentaryController extends Controller
         }
 
         return $this->forbidden("Permission denied: You're not allowed to delete this post.");
+    }
+
+    /**
+     * @param string[] $data
+     * @param \App\Models\Post $post
+     * @return \App\Models\Commentary
+     */
+    private function createComm(array $data, Post $post): Commentary
+    {
+        $data['author_id'] = Auth::user()->id;
+        $data['post_id'] = $post->id;
+
+        return Commentary::create($data);
+    }
+
+    private function getComms(Post $post): JsonResponse
+    {
+        $comms = Commentary::wherePostId($post->id)->get();
+
+        return $this->ok($comms);
+    }
+
+    /**
+     * @param string[] $data
+     * @param \App\Models\Commentary $commentary
+     * @return \App\Models\Commentary
+     */
+    private function updateCommentary(array $data, Commentary $commentary): Commentary
+    {
+        $comm = Commentary::whereId($commentary->id)->first();
+        $comm->update(['content' => $data['content']]);
+
+        return $comm;
     }
 
     /*

@@ -33,17 +33,6 @@ class RegisterUserUnitTest extends TestCase
 
 
     /**
-     * @param string[] $expected
-     * @param string[] $data
-     */
-    private function request(array $expected, array $data = []): void
-    {
-        $response = $this->json(Request::METHOD_POST, route('register'), $data);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrors($expected);
-    }
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -70,5 +59,16 @@ class RegisterUserUnitTest extends TestCase
 
         $userData['password_confirmation'] = Str::random();
         $this->request(['password'], $userData);
+    }
+
+    /**
+     * @param string[] $expected
+     * @param string[] $data
+     */
+    private function request(array $expected, array $data = []): void
+    {
+        $response = $this->json(Request::METHOD_POST, route('register'), $data);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonValidationErrors($expected);
     }
 }

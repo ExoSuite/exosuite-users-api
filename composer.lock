@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2eabfc4845c1b25758e865f1d769232c",
+    "content-hash": "d331a3e5b448d9396533d1202ff328de",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5886,6 +5886,37 @@
                 "instantiate"
             ],
             "time": "2017-07-22T11:58:36+00:00"
+        },
+        {
+            "name": "exosuite/coding-standard",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ExoSuite/coding-standard.git",
+                "reference": "e52786d4f35e672c14a42d6377645c607b65724e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ExoSuite/coding-standard/zipball/e52786d4f35e672c14a42d6377645c607b65724e",
+                "reference": "e52786d4f35e672c14a42d6377645c607b65724e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1||^8.0",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ExoSuiteCodingStandard\\": "ExoSuiteCodingStandard"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "ExoSuite Coding Standard.",
+            "time": "2019-03-06T01:55:20+00:00"
         },
         {
             "name": "filp/whoops",

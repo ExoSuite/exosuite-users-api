@@ -34,6 +34,7 @@
         "beyondcode/laravel-dump-server": "^1.0",
         "beyondcode/laravel-er-diagram-generator": "^1.2",
         "codedungeon/phpunit-result-printer": "^0.26.0",
+        "exosuite/coding-standard": "^1.1",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
         "laravel/telescope": "^2.0",

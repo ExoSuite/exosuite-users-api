@@ -48,19 +48,6 @@ trait JsonResponses
 
     /**
      * @param mixed $data
-     * @return mixed
-     */
-    private function toArray($data)
-    {
-        if (is_object($data) && !($data instanceof ResourceCollection)) {
-            $data = $data->toArray();
-        }
-
-        return $data;
-    }
-
-    /**
-     * @param mixed $data
      * @return \Illuminate\Http\JsonResponse
      */
     protected function ok($data): JsonResponse
@@ -93,5 +80,18 @@ trait JsonResponses
 
             fclose($stream);
         }, 200, $media->toStreamHeaders($conversionName));
+    }
+
+    /**
+     * @param mixed $data
+     * @return mixed
+     */
+    private function toArray($data)
+    {
+        if (is_object($data) && !($data instanceof ResourceCollection)) {
+            $data = $data->toArray();
+        }
+
+        return $data;
     }
 }

@@ -40,19 +40,6 @@ class LoginUserUnitTest extends TestCase
         );
     }
 
-    /**
-     * @param mixed[] $data
-     * @param int $status
-     * @return \Illuminate\Foundation\Testing\TestResponse
-     */
-    private function request(array $data, int $status): TestResponse
-    {
-        $response = $this->json(Request::METHOD_POST, route('login'), $data);
-        $response->assertStatus($status);
-
-        return $response;
-    }
-
     public function testBadPasswordMustFail(): void
     {
         $response = $this->request(
@@ -84,5 +71,18 @@ class LoginUserUnitTest extends TestCase
         parent::setUp();
         $this->user = factory(User::class)->make();
         User::create($this->user->toArray());
+    }
+
+    /**
+     * @param mixed[] $data
+     * @param int $status
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    private function request(array $data, int $status): TestResponse
+    {
+        $response = $this->json(Request::METHOD_POST, route('login'), $data);
+        $response->assertStatus($status);
+
+        return $response;
     }
 }

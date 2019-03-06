@@ -28,15 +28,6 @@ class LikesController extends Controller
             : $this->createLike($post, LikableEntities::POST);
     }
 
-    private function createLike(Model $entity, string $type): JsonResponse
-    {
-        return $this->created(Like::create([
-            'liker_id' => Auth::user()->id,
-            'liked_id' => $entity->id,
-            'liked_type' => $type,
-        ]));
-    }
-
     public function delete(User $user, Dashboard $dashboard, Post $post, ?Commentary $commentary = null): JsonResponse
     {
         if ($commentary !== null) {
@@ -98,5 +89,14 @@ class LikesController extends Controller
         $likes = Like::whereLikedId($run->id)->get();
 
         return $this->ok($likes);
+    }
+
+    private function createLike(Model $entity, string $type): JsonResponse
+    {
+        return $this->created(Like::create([
+            'liker_id' => Auth::user()->id,
+            'liked_id' => $entity->id,
+            'liked_type' => $type,
+        ]));
     }
 }

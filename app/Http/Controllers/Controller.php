@@ -20,11 +20,6 @@ class Controller extends \Illuminate\Routing\Controller
     use ValidatesRequests;
     use JsonResponses;
 
-    public function alive(): string
-    {
-        return 'OK';
-    }
-
     /**
      * @param \Illuminate\Support\Collection $collection
      * @param string $modelKey
@@ -46,5 +41,10 @@ class Controller extends \Illuminate\Routing\Controller
 
             return $item->{$modelKey} !== $toExceptFromCollection;
         });
+    }
+
+    public function alive(): string
+    {
+        return 'OK';
     }
 }

@@ -49,19 +49,6 @@ class PostsController extends Controller
         }
     }
 
-    /**
-     * @param string[] $data
-     * @param mixed $dashboard_id
-     * @return \App\Models\Post
-     */
-    private function createPost(array $data, $dashboard_id): Post
-    {
-        $data['author_id'] = Auth::user()->id;
-        $data['dashboard_id'] = $dashboard_id;
-
-        return Post::create($data);
-    }
-
     public function update(UpdatePostRequest $request, User $user, Dashboard $dashboard, Post $post): JsonResponse
     {
         if ($post->author_id === Auth::user()->id) {
@@ -71,20 +58,6 @@ class PostsController extends Controller
         }
 
         return $this->forbidden("Permission denied: You're not allowed to update this post.");
-    }
-
-
-    /**
-     * @param string[] $data
-     * @param string $post_id
-     * @return \App\Models\Post
-     */
-    private function editPost(array $data, string $post_id): Post
-    {
-        $post = Post::whereId($post_id)->first();
-        $post->update(['content' => $data['content']]);
-
-        return $post;
     }
 
     public function getPostsFromDashboard(User $user, Dashboard $dashboard): JsonResponse
@@ -115,12 +88,6 @@ class PostsController extends Controller
         }
     }
 
-    private function getPosts(Dashboard $dashboard): JsonResponse
-    {
-        $posts = Post::whereDashboardId($dashboard->id)->get();
-
-        return $this->ok($posts);
-    }
 
     public function delete(User $user, Dashboard $dashboard, Post $post): JsonResponse
     {
@@ -129,6 +96,39 @@ class PostsController extends Controller
         return $post->author_id === Auth::user()->id || Auth::user()->id === $owner_id
             ? $this->deletePost($post)
             : $this->forbidden("Permission denied: You're not allowed to delete this post.");
+    }
+
+    /**
+     * @param string[] $data
+     * @param mixed $dashboard_id
+     * @return \App\Models\Post
+     */
+    private function createPost(array $data, $dashboard_id): Post
+    {
+        $data['author_id'] = Auth::user()->id;
+        $data['dashboard_id'] = $dashboard_id;
+
+        return Post::create($data);
+    }
+
+    /**
+     * @param string[] $data
+     * @param string $post_id
+     * @return \App\Models\Post
+     */
+    private function editPost(array $data, string $post_id): Post
+    {
+        $post = Post::whereId($post_id)->first();
+        $post->update(['content' => $data['content']]);
+
+        return $post;
+    }
+
+    private function getPosts(Dashboard $dashboard): JsonResponse
+    {
+        $posts = Post::whereDashboardId($dashboard->id)->get();
+
+        return $this->ok($posts);
     }
 
 
