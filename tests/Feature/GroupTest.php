@@ -223,8 +223,12 @@ class GroupTest extends TestCase
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         $group_id = $response->decodeResponseJson('id');
+
+        // GET REQUEST
         $get_req = $this->get($this->route('get_group', [BindType::GROUP => $group_id]));
         $get_req->assertStatus(Response::HTTP_OK);
+        $get_req->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
+        $this->assertTrue(is_array($get_req->decodeResponseJson('group_members')));
     }
 
     protected function setUp(): void

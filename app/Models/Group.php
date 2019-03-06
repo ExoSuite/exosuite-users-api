@@ -22,6 +22,15 @@ class Group extends UuidModel
         'updated_at',
     ];
 
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::deleting(static function (self $group): void {
+            $group->groupMembers->each->delete();
+            $group->messages->each->delete();
+        });
+    }
+
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class);

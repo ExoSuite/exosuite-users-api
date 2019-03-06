@@ -26,7 +26,7 @@ use function trans;
 class GroupController extends Controller
 {
 
-    /** @var array */
+    /** @var array<string<self, string>> */
     public $updateFunctions;
 
     public function __construct()
@@ -43,7 +43,6 @@ class GroupController extends Controller
     /**
      * @param array<string> $data
      * @param \App\Models\Group $group
-     *
      * @return \App\Models\Group
      */
     public function deleteUser(array $data, Group $group): Group
@@ -56,10 +55,14 @@ class GroupController extends Controller
             [$group->name, "{$current_user->first_name} {$current_user->last_name}"],
             trans('notification.expelled_from_group')
         );
-        $users = $group->users()->get();
-        $users = $users->filter(static function ($user) use ($user_id) {
-            return $user->id === $user_id;
-        });
+
+        $users = static::collectionFilterWithExcept(
+            $group->users()->get(),
+            'id',
+            $user_id,
+            true
+        );
+
         Notification::send($users, new ExpelledFromGroupNotification($message, $group));
         $group->groupMembers()->whereUserId($user_id)->delete();
 
@@ -69,7 +72,6 @@ class GroupController extends Controller
     /**
      * @param array<string> $data
      * @param \App\Models\Group $group
-     *
      * @return \App\Models\Group
      */
     public function addUser(array $data, Group $group): Group
@@ -83,7 +85,6 @@ class GroupController extends Controller
     /**
      * @param array<string> $data
      * @param \App\Models\Group $group
-     *
      * @return \App\Models\Group
      */
     public function addUserAsAdmin(array $data, Group $group): Group
@@ -97,7 +98,6 @@ class GroupController extends Controller
     /**
      * @param array<string> $data
      * @param \App\Models\Group $group
-     *
      * @return \App\Models\Group
      */
     public function updateUserRights(array $data, Group $group): Group
@@ -112,7 +112,6 @@ class GroupController extends Controller
     /**
      * @param array<string> $data
      * @param \App\Models\Group $group
-     *
      * @return \App\Models\Group
      */
     public function updateGroupName(array $data, Group $group): Group
@@ -189,18 +188,7 @@ class GroupController extends Controller
      */
     public function index(Group $group): JsonResponse
     {
-        $data = [];
-        $data['group_name'] = $group->name;
-        $group_members = $group->groupMembers()->get();
-        $members = collect();
-
-        foreach ($group_members as $member) {
-            $members->push($member);
-        }
-
-        $data['group_members'] = $members;
-
-        return $this->ok($data);
+        return $this->ok($group->load('groupMembers'));
     }
 
     /**
@@ -219,24 +207,11 @@ class GroupController extends Controller
             [$group->name, "{$current_user->first_name} {$current_user->last_name}"],
             trans('notification.deleted_group')
         );
-        $users = $group->users()->get();
-        $users = $users->filter(static function ($user) use ($current_user) {
+        $users = $group->users()->get()->filter(static function ($user) use ($current_user) {
             return $user->id !== $current_user->id;
         });
 
         Notification::send($users, new DeletedGroupNotification($message, $group));
-        $members = $group->groupMembers()->get();
-
-        foreach ($members as $member) {
-            $member->delete();
-        }
-
-        $group_messages = $group->messages()->get();
-
-        foreach ($group_messages as $group_message) {
-            $group_message->delete();
-        }
-
         $group->delete();
 
         return $this->noContent();
