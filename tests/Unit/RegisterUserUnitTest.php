@@ -7,6 +7,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -31,17 +33,6 @@ class RegisterUserUnitTest extends TestCase
 
 
     /**
-     * @param string[] $expected
-     * @param string[] $data
-     */
-    private function request(array $expected, array $data = []): void
-    {
-        $response = $this->json(Request::METHOD_POST, route('register'), $data);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrors($expected);
-    }
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -54,7 +45,7 @@ class RegisterUserUnitTest extends TestCase
         $userData = $user->toArray();
         $userData['password'] = $user->password;
         $userData['password_confirmation'] = $user->password;
-        $userData = array_except($userData, ['password_confirmation']);
+        $userData = Arr::except($userData, ['password_confirmation']);
 
         $data = array_keys($userData);
 
@@ -66,7 +57,18 @@ class RegisterUserUnitTest extends TestCase
         $data = ['password_confirmation' => $userData['password']];
         $this->request(['password'], $data);
 
-        $userData['password_confirmation'] = str_random();
+        $userData['password_confirmation'] = Str::random();
         $this->request(['password'], $userData);
+    }
+
+    /**
+     * @param string[] $expected
+     * @param string[] $data
+     */
+    private function request(array $expected, array $data = []): void
+    {
+        $response = $this->json(Request::METHOD_POST, route('register'), $data);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $response->assertJsonValidationErrors($expected);
     }
 }

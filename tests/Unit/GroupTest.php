@@ -6,6 +6,7 @@ use App\Enums\BindType;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
@@ -35,7 +36,7 @@ class GroupTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route('post_group'), [
-            'name' => str_random(100),
+            'name' => Str::random(100),
             'users' => Uuid::generate()->string,
         ]);
         $response->assertJsonValidationErrors(['users']);
@@ -60,7 +61,7 @@ class GroupTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route('post_group'), [
-            'name' => str_random(100),
+            'name' => Str::random(100),
             'users' => [$this->user2->id],
         ]);
         $group_id = $response->decodeResponseJson('id');
@@ -81,7 +82,7 @@ class GroupTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route('post_group'), [
-            'name' => str_random(100),
+            'name' => Str::random(100),
             'users' => [$this->user2->id],
         ]);
         $group_id = $response->decodeResponseJson('id');
@@ -102,7 +103,10 @@ class GroupTest extends TestCase
     public function testUpdateGroupWithoutRights(): void
     {
         Passport::actingAs($this->user1);
-        $response = $this->post($this->route('post_group'), ['name' => str_random(100), 'users' => [$this->user2->id]]);
+        $response = $this->post(
+            $this->route('post_group'),
+            ['name' => Str::random(100), 'users' => [$this->user2->id]]
+        );
         $group_id = $response->decodeResponseJson('id');
         $new_name = 'NameForTest';
         Passport::actingAs($this->user2);
@@ -120,7 +124,7 @@ class GroupTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $response = $this->post($this->route('post_group'), [
-            'name' => str_random(100),
+            'name' => Str::random(100),
             'users' => [$this->user2->id, $this->user3->id],
         ]);
         $group_id = $response->decodeResponseJson('id');
@@ -141,7 +145,7 @@ class GroupTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $this->post($this->route('post_group'), [
-            'name' => str_random(100),
+            'name' => Str::random(100),
             'users' => [$this->user2->id, $this->user3->id],
         ]);
         $delete_req = $this->delete($this->route('delete_group', [BindType::GROUP => Uuid::generate()->string]));
@@ -154,7 +158,7 @@ class GroupTest extends TestCase
         Passport::actingAs($this->user1);
         $response = $this->post(
             $this->route('post_group'),
-            ['name' => str_random(100), 'users' => [$this->user2->id, $this->user3->id]]
+            ['name' => Str::random(100), 'users' => [$this->user2->id, $this->user3->id]]
         );
         $group_id = $response->decodeResponseJson('id');
         Passport::actingAs($this->user2);
@@ -169,7 +173,7 @@ class GroupTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $this->post($this->route('post_group'), [
-            'name' => str_random(100),
+            'name' => Str::random(100),
             'users' => [$this->user2->id, $this->user3->id],
         ]);
         $get_req = $this->get($this->route('get_group', [BindType::GROUP => Uuid::generate()->string]));

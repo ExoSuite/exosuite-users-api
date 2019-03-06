@@ -7,6 +7,7 @@ use App\Models\Run;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -30,9 +31,7 @@ class RunTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->post(
             $this->route('post_run'),
-            [
-                'name' => str_random(30),
-            ]
+            ['name' => Str::random(30)]
         );
         $run = new Run;
         $expect = collect($run->getFillable())->diff(['description']);
@@ -44,8 +43,8 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->post($this->route('post_run'), [
-            'name' => str_random(30),
-            'description' => str_random(255),
+            'name' => Str::random(30),
+            'description' => Str::random(255),
         ]);
         $run = new Run;
         $response->assertStatus(Response::HTTP_CREATED);
@@ -56,8 +55,8 @@ class RunTest extends TestCase
     {
         Passport::actingAs($this->user);
         $response = $this->post($this->route('post_run'), [
-            'name' => str_random(30),
-            'description' => str_random(255),
+            'name' => Str::random(30),
+            'description' => Str::random(255),
             'visibility' => Visibility::PUBLIC,
         ]);
         $run = new Run;
@@ -71,7 +70,7 @@ class RunTest extends TestCase
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
         $response = $this->patch($this->route('patch_run', [$this->run->id]), [
-            'name' => str_random(30),
+            'name' => Str::random(30),
         ]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
@@ -81,7 +80,7 @@ class RunTest extends TestCase
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
         $response = $this->patch($this->route('patch_run', [$this->run->id]), [
-            'description' => str_random(255),
+            'description' => Str::random(255),
         ]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
@@ -102,8 +101,8 @@ class RunTest extends TestCase
         $this->run = factory(Run::class)->create();
         $response = $this->patch($this->route('patch_run', [$this->run->id]), [
             'visibility' => Visibility::PRIVATE,
-            'name' => str_random(30),
-            'description' => str_random(255),
+            'name' => Str::random(30),
+            'description' => Str::random(255),
         ]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }

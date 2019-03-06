@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
@@ -41,7 +42,7 @@ class PostsUnitTest extends TestCase
         $response = $this->post(route('post_Post', [
             'user' => $this->user->id,
             'dashboard' => Uuid::generate()->string,
-        ]), ['content' => str_random(10)]);
+        ]), ['content' => Str::random()]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -52,7 +53,7 @@ class PostsUnitTest extends TestCase
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
         ]), [
-            'content' => str_random(10),
+            'content' => Str::random(),
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not authorized to post on this board."]);
@@ -64,7 +65,7 @@ class PostsUnitTest extends TestCase
     public function testUpdatePostWithWrongId(): void
     {
         Passport::actingAs($this->user);
-        $content = str_random(10);
+        $content = Str::random();
         $response = $this->patch(route('patch_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
@@ -76,18 +77,17 @@ class PostsUnitTest extends TestCase
     public function testUpdatePostAsUnauthorizedUser(): void
     {
         Passport::actingAs($this->user1);
-        $content = str_random(10);
         $post = factory(Post::class)->create([
             'dashboard_id' => $this->dashboard->id,
             'author_id' => $this->user1->id,
-            'content' => str_random(10),
+            'content' => Str::random(),
         ]);
         Passport::actingAs($this->user);
         $response = $this->patch(route('patch_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
             'post' => $post->id,
-        ]), ['content' => $content]);
+        ]), ['content' => Str::random()]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to update this post."]);
     }
@@ -135,7 +135,7 @@ class PostsUnitTest extends TestCase
         $post = factory(Post::class)->create([
             'dashboard_id' => $this->dashboard->id,
             'author_id' => $this->user1->id,
-            'content' => str_random(10),
+            'content' => Str::random(),
         ]);
         Passport::actingAs($this->user);
         $response = $this->delete(route('delete_Post', [

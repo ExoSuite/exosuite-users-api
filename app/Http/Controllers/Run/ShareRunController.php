@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Run;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Run\CreateShareRunRequest;
-use App\Http\Requests\Run\GetShareRunRequest;
 use App\Http\Resources\SharedRunCollection;
 use App\Http\Resources\SharedRunResource;
 use App\Models\Run;

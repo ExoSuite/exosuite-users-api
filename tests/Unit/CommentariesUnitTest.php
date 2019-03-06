@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
@@ -48,7 +49,7 @@ class CommentariesUnitTest extends TestCase
                     'post' => Uuid::generate()->string,
                 ]
             ),
-            ['content' => str_random(10)]
+            ['content' => Str::random(10)]
         );
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -64,7 +65,7 @@ class CommentariesUnitTest extends TestCase
             'user' => $this->user->id,
             'dashboard' => $this->dash->id,
             'post' => $this->post->id,
-        ]), ['content' => str_random(10)]);
+        ]), ['content' => Str::random(10)]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
         $response->assertJson(['message' => "Permission denied: You're not allowed to post a commentary on this post"]);
     }
@@ -107,7 +108,7 @@ class CommentariesUnitTest extends TestCase
     public function testUpdateCommOnFalseCommId(): void
     {
         Passport::actingAs($this->user);
-        $content = str_random(10);
+        $content = Str::random(10);
         $response = $this->patch(route('patch_commentary', [
             'user' => $this->user->id,
             'dashboard' => $this->dash->id,
@@ -122,11 +123,11 @@ class CommentariesUnitTest extends TestCase
     public function testUpdateCommAsUnauthorizedUser(): void
     {
         Passport::actingAs($this->user1);
-        $content = str_random(10);
+        $content = Str::random(10);
         $comm = factory(Commentary::class)->create([
             'post_id' => $this->post->id,
             'author_id' => $this->user->id,
-            'content' => str_random(10),
+            'content' => Str::random(10),
         ]);
         $response = $this->patch(route('patch_commentary', [
             'user' => $this->user->id,
@@ -161,7 +162,7 @@ class CommentariesUnitTest extends TestCase
         $comm = factory(Commentary::class)->create([
             'post_id' => $this->post->id,
             'author_id' => $this->user->id,
-            'content' => str_random(10),
+            'content' => Str::random(10),
         ]);
         $response = $this->delete(route('delete_commentary', [
             'user' => $this->user->id,
@@ -184,7 +185,7 @@ class CommentariesUnitTest extends TestCase
             ->create([
                 'author_id' => $this->user->id,
                 'dashboard_id' => $this->dash->id,
-                'content' => str_random(10),
+                'content' => Str::random(10),
             ]);
     }
 }
