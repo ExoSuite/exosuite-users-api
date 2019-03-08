@@ -6,6 +6,7 @@ use App\Enums\BindType;
 use App\Events\DeletedMessageEvent;
 use App\Events\ModifyMessageEvent;
 use App\Events\NewMessageEvent;
+use App\Http\Controllers\MessageController;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\Message;
@@ -119,13 +120,12 @@ class MessageTest extends TestCase
 
         Passport::actingAs($this->user);
 
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 40; $i++) {
             factory(Message::class)->create(['group_id' => $group->id, 'user_id' => $this->user->id]);
         }
 
         $response = $this->get($this->route('get_message', [BindType::GROUP => $group->id]));
-        // TODO: change assert with corresponding pagination
-        //$this->assertEquals(5, count($response->decodeResponseJson()));
+        $this->assertEquals(MessageController::GET_PER_PAGE, count($response->decodeResponseJson('data')));
         $response->assertStatus(Response::HTTP_OK);
     }
 
