@@ -22,20 +22,22 @@ use function broadcast;
  */
 class MessageController extends Controller
 {
+    public const GET_PER_PAGE = 30;
 
     public function store(CreateMessageRequest $request, Group $group): JsonResponse
     {
-        //$this->authorize("createGroupMessage", $group);
         $data = $request->validated();
-        $current_user = Auth::user();
-        $data['user_id'] = $current_user->id;
+        $current_user_id = Auth::id();
+        $data['user_id'] = $current_user_id;
         /** @var \App\Models\Message $message */
         $message = $group->messages()->create($data);
         broadcast(new NewMessageEvent($group, $message));
-        $users = $group->users()->get();
-        $users = $users->filter(static function ($user) use ($current_user) {
-            return $user->id !== $current_user->id;
-        });
+        $users = static::collectionFilterWithExcept(
+            $group->users()->get(),
+            'id',
+            $current_user_id
+        );
+
         Notification::send($users, new NewMessageNotification($message));
 
         return $this->created($message);
@@ -56,9 +58,7 @@ class MessageController extends Controller
      */
     public function index(Group $group)
     {
-        $messages = $group->messages()->get();
-
-        return $this->ok($messages);
+        return $this->ok($group->messages()->paginate(self::GET_PER_PAGE));
     }
 
     public function destroy(Group $group, Message $message): JsonResponse

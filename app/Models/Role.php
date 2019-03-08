@@ -60,11 +60,6 @@ class Role extends Model
         return false;
     }
 
-    private function hasPermission(string $permission): bool
-    {
-        return $this->permissions[$permission] ?? false;
-    }
-
     /**
      * @param string $roleName
      * @return \App\Models\Role|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|null
@@ -72,5 +67,10 @@ class Role extends Model
     public function getIdFromRoleName(string $roleName)
     {
         return self::whereName($roleName)->first([$this->primaryKey]);
+    }
+
+    private function hasPermission(string $permission): bool
+    {
+        return $this->permissions[$permission] ?? false;
     }
 }

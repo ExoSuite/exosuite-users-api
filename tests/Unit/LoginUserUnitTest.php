@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 /**
@@ -39,19 +40,6 @@ class LoginUserUnitTest extends TestCase
         );
     }
 
-    /**
-     * @param string[] $data
-     * @param int $status
-     * @return \Illuminate\Foundation\Testing\TestResponse
-     */
-    private function request(array $data, int $status): TestResponse
-    {
-        $response = $this->json(Request::METHOD_POST, route('login'), $data);
-        $response->assertStatus($status);
-
-        return $response;
-    }
-
     public function testBadPasswordMustFail(): void
     {
         $response = $this->request(
@@ -71,7 +59,7 @@ class LoginUserUnitTest extends TestCase
                 'email' => $this->user->email,
                 'password' => $this->user->getAuthPassword(),
                 'client_id' => rand(0, 10),
-                'client_secret' => str_random(),
+                'client_secret' => Str::random(),
             ],
             Response::HTTP_UNPROCESSABLE_ENTITY
         );
@@ -83,5 +71,18 @@ class LoginUserUnitTest extends TestCase
         parent::setUp();
         $this->user = factory(User::class)->make();
         User::create($this->user->toArray());
+    }
+
+    /**
+     * @param mixed[] $data
+     * @param int $status
+     * @return \Illuminate\Foundation\Testing\TestResponse
+     */
+    private function request(array $data, int $status): TestResponse
+    {
+        $response = $this->json(Request::METHOD_POST, route('login'), $data);
+        $response->assertStatus($status);
+
+        return $response;
     }
 }

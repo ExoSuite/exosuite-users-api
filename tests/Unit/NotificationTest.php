@@ -6,6 +6,7 @@ use App\Enums\BindType;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Webpatser\Uuid\Uuid;
@@ -35,12 +36,12 @@ class NotificationTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $this->post($this->route('post_group'), [
-            'name' => str_random(100),
+            'name' => Str::random(100),
             'users' => [$this->user2->id],
         ]);
         Passport::actingAs($this->user3);
         $this->post($this->route('post_group'), [
-            'name' => str_random(100),
+            'name' => Str::random(100),
             'users' => [$this->user2->id],
         ]);
         Passport::actingAs($this->user2);
@@ -58,12 +59,12 @@ class NotificationTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $this->post($this->route('post_group'), [
-            'name' => str_random(100),
+            'name' => Str::random(100),
             'users' => [$this->user2->id],
         ]);
         Passport::actingAs($this->user3);
         $this->post($this->route('post_group'), [
-            'name' => str_random(100),
+            'name' => Str::random(100),
             'users' => [$this->user2->id],
         ]);
         Passport::actingAs($this->user2);

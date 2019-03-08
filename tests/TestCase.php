@@ -15,7 +15,7 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * @param string $route
-     * @param string[] $parameters
+     * @param mixed[] $parameters
      * @param bool $absolute
      * @return string
      */

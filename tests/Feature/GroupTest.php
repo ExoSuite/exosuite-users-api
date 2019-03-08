@@ -9,7 +9,9 @@ use App\Notifications\ExpelledFromGroupNotification;
 use App\Notifications\NewGroupNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -35,9 +37,12 @@ class GroupTest extends TestCase
     {
         Notification::fake();
         Passport::actingAs($this->user1);
-        $response = $this->post($this->route('post_group'), ['name' => str_random(100), 'users' => [$this->user2->id]]);
+        $response = $this->post(
+            $this->route('post_group'),
+            ['name' => Str::random(100), 'users' => [$this->user2->id]]
+        );
         $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         Notification::assertSentTo($this->user2, NewGroupNotification::class);
@@ -51,7 +56,7 @@ class GroupTest extends TestCase
         $response = $this->post($this->route('post_group'), ['users' => [$this->user2->id]]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         Notification::assertSentTo($this->user2, NewGroupNotification::class);
         Notification::assertNotSentTo($this->user1, NewGroupNotification::class);
@@ -60,9 +65,12 @@ class GroupTest extends TestCase
     public function testAddNonAdminUserToExistingGroup(): void
     {
         Passport::actingAs($this->user1);
-        $response = $this->post($this->route('post_group'), ['name' => str_random(100), 'users' => [$this->user2->id]]);
+        $response = $this->post(
+            $this->route('post_group'),
+            ['name' => Str::random(100), 'users' => [$this->user2->id]]
+        );
         $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         $group_id = $response->decodeResponseJson('id');
@@ -76,9 +84,12 @@ class GroupTest extends TestCase
     public function testAddAdminUserToExistingGroup(): void
     {
         Passport::actingAs($this->user1);
-        $response = $this->post($this->route('post_group'), ['name' => str_random(100), 'users' => [$this->user2->id]]);
+        $response = $this->post(
+            $this->route('post_group'),
+            ['name' => Str::random(100), 'users' => [$this->user2->id]]
+        );
         $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         $group_id = $response->decodeResponseJson('id');
@@ -92,9 +103,12 @@ class GroupTest extends TestCase
     public function testUpdateToNonAdminUserRightsToExistingGroup(): void
     {
         Passport::actingAs($this->user1);
-        $response = $this->post($this->route('post_group'), ['name' => str_random(100), 'users' => [$this->user2->id]]);
+        $response = $this->post(
+            $this->route('post_group'),
+            ['name' => Str::random(100), 'users' => [$this->user2->id]]
+        );
         $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         $group_id = $response->decodeResponseJson('id');
@@ -113,9 +127,12 @@ class GroupTest extends TestCase
     public function testUpdateToAdminUserRightsToExistingGroup(): void
     {
         Passport::actingAs($this->user1);
-        $response = $this->post($this->route('post_group'), ['name' => str_random(100), 'users' => [$this->user2->id]]);
+        $response = $this->post(
+            $this->route('post_group'),
+            ['name' => Str::random(100), 'users' => [$this->user2->id]]
+        );
         $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         $group_id = $response->decodeResponseJson('id');
@@ -136,10 +153,10 @@ class GroupTest extends TestCase
         Passport::actingAs($this->user1);
         $response = $this->post(
             $this->route('post_group'),
-            ['name' => str_random(100), 'users' => [$this->user2->id, $this->user3->id]]
+            ['name' => Str::random(100), 'users' => [$this->user2->id, $this->user3->id]]
         );
         $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         $group_id = $response->decodeResponseJson('id');
@@ -155,9 +172,12 @@ class GroupTest extends TestCase
     public function testUpdateGroupName(): void
     {
         Passport::actingAs($this->user1);
-        $response = $this->post($this->route('post_group'), ['name' => str_random(100), 'users' => [$this->user2->id]]);
+        $response = $this->post(
+            $this->route('post_group'),
+            ['name' => Str::random(100), 'users' => [$this->user2->id]]
+        );
         $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         $group_id = $response->decodeResponseJson('id');
@@ -175,10 +195,10 @@ class GroupTest extends TestCase
         Passport::actingAs($this->user1);
         $response = $this->post(
             $this->route('post_group'),
-            ['name' => str_random(100), 'users' => [$this->user2->id, $this->user3->id]]
+            ['name' => Str::random(100), 'users' => [$this->user2->id, $this->user3->id]]
         );
         $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         $group_id = $response->decodeResponseJson('id');
@@ -188,7 +208,7 @@ class GroupTest extends TestCase
         Notification::assertSentTo($this->user2, DeletedGroupNotification::class);
         Notification::assertSentTo($this->user3, DeletedGroupNotification::class);
         Notification::assertNotSentTo($this->user1, DeletedGroupNotification::class);
-        $this->assertDatabaseMissing('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseMissing('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
     }
 
     public function testGetGroup(): void
@@ -196,30 +216,19 @@ class GroupTest extends TestCase
         Passport::actingAs($this->user1);
         $response = $this->post(
             $this->route('post_group'),
-            ['name' => str_random(100), 'users' => [$this->user2->id, $this->user3->id]]
+            ['name' => Str::random(100), 'users' => [$this->user2->id, $this->user3->id]]
         );
         $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
         $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
         $group_id = $response->decodeResponseJson('id');
+
+        // GET REQUEST
         $get_req = $this->get($this->route('get_group', [BindType::GROUP => $group_id]));
         $get_req->assertStatus(Response::HTTP_OK);
-    }
-
-    public function testGetGroupByUser(): void
-    {
-        Passport::actingAs($this->user1);
-        $response = $this->post(
-            $this->route('post_group'),
-            ['name' => str_random(100), 'users' => [$this->user2->id, $this->user3->id]]
-        );
-        $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', array_except($response->decodeResponseJson(), 'group_members'));
-        $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
-        $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
-        $get_req = $this->get($this->route('get_my_groups'));
-        $get_req->assertStatus(Response::HTTP_OK);
+        $get_req->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
+        $this->assertTrue(is_array($get_req->decodeResponseJson('group_members')));
     }
 
     protected function setUp(): void

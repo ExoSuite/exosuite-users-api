@@ -2,9 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Commentary;
 use App\Models\Dashboard;
-use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -26,9 +24,6 @@ class LikesUnitTest extends TestCase
 
     /** @var \App\Models\Dashboard */
     private $dash;
-
-    /** @var \App\Models\Post */
-    private $post;
 
     /**
      * A basic test example.
@@ -133,10 +128,5 @@ class LikesUnitTest extends TestCase
 
         $this->user = factory(User::class)->create();
         $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-        $this->post = factory(Post::class)->create(['dashboard_id' => $this->dash->id, 'author_id' => $this->user->id]);
-        $this->comm = factory(Commentary::class)->create([
-            'post_id' => $this->post->id,
-            'author_id' => $this->user->id,
-        ]);
     }
 }

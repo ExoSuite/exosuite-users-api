@@ -7,7 +7,7 @@ use App\Http\Requests\User\CreateUserRequest;
 use App\Models\Dashboard;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use function array_except;
+use Illuminate\Support\Arr;
 
 /**
  * Class RegisterController
@@ -64,6 +64,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data): User
     {
-        return User::create(array_except($data, ['with_user']));
+        return User::create(Arr::except($data, ['with_user']));
     }
 }

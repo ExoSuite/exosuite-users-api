@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1abfcd97ff7738cf9bfdb93fb7610ee6",
+    "content-hash": "d331a3e5b448d9396533d1202ff328de",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -183,16 +183,16 @@
         },
         {
             "name": "bensampo/laravel-enum",
-            "version": "1.17.0",
+            "version": "1.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BenSampo/laravel-enum.git",
-                "reference": "d7db62cbdf803244aba863bc19c76e0f7202b972"
+                "reference": "612ae4c7a986aaf0e3c4666d48731e1f8e2ee19b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BenSampo/laravel-enum/zipball/d7db62cbdf803244aba863bc19c76e0f7202b972",
-                "reference": "d7db62cbdf803244aba863bc19c76e0f7202b972",
+                "url": "https://api.github.com/repos/BenSampo/laravel-enum/zipball/612ae4c7a986aaf0e3c4666d48731e1f8e2ee19b",
+                "reference": "612ae4c7a986aaf0e3c4666d48731e1f8e2ee19b",
                 "shasum": ""
             },
             "require": {
@@ -202,7 +202,7 @@
             "require-dev": {
                 "laravel/framework": "5.8.*",
                 "orchestra/testbench": "3.8.*",
-                "phpunit/phpunit": "8.0.*",
+                "phpunit/phpunit": "7.5.*",
                 "squizlabs/php_codesniffer": "^3.0"
             },
             "type": "library",
@@ -241,7 +241,7 @@
                 "package",
                 "validation"
             ],
-            "time": "2019-03-03T22:46:48+00:00"
+            "time": "2019-03-05T10:29:46+00:00"
         },
         {
             "name": "bosnadev/database",
@@ -1702,16 +1702,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.2",
+            "version": "v5.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "c3b7cbe700efb0f4c9a5359feaedb0a1f0a741ca"
+                "reference": "d36d74acd3added5abbe7e7a84342b54bb0b0521"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/c3b7cbe700efb0f4c9a5359feaedb0a1f0a741ca",
-                "reference": "c3b7cbe700efb0f4c9a5359feaedb0a1f0a741ca",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d36d74acd3added5abbe7e7a84342b54bb0b0521",
+                "reference": "d36d74acd3added5abbe7e7a84342b54bb0b0521",
                 "shasum": ""
             },
             "require": {
@@ -1845,20 +1845,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-02-27T14:02:36+00:00"
+            "time": "2019-03-05T13:51:19+00:00"
         },
         {
             "name": "laravel/horizon",
-            "version": "v3.0.1",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "25b3dfeb01a4c6dd06f65689340c5b174a5b04cc"
+                "reference": "dd7698ee6b5901a02b276ffa7eff78aeda9033c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/25b3dfeb01a4c6dd06f65689340c5b174a5b04cc",
-                "reference": "25b3dfeb01a4c6dd06f65689340c5b174a5b04cc",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/dd7698ee6b5901a02b276ffa7eff78aeda9033c2",
+                "reference": "dd7698ee6b5901a02b276ffa7eff78aeda9033c2",
                 "shasum": ""
             },
             "require": {
@@ -1914,7 +1914,7 @@
                 "laravel",
                 "queue"
             ],
-            "time": "2019-03-04T14:22:12+00:00"
+            "time": "2019-03-05T10:31:56+00:00"
         },
         {
             "name": "laravel/passport",
@@ -5189,16 +5189,16 @@
         },
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.6.0",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "754bb4d075d7fb2b23b1a416802c0e45884df495"
+                "reference": "725711022be71c6fa2e7bc8f9648bf125986f027"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/754bb4d075d7fb2b23b1a416802c0e45884df495",
-                "reference": "754bb4d075d7fb2b23b1a416802c0e45884df495",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/725711022be71c6fa2e7bc8f9648bf125986f027",
+                "reference": "725711022be71c6fa2e7bc8f9648bf125986f027",
                 "shasum": ""
             },
             "require": {
@@ -5259,7 +5259,7 @@
                 "phpstorm",
                 "sublime"
             ],
-            "time": "2019-02-18T19:54:27+00:00"
+            "time": "2019-03-05T09:24:51+00:00"
         },
         {
             "name": "barryvdh/reflection-docblock",
@@ -5888,6 +5888,37 @@
             "time": "2017-07-22T11:58:36+00:00"
         },
         {
+            "name": "exosuite/coding-standard",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ExoSuite/coding-standard.git",
+                "reference": "e52786d4f35e672c14a42d6377645c607b65724e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ExoSuite/coding-standard/zipball/e52786d4f35e672c14a42d6377645c607b65724e",
+                "reference": "e52786d4f35e672c14a42d6377645c607b65724e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1||^8.0",
+                "squizlabs/php_codesniffer": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ExoSuiteCodingStandard\\": "ExoSuiteCodingStandard"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "ExoSuite Coding Standard.",
+            "time": "2019-03-06T01:55:20+00:00"
+        },
+        {
             "name": "filp/whoops",
             "version": "2.3.1",
             "source": {
@@ -6222,16 +6253,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v2.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "8194db54d1a5982750c3a8f59551355c393c927a"
+                "reference": "d7a3ca4338b1a1527b8d19a5d62015a468f8ca56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/8194db54d1a5982750c3a8f59551355c393c927a",
-                "reference": "8194db54d1a5982750c3a8f59551355c393c927a",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/d7a3ca4338b1a1527b8d19a5d62015a468f8ca56",
+                "reference": "d7a3ca4338b1a1527b8d19a5d62015a468f8ca56",
                 "shasum": ""
             },
             "require": {
@@ -6281,7 +6312,7 @@
                 "laravel",
                 "monitoring"
             ],
-            "time": "2019-02-26T20:43:16+00:00"
+            "time": "2019-03-05T13:47:35+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -7693,6 +7724,52 @@
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
             "time": "2019-02-12T14:54:38+00:00"
+        },
+        {
+            "name": "phpstan/phpstan-deprecation-rules",
+            "version": "0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan-deprecation-rules.git",
+                "reference": "449fee6223220b337760abca4444801ddcc8b38d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/449fee6223220b337760abca4444801ddcc8b38d",
+                "reference": "449fee6223220b337760abca4444801ddcc8b38d",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.0",
+                "php": "~7.1",
+                "phpstan/phpstan": "^0.11"
+            },
+            "require-dev": {
+                "consistence/coding-standard": "^3.0.1",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
+                "jakub-onderka/php-parallel-lint": "^1.0",
+                "phing/phing": "^2.16.0",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpunit/phpunit": "^7.0",
+                "slevomat/coding-standard": "^4.5.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.11-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPStan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan rules for detecting usage of deprecated classes, methods, properties, constants and traits.",
+            "time": "2018-12-05T18:04:16+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

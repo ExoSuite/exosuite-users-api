@@ -7,6 +7,7 @@ use App\Models\UserProfile;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
@@ -19,7 +20,7 @@ class UserProfileTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @var null */
+    /** @var \App\Models\User $user */
     private static $user = null;
 
     public function testGetProfile(): void
@@ -37,7 +38,7 @@ class UserProfileTest extends TestCase
     public function testPatchProfileDescription(): void
     {
         $data = [
-            'description' => str_random(),
+            'description' => Str::random(),
         ];
 
         $response = $this->patch(route('patch_user_profile'), $data);
@@ -47,7 +48,7 @@ class UserProfileTest extends TestCase
     public function testPatchProfileCity(): void
     {
         $data = [
-            'city' => str_random(),
+            'city' => Str::random(),
         ];
 
         $response = $this->patch(route('patch_user_profile'), $data);
@@ -68,7 +69,7 @@ class UserProfileTest extends TestCase
     {
         parent::setUp();
 
-        if (!self::$user) {
+        if (self::$user === null) {
             self::$user = factory(User::class)->create();
         }
 
