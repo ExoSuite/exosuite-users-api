@@ -201,4 +201,19 @@ class User extends \Illuminate\Foundation\Auth\User
     {
         return $this->hasMany(Like::class, 'liker_id');
     }
+
+    /**
+     * @return mixed[]
+     */
+    public function toSearchableArray(): array
+    {
+        $self = $this->toArray();
+
+        return [
+            'id' => $self['id'],
+            'first_name' => $self['first_name'],
+            'last_name' => $self['last_name'],
+            'nick_name' => $self['nick_name'],
+        ];
+    }
 }
