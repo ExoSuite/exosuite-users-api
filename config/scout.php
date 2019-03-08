@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'queue' => env('SCOUT_QUEUE', !(env('APP_ENV') === 'testing')), // bug with queue enabled
+    'queue' => env('SCOUT_QUEUE', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,8 +55,8 @@ return [
     */
 
     'chunk' => [
-        'searchable' => 5000,
-        'unsearchable' => 5000,
+        'searchable' => 500,
+        'unsearchable' => 500,
     ],
 
     /*
