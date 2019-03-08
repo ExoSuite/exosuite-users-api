@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
-use App\Http\Middleware\AuthenticateHorizon;
 use App\Enums\Queue;
+use App\Http\Middleware\AuthenticateHorizon;
 
 return [
 
