@@ -1,38 +1,33 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Console;
 
 use App\Facades\ApiHelper;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Laravel\Passport\Console\ClientCommand;
+use function base_path;
 
 /**
  * Class Kernel
+ *
  * @package App\Console
  */
-class Kernel extends ConsoleKernel
+class Kernel extends \Illuminate\Foundation\Console\Kernel
 {
 
-    /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
+    /** @var string[] */
     protected $commands = [
-        ClientCommand::class
+        ClientCommand::class,
     ];
-
 
     /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule $schedule
-     * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-        if (ApiHelper::isProduction() or ApiHelper::isStaging()) {
+        if (ApiHelper::isProduction() || ApiHelper::isStaging()) {
             $schedule->command('horizon:snapshot')->everyFiveMinutes();
         } else {
             $schedule->command('horizon:snapshot')->everyMinute();
@@ -47,7 +42,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__ . '/Commands');
 

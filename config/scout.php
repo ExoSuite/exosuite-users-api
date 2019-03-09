@@ -1,11 +1,4 @@
-<?php
-
-if (!function_exists('runningUnitTests')) {
-    function runningUnitTests()
-    {
-        return env('APP_ENV') === 'testing';
-    }
-}
+<?php declare(strict_types = 1);
 
 return [
 
@@ -48,7 +41,7 @@ return [
     |
     */
 
-    'queue' => env('SCOUT_QUEUE', !runningUnitTests()), // bug with queue enabled
+    'queue' => env('SCOUT_QUEUE', true),
 
     /*
     |--------------------------------------------------------------------------

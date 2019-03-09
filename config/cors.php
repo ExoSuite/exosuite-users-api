@@ -1,23 +1,23 @@
-<?php
+<?php declare(strict_types = 1);
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel CORS
-    |--------------------------------------------------------------------------
-    |
-    | allowedOrigins, allowedHeaders and allowedMethods can be set to array('*')
-    | to accept any value.
-    |
-    */
+	/*
+	|--------------------------------------------------------------------------
+	| Laravel CORS
+	|--------------------------------------------------------------------------
+	|
+	| allowedOrigins, allowedHeaders and allowedMethods can be set to array('*')
+	| to accept any value.
+	|
+	*/
 
     'supportsCredentials' => false,
     'allowedOrigins' => [
-        'app.exosuite.local',
-        'app.dev.exosuite.fr',
-        'app.exosuite.fr',
-        'confluence.dev.exosuite.fr'
+        'http://app.exosuite.local',
+        'https://app.teamexosuite.cloud',
+        'https://app.exosuite.fr',
+        'confluence.teamexosuite.cloud',
     ],
     'allowedOriginsPatterns' => [],
     'allowedHeaders' => ['*'],

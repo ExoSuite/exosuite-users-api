@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection ALL */
+
+/** @noinspection PhpUndefinedVariableInspection */
 
 use App\Models\Run;
 use Faker\Generator as Faker;

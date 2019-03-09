@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -13,12 +14,14 @@ use Illuminate\Http\Response;
 
 /**
  * Interface MakeOAuthRequest
+ *
  * @package App\Contracts
  */
 interface MakeOAuthRequest
 {
+
     /**
-     * @param Authenticatable $user
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
      * @param int $client_id
      * @param string $client_secret
      * @param int $statusCode

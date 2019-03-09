@@ -1,26 +1,26 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Models\Indexes\UserIndexConfigurator;
 use App\Models\SearchRules\UserSearchRule;
 use App\Pivots\RoleUser;
-use App\Pivots\UserShare;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use ScoutElastic\Searchable;
 use Webpatser\Uuid\Uuid;
+use function strtolower;
 
 /**
  * Class User
+ *
  * @package App\Models
- * @property Uuid $id
+ * @property \Webpatser\Uuid\Uuid $id
  * @property string $first_name
  * @property string $last_name
  * @property string $nick_name
@@ -29,7 +29,7 @@ use Webpatser\Uuid\Uuid;
  * @property string $remember_token
  * @property string $email_verified_at
  */
-class User extends Authenticatable
+class User extends \Illuminate\Foundation\Auth\User
 {
     use HasApiTokens;
     use Searchable;
@@ -37,46 +37,41 @@ class User extends Authenticatable
 
     /**
      * Indicates if the IDs are auto-incrementing.
+     *
      * @var bool
      */
     public $incrementing = false;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $indexConfigurator = UserIndexConfigurator::class;
 
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $searchRules = [
-        UserSearchRule::class
+        UserSearchRule::class,
     ];
 
-    /**
-     * @var array
-     */
+    /** @var array<string, array<string, array<string, string>>> */
     protected $mapping = [
         'properties' => [
             'first_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard'
+                'analyzer' => 'standard',
             ],
             'last_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard'
+                'analyzer' => 'standard',
             ],
             'nick_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard'
+                'analyzer' => 'standard',
             ],
-        ]
+        ],
     ];
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = [
         'id',
@@ -85,39 +80,35 @@ class User extends Authenticatable
         'nick_name',
         'email',
         'password',
-        'remember_token'
+        'remember_token',
     ];
 
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var string[]
      */
     protected $hidden = [
-        'password', 'email_verified_at', 'remember_token'
+        'password',
+        'email_verified_at',
+        'remember_token',
     ];
 
-    /**
-     * @return void
-     */
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
         static::creating(
-            function (User $user) {
+            static function (User $user): void {
                 $user->password = Hash::make($user->password);
                 $user->{$user->getKeyName()} = Uuid::generate()->string;
             }
         );
 
-        static::created(function (User $user) {
+        static::created(static function (User $user): void {
             $user->profile()->create();
         });
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class, $this->primaryKey);
@@ -134,63 +125,54 @@ class User extends Authenticatable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function roles(): BelongsToMany
-    {
-        return $this->belongsToMany(Role::class)->using(RoleUser::class);
-    }
-
-    /**
      * Checks if User has access to $permissions.
-     * @param array $permissions
+     *
+     * @param string[] $permissions
      * @return bool
      */
     public function hasAccess(array $permissions): bool
     {
         // check if the permission is available in any role
         $roles = $this->roles()->getModels();
-        /** @var Role $role */
+
+        /** @var \App\Models\Role $role */
         foreach ($roles as $role) {
             if ($role->hasAccess($permissions)) {
                 return true;
             }
         }
+
         return false;
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class)->using(RoleUser::class);
     }
 
     /**
      * Checks if the user belongs to role.
+     *
      * @param string $roleSlug
      * @return bool
      */
-    public function inRole(string $roleSlug)
+    public function inRole(string $roleSlug): bool
     {
         return $this->roles()->whereSlug(strtolower($roleSlug))->exists();
     }
 
-    /**
-     * @param string $role
-     * @return void
-     */
-    public function addRole(string $role)
+    public function addRole(string $role): void
     {
-        /** @var Role $roleModel */
+        /** @var \App\Models\Role $roleModel */
         $roleModel = $this->roles()->getRelated();
         $this->roles()->attach($roleModel->getIdFromRoleName($role));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function runs(): HasMany
     {
         return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     public function sharedRuns(): MorphToMany
     {
         return $this->morphedByMany(
@@ -200,23 +182,38 @@ class User extends Authenticatable
         )->withTimestamps();
     }
 
-    public function dashboard()
+    public function dashboard(): HasOne
     {
         return $this->hasOne(Dashboard::class, 'owner_id');
     }
 
-    public function posts()
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'author_id');
     }
 
-    public function commentaries()
+    public function commentaries(): HasMany
     {
         return $this->hasMany(Commentary::class, 'author_id');
     }
 
-    public function likes()
+    public function likes(): HasMany
     {
         return $this->hasMany(Like::class, 'liker_id');
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function toSearchableArray(): array
+    {
+        $self = $this->toArray();
+
+        return [
+            'id' => $self['id'],
+            'first_name' => $self['first_name'],
+            'last_name' => $self['last_name'],
+            'nick_name' => $self['nick_name'],
+        ];
     }
 }

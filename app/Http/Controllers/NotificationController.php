@@ -1,23 +1,28 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use function now;
 
+/**
+ * Class NotificationController
+ *
+ * @package App\Http\Controllers
+ */
 class NotificationController extends Controller
 {
-    /**
-     * @param Notification $notification
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update($notification = null)
+
+    public function update(?Notification $notification = null): JsonResponse
     {
         if ($notification instanceof Notification) {
             Auth::user()->unreadNotifications()->findOrFail($notification->id)->update(['read_at' => now()]);
         } else {
             Auth::user()->unreadNotifications()->update(['read_at' => now()]);
         }
+
         return $this->noContent();
     }
 
@@ -27,15 +32,11 @@ class NotificationController extends Controller
     public function index()
     {
         $user_notifications = Auth::user()->notifications()->get();
+
         return $this->ok($user_notifications);
     }
 
-    /**
-     * @param Notification $notification
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function destroy($notification = null)
+    public function destroy(?Notification $notification = null): JsonResponse
     {
         if ($notification instanceof Notification) {
             $notifications = Auth::user()->notifications()->findOrFail($notification->id);
@@ -43,6 +44,7 @@ class NotificationController extends Controller
         } else {
             Auth::user()->notifications()->delete();
         }
+
         return $this->noContent();
     }
 }

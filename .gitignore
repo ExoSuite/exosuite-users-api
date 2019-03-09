@@ -30,3 +30,6 @@ _ide_helper_models.php
 graph.png
 graph.svg
 !.gitkeep
+.idea/encodings.xml
+storage/medialibrary/
+uploads

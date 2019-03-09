@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Events;
 
@@ -14,31 +14,32 @@ use Illuminate\Queue\SerializesModels;
 
 /**
  * Class NewMessageEvent
+ *
  * @package App\Events
  */
 class NewMessageEvent implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
-    /**
-     * @var string
-     */
+
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
+
+    /** @var string */
     public $broadcastQueue = Queue::MESSAGE;
-    /**
-     * @Group Group
-     */
+
+    /** @var \App\Models\Group */
     public $group;
-    /**
-     * @Message Message
-     */
+
+    /** @var \App\Models\Message */
     public $message;
 
     /**
      * Create a new event instance.
      *
-     * @param Group $group_
-     * @param Message $message_
+     * @param \App\Models\Group $group_
+     * @param \App\Models\Message $message_
      */
-    public function __construct($group_, $message_)
+    public function __construct(Group $group_, Message $message_)
     {
         $this->group = $group_;
         $this->message = $message_;
@@ -47,23 +48,20 @@ class NewMessageEvent implements ShouldBroadcast
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return \Illuminate\Broadcasting\PresenceChannel;
      */
-    public function broadcastOn()
+    public function broadcastOn(): PresenceChannel
     {
         return new PresenceChannel("group.{$this->group->id}");
     }
 
-    /**
-     * @return string
-     */
-    public function broadcastAs()
+    public function broadcastAs(): string
     {
         return MessageBroadcastType::CREATED_MESSAGE;
     }
 
     /**
-     *
+     * @return mixed
      */
     public function broadcastWith()
     {

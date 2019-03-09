@@ -1,36 +1,33 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
 use App\Enums\Restriction;
 use App\Models\Dashboard;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
+/**
+ * Class DashboardTest
+ *
+ * @package Tests\Feature
+ */
 class DashboardTest extends TestCase
 {
+    use RefreshDatabase;
+
+    /** @var \App\Models\User */
     private $user;
-
-    private $dash;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
-    }
 
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testGetDashboardId()
+    public function testGetDashboardId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_dashboard_id', ['user' => $this->user->id]));
@@ -38,7 +35,7 @@ class DashboardTest extends TestCase
         $this->assertEquals(1, count($response->decodeResponseJson()));
     }
 
-    public function testGetRestriction()
+    public function testGetRestriction(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_dashboard_restriction', ['user' => $this->user->id]));
@@ -46,12 +43,20 @@ class DashboardTest extends TestCase
         $this->assertEquals(1, count($response->decodeResponseJson()));
     }
 
-    public function testChangeRestriction()
+    public function testChangeRestriction(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->patch(route("patch_dashboard_restriction", [
-            'user' => $this->user->id
+        $response = $this->patch(route('patch_dashboard_restriction', [
+            'user' => $this->user->id,
         ]), ['restriction' => Restriction::PUBLIC]);
         $response->assertStatus(Response::HTTP_OK);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = factory(User::class)->create();
+        factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
     }
 }

@@ -1,6 +1,7 @@
-<?php
+<?php declare(strict_types = 1);
 
 use App\Models\Group;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,14 @@ use App\Models\Group;
 */
 
 // private notification channel for a single user
-Broadcast::channel('users.{id}', function ($user, $id) {
+Broadcast::channel('users.{id}', static function ($user, $id) {
     return $user->id === $id;
 });
 
-Broadcast::channel('group.{group_id}', function ($user, Group $group) {
-    return $group->groupMembers()->whereUserId($user)->exists();
+Broadcast::channel('group.{group}', static function (User $user, Group $group) {
+    if ($group->groupMembers()->whereUserId($user->id)->exists()) {
+        return $group;
+    }
+
+    return false;
 });
