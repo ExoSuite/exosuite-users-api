@@ -14,7 +14,7 @@ class Dashboard extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'id', 'owner_id', 'restriction', 'created_at', 'updated_at'
+        'id', 'owner_id', 'visibility', 'writing_restriction', 'created_at', 'updated_at'
     ];
 
     public function user()

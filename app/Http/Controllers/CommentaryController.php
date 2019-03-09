@@ -74,7 +74,7 @@ class CommentaryController extends Controller
     {
         $owner_id = $dashboard->owner_id;
         if ($owner_id !== Auth::user()->id && $post->author_id !== Auth::user()->id) {
-            switch ($dashboard->restriction) {
+            switch ($dashboard->writing_restriction) {
                 case Restriction::PUBLIC:
                     {
                         return $this->created($this->createComm($request->validated(), $post));
@@ -117,7 +117,7 @@ class CommentaryController extends Controller
     {
         $owner_id = $dashboard->owner_id;
         if ($owner_id !== Auth::user()->id) {
-            switch ($dashboard->restriction) {
+            switch ($dashboard->visibility) {
                 case Restriction::PUBLIC:
                     {
                         return $this->getComms($post);

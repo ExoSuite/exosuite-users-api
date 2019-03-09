@@ -38,6 +38,11 @@ Route::middleware('auth:api')->group(function () {
                     ->name('patch_user_profile');
             });
 
+            Route::prefix('dashboard')->group(function () {
+                Route::get('/visibility', 'DashboardsController@getVisibility')->name('get_dashboard_visibility');
+                Route::get('/writing_restriction', 'DashboardsController@getWritingRestriction')->name('get_dashboard_writing_restriction');
+            });
+
             Route::prefix('friendship')->group(function () {
                 Route::get('/', 'RelationsController@getMyFriendships')->name('get_my_friendships');
             });
@@ -80,7 +85,6 @@ Route::middleware('auth:api')->group(function () {
 
             //DASHBOARDS-----------------------------------------------------------------------------------------
             Route::prefix('dashboard')->group(function () {
-                Route::get('/restriction', 'DashboardsController@getRestriction')->name('get_dashboard_restriction');
                 Route::patch('/restriction', 'DashboardsController@changeRestriction')->name('patch_dashboard_restriction');
                 Route::get('/', 'DashboardsController@getDashboardId')->name('get_dashboard_id');
 
