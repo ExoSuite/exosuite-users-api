@@ -1,20 +1,27 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Providers;
 
 use App\Enums\Roles;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
+use function app;
 
-
+/**
+ * Class HorizonServiceProvider
+ *
+ * @package \App\Providers
+ */
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
+
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 
@@ -24,26 +31,30 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     }
 
     /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register(): void
+    {
+        Horizon::night();
+    }
+
+    /**
      * Register the Horizon gate.
      *
      * This gate determines who can access Horizon in non-local environments.
      *
      * @return void
      */
-    protected function gate()
+    protected function gate(): void
     {
-        Gate::define('viewHorizon', function ($user) {
+        Gate::define('viewHorizon', static function ($user) {
+            if (app()->runningUnitTests()) {
+                return true;
+            }
+
             return $user->inRole(Roles::ADMINISTRATOR);
         });
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
     }
 }

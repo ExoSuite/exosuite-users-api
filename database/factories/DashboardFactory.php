@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedVariableInspection */
 
 use App\Enums\Restriction;
 use App\Models\Dashboard;

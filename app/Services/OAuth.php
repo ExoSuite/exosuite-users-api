@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -17,13 +18,14 @@ use Illuminate\Http\Response;
 
 /**
  * Class OAuth
+ *
  * @package App\Services
  */
 abstract class OAuth implements MakeOAuthRequest
 {
 
     /**
-     * @param Authenticatable $user
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
      * @param int $client_id
      * @param string $client_secret
      * @param int $statusCode
@@ -34,7 +36,8 @@ abstract class OAuth implements MakeOAuthRequest
         int $client_id,
         string $client_secret,
         int $statusCode = Response::HTTP_OK
-    ) {
+    )
+    {
         $data = [
             'grant_type' => 'password',
             'client_id' => $client_id,
