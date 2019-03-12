@@ -176,17 +176,12 @@ class GroupController extends Controller
     {
         $request->validated();
         $requestType = $request->get('request_type');
+        $group->load('groupMembers');
 
         return $this->ok(call_user_func($this->updateFunctions[$requestType], $request->validated(), $group));
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param \App\Models\Group $group
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index(Group $group): JsonResponse
+    public function show(Group $group): JsonResponse
     {
         return $this->ok($group->load('groupMembers'));
     }

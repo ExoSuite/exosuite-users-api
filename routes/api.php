@@ -1,9 +1,6 @@
 <?php declare(strict_types = 1);
 
-use App\Models\User;
-use App\Notifications\FollowNotification;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +29,8 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::get('/', 'User\UserController@me')
                 ->name('get_user');
 
+            Route::get('/groups', 'User\UserController@groups')->name('get_my_groups');
+
             Route::patch('/', 'User\UserController@update')->name('patch_user');
 
             Route::prefix('profile')->group(static function (): void {
@@ -52,7 +51,6 @@ Route::middleware('auth:api')->group(static function (): void {
                 Route::post('/accept', 'RelationsController@acceptRequest')->name('post_accept_friendship_request');
                 Route::post('/decline', 'RelationsController@declineRequest')->name('post_decline_friendship_request');
             });
-            Route::get('/groups', 'User\UserController@groups')->name('get_my_groups');
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');
@@ -160,7 +158,7 @@ Route::middleware('auth:api')->group(static function (): void {
         Route::post('/', 'GroupController@store')->name('post_group');
         Route::patch('/{group}', 'GroupController@update')->name('patch_group')
             ->middleware('can:update,group');
-        Route::get('/{group}', 'GroupController@index')->name('get_group');
+        Route::get('/{group}', 'GroupController@show')->name('get_group');
         Route::delete('/{group}', 'GroupController@destroy')
             ->name('delete_group')
             ->middleware('can:delete,group');
@@ -226,15 +224,4 @@ Route::middleware('auth:api')->group(static function (): void {
 
 if (!App::environment('production')) {
     Route::get('staging/client', 'StagingController@get')->name('staging-client');
-}
-
-if (App::environment('local')) {
-    Route::get('test', static function () {
-        Notification::send(
-            User::all(),
-            new FollowNotification
-        );
-
-        return ['SENT!'];
-    });
 }
