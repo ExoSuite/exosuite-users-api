@@ -15,9 +15,10 @@ return [
     'supportsCredentials' => false,
     'allowedOrigins' => [
         'http://app.exosuite.local',
+        'http://exosuite.local',
         'https://app.teamexosuite.cloud',
         'https://app.exosuite.fr',
-        'confluence.teamexosuite.cloud',
+        'https://confluence.teamexosuite.cloud',
     ],
     'allowedOriginsPatterns' => [],
     'allowedHeaders' => ['*'],
