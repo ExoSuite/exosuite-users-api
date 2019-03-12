@@ -3,13 +3,15 @@
 namespace Tests\Feature;
 
 use App\Enums\BindType;
+use App\Models\Group;
+use App\Models\GroupMember;
+use App\Models\Message;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
@@ -34,6 +36,7 @@ class UserTest extends TestCase
     public function testLoginMustReturnTokens(): void
     {
         $clientRepository = new ClientRepository;
+        /** @var \Laravel\Passport\Client $client */
         $client = $clientRepository->createPasswordGrantClient(null, Str::random(), "http://localhost");
 
         $response = $this->json(
@@ -97,27 +100,32 @@ class UserTest extends TestCase
     public function testGetGroups(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->post(
-            $this->route('post_group'),
-            ['name' => Str::random(100), 'users' => [
-                factory(User::class)->create()->id,
-                factory(User::class)->create()->id,
-            ],
-            ]
-        );
-        $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
-        $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
-        $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
-        $group_id = $response->decodeResponseJson('id');
+        $members = collect();
+        $members->push(new GroupMember(['user_id' => $this->user->id, 'is_admin' => true]));
+        $members->push(new GroupMember(['user_id' => factory(User::class)->create()->id]));
+        $members->push(new GroupMember(['user_id' => factory(User::class)->create()->id]));
+        /** @var \App\Models\Group $group */
+        $group = factory(Group::class)->create();
+        $group->groupMembers()->saveMany($members);
+
+        for ($i = 0; $i < 20; $i++) {
+            factory(Message::class)->create(['group_id' => $group->id, 'user_id' => $this->user->id]);
+        }
 
         // GET REQUEST
-        $get_req = $this->get($this->route('get_my_groups', [BindType::GROUP => $group_id]));
+        $get_req = $this->get($this->route('get_my_groups', [BindType::GROUP => $group->id]));
         $get_req->assertStatus(Response::HTTP_OK);
         $data = $get_req->decodeResponseJson('data');
         $this->assertTrue(is_array($data));
-        $get_req->assertJsonStructure(['data' => [['name', 'id', 'updated_at', 'created_at', 'group_members']]]);
-        $this->assertTrue(is_array($data[0]['group_members']));
+        $get_req->assertJsonStructure(['data' => [
+            ['name', 'id', 'updated_at', 'created_at', 'group_members', 'latest_messages'],
+        ],
+        ]);
+        $this->assertTrue(is_array($data[0]['group_members']) && count($data[0]['group_members']) === 3);
+        $this->assertTrue(
+            is_array($data[0]['latest_messages']) &&
+            count($data[0]['latest_messages']) === Group::MAX_MESSAGE_PER_PAGE
+        );
     }
 
     protected function setUp(): void

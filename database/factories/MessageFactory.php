@@ -1,11 +1,10 @@
-<?php /** @noinspection PhpUndefinedVariableInspection */
-
-/** @noinspection PhpUndefinedVariableInspection */
+<?php
 
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 $factory->define(\App\Models\Message::class, function (Faker $faker) {
     return [
-        "contents" => str_random(10)
+        "contents" => Str::random(),
     ];
 });

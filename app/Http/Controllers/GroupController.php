@@ -176,14 +176,14 @@ class GroupController extends Controller
     {
         $request->validated();
         $requestType = $request->get('request_type');
-        $group->load('groupMembers');
+        $group->loadGroupMembersAndLatestMessages();
 
         return $this->ok(call_user_func($this->updateFunctions[$requestType], $request->validated(), $group));
     }
 
     public function show(Group $group): JsonResponse
     {
-        return $this->ok($group->load('groupMembers'));
+        return $this->ok($group->loadGroupMembersAndLatestMessages());
     }
 
     /**

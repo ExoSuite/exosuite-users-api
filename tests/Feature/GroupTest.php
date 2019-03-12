@@ -3,6 +3,9 @@
 namespace Tests\Feature;
 
 use App\Enums\BindType;
+use App\Models\Group;
+use App\Models\GroupMember;
+use App\Models\Message;
 use App\Models\User;
 use App\Notifications\DeletedGroupNotification;
 use App\Notifications\ExpelledFromGroupNotification;
@@ -214,20 +217,27 @@ class GroupTest extends TestCase
     public function testGetGroup(): void
     {
         Passport::actingAs($this->user1);
-        $response = $this->post(
-            $this->route('post_group'),
-            ['name' => Str::random(100), 'users' => [$this->user2->id, $this->user3->id]]
-        );
-        $response->assertStatus(Response::HTTP_CREATED);
-        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
-        $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
-        $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
-        $group_id = $response->decodeResponseJson('id');
+        $members = collect();
+        $members->push(new GroupMember(['user_id' => $this->user1->id, 'is_admin' => true]));
+        $members->push(new GroupMember(['user_id' => $this->user2->id]));
+        $members->push(new GroupMember(['user_id' => $this->user3->id]));
+        /** @var \App\Models\Group $group */
+        $group = factory(Group::class)->create();
+        $group->groupMembers()->saveMany($members);
+
+        for ($i = 0; $i < 20; $i++) {
+            factory(Message::class)->create(['group_id' => $group->id, 'user_id' => $this->user1->id]);
+        }
 
         // GET REQUEST
-        $get_req = $this->get($this->route('get_group', [BindType::GROUP => $group_id]));
+        $get_req = $this->get($this->route('get_group', [BindType::GROUP => $group->id]));
         $get_req->assertStatus(Response::HTTP_OK);
-        $get_req->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
+        $get_req->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members', 'latest_messages']);
+        $latest_messages = $get_req->decodeResponseJson('latest_messages');
+        $this->assertTrue(
+            is_array($latest_messages) &&
+            count($latest_messages) === Group::MAX_MESSAGE_PER_PAGE
+        );
         $this->assertTrue(is_array($get_req->decodeResponseJson('group_members')));
     }
 
