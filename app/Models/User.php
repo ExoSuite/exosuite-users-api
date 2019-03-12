@@ -209,7 +209,7 @@ class User extends \Illuminate\Foundation\Auth\User
             'id',
             'id',
             'group_id'
-        )->with('groupMembers');
+        )->with(['groupMembers', 'latestMessages']);
     }
 
     /**
