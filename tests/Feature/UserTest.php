@@ -114,7 +114,7 @@ class UserTest extends TestCase
         // GET REQUEST
         $get_req = $this->get($this->route('get_my_groups', [BindType::GROUP => $group_id]));
         $get_req->assertStatus(Response::HTTP_OK);
-        $data = $get_req->decodeResponseJson(['data']);
+        $data = $get_req->decodeResponseJson('data');
         $this->assertTrue(is_array($data));
         $get_req->assertJsonStructure(['data' => [['name', 'id', 'updated_at', 'created_at', 'group_members']]]);
         $this->assertTrue(is_array($data[0]['group_members']));
