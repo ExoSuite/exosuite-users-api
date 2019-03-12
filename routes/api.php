@@ -227,14 +227,3 @@ Route::middleware('auth:api')->group(static function (): void {
 if (!App::environment('production')) {
     Route::get('staging/client', 'StagingController@get')->name('staging-client');
 }
-
-if (App::environment('local')) {
-    Route::get('test', static function () {
-        Notification::send(
-            User::all(),
-            new FollowNotification
-        );
-
-        return ['SENT!'];
-    });
-}

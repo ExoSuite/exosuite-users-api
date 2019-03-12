@@ -57,7 +57,7 @@ class UserTest extends TestCase
 
     public function testGetPersonalInfos(): void
     {
-        Passport::actingAs(factory(User::class)->create());
+        Passport::actingAs(factory(User::class)->create(['nick_name' => Str::random()]));
 
         $response = $this->get(
             route('get_user')

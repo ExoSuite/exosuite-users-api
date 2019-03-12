@@ -55,15 +55,12 @@ class User extends \Illuminate\Foundation\Auth\User
         'properties' => [
             'first_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard',
             ],
             'last_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard',
             ],
             'nick_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard',
             ],
         ],
     ];
@@ -207,13 +204,11 @@ class User extends \Illuminate\Foundation\Auth\User
      */
     public function toSearchableArray(): array
     {
-        $self = $this->toArray();
-
         return [
-            'id' => $self['id'],
-            'first_name' => $self['first_name'],
-            'last_name' => $self['last_name'],
-            'nick_name' => $self['nick_name'],
+            'id' => $this->id,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'nick_name' => $this->nick_name,
         ];
     }
 }

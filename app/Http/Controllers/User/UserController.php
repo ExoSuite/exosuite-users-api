@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\Auth;
  */
 class UserController extends Controller
 {
+    private const USER_SEARCH_PAGE = 15;
 
     public function me(): JsonResponse
     {
-        return $this->ok(User::with('profile')->whereId(Auth::id())->first());
+        return $this->ok(Auth::user()->load("profile"));
     }
 
     public function update(UpdateUserRequest $request): JsonResponse
@@ -32,9 +33,12 @@ class UserController extends Controller
 
     public function search(UserSearchRequest $request): JsonResponse
     {
-        $users = User::search($request->text)->with('profile')->paginate();
+        $userPage = User::search($request->text)
+            ->with('profile:city,birthday,avatar_id')
+            ->select(['id', 'first_name', 'last_name', 'nick_name'])
+            ->paginate(self::USER_SEARCH_PAGE);
 
-        return $this->ok($users);
+        return $this->ok($userPage);
     }
 
     public function groups(): string
