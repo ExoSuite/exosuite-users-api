@@ -7,6 +7,7 @@ use App\Models\SearchRules\UserSearchRule;
 use App\Pivots\RoleUser;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Notifications\Notifiable;
@@ -197,6 +198,18 @@ class User extends \Illuminate\Foundation\Auth\User
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class, 'liker_id');
+    }
+
+    public function groups(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Group::class,
+            GroupMember::class,
+            'user_id',
+            'id',
+            'id',
+            'group_id'
+        )->with('groupMembers');
     }
 
     /**

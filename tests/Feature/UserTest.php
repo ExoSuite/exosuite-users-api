@@ -2,12 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Enums\BindType;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
@@ -90,6 +92,32 @@ class UserTest extends TestCase
 
         $response = $this->patch(route('patch_user'), ['nick_name', $this->faker->name]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
+    }
+
+    public function testGetGroups(): void
+    {
+        Passport::actingAs($this->user);
+        $response = $this->post(
+            $this->route('post_group'),
+            ['name' => Str::random(100), 'users' => [
+                factory(User::class)->create()->id,
+                factory(User::class)->create()->id,
+            ],
+            ]
+        );
+        $response->assertStatus(Response::HTTP_CREATED);
+        $this->assertDatabaseHas('groups', Arr::except($response->decodeResponseJson(), 'group_members'));
+        $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
+        $this->assertTrue(is_array($response->decodeResponseJson('group_members')));
+        $group_id = $response->decodeResponseJson('id');
+
+        // GET REQUEST
+        $get_req = $this->get($this->route('get_my_groups', [BindType::GROUP => $group_id]));
+        $get_req->assertStatus(Response::HTTP_OK);
+        $data = $get_req->decodeResponseJson(['data']);
+        $this->assertTrue(is_array($data));
+        $get_req->assertJsonStructure(['data' => [['name', 'id', 'updated_at', 'created_at', 'group_members']]]);
+        $this->assertTrue(is_array($data[0]['group_members']));
     }
 
     protected function setUp(): void

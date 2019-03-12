@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UserSearchRequest;
-use App\Models\GroupMember;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -41,8 +40,17 @@ class UserController extends Controller
         return $this->ok($userPage);
     }
 
-    public function groups(): string
+    /**
+     * Display a listing of the groups.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function groups(): JsonResponse
     {
-        return GroupMember::whereUserId(Auth::id())->get()->toJson();
+        return $this->ok(
+            Auth::user()
+                ->groups()
+                ->paginate()
+        );
     }
 }
