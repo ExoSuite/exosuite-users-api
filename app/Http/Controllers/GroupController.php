@@ -176,6 +176,7 @@ class GroupController extends Controller
     {
         $request->validated();
         $requestType = $request->get('request_type');
+        $group->load('groupMembers');
 
         return $this->ok(call_user_func($this->updateFunctions[$requestType], $request->validated(), $group));
     }

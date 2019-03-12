@@ -186,8 +186,8 @@ class GroupTest extends TestCase
             $this->route('patch_group', [BindType::GROUP => $group_id]),
             ['request_type' => 'update_group_name', 'name' => $new_name]
         );
-        $test_req->assertStatus(Response::HTTP_OK);
-        $this->assertDatabaseHas('groups', $test_req->decodeResponseJson());
+        $test_req->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
+        $this->assertTrue(is_array($test_req->decodeResponseJson('group_members')));
     }
 
     public function testDeleteGroup(): void
