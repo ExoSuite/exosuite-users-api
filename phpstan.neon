@@ -16,6 +16,7 @@ parameters:
         - '#Illuminate\\Support\\Facades\\Notification::assertTimesSent#'
         - '#Illuminate\\Support\\Facades\\Notification::assertSentTo#'
         - '#Illuminate\\Support\\Facades\\Notification::assertNotSentTo#'
+        - '#parameters()#'
     paths:
         - %rootDir%/../../../app
         - %rootDir%/../../../routes
