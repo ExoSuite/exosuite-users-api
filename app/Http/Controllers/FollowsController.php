@@ -39,16 +39,10 @@ class FollowsController extends Controller
             : $this->noContent();
     }
 
-    public function delete(User $user): JsonResponse
+    public function delete(Follow $follow): JsonResponse
     {
-        $entity = Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id);
+        $follow->delete();
 
-        if ($entity->exists()) {
-            $entity->delete();
-
-            return $this->noContent();
-        }
-
-        return $this->badRequest("You're not following this user.");
+        return $this->noContent();
     }
 }

@@ -47,22 +47,11 @@ class FollowsUnitTest extends TestCase
         $response->assertJson(['message' => "You're already following this user."]);
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function testUnfollowWithWrongUser(): void
-    {
-        Passport::actingAs($this->user);
-        $response = $this->delete(route('delete_follow', ['user' => Uuid::generate()->string]));
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-
     public function testUselessUnfollow(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->delete(route('delete_follow', ['user' => $this->user1->id]));
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
-        $response->assertJson(['message' => "You're not following this user."]);
+        $response = $this->delete(route('delete_follow', ['follow' => Uuid::generate()->string]));
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**

@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Restriction;
 use App\Http\Requests\Dashboard\ChangeRestrictionRequest;
 use App\Models\Dashboard;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
 
 /**
  * Class DashboardsController
@@ -23,24 +20,21 @@ class DashboardsController extends Controller
     {
         $new_policy->validated();
 
-        switch ($new_policy->get('restriction')) {
-            case Restriction::PUBLIC:
-            case Restriction::FRIENDS:
-            case Restriction::FRIENDS_FOLLOWERS:
-            case Restriction::PRIVATE:
-                $dash = Dashboard::whereOwnerId(Auth::user()->id)->first();
-                $dash->update(['restriction' => $new_policy->get('restriction')]);
+        $dash = Dashboard::whereOwnerId(Auth::user()->id)->first();
+        $dash->update([$new_policy->get('restriction_field') => $new_policy->get('restriction_level')]);
 
-                return $this->ok(['restriction status' => $dash['restriction']]);
-            default:
-                return Response::json('Wrong restriction type provided.')
-                    ->setStatusCode(HttpResponse::HTTP_BAD_REQUEST);
-        }
+        return $this->ok([
+            $new_policy->get('restriction_field')
+            => $dash[$new_policy->get('restriction_field')],
+        ]);
     }
 
     public function getRestriction(): JsonResponse
     {
-        return $this->ok(['restriction' => Dashboard::whereOwnerId(Auth::user()->id)->get()->pluck('restriction')]);
+        return $this->ok([
+            'visibility' => Dashboard::whereOwnerId(Auth::user()->id)->get()->pluck('visibility'),
+            'write_restriction' => Dashboard::whereOwnerId(Auth::user()->id)->get()->pluck('writing_restriction'),
+        ]);
     }
 
     public function getDashboardId(User $user): JsonResponse

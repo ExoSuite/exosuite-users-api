@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Enums\Restriction;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -34,12 +35,23 @@ class DashboardUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    public function testChangeRestrictionWithWrongValue(): void
+    public function testChangeRestrictionWithWrongField(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->patch(route('patch_dashboard_restriction', ['user' => $this->user->id]), [
-            'restriction' => 'wrong_value',
-        ]);
+        $response = $this->patch(route('patch_dashboard_restriction', [
+            'user' => $this->user->id,
+        ]), ["restriction_field" => "blas",
+            "restriction_level" => Restriction::FRIENDS_FOLLOWERS]);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public function testChangeRestrictionWithWrongLevel(): void
+    {
+        Passport::actingAs($this->user);
+        $response = $this->patch(route('patch_dashboard_restriction', [
+            'user' => $this->user->id,
+        ]), ["restriction_field" => "writing_restriction",
+            "restriction_level" => "test"]);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 

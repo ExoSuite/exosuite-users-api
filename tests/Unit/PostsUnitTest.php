@@ -56,7 +56,6 @@ class PostsUnitTest extends TestCase
             'content' => Str::random(),
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not authorized to post on this board."]);
     }
 
     /**
@@ -89,7 +88,6 @@ class PostsUnitTest extends TestCase
             'post' => $post->id,
         ]), ['content' => Str::random()]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allowed to update this post."]);
     }
 
     /**
@@ -113,7 +111,6 @@ class PostsUnitTest extends TestCase
             'dashboard' => $this->dashboard->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allowed to access this dashboard."]);
     }
 
     /**
@@ -144,7 +141,6 @@ class PostsUnitTest extends TestCase
             'post_id' => $post->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);
     }
 
     protected function setUp(): void

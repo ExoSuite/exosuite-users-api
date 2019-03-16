@@ -43,7 +43,7 @@ class FollowTest extends TestCase
     {
         Passport::actingAs($this->user);
         $follow_response = $this->post(route('post_follow', ['user' => $this->user1->id]));
-        $response = $this->delete(route('delete_follow', ['user' => $this->user1->id]));
+        $response = $this->delete(route('delete_follow', ['follow' => $follow_response->decodeResponseJson('id')]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('follows', $follow_response->decodeResponseJson());
     }

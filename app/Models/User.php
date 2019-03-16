@@ -106,6 +106,7 @@ class User extends \Illuminate\Foundation\Auth\User
 
         static::created(static function (User $user): void {
             $user->profile()->create();
+            $user->dashboard()->create();
         });
     }
 
@@ -180,6 +181,11 @@ class User extends \Illuminate\Foundation\Auth\User
             Share::SHARE_RELATION_NAME,
             Share::getTableName()
         )->withTimestamps();
+    }
+
+    public function friendships($related_to)
+    {
+        return $this->hasMany(Friendship::class, $related_to);
     }
 
     public function dashboard(): HasOne

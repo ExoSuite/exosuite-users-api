@@ -26,7 +26,8 @@ class Dashboard extends Model
     protected $fillable = [
         'id',
         'owner_id',
-        'restriction',
+        'visibility',
+        'writing_restriction',
         'created_at',
         'updated_at',
     ];

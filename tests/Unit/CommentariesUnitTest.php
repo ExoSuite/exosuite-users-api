@@ -67,7 +67,6 @@ class CommentariesUnitTest extends TestCase
             'post' => $this->post->id,
         ]), ['content' => Str::random(10)]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allowed to post a commentary on this post"]);
     }
 
     /**
@@ -99,7 +98,6 @@ class CommentariesUnitTest extends TestCase
             ]
         ));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allowed to access this post."]);
     }
 
     /**
@@ -138,7 +136,6 @@ class CommentariesUnitTest extends TestCase
             'content' => $content,
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allow to modify this commentary."]);
     }
 
     /**
@@ -171,7 +168,6 @@ class CommentariesUnitTest extends TestCase
             'commentary_id' => $comm->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);
     }
 
     protected function setUp(): void

@@ -62,11 +62,6 @@ trait JsonResponses
             ->setStatusCode(HttpResponse::HTTP_BAD_REQUEST);
     }
 
-    protected function forbidden(string $message): JsonResponse
-    {
-        return Response::json(['message' => $message])->setStatusCode(HttpResponse::HTTP_FORBIDDEN);
-    }
-
     protected function file(Media $media, string $conversionName = ''): StreamedResponse
     {
         return Response::stream(static function () use ($media, $conversionName): void {
