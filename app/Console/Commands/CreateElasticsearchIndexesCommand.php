@@ -15,6 +15,10 @@ use Throwable;
 class CreateElasticsearchIndexesCommand extends Command
 {
 
+    private const MODEL_NAMESPACE = "App\\Models\\";
+
+    private const INDEX_PREFIX = "IndexConfigurator";
+
     /**
      * The name and signature of the console command.
      *
@@ -42,17 +46,31 @@ class CreateElasticsearchIndexesCommand extends Command
     public function handle(): void
     {
         $indexes = ClassFinder::getIndexesClasses();
+        $modelNamespace = self::MODEL_NAMESPACE;
 
         foreach ($indexes as $index) {
-            try {
-                Artisan::call(
-                    'elastic:create-index',
-                    ['index-configurator' => $index]
-                );
-                $this->output->success(Artisan::output());
-            } catch (Throwable $e) {
-                $this->output->success("{$index} already created!");
-            }
+            $this->createIndex($index);
+            $indexName = substr(strrchr($index, "\\"), 1);
+            list($model) = explode(self::INDEX_PREFIX, $indexName);
+
+            Artisan::call(
+                'elastic:update-mapping',
+                ['model' => "{$modelNamespace}{$model}"]
+            );
+            $this->info("The {$model} mapping was updated");
+        }
+    }
+
+    private function createIndex(string $index): void
+    {
+        try {
+            Artisan::call(
+                'elastic:create-index',
+                ['index-configurator' => $index]
+            );
+            $this->info(Artisan::output());
+        } catch (Throwable $e) {
+            $this->info("{$index} already created!");
         }
     }
 }

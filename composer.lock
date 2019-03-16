@@ -1702,16 +1702,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.3",
+            "version": "v5.8.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d36d74acd3added5abbe7e7a84342b54bb0b0521"
+                "reference": "d651f8bd25c6baf7ae4913bc51f02849fad4e925"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d36d74acd3added5abbe7e7a84342b54bb0b0521",
-                "reference": "d36d74acd3added5abbe7e7a84342b54bb0b0521",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d651f8bd25c6baf7ae4913bc51f02849fad4e925",
+                "reference": "d651f8bd25c6baf7ae4913bc51f02849fad4e925",
                 "shasum": ""
             },
             "require": {
@@ -1845,20 +1845,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-03-05T13:51:19+00:00"
+            "time": "2019-03-12T13:33:14+00:00"
         },
         {
             "name": "laravel/horizon",
-            "version": "v3.0.4",
+            "version": "v3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/horizon.git",
-                "reference": "e4d4b7869a25976a910a76e0503c21d290be6a80"
+                "reference": "07742b81980ca902666fa7d31c453f2647174f00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/horizon/zipball/e4d4b7869a25976a910a76e0503c21d290be6a80",
-                "reference": "e4d4b7869a25976a910a76e0503c21d290be6a80",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/07742b81980ca902666fa7d31c453f2647174f00",
+                "reference": "07742b81980ca902666fa7d31c453f2647174f00",
                 "shasum": ""
             },
             "require": {
@@ -1914,34 +1914,34 @@
                 "laravel",
                 "queue"
             ],
-            "time": "2019-03-08T14:10:27+00:00"
+            "time": "2019-03-12T16:16:31+00:00"
         },
         {
             "name": "laravel/passport",
-            "version": "v7.2.0",
+            "version": "v7.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "56330509283d465acaaff842637e539d03bcf9ca"
+                "reference": "bd8ae09775778f96b6642d87e2f579fea5bf92b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/56330509283d465acaaff842637e539d03bcf9ca",
-                "reference": "56330509283d465acaaff842637e539d03bcf9ca",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/bd8ae09775778f96b6642d87e2f579fea5bf92b5",
+                "reference": "bd8ae09775778f96b6642d87e2f579fea5bf92b5",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "firebase/php-jwt": "~3.0|~4.0|~5.0",
                 "guzzlehttp/guzzle": "~6.0",
-                "illuminate/auth": "~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/console": "~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/container": "~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/contracts": "~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/database": "~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/encryption": "~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/http": "~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/support": "~5.6.0|~5.7.0|~5.8.0",
+                "illuminate/auth": "~5.6.0|~5.7.0|~5.8.0|~5.9.0",
+                "illuminate/console": "~5.6.0|~5.7.0|~5.8.0|~5.9.0",
+                "illuminate/container": "~5.6.0|~5.7.0|~5.8.0|~5.9.0",
+                "illuminate/contracts": "~5.6.0|~5.7.0|~5.8.0|~5.9.0",
+                "illuminate/database": "~5.6.0|~5.7.0|~5.8.0|~5.9.0",
+                "illuminate/encryption": "~5.6.0|~5.7.0|~5.8.0|~5.9.0",
+                "illuminate/http": "~5.6.0|~5.7.0|~5.8.0|~5.9.0",
+                "illuminate/support": "~5.6.0|~5.7.0|~5.8.0|~5.9.0",
                 "league/oauth2-server": "^7.0",
                 "php": ">=7.1",
                 "phpseclib/phpseclib": "^2.0",
@@ -1984,7 +1984,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2019-02-14T16:29:26+00:00"
+            "time": "2019-03-12T11:42:07+00:00"
         },
         {
             "name": "laravel/scout",
@@ -2623,16 +2623,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.14.2",
+            "version": "2.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "a1f4f9abcde8241ce33bf5090896e9c16d0b4232"
+                "reference": "dd16fedc022180ea4292a03aabe95e9895677911"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/a1f4f9abcde8241ce33bf5090896e9c16d0b4232",
-                "reference": "a1f4f9abcde8241ce33bf5090896e9c16d0b4232",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/dd16fedc022180ea4292a03aabe95e9895677911",
+                "reference": "dd16fedc022180ea4292a03aabe95e9895677911",
                 "shasum": ""
             },
             "require": {
@@ -2679,7 +2679,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-02-28T09:07:12+00:00"
+            "time": "2019-03-12T09:31:40+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -7782,16 +7782,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.11.3",
+            "version": "0.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "e4644b4a8fd393c346f1137305fb2f76a7dc20a7"
+                "reference": "ccc4f854748664cc61d1f3d4ecb26810df1f0cd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/e4644b4a8fd393c346f1137305fb2f76a7dc20a7",
-                "reference": "e4644b4a8fd393c346f1137305fb2f76a7dc20a7",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ccc4f854748664cc61d1f3d4ecb26810df1f0cd4",
+                "reference": "ccc4f854748664cc61d1f3d4ecb26810df1f0cd4",
                 "shasum": ""
             },
             "require": {
@@ -7851,7 +7851,7 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2019-03-10T16:25:30+00:00"
+            "time": "2019-03-14T14:46:15+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -8896,16 +8896,16 @@
         },
         {
             "name": "slevomat/coding-standard",
-            "version": "5.0.1",
+            "version": "5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "777ab1871859f5ab5fe3165ad0c2c855b02f5b7c"
+                "reference": "223f02b6193fe47b7b483bfa5bf75693535482dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/777ab1871859f5ab5fe3165ad0c2c855b02f5b7c",
-                "reference": "777ab1871859f5ab5fe3165ad0c2c855b02f5b7c",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/223f02b6193fe47b7b483bfa5bf75693535482dd",
+                "reference": "223f02b6193fe47b7b483bfa5bf75693535482dd",
                 "shasum": ""
             },
             "require": {
@@ -8932,7 +8932,7 @@
                 "MIT"
             ],
             "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
-            "time": "2019-02-26T21:17:00+00:00"
+            "time": "2019-03-12T20:26:36+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

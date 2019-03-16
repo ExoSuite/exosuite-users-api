@@ -56,12 +56,15 @@ class User extends \Illuminate\Foundation\Auth\User
         'properties' => [
             'first_name' => [
                 'type' => 'text',
+                'analyzer' => 'standard',
             ],
             'last_name' => [
                 'type' => 'text',
+                'analyzer' => 'standard',
             ],
             'nick_name' => [
                 'type' => 'text',
+                'analyzer' => 'standard',
             ],
         ],
     ];
