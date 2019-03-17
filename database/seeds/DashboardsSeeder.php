@@ -22,52 +22,36 @@ class DashboardsSeeder extends Seeder
         $mathilde = User::whereEmail('mathilde.charpiot@exosuite.fr');
         $yassir = User::whereEmail('yassir.jabbari@exosuite.fr');
 
-        if ($lopez->exists() && Dashboard::whereOwnerId($lopez->first()->id)->doesntExist()) {
-            Dashboard::create([
-                'owner_id' => $lopez->first()->id,
-            ]);
+        if ($lopez->exists() && $lopez->dashboard()->doesntExist()) {
+            $lopez->dashboard()->create();
         }
 
-        if ($dupil->exists() && Dashboard::whereOwnerId($dupil->first()->id)->doesntExist()) {
-            Dashboard::create([
-                'owner_id' => $dupil->first()->id,
-            ]);
+        if ($dupil->exists() && $dupil->dashboard()->doesntExist()) {
+            $dupil->dashboard()->create();
         }
 
-        if ($eric->exists() && Dashboard::whereOwnerId($eric->first()->id)->doesntExist()) {
-            Dashboard::create([
-                'owner_id' => $eric->first()->id,
-            ]);
+        if ($eric->exists() && $eric->dashboard()->doesntExist()) {
+            $eric->dashboard()->create();
         }
 
-        if ($pierre->exists() && Dashboard::whereOwnerId($pierre->first()->id)->doesntExist()) {
-            Dashboard::create([
-                'owner_id' => $pierre->first()->id,
-            ]);
+        if ($pierre->exists() && $pierre->dashboard()->doesntExist()) {
+            $pierre->dashboard()->create();
         }
 
-        if ($stan->exists() && Dashboard::whereOwnerId($stan->first()->id)->doesntExist()) {
-            Dashboard::create([
-                'owner_id' => $stan->first()->id,
-            ]);
+        if ($stan->exists() && $stan->dashboard()->doesntExist()) {
+            $stan->dashboard()->create();
         }
 
-        if ($renaud->exists() && Dashboard::whereOwnerId($renaud->first()->id)->doesntExist()) {
-            Dashboard::create([
-                'owner_id' => $renaud->first()->id,
-            ]);
+        if ($renaud->exists() && $renaud->dashboard()->doesntExist()) {
+            $renaud->dashboard()->create();
         }
 
-        if ($mathilde->exists() && Dashboard::whereOwnerId($mathilde->first()->id)->doesntExist()) {
-            Dashboard::create([
-                'owner_id' => $mathilde->first()->id,
-            ]);
+        if ($mathilde->exists() && $mathilde->dashboard()->doesntExist()) {
+            $mathilde->dashboard()->create();
         }
 
-        if ($yassir->exists() && Dashboard::whereOwnerId($yassir->first()->id)->doesntExist()) {
-            Dashboard::create([
-                'owner_id' => $yassir->first()->id,
-            ]);
+        if ($yassir->exists() && $yassir->dashboard()->doesntExist()) {
+            $yassir->dashboard()->create();
         }
     }
 }
