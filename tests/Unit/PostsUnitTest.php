@@ -30,28 +30,11 @@ class PostsUnitTest extends TestCase
     /** @var \App\Models\User */
     private $dashboard;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     * @throws \Exception
-     */
-    public function testPostOnWrongDashboardId(): void
-    {
-        Passport::actingAs($this->user);
-        $response = $this->post(route('post_Post', [
-            'user' => $this->user->id,
-            'dashboard' => Uuid::generate()->string,
-        ]), ['content' => Str::random()]);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-
     public function testPostOnUnauthorizedDashboard(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_Post', [
-            'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id,
+            'user' => $this->user1->id,
         ]), [
             'content' => Str::random(),
         ]);
@@ -90,25 +73,11 @@ class PostsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function testGetPostsWithWrongId(): void
-    {
-        Passport::actingAs($this->user);
-        $response = $this->get(route('get_Posts_by_dashboard_id', [
-            'user' => $this->user->id,
-            'dashboard' => Uuid::generate()->string,
-        ]));
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-
     public function testGetPostAsUnauthorizedUser(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('get_Posts_by_dashboard_id', [
-            'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id,
+        $response = $this->get(route('get_Posts_from_dashboard', [
+            'user' => $this->user1->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -136,8 +105,7 @@ class PostsUnitTest extends TestCase
         ]);
         Passport::actingAs($this->user);
         $response = $this->delete(route('delete_Post', [
-            'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id,
+            'user' => $this->user1->id,
             'post_id' => $post->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);

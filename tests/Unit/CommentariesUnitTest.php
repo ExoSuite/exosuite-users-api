@@ -63,7 +63,6 @@ class CommentariesUnitTest extends TestCase
         Passport::actingAs($this->user1);
         $response = $this->post(route('post_commentary', [
             'user' => $this->user->id,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
         ]), ['content' => Str::random(10)]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
@@ -163,7 +162,6 @@ class CommentariesUnitTest extends TestCase
         ]);
         $response = $this->delete(route('delete_commentary', [
             'user' => $this->user->id,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
             'commentary_id' => $comm->id,
         ]));

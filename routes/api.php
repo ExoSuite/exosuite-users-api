@@ -91,7 +91,7 @@ Route::middleware('auth:api')->group(static function (): void {
             //FOLLOWS-----------------------------------------------------------------------------------
             Route::prefix('follows')->group(static function (): void {
                 Route::post('/', 'FollowsController@store')->name('post_follow');
-                Route::get('/followers', 'FollowsController@whoIsFollowing')->name('get_followers');
+                Route::get('/followers', 'FollowsController@getUserFollowing')->name('get_followers');
                 Route::get('/', 'FollowsController@amIFollowing')->name('get_am_i_following');
             });
 
@@ -108,18 +108,18 @@ Route::middleware('auth:api')->group(static function (): void {
                     ->name('get_dashboard_id');
 
                 //POSTS-----------------------------------------------------------------------------------------
-                Route::prefix('{dashboard}/post')->group(static function (): void {
+                Route::prefix('/posts')->group(static function (): void {
                     Route::post('/', 'PostsController@store')->name('post_Post')
-                        ->middleware('can:create,dashboard');
+                        ->middleware('can:createPost,user');
 
-                    Route::get('/', 'PostsController@getPostsFromDashboard')->name('get_Posts_by_dashboard_id')
-                        ->middleware('can:index,dashboard');
+                    Route::get('/', 'PostsController@getPostsFromDashboard')->name('get_Posts_from_dashboard')
+                        ->middleware('can:getPost,user');
 
                     Route::prefix('{post}')->group(static function (): void {
                         Route::patch('/', 'PostsController@update')->name('patch_Post')
                             ->middleware('can:updatePost,post');
                         Route::delete('/', 'PostsController@delete')->name('delete_Post')
-                            ->middleware('can:deletePost,post,dashboard');
+                            ->middleware('can:deletePost,post,user');
 
                         //LIKES From Posts---------------------------------------------------------------------------------------------------
                         Route::prefix('/likes')->group(static function (): void {
@@ -129,17 +129,17 @@ Route::middleware('auth:api')->group(static function (): void {
                         });
 
                         //COMMENTARIES-----------------------------------------------------------------------------------------
-                        Route::prefix('/commentary')->group(static function (): void {
+                        Route::prefix('/commentaries')->group(static function (): void {
                             Route::post('/', 'CommentaryController@store')->name('post_commentary')
-                                ->middleware('can:create,dashboard,post');
+                                ->middleware('can:create,post,user');
                             Route::patch('/{commentary}', 'CommentaryController@updateComm')->name('patch_commentary')
                                 ->middleware('can:updateCommentary,commentary');
                             Route::get('/', 'CommentaryController@getCommsFromPost')
                                 ->name('get_commentaries_by_post_id')
-                                ->middleware('can:index,dashboard,post');
+                                ->middleware('can:index,post,user');
                             Route::delete('/{commentary}', 'CommentaryController@deleteComm')
                                 ->name('delete_commentary')
-                                ->middleware('can:deleteCommentary,commentary,dashboard,post');
+                                ->middleware('can:deleteCommentary,commentary,post');
 
                             //LIKES From Commentaries---------------------------------------------------------------------------------------------------
                             Route::prefix('{commentary}')->group(static function (): void {

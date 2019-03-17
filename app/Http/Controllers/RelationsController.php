@@ -21,9 +21,11 @@ class RelationsController extends Controller
 
     public function sendFriendshipRequest(User $user): JsonResponse
     {
-        $this->createFriendship($user->id);
+        /** @var string $authUserId */
+        $authUserId = Auth::id();
+        $this->createFriendship($user->id, $authUserId);
         $request = PendingRequest::create([
-            'requester_id' => Auth::user()->id,
+            'requester_id' => $authUserId,
             'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
             'target_id' => $user->id,
         ]);
@@ -31,15 +33,19 @@ class RelationsController extends Controller
         return $this->created($request);
     }
 
-    public function createFriendship($id)
+    public function createFriendship(string $id, string $authUserId): Friendship
     {
-        return Friendship::create(['user_id' => Auth::user()->id,
-            'friend_id' => $id]);
+        return Friendship::create([
+            'user_id' => $authUserId,
+            'friend_id' => $id,
+        ]);
     }
 
     public function acceptRequest(PendingRequest $request): JsonResponse
     {
-        $friendship = $this->createFriendship($request->requester_id);
+        /** @var string $authUserId */
+        $authUserId = Auth::id();
+        $friendship = $this->createFriendship($request->requester_id, $authUserId);
         $request->delete();
 
         return $this->ok($friendship);

@@ -61,7 +61,7 @@ class FollowTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_followers', ['user' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(4, count($response->decodeResponseJson()));
+        $this->assertEquals(4, count($response->decodeResponseJson("data")));
     }
 
     public function testAmIFollowing(): void

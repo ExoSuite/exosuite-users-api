@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Dashboard;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -22,36 +21,36 @@ class DashboardsSeeder extends Seeder
         $mathilde = User::whereEmail('mathilde.charpiot@exosuite.fr');
         $yassir = User::whereEmail('yassir.jabbari@exosuite.fr');
 
-        if ($lopez->exists() && $lopez->dashboard()->doesntExist()) {
-            $lopez->dashboard()->create();
+        if ($lopez->exists() && $lopez->first()->dashboard()->doesntExist()) {
+            $lopez->first()->dashboard()->create();
         }
 
-        if ($dupil->exists() && $dupil->dashboard()->doesntExist()) {
-            $dupil->dashboard()->create();
+        if ($dupil->exists() && $dupil->first()->dashboard()->doesntExist()) {
+            $dupil->first()->dashboard()->create();
         }
 
-        if ($eric->exists() && $eric->dashboard()->doesntExist()) {
-            $eric->dashboard()->create();
+        if ($eric->exists() && $eric->first()->dashboard()->doesntExist()) {
+            $eric->first()->dashboard()->create();
         }
 
-        if ($pierre->exists() && $pierre->dashboard()->doesntExist()) {
-            $pierre->dashboard()->create();
+        if ($pierre->exists() && $pierre->first()->dashboard()->doesntExist()) {
+            $pierre->first()->dashboard()->create();
         }
 
-        if ($stan->exists() && $stan->dashboard()->doesntExist()) {
-            $stan->dashboard()->create();
+        if ($stan->exists() && $stan->first()->dashboard()->doesntExist()) {
+            $stan->first()->dashboard()->create();
         }
 
-        if ($renaud->exists() && $renaud->dashboard()->doesntExist()) {
-            $renaud->dashboard()->create();
+        if ($renaud->exists() && $renaud->first()->dashboard()->doesntExist()) {
+            $renaud->first()->dashboard()->create();
         }
 
-        if ($mathilde->exists() && $mathilde->dashboard()->doesntExist()) {
-            $mathilde->dashboard()->create();
+        if ($mathilde->exists() && $mathilde->first()->dashboard()->doesntExist()) {
+            $mathilde->first()->dashboard()->create();
         }
 
-        if ($yassir->exists() && $yassir->dashboard()->doesntExist()) {
-            $yassir->dashboard()->create();
+        if ($yassir->exists() && $yassir->first()->dashboard()->doesntExist()) {
+            $yassir->first()->dashboard()->create();
         }
     }
 }

@@ -32,7 +32,7 @@ class DashboardTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_dashboard_id', ['user' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(1, count($response->decodeResponseJson()));
+        $response->assertJsonStructure((new Dashboard)->getFillable());
     }
 
     public function testGetMyRestriction(): void

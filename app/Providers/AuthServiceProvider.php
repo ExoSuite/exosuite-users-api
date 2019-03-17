@@ -8,12 +8,13 @@ use App\Models\Group;
 use App\Models\Message;
 use App\Models\PendingRequest;
 use App\Models\Post;
+use App\Models\User;
 use App\Policies\CommentaryPolicy;
-use App\Policies\DashboardPolicy;
 use App\Policies\GroupPolicy;
 use App\Policies\MessagePolicy;
 use App\Policies\PendingRequestsPolicy;
 use App\Policies\PostPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\App;
 use Laravel\Passport\Passport;
 use function now;
@@ -34,10 +35,10 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
     protected $policies = [
         Message::class => MessagePolicy::class,
         Group::class => GroupPolicy::class,
-        Dashboard::class => DashboardPolicy::class,
         Post::class => PostPolicy::class,
         Commentary::class => CommentaryPolicy::class,
         PendingRequest::class => PendingRequestsPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**

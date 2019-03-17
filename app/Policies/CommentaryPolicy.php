@@ -3,25 +3,27 @@
 namespace App\Policies;
 
 use App\Models\Commentary;
-use App\Models\Dashboard;
 use App\Models\Post;
 use App\Models\User;
+use App\Policies\Abstracts\SocialPolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 
-class CommentaryPolicy
+class CommentaryPolicy extends SocialPolicy
 {
     use HandlesAuthorization;
 
-    public function updateCommentary(User $user, Commentary $commentary): bool
+    public function updateCommentary(User $authenticatedUser, Commentary $commentary): bool
     {
-        return $commentary->author_id === Auth::user()->id;
+        return $commentary->author_id === $authenticatedUser->id;
     }
 
-    public function deleteCommentary(User $user, Commentary $commentary, Dashboard $dashboard, Post $post): bool
+    public function deleteCommentary(User $user, Commentary $commentary, Post $post): bool
     {
-        return Auth::user()->id === $dashboard->owner_id
-            || Auth::user()->id === $post->author_id
-            || Auth::user()->id === $commentary->author_id;
+        $authenticatedUserId = Auth::id();
+
+        return $authenticatedUserId === $user->dashboard->id
+            || $authenticatedUserId === $post->author_id
+            || $authenticatedUserId === $commentary->author_id;
     }
 }

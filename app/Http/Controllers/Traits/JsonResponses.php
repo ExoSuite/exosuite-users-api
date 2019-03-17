@@ -56,12 +56,6 @@ trait JsonResponses
             ->setStatusCode(HttpResponse::HTTP_OK);
     }
 
-    protected function badRequest(string $message): JsonResponse
-    {
-        return Response::json(['message' => $message])
-            ->setStatusCode(HttpResponse::HTTP_BAD_REQUEST);
-    }
-
     protected function file(Media $media, string $conversionName = ''): StreamedResponse
     {
         return Response::stream(static function () use ($media, $conversionName): void {

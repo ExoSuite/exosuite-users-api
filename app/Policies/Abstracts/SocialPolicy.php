@@ -1,9 +1,15 @@
 <?php declare(strict_types = 1);
 
-namespace App\Policies;
+/**
+ * Created by PhpStorm.
+ * User: loiclopez
+ * Date: 2019-03-16
+ * Time: 23:26
+ */
+
+namespace App\Policies\Abstracts;
 
 use App\Enums\Restriction;
-use App\Models\Dashboard;
 use App\Models\Follow;
 use App\Models\Friendship;
 use App\Models\Post;
@@ -11,12 +17,12 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 
-class DashboardPolicy
+abstract class SocialPolicy
 {
     use HandlesAuthorization;
 
-    /** @var array<string<self, string>> */
-    public $verifyRelations;
+    /** @var array<mixed> */
+    protected $verifyRelations;
 
     public function __construct()
     {
@@ -28,38 +34,43 @@ class DashboardPolicy
         ];
     }
 
-    public function create(User $user, Dashboard $dashboard, ?Post $post = null): bool
+
+    public function create(User $authenticatedUser, ?Post $post, User $targetedUser): bool
     {
-        $owner_id = $dashboard->owner_id;
+        $owner_id = $targetedUser->id;
+        $dashboard = $targetedUser->dashboard;
+        $user_id = $authenticatedUser->id;
 
         if ($post !== null) {
-            if ($owner_id === Auth::user()->id || $post->author_id === Auth::user()->id) {
+            if ($owner_id === $user_id || $post->author_id === $user_id) {
                 return true;
             }
 
             return call_user_func($this->verifyRelations[$dashboard->writing_restriction], $owner_id, $post);
         }
 
-        if ($owner_id === Auth::user()->id) {
+        if ($owner_id === $user_id) {
             return true;
         }
 
         return call_user_func($this->verifyRelations[$dashboard->writing_restriction], $owner_id);
     }
 
-    public function index(User $user, Dashboard $dashboard, ?Post $post = null): bool
+    public function index(User $authenticatedUser, ?Post $post, User $targetedUser): bool
     {
-        $owner_id = $dashboard->owner_id;
+        $owner_id = $targetedUser->id;
+        $dashboard = $targetedUser->dashboard;
+        $user_id = $authenticatedUser->id;
 
         if ($post !== null) {
-            if ($owner_id === Auth::user()->id || $post->author_id === Auth::user()->id) {
+            if ($owner_id === $user_id || $post->author_id === $user_id) {
                 return true;
             }
 
             return call_user_func($this->verifyRelations[$dashboard->visibility], $owner_id, $post);
         }
 
-        if ($owner_id === Auth::user()->id) {
+        if ($owner_id === $user_id) {
             return true;
         }
 
@@ -68,13 +79,17 @@ class DashboardPolicy
 
     public function checkFriendship(string $owner_id): bool
     {
-        return Friendship::whereUserId($owner_id)->whereFriendId(Auth::user()->id)->exists();
+        $user_id = Auth::id();
+
+        return Friendship::whereUserId($owner_id)->whereFriendId($user_id)->exists();
     }
 
     public function checkFollow(string $owner_id): bool
     {
-        return Friendship::whereUserId($owner_id)->whereFriendId(Auth::user()->id)->exists()
-            || Follow::whereFollowedId($owner_id)->whereUserId(Auth::user()->id)->exists();
+        $user_id = Auth::id();
+
+        return $this->checkFriendship($owner_id)
+            || Follow::whereFollowedId($owner_id)->whereUserId($user_id)->exists();
     }
 
     public function allowPublic(): bool

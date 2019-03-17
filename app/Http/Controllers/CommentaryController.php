@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Commentary\CreateCommentaryRequest;
 use App\Http\Requests\Commentary\UpdateCommentaryRequest;
 use App\Models\Commentary;
-use App\Models\Dashboard;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,20 +19,19 @@ use Illuminate\Support\Facades\Auth;
 class CommentaryController extends Controller
 {
 
-    public function store(CreateCommentaryRequest $request, User $user, Dashboard $dashboard, Post $post): JsonResponse
+    public function store(CreateCommentaryRequest $request, User $user, Post $post): JsonResponse
     {
         return $this->created($this->createComm($request->validated(), $post));
     }
 
-    public function getCommsFromPost(User $user, Dashboard $dashboard, Post $post): JsonResponse
+    public function getCommsFromPost(User $user, Post $post): JsonResponse
     {
-        return $this->ok(Commentary::wherePostId($post->id)->get());
+        return $this->ok($post->commentaries()->paginate());
     }
 
     public function updateComm(
         UpdateCommentaryRequest $request,
         User $user,
-        Dashboard $dashboard,
         Post $post,
         Commentary $commentary
     ): JsonResponse
@@ -40,9 +39,9 @@ class CommentaryController extends Controller
         return $this->ok($this->updateCommentary($request->validated(), $commentary));
     }
 
-    public function deleteComm(User $user, Dashboard $dashboard, Post $post, Commentary $commentary): JsonResponse
+    public function deleteComm(User $user, Post $post, Commentary $commentary): JsonResponse
     {
-        Commentary::whereId($commentary->id)->delete();
+        $commentary->delete();
 
         return $this->noContent();
     }
@@ -50,14 +49,14 @@ class CommentaryController extends Controller
     /**
      * @param string[] $data
      * @param \App\Models\Post $post
-     * @return \App\Models\Commentary
+     * @return \Illuminate\Database\Eloquent\Model -> Commentary
      */
-    private function createComm(array $data, Post $post): Commentary
+    private function createComm(array $data, Post $post): Model
     {
         $data['author_id'] = Auth::user()->id;
         $data['post_id'] = $post->id;
 
-        return Commentary::create($data);
+        return $post->commentaries()->create($data);
     }
 
     /**
@@ -67,9 +66,8 @@ class CommentaryController extends Controller
      */
     private function updateCommentary(array $data, Commentary $commentary): Commentary
     {
-        $comm = Commentary::whereId($commentary->id)->first();
-        $comm->update(['content' => $data['content']]);
+        $commentary->update(['content' => $data['content']]);
 
-        return $comm;
+        return $commentary;
     }
 }

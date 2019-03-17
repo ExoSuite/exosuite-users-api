@@ -2,23 +2,23 @@
 
 namespace App\Policies;
 
-use App\Models\Dashboard;
 use App\Models\Post;
 use App\Models\User;
+use App\Policies\Abstracts\SocialPolicy;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 
-class PostPolicy
+class PostPolicy extends SocialPolicy
 {
     use HandlesAuthorization;
 
-    public function updatePost(User $user, Post $post): bool
+    public function updatePost(User $authenticatedUser, Post $post): bool
     {
-        return $post->author_id === Auth::user()->id;
+        return $post->author_id === $authenticatedUser->id;
     }
 
-    public function deletePost(User $user, Post $post, Dashboard $dashboard): bool
+    public function deletePost(User $authenticatedUser, Post $post, User $targetedUser): bool
     {
-        return $post->author_id === Auth::user()->id || Auth::user()->id === $dashboard->owner_id;
+        return $post->author_id === $authenticatedUser->id
+            || $authenticatedUser->id === $targetedUser->dashboard->owner_id;
     }
 }
