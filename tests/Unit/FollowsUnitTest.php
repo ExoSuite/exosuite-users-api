@@ -66,6 +66,5 @@ class FollowsUnitTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $this->user1 = factory(User::class)->create();
     }
 }
