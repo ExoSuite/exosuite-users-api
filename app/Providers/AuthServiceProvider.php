@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Commentary;
-use App\Models\Dashboard;
 use App\Models\Group;
 use App\Models\Message;
 use App\Models\PendingRequest;
