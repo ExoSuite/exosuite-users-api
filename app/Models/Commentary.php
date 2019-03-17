@@ -2,24 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Uuids;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 /**
  * Class Commentary
  *
  * @package App\Models
  */
-class Commentary extends Model
+class Commentary extends UuidModel
 {
-    use Uuids;
-
-    /** @var bool */
-    public $incrementing = false;
-
-    /** @var string */
-    protected $primaryKey = 'id';
 
     /** @var string[] */
     protected $fillable = [
@@ -31,21 +24,6 @@ class Commentary extends Model
         'updated_at',
     ];
 
-    /**
-     * @return string[]
-     */
-    public function globalInfos(): array
-    {
-        $author = User::whereId($this->author_id)->first();
-        $author_names = $author['first_name'] . ' ' . $author['last_name'];
-
-        return [
-            'content' => $this->content,
-            'created_at' => $this->created_at,
-            'author' => $author_names,
-        ];
-    }
-
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class, 'id');
@@ -54,5 +32,17 @@ class Commentary extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'id');
+    }
+
+    public function likeFromUser(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            Like::class,
+            User::class,
+            'id',
+            'liker_id',
+            'author_id',
+            'id'
+        );
     }
 }

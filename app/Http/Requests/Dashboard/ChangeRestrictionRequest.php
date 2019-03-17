@@ -31,7 +31,8 @@ class ChangeRestrictionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'restriction' => ['required', new RestrictionsTypeRule],
+            'restriction_field' => "required|string|in:visibility,writing_restriction",
+            'restriction_level' => ['required', new RestrictionsTypeRule],
         ];
     }
 }

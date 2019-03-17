@@ -2,9 +2,10 @@
 
 use App\Models\Commentary;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 $factory->define(Commentary::class, function (Faker $faker) {
     return [
-        "content" => str_random(10)
+        "content" => Str::random(10)
     ];
 });

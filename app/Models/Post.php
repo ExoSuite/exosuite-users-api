@@ -2,25 +2,18 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Uuids;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 /**
  * Class Post
  *
  * @package App\Models
  */
-class Post extends Model
+class Post extends UuidModel
 {
-    use Uuids;
-
-    /** @var bool */
-    public $incrementing = false;
-
-    /** @var string */
-    protected $primaryKey = 'id';
 
     /** @var string[] */
     protected $fillable = [
@@ -32,33 +25,30 @@ class Post extends Model
         'updated_at',
     ];
 
-    /**
-     * @return string[]
-     */
-    public function globalInfos(): array
-    {
-        $author = User::whereId($this->author_id)->first();
-        $author_names = $author['first_name'] . ' ' . $author['last_name'];
-
-        return [
-            'content' => $this->content,
-            'created_at' => $this->created_at,
-            'author' => $author_names,
-        ];
-    }
-
     public function dashboard(): BelongsTo
     {
-        return $this->belongsTo(Dashboard::class, 'id');
+        return $this->belongsTo(Dashboard::class);
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class);
     }
 
     public function commentaries(): HasMany
     {
-        return $this->hasMany(Commentary::class, 'id');
+        return $this->hasMany(Commentary::class);
+    }
+
+    public function likeFromUser(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            Like::class,
+            User::class,
+            'id',
+            'liker_id',
+            'author_id',
+            'id'
+        );
     }
 }

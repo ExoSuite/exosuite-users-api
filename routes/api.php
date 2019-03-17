@@ -1,6 +1,9 @@
 <?php declare(strict_types = 1);
 
+use App\Models\User;
+use App\Notifications\FollowNotification;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +32,6 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::get('/', 'User\UserController@me')
                 ->name('get_user');
 
-            Route::get('/groups', 'User\UserController@groups')->name('get_my_groups');
-
             Route::patch('/', 'User\UserController@update')->name('patch_user');
 
             Route::prefix('profile')->group(static function (): void {
@@ -40,17 +41,34 @@ Route::middleware('auth:api')->group(static function (): void {
 
             Route::prefix('friendship')->group(static function (): void {
                 Route::get('/', 'RelationsController@getMyFriendships')->name('get_my_friendships');
+                Route::delete('{friendship}', 'RelationsController@deleteFriendships')->name('delete_friendship');
             });
 
             Route::prefix('pending_requests')->group(static function (): void {
                 Route::get('/', 'PendingRequestController@getMyPendings')->name('get_my_pending_request');
-                Route::delete('/{request}', 'PendingRequestController@deletePending')->name('delete_pending_request');
+                Route::delete('/{request}', 'PendingRequestController@deletePending')->name('delete_pending_request')
+                    ->middleware('can:answerRequest,request');
             });
 
             Route::prefix('friendship/{request}')->group(static function (): void {
-                Route::post('/accept', 'RelationsController@acceptRequest')->name('post_accept_friendship_request');
-                Route::post('/decline', 'RelationsController@declineRequest')->name('post_decline_friendship_request');
+                Route::post('/accept', 'RelationsController@acceptRequest')->name('post_accept_friendship_request')
+                    ->middleware('can:answerRequest,request');
+                Route::post('/decline', 'RelationsController@declineRequest')->name('post_decline_friendship_request')
+                    ->middleware('can:answerRequest,request');
             });
+
+            Route::prefix('follows')->group(static function (): void {
+                Route::delete('{follow}', 'FollowsController@delete')->name('delete_follow');
+            });
+
+            Route::prefix('dashboard')->group(static function (): void {
+                Route::get('/restrictions', 'DashboardsController@getRestriction')
+                    ->name('get_dashboard_restriction');
+                Route::patch('/restriction', 'DashboardsController@changeRestriction')
+                    ->name('patch_dashboard_restriction');
+            });
+
+            Route::get('/groups', 'User\UserController@groups')->name('get_my_groups');
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');
@@ -73,37 +91,35 @@ Route::middleware('auth:api')->group(static function (): void {
             //FOLLOWS-----------------------------------------------------------------------------------
             Route::prefix('follows')->group(static function (): void {
                 Route::post('/', 'FollowsController@store')->name('post_follow');
-                Route::get('/followers', 'FollowsController@whoIsFollowing')->name('get_followers');
+                Route::get('/followers', 'FollowsController@getUserFollowing')->name('get_followers');
                 Route::get('/', 'FollowsController@amIFollowing')->name('get_am_i_following');
-                Route::delete('/', 'FollowsController@delete')->name('delete_follow');
             });
 
             //FRIENDSHIPS-----------------------------------------------------------------------------------
-            Route::prefix('friendship')->group(static function (): void {
+            Route::prefix('friendship/')->group(static function (): void {
                 Route::post('/', 'RelationsController@sendFriendshipRequest')->name('post_friendship_request');
 
                 Route::get('/', 'RelationsController@getFriendships')->name('get_friendships');
-                Route::delete('/', 'RelationsController@deleteFriendships')->name('delete_friendship');
             });
 
             //DASHBOARDS-----------------------------------------------------------------------------------------
             Route::prefix('dashboard')->group(static function (): void {
-                Route::get('/restriction', 'DashboardsController@getRestriction')
-                    ->name('get_dashboard_restriction');
-                Route::patch('/restriction', 'DashboardsController@changeRestriction')
-                    ->name('patch_dashboard_restriction');
                 Route::get('/', 'DashboardsController@getDashboardId')
                     ->name('get_dashboard_id');
 
                 //POSTS-----------------------------------------------------------------------------------------
-                Route::prefix('{dashboard}/post')->group(static function (): void {
-                    Route::post('/', 'PostsController@store')->name('post_Post');
+                Route::prefix('/posts')->group(static function (): void {
+                    Route::post('/', 'PostsController@store')->name('post_Post')
+                        ->middleware('can:createPost,user');
 
-                    Route::get('/', 'PostsController@getPostsFromDashboard')->name('get_Posts_by_dashboard_id');
+                    Route::get('/', 'PostsController@getPostsFromDashboard')->name('get_Posts_from_dashboard')
+                        ->middleware('can:getPost,user');
 
                     Route::prefix('{post}')->group(static function (): void {
-                        Route::patch('/', 'PostsController@update')->name('patch_Post');
-                        Route::delete('/', 'PostsController@delete')->name('delete_Post');
+                        Route::patch('/', 'PostsController@update')->name('patch_Post')
+                            ->middleware('can:updatePost,post');
+                        Route::delete('/', 'PostsController@delete')->name('delete_Post')
+                            ->middleware('can:deletePost,post,user');
 
                         //LIKES From Posts---------------------------------------------------------------------------------------------------
                         Route::prefix('/likes')->group(static function (): void {
@@ -113,14 +129,17 @@ Route::middleware('auth:api')->group(static function (): void {
                         });
 
                         //COMMENTARIES-----------------------------------------------------------------------------------------
-
-                        Route::prefix('/commentary')->group(static function (): void {
-                            Route::post('/', 'CommentaryController@store')->name('post_commentary');
-                            Route::patch('/{commentary}', 'CommentaryController@updateComm')->name('patch_commentary');
+                        Route::prefix('/commentaries')->group(static function (): void {
+                            Route::post('/', 'CommentaryController@store')->name('post_commentary')
+                                ->middleware('can:create,post,user');
+                            Route::patch('/{commentary}', 'CommentaryController@updateComm')->name('patch_commentary')
+                                ->middleware('can:updateCommentary,commentary');
                             Route::get('/', 'CommentaryController@getCommsFromPost')
-                                ->name('get_commentaries_by_post_id');
+                                ->name('get_commentaries_by_post_id')
+                                ->middleware('can:index,post,user');
                             Route::delete('/{commentary}', 'CommentaryController@deleteComm')
-                                ->name('delete_commentary');
+                                ->name('delete_commentary')
+                                ->middleware('can:deleteCommentary,commentary,post');
 
                             //LIKES From Commentaries---------------------------------------------------------------------------------------------------
                             Route::prefix('{commentary}')->group(static function (): void {
@@ -224,4 +243,15 @@ Route::middleware('auth:api')->group(static function (): void {
 
 if (!App::environment('production')) {
     Route::get('staging/client', 'StagingController@get')->name('staging-client');
+}
+
+if (App::environment('local')) {
+    Route::get('test', static function () {
+        Notification::send(
+            User::all(),
+            new FollowNotification
+        );
+
+        return ['SENT!'];
+    });
 }
