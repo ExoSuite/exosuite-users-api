@@ -177,7 +177,7 @@ Route::middleware('auth:api')->group(static function (): void {
         Route::post('/', 'GroupController@store')->name('post_group');
         Route::patch('/{group}', 'GroupController@update')->name('patch_group')
             ->middleware('can:update,group');
-        Route::get('/{group}', 'GroupController@index')->name('get_group');
+        Route::get('/{group}', 'GroupController@show')->name('get_group');
         Route::delete('/{group}', 'GroupController@destroy')
             ->name('delete_group')
             ->middleware('can:delete,group');
