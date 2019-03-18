@@ -35,14 +35,13 @@ class CommentTest extends TestCase
      *
      * @return void
      */
-    public function testCreate(): void
+    public function testCreateCommentary(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route(
             'post_commentary',
             [
                 'user' => $this->user->id,
-                'dashboard' => $this->dash->id,
                 'post' => $this->post->id,
             ]
         ), ['content' => Str::random(10)]);
@@ -59,16 +58,16 @@ class CommentTest extends TestCase
             factory(Commentary::class)->create([
                 'post_id' => $this->post->id,
                 'author_id' => $this->user->id,
-                'content' => Str::random(10)]);
+                'content' => Str::random(10),
+            ]);
         }
 
         $response = $this->get(route('get_commentaries_by_post_id', [
             'user' => $this->user->id,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
         ]));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(5, count($response->decodeResponseJson()));
+        $this->assertEquals(5, count($response->decodeResponseJson('data')));
     }
 
     public function testUpdateComm(): void

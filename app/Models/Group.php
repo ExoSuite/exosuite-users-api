@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 class Group extends UuidModel
 {
 
+    public const MAX_MESSAGE_PER_PAGE = 15;
+
     /** @var string[] */
     protected $fillable = [
         'id',
@@ -73,5 +75,15 @@ class Group extends UuidModel
     public function groupMembers(): HasMany
     {
         return $this->hasMany(GroupMember::class);
+    }
+
+    public function latestMessages(): HasMany
+    {
+        return $this->messages()->orderBy('created_at')->limit(self::MAX_MESSAGE_PER_PAGE);
+    }
+
+    public function loadGroupMembersAndLatestMessages(): self
+    {
+        return $this->load(['groupMembers', 'latestMessages']);
     }
 }

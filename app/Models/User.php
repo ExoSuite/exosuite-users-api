@@ -7,6 +7,7 @@ use App\Models\SearchRules\UserSearchRule;
 use App\Pivots\RoleUser;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Notifications\Notifiable;
@@ -20,7 +21,7 @@ use function strtolower;
  * Class User
  *
  * @package App\Models
- * @property \Webpatser\Uuid\Uuid $id
+ * @property string $id
  * @property string $first_name
  * @property string $last_name
  * @property string $nick_name
@@ -55,15 +56,12 @@ class User extends \Illuminate\Foundation\Auth\User
         'properties' => [
             'first_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard',
             ],
             'last_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard',
             ],
             'nick_name' => [
                 'type' => 'text',
-                'analyzer' => 'standard',
             ],
         ],
     ];
@@ -106,6 +104,7 @@ class User extends \Illuminate\Foundation\Auth\User
 
         static::created(static function (User $user): void {
             $user->profile()->create();
+            $user->dashboard()->create();
         });
     }
 
@@ -182,6 +181,11 @@ class User extends \Illuminate\Foundation\Auth\User
         )->withTimestamps();
     }
 
+    public function friendships(string $related_to): HasMany
+    {
+        return $this->hasMany(Friendship::class, $related_to);
+    }
+
     public function dashboard(): HasOne
     {
         return $this->hasOne(Dashboard::class, 'owner_id');
@@ -202,18 +206,42 @@ class User extends \Illuminate\Foundation\Auth\User
         return $this->hasMany(Like::class, 'liker_id');
     }
 
+    public function follows(): HasMany
+    {
+        return $this->hasMany(Follow::class);
+    }
+
+    public function groups(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Group::class,
+            GroupMember::class,
+            'user_id',
+            'id',
+            'id',
+            'group_id'
+        )->with(['groupMembers', 'latestMessages']);
+    }
+
+    public function postsFromDashboard(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Post::class,
+            Dashboard::class,
+            'owner_id'
+        );
+    }
+
     /**
      * @return mixed[]
      */
     public function toSearchableArray(): array
     {
-        $self = $this->toArray();
-
         return [
-            'id' => $self['id'],
-            'first_name' => $self['first_name'],
-            'last_name' => $self['last_name'],
-            'nick_name' => $self['nick_name'],
+            'id' => $this->id,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'nick_name' => $this->nick_name,
         ];
     }
 }

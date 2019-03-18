@@ -17,38 +17,29 @@ class FollowsController extends Controller
 
     public function store(User $user): JsonResponse
     {
-        return !Follow::whereFollowedId($user->id)->whereUserId(Auth::user()->id)->exists()
-            ? $this->created(Follow::create([
-                'user_id' => Auth::user()->id,
-                'followed_id' => $user->id,
-            ]))
-            : $this->badRequest("You're already following this user.");
+        if ($user->follows()->whereFollowedId($user->id)->exists()) {
+            return $this->noContent();
+        }
+
+        return $this->created(Auth::user()->follows()->create(['followed_id' => $user->id]));
     }
 
     public function amIFollowing(User $user): JsonResponse
     {
-        return Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id)->exists()
-            ? $this->ok(['status' => true])
-            : $this->ok(['status' => false]);
+        $status = Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id)->exists();
+
+        return $this->ok(['status' => $status]);
     }
 
-    public function whoIsFollowing(User $user): JsonResponse
+    public function getUserFollowing(User $user): JsonResponse
     {
-        return Follow::whereFollowedId($user->id)->exists()
-            ? $this->ok(Follow::whereFollowedId($user->id)->get()->pluck('user_id'))
-            : $this->noContent();
+        return $this->ok(Follow::whereFollowedId($user->id)->paginate());
     }
 
-    public function delete(User $user): JsonResponse
+    public function delete(Follow $follow): JsonResponse
     {
-        $entity = Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id);
+        $follow->delete();
 
-        if ($entity->exists()) {
-            $entity->delete();
-
-            return $this->noContent();
-        }
-
-        return $this->badRequest("You're not following this user.");
+        return $this->noContent();
     }
 }

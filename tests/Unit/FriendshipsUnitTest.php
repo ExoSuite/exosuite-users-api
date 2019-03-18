@@ -58,7 +58,6 @@ class FriendshipsUnitTest extends TestCase
             route('post_accept_friendship_request', ['request' => $post_resp->decodeResponseJson('request_id')])
         );
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "You're not allowed to answer this request"]);
     }
 
     /**
@@ -82,7 +81,6 @@ class FriendshipsUnitTest extends TestCase
             )
         );
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "You're not allowed to answer this request"]);
     }
 
     /**
@@ -95,22 +93,11 @@ class FriendshipsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function testDeleteFriendshipsWithWrongUser(): void
-    {
-        Passport::actingAs($this->user);
-        $response = $this->delete(route('delete_friendship', ['user' => Uuid::generate()->string]));
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-
     public function testDeleteFalseFriendships(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->delete(route('delete_friendship', ['user' => $this->user1->id]));
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
-        $response->assertJson(['message' => 'There is no such relation between you and this user.']);
+        $response = $this->delete(route('delete_friendship', ['friendship' => $this->user1->id]));
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     protected function setUp(): void
