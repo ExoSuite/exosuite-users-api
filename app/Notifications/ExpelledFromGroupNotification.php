@@ -1,31 +1,31 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Notifications;
 
 use App\Enums\NotificationType;
+use App\Models\Group;
 
 /**
  * Class ExpelledFromGroupNotification
+ *
  * @package App\Notifications
  */
 class ExpelledFromGroupNotification extends ExoSuiteNotification
 {
-    /**
-     * @var array|string
-     */
+
+    /** @var string */
     private $message;
-    /**
-     * @var array
-     */
+
+    /** @var \App\Models\Group */
     private $group;
 
     /**
      * Create a new notification instance.
      *
-     * @param string|array $message
-     * @param array $group
+     * @param string $message
+     * @param \App\Models\Group $group
      */
-    public function __construct($message, array $group)
+    public function __construct(string $message, Group $group)
     {
         $this->message = $message;
         $this->group = $group;
@@ -35,16 +35,16 @@ class ExpelledFromGroupNotification extends ExoSuiteNotification
      * Get the array representation of the notification.
      *
      * @param  mixed $notifiable
-     * @return array
+     * @return array<string, array<string, \App\Models\Group|string>|string>
      */
-    public function toArray($notifiable)
+    public function toArray($notifiable): array
     {
         return [
             'data' => [
-                "message" => $this->message,
-                "group" => $this->group
+                'message' => $this->message,
+                'group' => $this->group,
             ],
-            'notification_type' => NotificationType::EXPELLED_FROM_GROUP
+            'notification_type' => NotificationType::EXPELLED_FROM_GROUP,
         ];
     }
 }

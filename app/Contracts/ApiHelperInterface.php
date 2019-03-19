@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,17 +9,15 @@
 
 namespace App\Contracts;
 
-
 use App\Services\OAuth;
 
 /**
  * Interface ApiHelperInterface
+ *
  * @package App\Contracts
  */
 interface ApiHelperInterface
 {
-    /**
-     * @return OAuth
-     */
-    public function OAuth();
+
+    public function OAuth(): OAuth;
 }

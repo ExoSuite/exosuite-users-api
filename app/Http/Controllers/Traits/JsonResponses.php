@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -9,51 +10,36 @@
 namespace App\Http\Controllers\Traits;
 
 use App\Models\Media;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use function fclose;
+use function fpassthru;
+use function is_resource;
 
 /**
  * Trait JsonResponses
+ *
  * @package App\Http\Controllers\Traits
  */
 trait JsonResponses
 {
 
-    /**
-     * @param mixed $data
-     * @return array
-     */
-    private function toArray($data)
-    {
-        if ($data instanceof Model) {
-            $data = $data->toArray();
-        }
-
-        return $data;
-    }
-
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function noContent()
+    protected function noContent(): JsonResponse
     {
         return Response::json()
             ->setStatusCode(HttpResponse::HTTP_NO_CONTENT);
     }
 
     /**
-     * @param array|Model|\Illuminate\Contracts\Auth\Authenticatable $data
+     * @param mixed $data
      * @param string $location
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function created($data = [], string $location = null)
+    protected function created($data = [], ?string $location = null): JsonResponse
     {
         return Response::json($this->toArray($data))
             ->setStatusCode(HttpResponse::HTTP_CREATED)
@@ -61,50 +47,40 @@ trait JsonResponses
     }
 
     /**
-     * @param array|Model|Authenticatable|Collection|ResourceCollection|JsonResource|LengthAwarePaginator $data
+     * @param mixed $data
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function ok($data)
+    protected function ok($data): JsonResponse
     {
         return Response::json($this->toArray($data))
             ->setStatusCode(HttpResponse::HTTP_OK);
     }
 
-    /**
-     * @param string $message
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function badRequest($message)
+    protected function file(Media $media, string $conversionName = ''): StreamedResponse
     {
-        return Response::json(['message' => $message])
-            ->setStatusCode(HttpResponse::HTTP_BAD_REQUEST);
-    }
-
-    /**
-     * @param string $message
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function forbidden(string $message)
-    {
-        return Response::json(['message' => $message])->setStatusCode(HttpResponse::HTTP_FORBIDDEN);
-    }
-
-    /**
-     * @param Media $media
-     * @param string $conversionName
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse
-     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
-     */
-    protected function file(Media $media, string $conversionName = '')
-    {
-        return Response::stream(function () use ($media, $conversionName) {
+        return Response::stream(static function () use ($media, $conversionName): void {
             $stream = Storage::readStream($media->toStreamPath($conversionName));
 
             fpassthru($stream);
 
-            if (is_resource($stream)) {
-                fclose($stream);
+            if (!is_resource($stream)) {
+                return;
             }
+
+            fclose($stream);
         }, 200, $media->toStreamHeaders($conversionName));
+    }
+
+    /**
+     * @param mixed $data
+     * @return mixed
+     */
+    private function toArray($data)
+    {
+        if (is_object($data) && !($data instanceof ResourceCollection)) {
+            $data = $data->toArray();
+        }
+
+        return $data;
     }
 }

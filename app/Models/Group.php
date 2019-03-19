@@ -1,51 +1,57 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Models\Abstracts\UuidModel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * Class Group
+ *
  * @package App\Models
  */
 class Group extends UuidModel
 {
-    /**
-     * @var array
-     */
+
+    public const MAX_MESSAGE_PER_PAGE = 15;
+
+    /** @var string[] */
     protected $fillable = [
         'id',
         'name',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function groupMembers()
+    protected static function boot(): void
     {
-        return $this->hasMany(GroupMember::class);
+        parent::boot();
+        static::deleting(static function (self $group): void {
+            $group->groupMembers->each->delete();
+            $group->messages->each->delete();
+        });
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
-    public function users()
+    public function users(): HasManyThrough
     {
-        return $this->hasManyThrough(User::class, GroupMember::class, "group_id", 'id', "id", "user_id");
+        return $this->hasManyThrough(
+            User::class,
+            GroupMember::class,
+            'group_id',
+            'id',
+            'id',
+            'user_id'
+        );
     }
 
     /**
-     * @param User $user
+     * @param \App\Models\User $user
      * @return mixed
      */
     public function isAdmin(User $user)
@@ -58,11 +64,26 @@ class Group extends UuidModel
     }
 
     /**
-     * @param User $user
+     * @param \App\Models\User $user
      * @return mixed
      */
     public function isMember(User $user)
     {
         return $this->groupMembers()->whereUserId($user->id)->exists();
+    }
+
+    public function groupMembers(): HasMany
+    {
+        return $this->hasMany(GroupMember::class);
+    }
+
+    public function latestMessages(): HasMany
+    {
+        return $this->messages()->orderBy('created_at')->limit(self::MAX_MESSAGE_PER_PAGE);
+    }
+
+    public function loadGroupMembersAndLatestMessages(): self
+    {
+        return $this->load(['groupMembers', 'latestMessages']);
     }
 }

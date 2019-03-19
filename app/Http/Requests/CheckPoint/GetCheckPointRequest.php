@@ -1,21 +1,18 @@
-<?php
+<?php declare(strict_types = 1);
 
-namespace App\Http\Requests\Run;
+namespace App\Http\Requests\CheckPoint;
 
 use App\Http\Requests\Abstracts\RouteParamRequest;
 
-/**
- * Class GetShareRunRequest
- * @package App\Http\Requests\Run
- */
-class GetShareRunRequest extends RouteParamRequest
+class GetCheckPointRequest extends RouteParamRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,12 +20,12 @@ class GetShareRunRequest extends RouteParamRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return mixed[]
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'id' => 'exists:shares'
+            'id' => 'exists:check_points',
         ];
     }
 }

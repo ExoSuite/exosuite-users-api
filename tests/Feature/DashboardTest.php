@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -12,65 +12,60 @@ use Tests\TestCase;
 
 /**
  * Class DashboardTest
+ *
  * @package Tests\Feature
  */
 class DashboardTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @var
-     */
-    private $user;
 
-    /**
-     * @var
-     */
-    private $dash;
+    /** @var \App\Models\User */
+    private $user;
 
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testGetDashboardId()
+    public function testGetDashboardId(): void
     {
         Passport::actingAs($this->user);
         $response = $this->get(route('get_dashboard_id', ['user' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(1, count($response->decodeResponseJson()));
+        $response->assertJsonStructure((new Dashboard)->getFillable());
     }
 
-    /**
-     *
-     */
-    public function testGetRestriction()
+    public function testGetMyRestriction(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('get_dashboard_restriction', ['user' => $this->user->id]));
+        $response = $this->get(route('get_dashboard_restriction'));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(1, count($response->decodeResponseJson()));
+        $this->assertEquals(2, count($response->decodeResponseJson()));
     }
 
-    /**
-     *
-     */
-    public function testChangeRestriction()
+    public function testChangeVisibility(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->patch(route("patch_dashboard_restriction", [
-            'user' => $this->user->id
-        ]), ['restriction' => Restriction::PUBLIC]);
+        $response = $this->patch(route('patch_dashboard_restriction'), [
+            "restriction_field" => "visibility",
+            "restriction_level" => Restriction::FRIENDS_FOLLOWERS]);
         $response->assertStatus(Response::HTTP_OK);
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    public function testChangeWrintingRestriction(): void
+    {
+        Passport::actingAs($this->user);
+        $response = $this->patch(route('patch_dashboard_restriction'), [
+            "restriction_field" => "writing_restriction",
+            "restriction_level" => Restriction::FRIENDS_FOLLOWERS]);
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
+        factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
     }
 }

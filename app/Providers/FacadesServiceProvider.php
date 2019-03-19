@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Providers;
 
@@ -10,18 +10,19 @@ use Illuminate\Support\ServiceProvider;
 
 /**
  * Class FacadesServiceProvider
+ *
  * @package App\Providers
  */
 class FacadesServiceProvider extends ServiceProvider
 {
+
     /**
      * Bootstrap services.
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        //
     }
 
     /**
@@ -29,18 +30,18 @@ class FacadesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        App::singleton('InternalRequest', function ($app) {
+        App::singleton('InternalRequest', static function ($app) {
             return new InternalRequest($app);
         });
 
-        App::singleton('ApiHelper', function () {
-            return new ApiHelper();
+        App::singleton('ApiHelper', static function () {
+            return new ApiHelper;
         });
 
-        App::singleton('AdministratorServices', function () {
-            return new AdministratorServices();
+        App::singleton('AdministratorServices', static function () {
+            return new AdministratorServices;
         });
     }
 }

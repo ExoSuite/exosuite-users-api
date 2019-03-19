@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: loiclopez
@@ -8,12 +9,12 @@
 
 namespace App\Models\Traits;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
 
 /**
  * Trait Uuids
+ *
  * @package App\Models\Traits
  */
 trait Uuids
@@ -22,12 +23,12 @@ trait Uuids
     /**
      * Boot function from laravel.
      */
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
 
         static::creating(
-            function (Model $model) {
+            static function (Model $model): void {
                 $model->{$model->getKeyName()} = Uuid::generate()->string;
             }
         );

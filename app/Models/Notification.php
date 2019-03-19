@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
@@ -6,13 +6,13 @@ use App\Models\Abstracts\UuidModel;
 
 /**
  * Class Notification
+ *
  * @package App\Models
  */
 class Notification extends UuidModel
 {
-    /**
-     * @var array
-     */
+
+    /** @var string[] */
     protected $fillable = [
         'id',
         'type',
@@ -21,6 +21,6 @@ class Notification extends UuidModel
         'data',
         'read_at',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 }

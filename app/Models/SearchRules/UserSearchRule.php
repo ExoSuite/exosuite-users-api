@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models\SearchRules;
 
@@ -6,17 +6,11 @@ use ScoutElastic\SearchRule;
 
 /**
  * Class UserSearchRule
+ *
  * @package App\Models\SearchRules
  */
 class UserSearchRule extends SearchRule
 {
-    /**
-     * @inheritdoc
-     */
-    public function buildHighlightPayload()
-    {
-        //
-    }
 
     /**
      * @inheritdoc
@@ -30,25 +24,25 @@ class UserSearchRule extends SearchRule
                 [
                     'match' => [
                         'first_name' => [
-                            'query' => $query
-                        ]
-                    ]
+                            'query' => $query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'last_name' => [
-                            'query' => $query
-                        ]
-                    ]
+                            'query' => $query,
+                        ],
+                    ],
                 ],
                 [
                     'match' => [
                         'nick_name' => [
-                            'query' => $query
-                        ]
-                    ]
-                ]
-            ]
+                            'query' => $query,
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 }

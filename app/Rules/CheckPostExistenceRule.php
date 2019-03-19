@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Rules;
 
@@ -7,10 +7,12 @@ use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Class CheckPostExistenceRule
+ *
  * @package App\Rules
  */
 class CheckPostExistenceRule implements Rule
 {
+
     /**
      * Create a new rule instance.
      *
@@ -18,7 +20,6 @@ class CheckPostExistenceRule implements Rule
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -26,15 +27,12 @@ class CheckPostExistenceRule implements Rule
      *
      * @param  string $attribute
      * @param  mixed $value
+     *
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
-        if (Post::whereId($value)->exists()) {
-            return true;
-        } else {
-            return false;
-        }
+        return Post::whereId($value)->exists();
     }
 
     /**
@@ -42,7 +40,7 @@ class CheckPostExistenceRule implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'The provided post id doesn\'t exists.';
     }

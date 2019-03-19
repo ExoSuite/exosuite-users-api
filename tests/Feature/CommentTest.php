@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Tests\Feature;
 
@@ -8,30 +8,26 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 /**
  * Class CommentTest
+ *
  * @package Tests\Feature
  */
 class CommentTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\User */
     private $user;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\Dashboard */
     private $dash;
 
-    /**
-     * @var
-     */
+    /** @var \App\Models\Post */
     private $post;
 
     /**
@@ -39,52 +35,50 @@ class CommentTest extends TestCase
      *
      * @return void
      */
-    public function testCreate()
+    public function testCreateCommentary(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route(
             'post_commentary',
             [
                 'user' => $this->user->id,
-                'dashboard' => $this->dash->id,
-                "post" => $this->post->id
+                'post' => $this->post->id,
             ]
-        ), ['content' => str_random(10)]);
+        ), ['content' => Str::random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
-        $response->assertJsonStructure((new Commentary())->getFillable());
+        $response->assertJsonStructure((new Commentary)->getFillable());
         $this->assertDatabaseHas('commentaries', $response->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    public function testGetComms()
+    public function testGetComms(): void
     {
         Passport::actingAs($this->user);
+
         for ($it = 0; $it < 5; $it++) {
-            factory(Commentary::class)->create(['post_id' => $this->post->id, 'author_id' => $this->user->id, 'content' => str_random(10)]);
+            factory(Commentary::class)->create([
+                'post_id' => $this->post->id,
+                'author_id' => $this->user->id,
+                'content' => Str::random(10),
+            ]);
         }
+
         $response = $this->get(route('get_commentaries_by_post_id', [
             'user' => $this->user->id,
-            'dashboard' => $this->dash->id,
-            "post" => $this->post->id
+            'post' => $this->post->id,
         ]));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(5, count($response->decodeResponseJson()));
+        $this->assertEquals(5, count($response->decodeResponseJson('data')));
     }
 
-    /**
-     *
-     */
-    public function testUpdateComm()
+    public function testUpdateComm(): void
     {
         Passport::actingAs($this->user);
-        $content = str_random(10);
+        $content = Str::random(10);
         $comm = factory(Commentary::class)->create(
             [
                 'post_id' => $this->post->id,
                 'author_id' => $this->user->id,
-                'content' => str_random(10)
+                'content' => Str::random(10),
             ]
         );
 
@@ -92,8 +86,8 @@ class CommentTest extends TestCase
             route('patch_commentary', [
                 'user' => $this->user->id,
                 'dashboard' => $this->dash->id,
-                "post" => $this->post->id,
-                'commentary' => $comm->id
+                'post' => $this->post->id,
+                'commentary' => $comm->id,
             ]),
             ['content' => $content]
         );
@@ -103,24 +97,21 @@ class CommentTest extends TestCase
             [
                 'id' => $comm->id,
                 'author_id' => $this->user->id,
-                'content' => $content
+                'content' => $content,
             ]
         );
     }
 
-    /**
-     *
-     */
-    public function testDeleteComm()
+    public function testDeleteComm(): void
     {
         Passport::actingAs($this->user);
         $post_resp = $this->post(
             route('post_commentary', [
                 'user' => $this->user->id,
                 'dashboard' => $this->dash->id,
-                "post" => $this->post->id
+                'post' => $this->post->id,
             ]),
-            ['content' => str_random(10)]
+            ['content' => Str::random(10)]
         );
         $response = $this->delete(
             route(
@@ -128,8 +119,8 @@ class CommentTest extends TestCase
                 [
                     'user' => $this->user->id,
                     'dashboard' => $this->dash->id,
-                    "post" => $this->post->id,
-                    'commentary' => $post_resp->decodeResponseJson('id')
+                    'post' => $this->post->id,
+                    'commentary' => $post_resp->decodeResponseJson('id'),
                 ]
             )
         );
@@ -137,16 +128,13 @@ class CommentTest extends TestCase
         $this->assertDatabaseMissing('commentaries', $post_resp->decodeResponseJson());
     }
 
-    /**
-     *
-     */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = factory(User::class)->create();
         $this->dash = factory(Dashboard::class)->create(['owner_id' => $this->user->id]);
         $this->post = factory(Post::class)
-            ->create(['author_id' => $this->user->id, 'dashboard_id' => $this->dash->id, 'content' => str_random(10)]);
+            ->create(['author_id' => $this->user->id, 'dashboard_id' => $this->dash->id, 'content' => Str::random(10)]);
     }
 }

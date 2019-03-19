@@ -1,20 +1,23 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
 use App\Enums\Visibility;
 use App\Models\Abstracts\UuidModel;
 use App\Models\Traits\Shareable;
-use App\Pivots\UserShare;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Run
+ *
  * @package App\Models
- * @property Uuid $id
+ * @property \App\Models\Uuid $id
  * @property string $description
- * @property Uuid $creator_id
- * @property Visibility $visibility
+ * @property \App\Models\Uuid $creator_id
+ * @property \App\Enums\Visibility $visibility
  * @property string $name
  */
 class Run extends UuidModel
@@ -24,42 +27,61 @@ class Run extends UuidModel
     /**
      * define relation key
      */
-    const USER_FOREIGN_KEY = 'creator_id';
+    public const USER_FOREIGN_KEY = 'creator_id';
 
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
-        'id', 'description', 'creator_id', 'visibility', 'name', 'updated_at', 'created_at'
+        'id',
+        'description',
+        'creator_id',
+        'visibility',
+        'name',
+        'updated_at',
+        'created_at',
     ];
 
     /**
      * if no visibility is provided set to private
      */
-    protected static function boot()
+    protected static function boot(): void
     {
         parent::boot();
-        self::creating(function (self $run) {
+        self::creating(static function (self $run): void {
             if (!$run->visibility) {
                 $run->visibility = Visibility::PRIVATE;
             }
+
             $run->creator_id = Auth::id();
         });
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function checkpoints()
+    public function checkpoints(): HasMany
     {
         return $this->hasMany(CheckPoint::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, self::USER_FOREIGN_KEY);
+    }
+
+    public function likeFromUser(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            Like::class,
+            User::class,
+            'id',
+            'liker_id',
+            'creator_id',
+            'id'
+        );
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(
+            Like::class,
+            'liked_id'
+        );
     }
 }

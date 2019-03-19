@@ -1,5 +1,6 @@
 includes:
     - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/phpstan/phpstan-deprecation-rules/rules.neon
 parameters:
     excludes_analyse:
         - /*/Definitions/*
@@ -11,8 +12,12 @@ parameters:
         - "#Offset 'scheme' does not exist on array()#"
         - "#Builder::findOrFail#"
         - '#array<Illuminate\Http\UploadedFile>|Illuminate\Http\UploadedFile|null given#'
+        - '#Illuminate\\Support\\Facades\\Event::assertDispatched#'
+        - '#Illuminate\\Support\\Facades\\Notification::assertTimesSent#'
+        - '#Illuminate\\Support\\Facades\\Notification::assertSentTo#'
+        - '#Illuminate\\Support\\Facades\\Notification::assertNotSentTo#'
+        - '#parameters()#'
     paths:
         - %rootDir%/../../../app
         - %rootDir%/../../../routes
         - %rootDir%/../../../tests
-        - %rootDir%/../../../database

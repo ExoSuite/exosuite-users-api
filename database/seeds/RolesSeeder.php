@@ -17,9 +17,11 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        Role::create([
-            'name' => Roles::ADMINISTRATOR,
-            'permissions' => array_fill_keys(AdministratorPermissions::getValues(), true)
-        ]);
+        if (Role::whereName(Roles::ADMINISTRATOR)->doesntExist()) {
+            Role::create([
+                'name' => Roles::ADMINISTRATOR,
+                'permissions' => array_fill_keys(AdministratorPermissions::getValues(), true)
+            ]);
+        }
     }
 }

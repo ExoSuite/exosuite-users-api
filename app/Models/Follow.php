@@ -1,32 +1,38 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
+use App\Models\Abstracts\UuidModel;
 use App\Models\Traits\Uuids;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Follow
+ *
  * @package App\Models
  */
-class Follow extends Model
+class Follow extends UuidModel
 {
+
     use Uuids;
 
-    /**
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * @var string
-     */
-    protected $primaryKey = 'follow_id';
-
-    /**
-     * @var array
-     */
+    /** @var string[] */
     protected $fillable = [
-        'follow_id', 'user_id', 'followed_id'
+        'id',
+        'user_id',
+        'followed_id',
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::deleted(static function (self $follow): void {
+            $follow = static::whereUserId($follow->user_id)->whereFollowedId($follow->followed_id);
+
+            if (!$follow->exists()) {
+                return;
+            }
+
+            $follow->delete();
+        });
+    }
 }

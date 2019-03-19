@@ -1,14 +1,16 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserProfileRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * Class UserProfileController
+ *
  * @package App\Http\Controllers\User
  */
 class UserProfileController extends Controller
@@ -17,21 +19,21 @@ class UserProfileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param User $user
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(User $user)
+    public function show(User $user): JsonResponse
     {
-        return $this->ok(User::with('profile')->whereId($user->id)->first()->toArray());
+        return $this->ok($user->load('profile'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param UserProfileRequest $request
+     * @param \App\Http\Requests\User\UserProfileRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UserProfileRequest $request)
+    public function update(UserProfileRequest $request): JsonResponse
     {
         Auth::user()->profile()->update($request->validated());
 
