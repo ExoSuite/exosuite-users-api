@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @package App\Models
  * @property \App\Models\Uuid $id
- * @property int $interval
+ * @property int $current_time
  */
 class Time extends UuidModel
 {
@@ -31,5 +31,10 @@ class Time extends UuidModel
     public function run(): BelongsTo
     {
         return $this->belongsTo(Run::class);
+    }
+
+    public function getCurrentTime(): int
+    {
+        return $this->current_time;
     }
 }

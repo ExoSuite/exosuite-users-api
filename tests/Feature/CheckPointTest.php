@@ -108,7 +108,7 @@ class CheckPointTest extends TestCase
         $run = Run::find($run_id);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas("check_points", Arr::except($response->decodeResponseJson(), "location"));
-        $this->assertForeignKeyIsExpectedID($run->creator_id, $this->user->id);
+        $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $this->user->id);
     }
 
     public function testGetSomeoneCheckpoint(): void
@@ -137,7 +137,7 @@ class CheckPointTest extends TestCase
         $run = Run::find($run_id);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas("check_points", Arr::except($response->decodeResponseJson(), "location"));
-        $this->assertForeignKeyIsExpectedID($run->creator_id, $targeted_user->id);
+        $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $targeted_user->id);
     }
 
     public function testGetAllMyCheckpoints(): void
@@ -175,7 +175,7 @@ class CheckPointTest extends TestCase
 
         for ($i = 0; $i < count($response->decodeResponseJson()); $i++) {
             $run = Run::find($response->decodeResponseJson()[$i]['run_id']);
-            $this->assertForeignKeyIsExpectedID($run->creator_id, $this->user->id);
+            $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $this->user->id);
         }
     }
 
@@ -215,7 +215,7 @@ class CheckPointTest extends TestCase
 
         for ($i = 0; $i < count($response->decodeResponseJson()); $i++) {
             $run = Run::find($response->decodeResponseJson()[$i]['run_id']);
-            $this->assertForeignKeyIsExpectedID($run->creator_id, $targeted_user->id);
+            $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $targeted_user->id);
         }
     }
 

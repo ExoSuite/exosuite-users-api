@@ -151,7 +151,7 @@ class TimeTest extends TestCase
         $run = $run = Run::find($run_id);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas("times", $response->decodeResponseJson());
-        $this->assertForeignKeyIsExpectedID($run->creator_id, $this->user->id);
+        $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $this->user->id);
     }
 
     public function testGetSomeoneTime(): void
@@ -186,7 +186,7 @@ class TimeTest extends TestCase
         $run = $run = Run::find($run_id);
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas("times", $response->decodeResponseJson());
-        $this->assertForeignKeyIsExpectedID($run->creator_id, $targeted_user->id);
+        $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $targeted_user->id);
     }
 
     public function testGetAllMyTimes(): void
@@ -222,7 +222,7 @@ class TimeTest extends TestCase
 
         for ($i = 0; $i < count($response->decodeResponseJson()); $i++) {
             $run = Run::find($response->decodeResponseJson()[$i]['run_id']);
-            $this->assertForeignKeyIsExpectedID($run->creator_id, $this->user->id);
+            $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $this->user->id);
         }
     }
 
@@ -261,7 +261,7 @@ class TimeTest extends TestCase
 
         for ($i = 0; $i < count($response->decodeResponseJson()); $i++) {
             $run = Run::find($response->decodeResponseJson()[$i]['run_id']);
-            $this->assertForeignKeyIsExpectedID($run->creator_id, $targeted_user->id);
+            $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $targeted_user->id);
         }
     }
 

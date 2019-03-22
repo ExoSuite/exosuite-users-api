@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Time;
 
+use App\Rules\TimeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**

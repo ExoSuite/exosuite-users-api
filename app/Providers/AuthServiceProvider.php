@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\CheckPoint;
 use App\Models\Group;
 use App\Models\Message;
+use App\Models\Run;
+use App\Models\Time;
 use App\Policies\CheckPointPolicy;
 use App\Policies\GroupPolicy;
 use App\Policies\MessagePolicy;

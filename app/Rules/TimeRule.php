@@ -56,7 +56,7 @@ class TimeRule implements Rule
             $min = Carbon::create(2015, 12, 31, 23, 59, 59);
             $max = Carbon::create(2025, 12, 31, 23, 59, 59);
             return $date->gt($min) && $date->lte($max) && $value >
-                $last_checkpoint_time_timestamp->current_time;
+                $last_checkpoint_time_timestamp->getCurrentTime();
         } else {
             $date = Carbon::createFromTimeStamp((int)$value);
             $min = Carbon::create(2015, 12, 31, 23, 59, 59);
