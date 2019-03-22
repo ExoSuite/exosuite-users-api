@@ -38,13 +38,13 @@ class CommentTest extends TestCase
     public function testCreateCommentary(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->post(route(
-            'post_commentary',
-            [
-                'user' => $this->user->id,
-                'post' => $this->post->id,
-            ]
-        ), ['content' => Str::random(10)]);
+        $response = $this->post(
+            route(
+                'post_commentary',
+                ['user' => $this->user->id, 'post' => $this->post->id]
+            ),
+            ['content' => Str::random()]
+        );
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Commentary)->getFillable());
         $this->assertDatabaseHas('commentaries', $response->decodeResponseJson());
