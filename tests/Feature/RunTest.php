@@ -119,8 +119,8 @@ class RunTest extends TestCase
         $run_id = $response->decodeResponseJson('id');
         $response = $this->get($this->route('get_my_run_by_id', [BindType::RUN => $run_id]));
         $response->assertStatus(Response::HTTP_OK);
-        $run = Run::find($run_id);
-        $this->assertForeignKeyIsExpectedID($this->user->id, $run->getCreatorID());
+        $run = Run::find($run_id)->first();
+        $this->assertForeignKeyIsExpectedID($this->user->id, $run->creator_id);
     }
 
     public function testGetSomeoneRun(): void
@@ -136,8 +136,8 @@ class RunTest extends TestCase
         $response = $this->get($this->route('get_run_by_id', [BindType::USER => $targeted_user->id, BindType::RUN =>
             $run_id]));
         $response->assertStatus(Response::HTTP_OK);
-        $run = Run::find($run_id);
-        $this->assertForeignKeyIsExpectedID($targeted_user->id, $run->getCreatorID());
+        $run = Run::find($run_id)->first();
+        $this->assertForeignKeyIsExpectedID($targeted_user->id, $run->creator_id);
     }
 
     public function testGetAllMyRuns(): void

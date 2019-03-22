@@ -32,9 +32,4 @@ class Time extends UuidModel
     {
         return $this->belongsTo(Run::class);
     }
-
-    public function getCurrentTime(): int
-    {
-        return $this->current_time;
-    }
 }

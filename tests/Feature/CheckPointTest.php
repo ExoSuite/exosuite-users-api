@@ -105,10 +105,10 @@ class CheckPointTest extends TestCase
             "get_my_checkpoint_by_id",
             [BindType::RUN => $run_id, BindType::CHECKPOINT => $checkpoint_id]
         ));
-        $run = Run::find($run_id);
+        $run = Run::find($run_id)->first();
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas("check_points", Arr::except($response->decodeResponseJson(), "location"));
-        $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $this->user->id);
+        $this->assertForeignKeyIsExpectedID($run->creator_id, $this->user->id);
     }
 
     public function testGetSomeoneCheckpoint(): void
@@ -134,10 +134,10 @@ class CheckPointTest extends TestCase
             "get_checkpoint_by_id",
             [BindType::USER => $targeted_user->id, BindType::RUN => $run_id, BindType::CHECKPOINT => $checkpoint_id]
         ));
-        $run = Run::find($run_id);
+        $run = Run::find($run_id)->first();
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas("check_points", Arr::except($response->decodeResponseJson(), "location"));
-        $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $targeted_user->id);
+        $this->assertForeignKeyIsExpectedID($run->creator_id, $targeted_user->id);
     }
 
     public function testGetAllMyCheckpoints(): void
@@ -174,8 +174,8 @@ class CheckPointTest extends TestCase
         $this->assertEquals(11, count(Arr::except($response->decodeResponseJson(), 'location')));
 
         for ($i = 0; $i < count($response->decodeResponseJson()); $i++) {
-            $run = Run::find($response->decodeResponseJson()[$i]['run_id']);
-            $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $this->user->id);
+            $run = Run::find($response->decodeResponseJson()[$i]['run_id'])->first();
+            $this->assertForeignKeyIsExpectedID($run->creator_id, $this->user->id);
         }
     }
 
@@ -214,8 +214,8 @@ class CheckPointTest extends TestCase
         $this->assertEquals(11, count(Arr::except($response->decodeResponseJson(), 'location')));
 
         for ($i = 0; $i < count($response->decodeResponseJson()); $i++) {
-            $run = Run::find($response->decodeResponseJson()[$i]['run_id']);
-            $this->assertForeignKeyIsExpectedID($run->getCreatorID(), $targeted_user->id);
+            $run = Run::find($response->decodeResponseJson()[$i]['run_id'])->first();
+            $this->assertForeignKeyIsExpectedID($run->creator_id, $targeted_user->id);
         }
     }
 

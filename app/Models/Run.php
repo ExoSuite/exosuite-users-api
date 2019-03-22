@@ -64,8 +64,4 @@ class Run extends UuidModel
         return $this->belongsTo(User::class, self::USER_FOREIGN_KEY);
     }
 
-    public function getCreatorID(): string
-    {
-        return $this->creator_id;
-    }
 }

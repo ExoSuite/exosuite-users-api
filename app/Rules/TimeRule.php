@@ -49,14 +49,14 @@ class TimeRule implements Rule
     {
         if ($this->checkPoint->type === CheckPointType::DEFAULT or $this->checkPoint->type ===
             CheckPointType::ARRIVAL) {
-            $last_checkpoint = CheckPoint::findOrFail($this->checkPoint->previous_checkpoint_id);
+            $last_checkpoint = CheckPoint::findOrFail($this->checkPoint->previous_checkpoint_id)->first();
             $last_checkpoint_time = $last_checkpoint->times()->orderBy('created_at', 'desc')->first();
-            $last_checkpoint_time_timestamp = Time::findOrFail($last_checkpoint_time->id);
+            $last_checkpoint_time_timestamp = Time::findOrFail($last_checkpoint_time->id)->first();
             $date = Carbon::createFromTimeStamp((int)$value);
             $min = Carbon::create(2015, 12, 31, 23, 59, 59);
             $max = Carbon::create(2025, 12, 31, 23, 59, 59);
             return $date->gt($min) && $date->lte($max) && $value >
-                $last_checkpoint_time_timestamp->getCurrentTime();
+                $last_checkpoint_time_timestamp->current_time;
         } else {
             $date = Carbon::createFromTimeStamp((int)$value);
             $min = Carbon::create(2015, 12, 31, 23, 59, 59);
