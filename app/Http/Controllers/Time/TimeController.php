@@ -20,7 +20,6 @@ class TimeController extends Controller
      * @param \App\Models\User|null $user
      * @param \App\Models\Run $run
      * @param \App\Models\CheckPoint $checkPoint
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(?User $user, Run $run, CheckPoint $checkPoint): JsonResponse
@@ -35,7 +34,6 @@ class TimeController extends Controller
      *
      * @param \App\Models\Run $run
      * @param \App\Models\CheckPoint $checkPoint
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateTimeRequest $request, Run $run, CheckPoint $checkPoint): JsonResponse
@@ -55,7 +53,6 @@ class TimeController extends Controller
      * @param \App\Models\Run $run
      * @param \App\Models\CheckPoint $checkPoint
      * @param \App\Models\Time $time
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateTimeRequest $request, Run $run, CheckPoint $checkPoint, Time $time): JsonResponse
@@ -78,7 +75,6 @@ class TimeController extends Controller
      * @param \App\Models\Run $run
      * @param \App\Models\CheckPoint $checkPoint
      * @param \App\Models\Time $time
-     *
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
      */

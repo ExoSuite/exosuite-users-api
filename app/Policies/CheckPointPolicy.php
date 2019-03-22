@@ -41,7 +41,6 @@ class CheckPointPolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\CheckPoint $checkPoint
-     *
      * @return mixed
      */
     public function update(User $user, CheckPoint $checkPoint)
@@ -54,7 +53,6 @@ class CheckPointPolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\CheckPoint $checkPoint
-     *
      * @return mixed
      */
     public function delete(User $user, CheckPoint $checkPoint)

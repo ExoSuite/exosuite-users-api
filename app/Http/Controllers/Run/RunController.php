@@ -23,7 +23,6 @@ class RunController extends Controller
      * Display a listing of the resource.
      *
      * @param \App\Models\User|null $user
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(?User $user): JsonResponse

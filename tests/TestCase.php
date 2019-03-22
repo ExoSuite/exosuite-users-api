@@ -28,7 +28,6 @@ abstract class TestCase extends BaseTestCase
      * @param array<mixed> $data
      * @param string $reference
      * @param string $foreign_key
-     *
      * @return void
      */
     protected function assertForeignKeyInArray(array $data, string $reference, string $foreign_key): void

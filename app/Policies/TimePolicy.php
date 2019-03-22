@@ -15,7 +15,6 @@ class TimePolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\Time $time
-     *
      * @return mixed
      */
     public function view(User $user, Time $time)
@@ -26,7 +25,6 @@ class TimePolicy
      * Determine whether the user can create times.
      *
      * @param  \App\Models\User $user
-     *
      * @return mixed
      */
     public function create(User $user)
@@ -38,7 +36,6 @@ class TimePolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\Time $time
-     *
      * @return mixed
      */
     public function update(User $user, Time $time)
@@ -50,7 +47,6 @@ class TimePolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\Time $time
-     *
      * @return mixed
      */
     public function delete(User $user, Time $time)
@@ -63,7 +59,6 @@ class TimePolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\Time $time
-     *
      * @return mixed
      */
     public function restore(User $user, Time $time)
@@ -75,7 +70,6 @@ class TimePolicy
      *
      * @param  \App\Models\User $user
      * @param \App\Models\Time $time
-     *
      * @return mixed
      */
     public function forceDelete(User $user, Time $time)

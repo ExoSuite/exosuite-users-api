@@ -48,7 +48,10 @@ class NotificationTest extends TestCase
             $this->assertDatabaseHas('notifications', Arr::except($notif, 'data'));
         }
 
-        $this->assertEquals(NotificationController::GET_PER_PAGE, count($notifications_req->decodeResponseJson('data')));
+        $this->assertEquals(
+            NotificationController::GET_PER_PAGE,
+            count($notifications_req->decodeResponseJson('data'))
+        );
         $notifications_req->assertStatus(Response::HTTP_OK);
     }
 

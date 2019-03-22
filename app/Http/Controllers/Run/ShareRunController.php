@@ -25,7 +25,6 @@ class ShareRunController extends Controller
      * Display a listing of the resource.
      *
      * @param \App\Models\User $user
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(User $user): JsonResponse
@@ -42,7 +41,6 @@ class ShareRunController extends Controller
      *
      * @param \App\Http\Requests\Run\CreateShareRunRequest $request
      * @param \App\Models\User $user
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(CreateShareRunRequest $request, User $user): JsonResponse

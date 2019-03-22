@@ -28,7 +28,6 @@ class CheckPointController extends Controller
      *
      * @param \App\Models\User|null $user
      * @param \App\Models\Run $run
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(?User $user, Run $run): JsonResponse
@@ -46,6 +45,7 @@ class CheckPointController extends Controller
     public function store(CreateCheckPointRequest $request, Run $run): JsonResponse
     {
         $data = $request->validated();
+
         if ($data['type'] === CheckPointType::START) {
             $checkpoints = $run->checkpoints()->get()->toArray();
 
@@ -60,11 +60,12 @@ class CheckPointController extends Controller
             return new Point($point[1], $point[0]);
         });
 
-        if ($data['type'] === CheckPointType::ARRIVAL or $data['type'] === CheckPointType::DEFAULT) {
+        if ($data['type'] === CheckPointType::ARRIVAL || $data['type'] === CheckPointType::DEFAULT) {
             $last_checkpoint = $run->checkpoints()->orderBy('created_at', 'desc')->first();
             $data['previous_checkpoint_id'] = $last_checkpoint->id;
-        } else
+        } else {
             $data['previous_checkpoint_id'] = null;
+        }
 
         $data['location'] = new Polygon([new LineString($points->toArray())]);
         $data['run_id'] = $run->id;
@@ -80,7 +81,6 @@ class CheckPointController extends Controller
      * @param \App\Models\Run $run
      * @param \App\Models\CheckPoint $checkPoint
      * @param \App\Models\Time $time
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(?User $user, Run $run, CheckPoint $checkPoint, Time $time): JsonResponse
@@ -96,7 +96,6 @@ class CheckPointController extends Controller
      * @param \App\Http\Requests\CheckPoint\UpdateCheckPointRequest $request
      * @param \App\Models\Run $run
      * @param \App\Models\CheckPoint $checkpoint
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateCheckPointRequest $request, Run $run, CheckPoint $checkpoint): JsonResponse
@@ -105,18 +104,23 @@ class CheckPointController extends Controller
 
         if ($data['type'] === CheckPointType::START) {
             $checkpoints = $run->checkpoints()->get()->toArray();
+
             foreach ($checkpoints as $checkpt) {
-                if ($checkpt['id'] !== $checkpoint->id) {
-                    if ($checkpt['type'] === CheckPointType::START) {
-                        return $this->badRequest("You can't have more than one checkpoint of type start");
-                    }
+                if ($checkpt['id'] === $checkpoint->id) {
+                    continue;
+                }
+
+                if ($checkpt['type'] === CheckPointType::START) {
+                    return $this->badRequest("You can't have more than one checkpoint of type start");
                 }
             }
         }
+
         $points = collect($request->get("location"))->map(static function ($point) {
             return new Point($point[1], $point[0]);
         });
-        if ($data['type'] === CheckPointType::ARRIVAL or $data['type'] === CheckPointType::DEFAULT) {
+
+        if ($data['type'] === CheckPointType::ARRIVAL || $data['type'] === CheckPointType::DEFAULT) {
             $last_checkpoint = $run->checkpoints()->orderBy('created_at', 'desc')->first();
             $data['previous_checkpoint_id'] = $last_checkpoint->id;
         } else {
