@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Run\CreateRunRequest;
 use App\Http\Requests\Run\UpdateRunRequest;
 use App\Models\Run;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,15 +17,22 @@ use Illuminate\Support\Facades\Auth;
  */
 class RunController extends Controller
 {
+    public const GET_PER_PAGE = 10;
 
     /**
      * Display a listing of the resource.
      *
+     * @param \App\Models\User|null $user
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(?User $user): JsonResponse
     {
-        return $this->ok(Auth::user()->runs()->get());
+        if (!$user->id) {
+            $user = Auth::user();
+        }
+
+        return $this->ok($user->runs()->paginate(self::GET_PER_PAGE));
     }
 
     /**
@@ -39,6 +47,13 @@ class RunController extends Controller
         $run = Run::create($data);
 
         return $this->created($run);
+    }
+
+    public function show(?User $user, Run $run): JsonResponse
+    {
+        $run = Run::findOrFail($run->id);
+
+        return $this->ok($run);
     }
 
     /**

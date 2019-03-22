@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\CheckPoint;
 use App\Models\Group;
 use App\Models\Message;
+use App\Policies\CheckPointPolicy;
 use App\Policies\GroupPolicy;
 use App\Policies\MessagePolicy;
+use App\Policies\RunPolicy;
+use App\Policies\TimePolicy;
 use Illuminate\Support\Facades\App;
 use Laravel\Passport\Passport;
 use function now;
@@ -26,6 +30,9 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
     protected $policies = [
         Message::class => MessagePolicy::class,
         Group::class => GroupPolicy::class,
+        CheckPoint::class => CheckPointPolicy::class,
+        Time::class => TimePolicy::class,
+        Run::class => RunPolicy::class,
     ];
 
     /**

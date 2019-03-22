@@ -7,6 +7,7 @@ use App\Http\Requests\Run\CreateShareRunRequest;
 use App\Http\Resources\SharedRunCollection;
 use App\Http\Resources\SharedRunResource;
 use App\Models\Run;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +24,11 @@ class ShareRunController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \App\Models\User $user
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(User $user): JsonResponse
     {
         $runs = Auth::user()->sharedRuns()->get();
 
@@ -38,9 +41,11 @@ class ShareRunController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\Run\CreateShareRunRequest $request
+     * @param \App\Models\User $user
+     *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateShareRunRequest $request): JsonResponse
+    public function store(CreateShareRunRequest $request, User $user): JsonResponse
     {
         $run = Run::whereId($request->get('id'))->first();
         $data = [];

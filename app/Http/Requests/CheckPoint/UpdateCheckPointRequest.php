@@ -3,6 +3,7 @@
 namespace App\Http\Requests\CheckPoint;
 
 use App\Rules\CheckPointTypeRule;
+use App\Rules\PolygonRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCheckPointRequest extends FormRequest
@@ -15,9 +16,6 @@ class UpdateCheckPointRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        /*$checkpoint = CheckPoint::whereId($this->id());
-
-        return $checkpoint->firstOrFail()->creator_id === Auth::id();*/
         return true;
     }
 
@@ -30,8 +28,7 @@ class UpdateCheckPointRequest extends FormRequest
     {
         return [
             'type' => ['required', 'string', new CheckPointTypeRule],
-            'location' => 'required|polygon|max:255',
-            'run_id' => 'required|uuid|exists:run,id',
+            'location' => ['required', new PolygonRule],
         ];
     }
 }

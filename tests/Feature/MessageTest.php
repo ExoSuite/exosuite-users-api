@@ -104,8 +104,8 @@ class MessageTest extends TestCase
         $test = $this->delete(
             $this->route('delete_message', [BindType::GROUP => $group->id, BindType::MESSAGE => $message_id])
         );
-        $this->assertDatabaseMissing('messages', $response->decodeResponseJson());
         $test->assertStatus(Response::HTTP_NO_CONTENT);
+        $this->assertDatabaseMissing('messages', $response->decodeResponseJson());
         Event::assertDispatched(DeletedMessageEvent::class, 1);
     }
 
@@ -125,8 +125,9 @@ class MessageTest extends TestCase
         }
 
         $response = $this->get($this->route('get_message', [BindType::GROUP => $group->id]));
-        $this->assertEquals(MessageController::GET_PER_PAGE, count($response->decodeResponseJson('data')));
         $response->assertStatus(Response::HTTP_OK);
+        $this->assertEquals(MessageController::GET_PER_PAGE, count($response->decodeResponseJson('data')));
+        $this->assertForeignKeyInArray($response->decodeResponseJson('data'), $group->id, "group_id");
     }
 
     protected function setUp(): void

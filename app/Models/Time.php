@@ -18,8 +18,8 @@ class Time extends UuidModel
     /** @var string[] */
     protected $fillable = [
         'id',
-        'interval',
-        'checkpoint_id',
+        'current_time',
+        'check_point_id',
         'run_id',
     ];
 

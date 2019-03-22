@@ -51,6 +51,35 @@ Route::middleware('auth:api')->group(static function (): void {
                 Route::post('/accept', 'RelationsController@acceptRequest')->name('post_accept_friendship_request');
                 Route::post('/decline', 'RelationsController@declineRequest')->name('post_decline_friendship_request');
             });
+
+            Route::prefix('run')->group(static function (): void {
+                Route::post('/', 'Run\RunController@store')
+                    ->name('post_run');
+                Route::patch('/{run}', 'Run\RunController@update')
+                    ->name('patch_run');
+                Route::get('/', 'Run\RunController@index')
+                    ->name('get_my_runs');
+                Route::get('/{run}', 'Run\RunController@show')
+                    ->name('get_my_run_by_id');
+                Route::delete('/{run}', 'Run\RunController@destroy')
+                    ->name('delete_run');
+
+                Route::prefix('/{run}/checkpoint')->group(static function (): void {
+                    Route::post('/', 'CheckPoint\CheckPointController@store')->name('post_checkpoint');
+                    Route::delete('/{checkpoint}', 'CheckPoint\CheckPointController@destroy')
+                        ->name('delete_checkpoint');
+                    Route::put('/{checkpoint}', 'CheckPoint\CheckPointController@update')->name('put_checkpoint');
+                    Route::get('/', 'CheckPoint\CheckPointController@index')->name('get_my_checkpoints');
+                    Route::get('/{checkpoint}', 'CheckPoint\CheckPointController@show')
+                        ->name('get_my_checkpoint_by_id');
+                    Route::prefix('/{checkpoint}/time')->group(static function (): void {
+                        Route::post('/', 'Time\TimeController@store')->name('post_time');
+                        Route::delete('/{time}', 'Time\TimeController@destroy')->name('delete_time');
+                        Route::get('/', 'Time\TimeController@index')->name('get_my_times');
+                        Route::get('/{time}', 'Time\TimeController@show')->name('get_my_time_by_id');
+                    });
+                });
+            });
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');
@@ -144,6 +173,38 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::prefix('pending_requests')->group(static function (): void {
                 Route::post('/', 'PendingRequestController@store')->name('post_pending_request');
             });
+
+            Route::prefix('run')->group(static function (): void {
+                Route::get('/', 'Run\RunController@index')
+                    ->name('get_runs');
+                Route::get('/{run}', 'Run\RunController@show')
+                    ->name('get_run_by_id');
+                Route::prefix('share')->group(static function (): void {
+                    Route::post('/', 'Run\ShareRunController@store')
+                        ->name('post_share_run');
+                    Route::get('/', 'Run\ShareRunController@index')
+                        ->name('get_share_run');
+                    Route::get('/id/{uuid}', 'Run\ShareRunController@show')
+                        ->name('get_share_run_by_id');
+                });
+                Route::prefix('{run}')->group(static function (): void {
+                    Route::prefix('/likes')->group(static function (): void {
+                        Route::post('/', 'LikesController@storeRun')->name('post_like_for_run');
+                        Route::delete('/', 'LikesController@deleteRun')->name('delete_like_for_run');
+                        Route::get('/', 'LikesController@getLikesFromRun')->name('get_likes_from_run');
+                    });
+
+                    Route::prefix('/checkpoint')->group(static function (): void {
+                        Route::get('/', 'CheckPoint\CheckPointController@index')->name('get_checkpoints');
+                        Route::get('/{checkpoint}', 'CheckPoint\CheckPointController@show')
+                            ->name('get_checkpoint_by_id');
+                        Route::prefix('/{checkpoint}/time')->group(static function (): void {
+                            Route::get('/', 'Time\TimeController@index')->name('get_times');
+                            Route::get('/{time}', 'Time\TimeController@show')->name('get_time_by_id');
+                        });
+                    });
+                });
+            });
         });
     });
     Route::get('search', 'User\UserController@search')->name('get_users');
@@ -177,47 +238,6 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::delete('/{message}', 'MessageController@destroy')
                 ->name('delete_message')
                 ->middleware('can:delete,message');
-        });
-    });
-
-    Route::prefix('run')->group(static function (): void {
-        ///////////////////////////////////////////////////////////////////
-        Route::post('/', 'Run\RunController@store')
-            ->name('post_run');
-        Route::patch('/{run}', 'Run\RunController@update')
-            ->name('patch_run');
-        Route::get('/', 'Run\RunController@index')
-            ->name('get_run');
-        Route::delete('/{run}', 'Run\RunController@delete')
-            ->name('delete_run');
-        ///////////////////////////////////////////////////////////////////
-        Route::prefix('share')->group(static function (): void {
-            Route::post('/', 'Run\ShareRunController@store')
-                ->name('post_share_run');
-            Route::get('/', 'Run\ShareRunController@index')
-                ->name('get_share_run');
-            Route::get('/id/{uuid}', 'Run\ShareRunController@show')
-                ->name('get_share_run_by_id');
-        });
-        ///////////////////////////////////////////////////////////////////
-        Route::prefix('{run}')->group(static function (): void {
-            Route::prefix('/likes')->group(static function (): void {
-                Route::post('/', 'LikesController@storeRun')->name('post_like_for_run');
-                Route::delete('/', 'LikesController@deleteRun')->name('delete_like_for_run');
-                Route::get('/', 'LikesController@getLikesFromRun')->name('get_likes_from_run');
-            });
-
-            Route::prefix('/checkpoint')->group(static function (): void {
-                Route::post('/', 'CheckPoint\CheckPointController@store')->name('post_checkpoint');
-                Route::delete('/{checkpoint}', 'CheckPoint\CheckPointController@destroy')->name('delete_checkpoint');
-                Route::get('/', 'CheckPoint\CheckPointController@index')->name('get_checkpoints');
-                Route::put('/{checkpoint}', 'CheckPoint\CheckPointController@update')->name('put_checkpoint');
-                Route::prefix('{checkpoint}/time')->group(static function (): void {
-                    Route::post('/', 'Time\TimeController@store')->name('post_time');
-                    Route::delete('/{time}', 'Time\TimeController@destroy')->name('delete_time');
-                    Route::get('/{time?}', 'Time\TimeController@index')->name('get_time');
-                });
-            });
         });
     });
 });

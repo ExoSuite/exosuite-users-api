@@ -21,7 +21,7 @@ use function strtolower;
  * Class User
  *
  * @package App\Models
- * @property \Webpatser\Uuid\Uuid $id
+ * @property string $id
  * @property string $first_name
  * @property string $last_name
  * @property string $nick_name

@@ -66,12 +66,12 @@ class LikesController extends Controller
         return $this->ok(Like::whereLikerId($user->id)->get());
     }
 
-    public function storeRun(Run $run): JsonResponse
+    public function storeRun(User $user, Run $run): JsonResponse
     {
         return $this->createLike($run, LikableEntities::RUN);
     }
 
-    public function deleteRun(Run $run): JsonResponse
+    public function deleteRun(User $user, Run $run): JsonResponse
     {
         $like = Like::whereLikedId($run->id);
 
@@ -84,7 +84,7 @@ class LikesController extends Controller
         return $this->badRequest('Unknown entity provided.');
     }
 
-    public function getLikesFromRun(Run $run): JsonResponse
+    public function getLikesFromRun(User $user, Run $run): JsonResponse
     {
         $likes = Like::whereLikedId($run->id)->get();
 

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
  * @package App\Models
  * @property \App\Models\Uuid $id
  * @property string $description
- * @property \App\Models\Uuid $creator_id
+ * @property string $creator_id
  * @property \App\Enums\Visibility $visibility
  * @property string $name
  */
