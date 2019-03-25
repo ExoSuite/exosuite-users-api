@@ -56,7 +56,7 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
             TokenScope::VIEW_PICTURE => 'access to avatar',
         ]);
 
-        Passport::personalAccessClientId('2');
+        Passport::personalAccessClientId(2);
 
         if (App::environment('production')) {
             Passport::tokensExpireIn(now()->addHour());

@@ -16,7 +16,7 @@ class AddHeaderAccessToken
     public function handle($request, Closure $next)
     {
         $accessToken = $request->query('token');
-        if ($accessToken)
+        if (is_string($accessToken))
             $request->headers->set('Authorization', "Bearer $accessToken");
         return $next($request);
     }
