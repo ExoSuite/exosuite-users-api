@@ -3,7 +3,6 @@
 namespace App\Http;
 
 use App\Http\Middleware\AddHeaderAccessToken;
-use App\Http\Middleware\AppendUserId;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
@@ -100,6 +99,5 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         'client' => CheckClientCredentials::class,
         'scopes' => CheckScopes::class,
         'scope' => CheckForAnyScope::class,
-        'append_user_id' => AppendUserId::class,
     ];
 }

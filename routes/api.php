@@ -18,8 +18,12 @@ use Illuminate\Support\Facades\Notification;
 
 Route::prefix('auth')->group(static function (): void {
     Route::post('/register', 'Auth\RegisterController@register')->name('register');
-
     Route::post('/login', 'Auth\LoginController@login')->name('login');
+
+    Route::prefix('preflight')->group(static function (): void {
+        Route::post('/email', 'Auth\PreFlightCheckController@emailIsAlreadyRegistered')
+            ->name('preflight_is_mail_available');
+    });
 });
 
 Route::prefix('monitoring')->group(static function (): void {
