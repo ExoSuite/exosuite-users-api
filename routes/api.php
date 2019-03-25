@@ -37,6 +37,8 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::prefix('profile')->group(static function (): void {
                 Route::patch('/', 'User\UserProfileController@update')
                     ->name('patch_user_profile');
+                Route::post('/picture/token', 'User\UserTokenController@issuePersonalPictureAccessToken')
+                    ->name('post_picture_token');
             });
 
             Route::prefix('friendship')->group(static function (): void {

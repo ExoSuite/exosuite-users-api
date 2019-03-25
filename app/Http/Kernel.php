@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AddHeaderAccessToken;
 use App\Http\Middleware\AppendUserId;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckForMaintenanceMode;
@@ -72,6 +73,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         ],
 
         'api' => [
+            AddHeaderAccessToken::class,
             Jsonify::class,
             'throttle:60,1',
             'bindings',

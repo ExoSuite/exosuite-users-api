@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\TokenScope;
 use App\Models\Commentary;
 use App\Models\Group;
 use App\Models\Message;
@@ -50,6 +51,12 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
         $this->registerPolicies();
 
         Passport::routes();
+
+        Passport::tokensCan([
+            TokenScope::VIEW_PICTURE => 'access to avatar',
+        ]);
+
+        Passport::personalAccessClientId('2');
 
         if (App::environment('production')) {
             Passport::tokensExpireIn(now()->addHour());
