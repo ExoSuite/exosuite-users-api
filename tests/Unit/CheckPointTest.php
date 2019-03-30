@@ -69,6 +69,57 @@ class CheckPointTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new CheckPoint)->getFillable());
         $this->assertDatabaseHas("check_points", Arr::except($response->decodeResponseJson(), "location"));
+        $response = $this->post(
+            $this->route("post_checkpoint", [BindType::RUN => $run_id]),
+            ["type" => CheckPointType::START,
+                "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
+        );
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public function testCreateArrivalBeforeStart(): void
+    {
+        Passport::actingAs($this->user);
+        $response = $this->post($this->route('post_run'), [
+            "name" => Str::random(30),
+            "description" => Str::random(255),
+        ]);
+        $run_id = $response->decodeResponseJson('id');
+        $response = $this->post(
+            $this->route("post_checkpoint", [BindType::RUN => $run_id]),
+            ["type" => CheckPointType::ARRIVAL,
+                "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
+        );
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public function testCreateTwoArrivalCheckPoints(): void
+    {
+        Passport::actingAs($this->user);
+        $response = $this->post($this->route('post_run'), [
+            "name" => Str::random(30),
+            "description" => Str::random(255),
+        ]);
+        $run_id = $response->decodeResponseJson('id');
+        $response = $this->post(
+            $this->route("post_checkpoint", [BindType::RUN => $run_id]),
+            ["type" => CheckPointType::START,
+                "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
+        );
+        $response = $this->post(
+            $this->route("post_checkpoint", [BindType::RUN => $run_id]),
+            ["type" => CheckPointType::ARRIVAL,
+                "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
+        );
+        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertJsonStructure((new CheckPoint)->getFillable());
+        $this->assertDatabaseHas("check_points", Arr::except($response->decodeResponseJson(), "location"));
+        $response = $this->post(
+            $this->route("post_checkpoint", [BindType::RUN => $run_id]),
+            ["type" => CheckPointType::ARRIVAL,
+                "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
+        );
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testUpdateCheckPointTypeToStartWithAnAlreadyExistingStartCheckPoint(): void
@@ -86,7 +137,7 @@ class CheckPointTest extends TestCase
         );
         $response = $this->post(
             $this->route("post_checkpoint", [BindType::RUN => $run_id]),
-            ["type" => CheckPointType::ARRIVAL,
+            ["type" => CheckPointType::DEFAULT,
                 "location" => [[1.0, 1.0], [1.0, 2.0], [2.0, 2.0], [2.0, 1.0], [1.0, 1.0]]]
         );
         $checkpoint_id = $response->decodeResponseJson('id');
@@ -95,7 +146,39 @@ class CheckPointTest extends TestCase
             ["type" => CheckPointType::START,
                 "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
         );
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public function testUpdateCheckPointTypeToArrivalWithAnAlreadyExistingArrivalCheckPoint(): void
+    {
+        Passport::actingAs($this->user);
+        $response = $this->post($this->route('post_run'), [
+            "name" => Str::random(30),
+            "description" => Str::random(255),
+        ]);
+        $run_id = $response->decodeResponseJson('id');
+        $response = $this->post(
+            $this->route("post_checkpoint", [BindType::RUN => $run_id]),
+            ["type" => CheckPointType::START,
+                "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
+        );
+        $response = $this->post(
+            $this->route("post_checkpoint", [BindType::RUN => $run_id]),
+            ["type" => CheckPointType::ARRIVAL,
+                "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
+        );
+        $response = $this->post(
+            $this->route("post_checkpoint", [BindType::RUN => $run_id]),
+            ["type" => CheckPointType::DEFAULT,
+                "location" => [[1.0, 1.0], [1.0, 2.0], [2.0, 2.0], [2.0, 1.0], [1.0, 1.0]]]
+        );
+        $checkpoint_id = $response->decodeResponseJson('id');
+        $response = $this->put(
+            $this->route("put_checkpoint", [BindType::RUN => $run_id, BindType::CHECKPOINT => $checkpoint_id]),
+            ["type" => CheckPointType::ARRIVAL,
+                "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
+        );
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testUpdateBadCheckPoint(): void

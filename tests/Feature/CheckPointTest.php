@@ -47,7 +47,7 @@ class CheckPointTest extends TestCase
             ["type" => CheckPointType::START,
                 "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
         );
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     public function testCreateAllCheckpointTypes(): void

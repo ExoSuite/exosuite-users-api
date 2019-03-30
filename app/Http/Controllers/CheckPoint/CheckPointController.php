@@ -46,16 +46,6 @@ class CheckPointController extends Controller
     {
         $data = $request->validated();
 
-        if ($data['type'] === CheckPointType::START) {
-            $checkpoints = $run->checkpoints()->get()->toArray();
-
-            foreach ($checkpoints as $checkpt) {
-                if ($checkpt['type'] === CheckPointType::START) {
-                    return $this->badRequest("You can't have more than one checkpoint of type start");
-                }
-            }
-        }
-
         $points = collect($request->get("location"))->map(static function ($point) {
             return new Point($point[1], $point[0]);
         });
@@ -101,20 +91,6 @@ class CheckPointController extends Controller
     public function update(UpdateCheckPointRequest $request, Run $run, CheckPoint $checkpoint): JsonResponse
     {
         $data = $request->validated();
-
-        if ($data['type'] === CheckPointType::START) {
-            $checkpoints = $run->checkpoints()->get()->toArray();
-
-            foreach ($checkpoints as $checkpt) {
-                if ($checkpt['id'] === $checkpoint->id) {
-                    continue;
-                }
-
-                if ($checkpt['type'] === CheckPointType::START) {
-                    return $this->badRequest("You can't have more than one checkpoint of type start");
-                }
-            }
-        }
 
         $points = collect($request->get("location"))->map(static function ($point) {
             return new Point($point[1], $point[0]);

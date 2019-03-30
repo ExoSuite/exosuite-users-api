@@ -2,10 +2,17 @@
 
 namespace App\Http\Requests\CheckPoint;
 
-use App\Rules\CheckPointTypeRule;
+use App\Rules\CheckPointUpdateTypeRule;
 use App\Rules\PolygonRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class UpdateCheckPointRequest
+ *
+ * @property \App\Models\Run $run
+ * @property \App\Models\CheckPoint $checkpoint
+ * @package App\Http\Requests\CheckPoint
+ */
 class UpdateCheckPointRequest extends FormRequest
 {
 
@@ -27,7 +34,7 @@ class UpdateCheckPointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['required', 'string', new CheckPointTypeRule],
+            'type' => ['required', 'string', new CheckPointUpdateTypeRule($this->run, $this->checkpoint)],
             'location' => ['required', new PolygonRule],
         ];
     }
