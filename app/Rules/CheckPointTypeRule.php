@@ -33,33 +33,19 @@ class CheckPointTypeRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        $isStartHere = false;
+        $checkpoints = $this->run->checkpoints()->get()->toArray();
         if (!CheckPointType::hasValue($value)) {
             return false;
         } else {
             if ($value === CheckPointType::START) {
-                $checkpoints = $this->run->checkpoints()->get()->toArray();
-                foreach ($checkpoints as $checkpt) {
-                    if ($checkpt['type'] === CheckPointType::START) {
-                        return false;
-                    }
-                }
+                return $this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
             }
             else if ($value === CheckPointType::ARRIVAL) {
-                $checkpoints = $this->run->checkpoints()->get()->toArray();
-                foreach ($checkpoints as $checkpt) {
-                    if ($checkpt['type'] === CheckPointType::START) {
-                        $isStartHere = true;
-                        break;
-                    }
-                }
+                // if the value if found checkPointTypeIntegrity will return false so we need to invert the result
+                $isStartHere = !$this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
                 if ($isStartHere === false)
                     return false;
-                foreach ($checkpoints as $checkpt) {
-                    if ($checkpt['type'] === CheckPointType::ARRIVAL) {
-                        return false;
-                    }
-                }
+                return $this->checkPointTypeIntegrity($checkpoints, CheckPointType::ARRIVAL);
             }
         }
         return true;
@@ -72,6 +58,17 @@ class CheckPointTypeRule implements Rule
      */
     public function message()
     {
-        return 'Bad CheckPoint type for CheckPoint.';
+        return trans('checkpoint.bad_type');
+    }
+
+    private function checkPointTypeIntegrity(array $checkpoints, string $checkPointType): bool
+    {
+        foreach ($checkpoints as $checkpt) {
+            if ($checkpt['type'] === $checkPointType) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

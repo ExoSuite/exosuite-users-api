@@ -66,7 +66,7 @@ class RunController extends Controller
     {
         $run->update($request->validated());
 
-        return $this->noContent();
+        return $this->ok($run);
     }
 
     /**

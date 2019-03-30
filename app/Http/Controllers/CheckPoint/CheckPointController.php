@@ -40,16 +40,19 @@ class CheckPointController extends Controller
      * @param \App\Http\Requests\CheckPoint\CreateCheckPointRequest $request
      * @param \App\Models\Run $run
      * @return \Illuminate\Http\JsonResponse
+     * @throws \BenSampo\Enum\Exceptions\InvalidEnumMemberException
      */
     public function store(CreateCheckPointRequest $request, Run $run): JsonResponse
     {
         $data = $request->validated();
+        /** @var \App\Enums\CheckPointType $checkpointType */
+        $checkpointType = CheckPointType::getInstance($data['type']);
 
         $points = collect($request->get("location"))->map(static function ($point) {
             return new Point($point[1], $point[0]);
         });
 
-        if ($data['type'] === CheckPointType::ARRIVAL || $data['type'] === CheckPointType::DEFAULT) {
+        if ($checkpointType->isArrivalOrDefault()) {
             $last_checkpoint = $run->checkpoints()->orderBy('created_at', 'desc')->first();
             $data['previous_checkpoint_id'] = $last_checkpoint->id;
         } else {
@@ -85,17 +88,20 @@ class CheckPointController extends Controller
      * @param \App\Models\Run $run
      * @param \App\Models\CheckPoint $checkpoint
      * @return \Illuminate\Http\JsonResponse
+     * @throws \BenSampo\Enum\Exceptions\InvalidEnumMemberException
      */
     public function update(UpdateCheckPointRequest $request, Run $run, CheckPoint $checkpoint): JsonResponse
     {
         $data = $request->validated();
+        /** @var \App\Enums\CheckPointType $checkpointType */
+        $checkpointType = CheckPointType::getInstance($data['type']);
 
-        $points = collect($request->get("location"))->map(static function ($point) {
+        $points = collect($request->get("location"))->map(static function ($point): Point {
             return new Point($point[1], $point[0]);
         });
 
-        if ($data['type'] === CheckPointType::ARRIVAL || $data['type'] === CheckPointType::DEFAULT) {
-            $last_checkpoint = $run->checkpoints()->orderBy('created_at', 'desc')->first();
+        if ($checkpointType->isArrivalOrDefault()) {
+            $last_checkpoint = $run->checkpoints()->latest()->first();
             $data['previous_checkpoint_id'] = $last_checkpoint->id;
         } else {
             $data['previous_checkpoint_id'] = null;
@@ -104,7 +110,7 @@ class CheckPointController extends Controller
         $data['location'] = new Polygon([new LineString($points->toArray())]);
         $checkpoint->update($data);
 
-        return $this->noContent();
+        return $this->ok($checkpoint);
     }
 
     /**

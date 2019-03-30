@@ -24,7 +24,7 @@ class TimeController extends Controller
      */
     public function index(?User $user, Run $run, CheckPoint $checkPoint): JsonResponse
     {
-        return $this->ok($checkPoint->times()->get());
+        return $this->ok($checkPoint->times()->paginate());
     }
 
     /**
@@ -57,9 +57,9 @@ class TimeController extends Controller
      */
     public function update(UpdateTimeRequest $request, Run $run, CheckPoint $checkPoint, Time $time): JsonResponse
     {
-        $time->update();
+        $time->update($request->validated());
 
-        return $this->noContent();
+        return $this->ok($time);
     }
 
     public function show(?User $user, Run $run, CheckPoint $checkPoint, Time $time): JsonResponse

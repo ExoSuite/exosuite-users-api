@@ -133,8 +133,10 @@ class RunTest extends TestCase
         );
         $run_id = $response->decodeResponseJson('id');
         Passport::actingAs($this->user);
-        $response = $this->get($this->route('get_run_by_id', [BindType::USER => $targeted_user->id, BindType::RUN =>
-            $run_id]));
+        $response = $this->get($this->route('get_run_by_id', [
+            BindType::USER => $targeted_user->id,
+            BindType::RUN => $run_id,
+        ]));
         $response->assertStatus(Response::HTTP_OK);
         $run = Run::find($run_id)->first();
         $this->assertForeignKeyIsExpectedID($targeted_user->id, $run->creator_id);
@@ -149,9 +151,11 @@ class RunTest extends TestCase
         }
 
         $response = $this->get($this->route('get_my_runs'));
+        dd($response->decodeResponseJson());
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(RunController::GET_PER_PAGE, count($response->decodeResponseJson('data')));
         $this->assertForeignKeyInArray($response->decodeResponseJson('data'), $this->user->id, Run::USER_FOREIGN_KEY);
+        // TODO: check if checkpoints and runs are loaded
     }
 
     public function testGetAllSomeoneRuns(): void
