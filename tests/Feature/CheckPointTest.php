@@ -40,8 +40,7 @@ class CheckPointTest extends TestCase
                 "location" => [[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]]
         );
         $response->assertStatus(Response::HTTP_CREATED);
-        $checkPoint = new CheckPoint;
-        $response->assertJsonStructure($checkPoint->getFillable());
+        $response->assertJsonStructure((new CheckPoint)->getFillable());
         $this->assertDatabaseHas("check_points", Arr::except($response->decodeResponseJson(), "location"));
         $response = $this->post(
             $this->route("post_checkpoint", [BindType::RUN => $run_id]),
