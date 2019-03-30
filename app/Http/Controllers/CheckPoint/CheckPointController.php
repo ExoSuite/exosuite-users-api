@@ -8,7 +8,6 @@ use App\Http\Requests\CheckPoint\CreateCheckPointRequest;
 use App\Http\Requests\CheckPoint\UpdateCheckPointRequest;
 use App\Models\CheckPoint;
 use App\Models\Run;
-use App\Models\Time;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Phaza\LaravelPostgis\Geometries\LineString;
@@ -70,10 +69,9 @@ class CheckPointController extends Controller
      * @param \App\Models\User|null $user
      * @param \App\Models\Run $run
      * @param \App\Models\CheckPoint $checkPoint
-     * @param \App\Models\Time $time
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(?User $user, Run $run, CheckPoint $checkPoint, Time $time): JsonResponse
+    public function show(?User $user, Run $run, CheckPoint $checkPoint): JsonResponse
     {
         $checkpoint = CheckPoint::findOrFail($checkPoint->id);
 
