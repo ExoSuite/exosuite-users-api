@@ -21,6 +21,20 @@ use Phaza\LaravelPostgis\Geometries\Polygon;
  */
 class CheckPointController extends Controller
 {
+    public const GET_PER_PAGE = 15;
+
+    /**
+     * @param array<mixed> $location
+     * @return \Phaza\LaravelPostgis\Geometries\Polygon
+     */
+    public static function createPolygonFromArray(array $location): Polygon
+    {
+        $points = collect($location)->map(static function ($point) {
+            return new Point($point[1], $point[0]);
+        });
+
+        return new Polygon([new LineString($points->toArray())]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -31,7 +45,7 @@ class CheckPointController extends Controller
      */
     public function index(?User $user, Run $run): JsonResponse
     {
-        return $this->ok($run->checkpoints()->get());
+        return $this->ok($run->checkpoints()->paginate(self::GET_PER_PAGE));
     }
 
     /**
@@ -48,10 +62,6 @@ class CheckPointController extends Controller
         /** @var \App\Enums\CheckPointType $checkpointType */
         $checkpointType = CheckPointType::getInstance($data['type']);
 
-        $points = collect($request->get("location"))->map(static function ($point) {
-            return new Point($point[1], $point[0]);
-        });
-
         if ($checkpointType->isArrivalOrDefault()) {
             $last_checkpoint = $run->checkpoints()->orderBy('created_at', 'desc')->first();
             $data['previous_checkpoint_id'] = $last_checkpoint->id;
@@ -59,7 +69,7 @@ class CheckPointController extends Controller
             $data['previous_checkpoint_id'] = null;
         }
 
-        $data['location'] = new Polygon([new LineString($points->toArray())]);
+        $data['location'] = self::createPolygonFromArray($request['location']);
         $data['run_id'] = $run->id;
         $checkpoint = CheckPoint::create($data);
 

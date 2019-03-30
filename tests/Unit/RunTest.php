@@ -105,10 +105,7 @@ class RunTest extends TestCase
     public function testGetMyBadRun(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->post(
-            $this->route('post_run'),
-            ['name' => Str::random(30)]
-        );
+        factory(Run::class)->create();
         $response = $this->get($this->route('get_my_run_by_id', [BindType::RUN => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -117,10 +114,7 @@ class RunTest extends TestCase
     {
         $targeted_user = factory(User::class)->create();
         Passport::actingAs($targeted_user);
-        $response = $this->post(
-            $this->route('post_run'),
-            ['name' => Str::random(30)]
-        );
+        factory(Run::class)->create();
         Passport::actingAs($this->user);
         $response = $this->get($this->route('get_run_by_id', [BindType::USER => $targeted_user->id, BindType::RUN =>
             Uuid::generate()->string]));
@@ -130,10 +124,7 @@ class RunTest extends TestCase
     public function testDeleteBadRun(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->post(
-            $this->route('post_run'),
-            ['name' => Str::random(30)]
-        );
+        factory(Run::class)->create();
         $response = $this->delete($this->route("delete_run", [BindType::RUN => Uuid::generate()->string]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }

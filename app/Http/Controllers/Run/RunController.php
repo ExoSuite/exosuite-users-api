@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class RunController extends Controller
 {
-    public const GET_PER_PAGE = 10;
+    public const GET_PER_PAGE = 15;
 
     /**
      * Display a listing of the resource.

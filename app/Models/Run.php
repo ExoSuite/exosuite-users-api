@@ -58,13 +58,20 @@ class Run extends UuidModel
 
     public function checkpoints(): HasMany
     {
-        return $this->hasMany(CheckPoint::class);//->with(['timesThroughCheckpoints']);
+        return $this->hasMany(CheckPoint::class)->with(['times']);
     }
 
-   /* public function timesThroughCheckpoints(): HasManyThrough
+    public function timesThroughCheckpoints(): HasManyThrough
     {
-        $this->hasManyThrough()
-    }*/
+        return $this->hasManyThrough(
+            Time::class,
+            CheckPoint::class,
+            'run_id',
+            'check_point_id',
+            'id',
+            'id'
+        );
+    }
 
     public function user(): BelongsTo
     {

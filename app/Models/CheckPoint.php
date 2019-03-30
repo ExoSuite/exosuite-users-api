@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CheckPointType;
+use App\Http\Controllers\Time\TimeController;
 use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -56,6 +57,6 @@ class CheckPoint extends UuidModel
 
     public function times(): HasMany
     {
-        return $this->hasMany(Time::class);
+        return $this->hasMany(Time::class)->limit(TimeController::GET_PER_PAGE);
     }
 }

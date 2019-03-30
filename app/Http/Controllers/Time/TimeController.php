@@ -14,6 +14,8 @@ use Illuminate\Http\JsonResponse;
 class TimeController extends Controller
 {
 
+    public const GET_PER_PAGE = 15;
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +26,7 @@ class TimeController extends Controller
      */
     public function index(?User $user, Run $run, CheckPoint $checkPoint): JsonResponse
     {
-        return $this->ok($checkPoint->times()->paginate());
+        return $this->ok($checkPoint->times()->paginate(self::GET_PER_PAGE));
     }
 
     /**
