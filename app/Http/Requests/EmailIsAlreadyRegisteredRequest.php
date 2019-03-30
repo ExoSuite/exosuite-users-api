@@ -1,16 +1,10 @@
 <?php declare(strict_types = 1);
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests;
 
-use App\Http\Requests\Abstracts\RouteParamRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
-/**
- * Class UserSearchRequest
- *
- * @property string $text
- * @package App\Http\Requests
- */
-class UserSearchRequest extends RouteParamRequest
+class EmailIsAlreadyRegisteredRequest extends FormRequest
 {
 
     /**
@@ -26,12 +20,12 @@ class UserSearchRequest extends RouteParamRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return mixed[]
+     * @return array<string, string>
      */
     public function rules(): array
     {
         return [
-            'text' => 'required|string|max:100|min:1',
+            "email" => "required|email|unique:users,email",
         ];
     }
 }

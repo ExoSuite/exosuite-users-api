@@ -32,23 +32,32 @@ class DashboardTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_dashboard_id', ['user' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(1, count($response->decodeResponseJson()));
+        $response->assertJsonStructure((new Dashboard)->getFillable());
     }
 
-    public function testGetRestriction(): void
+    public function testGetMyRestriction(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->get(route('get_dashboard_restriction', ['user' => $this->user->id]));
+        $response = $this->get(route('get_dashboard_restriction'));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(1, count($response->decodeResponseJson()));
+        $this->assertEquals(2, count($response->decodeResponseJson()));
     }
 
-    public function testChangeRestriction(): void
+    public function testChangeVisibility(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->patch(route('patch_dashboard_restriction', [
-            'user' => $this->user->id,
-        ]), ['restriction' => Restriction::PUBLIC]);
+        $response = $this->patch(route('patch_dashboard_restriction'), [
+            "restriction_field" => "visibility",
+            "restriction_level" => Restriction::FRIENDS_FOLLOWERS]);
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    public function testChangeWrintingRestriction(): void
+    {
+        Passport::actingAs($this->user);
+        $response = $this->patch(route('patch_dashboard_restriction'), [
+            "restriction_field" => "writing_restriction",
+            "restriction_level" => Restriction::FRIENDS_FOLLOWERS]);
         $response->assertStatus(Response::HTTP_OK);
     }
 

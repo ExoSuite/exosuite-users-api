@@ -49,7 +49,6 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->post(route('post_like_for_Post', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
         ]));
         $response->assertStatus(Response::HTTP_CREATED);
@@ -62,7 +61,6 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->post(route('post_like_for_commentary', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
             'commentary' => $this->comm->id,
         ]));
@@ -76,12 +74,10 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $post_resp = $this->post(route('post_like_for_Post', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
         ]));
         $response = $this->delete(route('delete_like_for_Post', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
         ]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
@@ -93,13 +89,11 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $post_resp = $this->post(route('post_like_for_commentary', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
             'commentary' => $this->comm->id,
         ]));
         $response = $this->delete(route('delete_like_for_commentary', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
             'commentary' => $this->comm->id,
         ]));
@@ -148,7 +142,6 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_likes_from_commentary', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
             'commentary' => $this->comm->id,
         ]));

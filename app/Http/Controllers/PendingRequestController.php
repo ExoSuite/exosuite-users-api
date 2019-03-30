@@ -45,12 +45,8 @@ class PendingRequestController extends Controller
 
     public function deletePending(PendingRequest $pendingRequest): JsonResponse
     {
-        if ($pendingRequest->target_id === Auth::user()->id) {
-            PendingRequest::whereRequestId($pendingRequest->request_id)->delete();
+        PendingRequest::whereRequestId($pendingRequest->request_id)->delete();
 
-            return $this->noContent();
-        }
-
-        return $this->forbidden('Permission denied: Wrong user.');
+        return $this->noContent();
     }
 }

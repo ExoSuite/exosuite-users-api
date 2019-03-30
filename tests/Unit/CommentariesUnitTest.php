@@ -63,11 +63,9 @@ class CommentariesUnitTest extends TestCase
         Passport::actingAs($this->user1);
         $response = $this->post(route('post_commentary', [
             'user' => $this->user->id,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
         ]), ['content' => Str::random(10)]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allowed to post a commentary on this post"]);
     }
 
     /**
@@ -99,7 +97,6 @@ class CommentariesUnitTest extends TestCase
             ]
         ));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allowed to access this post."]);
     }
 
     /**
@@ -138,7 +135,6 @@ class CommentariesUnitTest extends TestCase
             'content' => $content,
         ]);
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allow to modify this commentary."]);
     }
 
     /**
@@ -166,12 +162,10 @@ class CommentariesUnitTest extends TestCase
         ]);
         $response = $this->delete(route('delete_commentary', [
             'user' => $this->user->id,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
             'commentary_id' => $comm->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
-        $response->assertJson(['message' => "Permission denied: You're not allowed to delete this post."]);
     }
 
     protected function setUp(): void

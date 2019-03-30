@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\LikableEntities;
 use App\Models\Commentary;
-use App\Models\Dashboard;
 use App\Models\Like;
 use App\Models\Post;
 use App\Models\Run;
@@ -21,44 +20,45 @@ use Illuminate\Support\Facades\Auth;
 class LikesController extends Controller
 {
 
-    public function store(User $user, Dashboard $dashboard, Post $post, ?Commentary $commentary = null): JsonResponse
+    public function store(User $user, Post $post, ?Commentary $commentary = null): JsonResponse
     {
-        return $commentary !== null
-            ? $this->createLike($commentary, LikableEntities::COMMENTARY)
-            : $this->createLike($post, LikableEntities::POST);
+        if ($commentary) {
+            return $this->createLike($commentary, LikableEntities::COMMENTARY);
+        }
+
+        return $this->createLike($post, LikableEntities::POST);
     }
 
-    public function delete(User $user, Dashboard $dashboard, Post $post, ?Commentary $commentary = null): JsonResponse
+    public function delete(User $user, Post $post, ?Commentary $commentary = null): JsonResponse
     {
         if ($commentary !== null) {
-            $like = Like::whereLikedId($commentary->id);
+            $like = $commentary->likeFromUser();
 
             if ($like->exists()) {
                 $like->delete();
-
-                return $this->noContent();
             }
         } else {
-            $like = Like::whereLikedId($post->id);
+            $like = $post->likeFromUser();
 
             if ($like->exists()) {
                 $like->delete();
-
-                return $this->noContent();
             }
         }
+
+        return $this->noContent();
     }
 
     public function getLikesFromID(
         User $user,
-        Dashboard $dashboard,
         Post $post,
         ?Commentary $commentary = null
     ): JsonResponse
     {
-        return $commentary !== null
-            ? $this->ok(Like::whereLikedId($commentary->id)->get())
-            : $this->ok(Like::whereLikedId($post->id)->get());
+        if ($commentary) {
+            return $this->ok(Like::whereLikedId($commentary->id)->get());
+        }
+
+        return $this->ok(Like::whereLikedId($post->id)->get());
     }
 
     public function getLikesFromLiker(User $user): JsonResponse
@@ -73,20 +73,18 @@ class LikesController extends Controller
 
     public function deleteRun(User $user, Run $run): JsonResponse
     {
-        $like = Like::whereLikedId($run->id);
+        $like = $run->likeFromUser();
 
         if ($like->exists()) {
             $like->delete();
-
-            return $this->noContent();
         }
 
-        return $this->badRequest('Unknown entity provided.');
+        return $this->noContent();
     }
 
     public function getLikesFromRun(User $user, Run $run): JsonResponse
     {
-        $likes = Like::whereLikedId($run->id)->get();
+        $likes = $run->likes()->get();
 
         return $this->ok($likes);
     }

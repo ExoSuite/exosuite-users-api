@@ -7,6 +7,7 @@ use App\Models\Abstracts\UuidModel;
 use App\Models\Traits\Shareable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
  * @package App\Models
  * @property \App\Models\Uuid $id
  * @property string $description
- * @property string $creator_id
+ * @property \App\Models\Uuid $creator_id
  * @property \App\Enums\Visibility $visibility
  * @property string $name
  */
@@ -62,6 +63,26 @@ class Run extends UuidModel
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, self::USER_FOREIGN_KEY);
+    }
+
+    public function likeFromUser(): HasOneThrough
+    {
+        return $this->hasOneThrough(
+            Like::class,
+            User::class,
+            'id',
+            'liker_id',
+            'creator_id',
+            'id'
+        );
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(
+            Like::class,
+            'liked_id'
+        );
     }
 
 }

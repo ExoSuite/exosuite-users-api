@@ -105,7 +105,6 @@ class FriendshipsTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $send_resp = $this->post(route('post_friendship_request', ['user' => $this->user->id]));
-
         Passport::actingAs($this->user);
         $accept_resp = $this->post(
             route(
@@ -114,7 +113,7 @@ class FriendshipsTest extends TestCase
             )
         );
         $this->assertDatabaseHas('friendships', $accept_resp->decodeResponseJson());
-        $response = $this->delete(route('delete_friendship', ['user' => $this->user1->id]));
+        $response = $this->delete(route('delete_friendship', ['friendship' => $accept_resp->decodeResponseJson('id')]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('friendships', $accept_resp->decodeResponseJson());
     }
