@@ -3,10 +3,11 @@
 namespace App\Rules;
 
 use App\Enums\CheckPointType;
+use App\Models\CheckPoint;
 use App\Models\Run;
 use Illuminate\Contracts\Validation\Rule;
 
-class CheckPointTypeRule implements Rule
+class CheckPointUpdateTypeRule implements Rule
 {
     /**
      * @var Run
@@ -14,21 +15,27 @@ class CheckPointTypeRule implements Rule
     private $run;
 
     /**
+     * @var CheckPoint
+     */
+    private $checkPoint;
+
+    /**
      * Create a new rule instance.
      *
      * @param Run $run
+     * @param CheckPoint $checkPoint
      */
-    public function __construct(Run $run)
+    public function __construct(Run $run, CheckPoint $checkPoint)
     {
         $this->run = $run;
+        $this->checkPoint = $checkPoint;
     }
 
     /**
      * Determine if the validation rule passes.
      *
-     * @param string $attribute
-     * @param mixed $value
-     *
+     * @param  string  $attribute
+     * @param  mixed  $value
      * @return bool
      */
     public function passes($attribute, $value)
@@ -64,6 +71,9 @@ class CheckPointTypeRule implements Rule
     private function checkPointTypeIntegrity(array $checkpoints, string $checkPointType): bool
     {
         foreach ($checkpoints as $checkpt) {
+            if ($checkpt['id'] === $this->checkPoint->id)
+                continue;
+
             if ($checkpt['type'] === $checkPointType) {
                 return false;
             }

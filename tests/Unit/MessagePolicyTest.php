@@ -3,6 +3,9 @@
 namespace Tests\Unit;
 
 use App\Enums\BindType;
+use App\Models\Group;
+use App\Models\GroupMember;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -26,19 +29,20 @@ class MessagePolicyTest extends TestCase
     public function testModifyGroupMessageWithoutRights(): void
     {
         Passport::actingAs($this->user1);
-        $response = $this->post(
-            $this->route('post_group'),
-            ['name' => Str::random(100), 'users' => [$this->user2->id]]
-        );
-        $group_id = $response->decodeResponseJson('id');
-        $response = $this->post(
-            $this->route('post_message', [BindType::GROUP => $group_id]),
-            ['contents' => Str::random(10)]
-        );
-        $message_id = $response->decodeResponseJson('id');
+        $group = factory(Group::class)->create();
+        $members = collect();
+        $members->push(new GroupMember(['user_id' => $this->user1->id, 'is_admin' => true]));
+        $members->push(new GroupMember(['user_id' => $this->user2->id]));
+        $group->groupMembers()->saveMany($members);
+        $group->load('groupMembers');
+
+        $message = factory(Message::class)->create([
+            'group_id' => $group['id'],
+            'user_id' => $this->user1->id,
+        ]);
         Passport::actingAs($this->user3);
         $test = $this->patch(
-            $this->route('patch_message', [BindType::GROUP => $group_id, BindType::MESSAGE => $message_id]),
+            $this->route('patch_message', [BindType::GROUP => $group['id'], BindType::MESSAGE => $message['id']]),
             ['contents' => Str::random(10)]
         );
         $test->assertStatus(Response::HTTP_FORBIDDEN);
@@ -47,21 +51,22 @@ class MessagePolicyTest extends TestCase
     public function testDeleteGroupMessageWithoutRights(): void
     {
         Passport::actingAs($this->user1);
-        $response = $this->post(
-            $this->route('post_group'),
-            ['name' => Str::random(100), 'users' => [$this->user2->id]]
-        );
-        $group_id = $response->decodeResponseJson('id');
-        $response = $this->post(
-            $this->route('post_message', [BindType::GROUP => $group_id]),
-            ['contents' => Str::random(10)]
-        );
-        $message_id = $response->decodeResponseJson('id');
+        $group = factory(Group::class)->create();
+        $members = collect();
+        $members->push(new GroupMember(['user_id' => $this->user1->id, 'is_admin' => true]));
+        $members->push(new GroupMember(['user_id' => $this->user2->id]));
+        $group->groupMembers()->saveMany($members);
+        $group->load('groupMembers');
+
+        $message = factory(Message::class)->create([
+            'group_id' => $group['id'],
+            'user_id' => $this->user1->id,
+        ]);
         Passport::actingAs($this->user3);
         $test = $this->delete(
             $this->route(
                 'delete_message',
-                [BindType::GROUP => $group_id, BindType::MESSAGE => $message_id]
+                [BindType::GROUP => $group['id'], BindType::MESSAGE => $message['id']]
             )
         );
         $test->assertStatus(Response::HTTP_FORBIDDEN);

@@ -24,4 +24,13 @@ final class CheckPointType extends Enum
      * default value for checkpoints
      */
     const DEFAULT = 'checkpoint';
+
+    /**
+     * @return bool
+     * @throws \BenSampo\Enum\Exceptions\InvalidEnumMemberException
+     */
+    public function isArrivalOrDefault(): bool
+    {
+        return $this->is(CheckPointType::ARRIVAL) || $this->is(CheckPointType::DEFAULT);
+    }
 }

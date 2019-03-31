@@ -169,7 +169,8 @@ class User extends \Illuminate\Foundation\Auth\User
 
     public function runs(): HasMany
     {
-        return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY);
+        return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY)
+            ->with(['checkpoints']);
     }
 
     public function sharedRuns(): MorphToMany
