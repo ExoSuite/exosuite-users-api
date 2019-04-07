@@ -55,13 +55,13 @@ class User extends \Illuminate\Foundation\Auth\User
     protected $mapping = [
         'properties' => [
             'first_name' => [
-                'type' => 'text',
+                'type' => 'completion',
             ],
             'last_name' => [
-                'type' => 'text',
+                'type' => 'completion',
             ],
             'nick_name' => [
-                'type' => 'text',
+                'type' => 'completion',
             ],
         ],
     ];

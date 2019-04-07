@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\ClassFinder;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Throwable;
@@ -14,6 +15,10 @@ use Throwable;
  */
 class CreateElasticsearchIndexesCommand extends Command
 {
+
+    private const MODEL_NAMESPACE = "App\\Models\\";
+
+    private const INDEX_PREFIX = "IndexConfigurator";
 
     /**
      * The name and signature of the console command.
@@ -42,17 +47,53 @@ class CreateElasticsearchIndexesCommand extends Command
     public function handle(): void
     {
         $indexes = ClassFinder::getIndexesClasses();
+        $modelNamespace = self::MODEL_NAMESPACE;
 
         foreach ($indexes as $index) {
+            $this->createIndex($index);
+            /** @var string $index */
+            $index = strrchr($index, "\\");
+            $indexName = substr($index, 1);
+            list($model) = explode(self::INDEX_PREFIX, $indexName);
+
             try {
                 Artisan::call(
-                    'elastic:create-index',
-                    ['index-configurator' => $index]
+                    'elastic:update-mapping',
+                    ['model' => "{$modelNamespace}{$model}"]
                 );
-                $this->output->success(Artisan::output());
+                $this->info("The {$model} mapping was updated");
             } catch (Throwable $e) {
-                $this->output->success("{$index} already created!");
+                $completeModel = "$modelNamespace$model";
+                $instance = new $completeModel;
+                $indexConfigurator = $instance->getIndexConfigurator();
+                    Artisan::call(
+                        'elastic:migrate',
+                        [
+                            'model' => "{$modelNamespace}{$model}",
+                            "target-index" => $indexConfigurator->getName() . "_" . Carbon::now()->timestamp,
+                        ]
+                    );
+                $this->info(Artisan::output());
             }
+
+            Artisan::call(
+                "scout:import",
+                ['model' => "{$modelNamespace}{$model}"]
+            );
+            $this->info(Artisan::output());
+        }
+    }
+
+    private function createIndex(string $index): void
+    {
+        try {
+            Artisan::call(
+                'elastic:create-index',
+                ['index-configurator' => $index]
+            );
+            $this->info(Artisan::output());
+        } catch (Throwable $e) {
+            $this->info("{$index} already created!");
         }
     }
 }
