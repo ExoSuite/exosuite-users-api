@@ -51,7 +51,9 @@ class CreateElasticsearchIndexesCommand extends Command
 
         foreach ($indexes as $index) {
             $this->createIndex($index);
-            $indexName = substr(strrchr($index, "\\"), 1);
+            /** @var string $index */
+            $index = strrchr($index, "\\");
+            $indexName = substr($index, 1);
             list($model) = explode(self::INDEX_PREFIX, $indexName);
 
             try {
