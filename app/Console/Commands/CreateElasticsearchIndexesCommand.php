@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\ClassFinder;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Throwable;
@@ -53,11 +54,31 @@ class CreateElasticsearchIndexesCommand extends Command
             $indexName = substr(strrchr($index, "\\"), 1);
             list($model) = explode(self::INDEX_PREFIX, $indexName);
 
+            try {
+                Artisan::call(
+                    'elastic:update-mapping',
+                    ['model' => "{$modelNamespace}{$model}"]
+                );
+                $this->info("The {$model} mapping was updated");
+            } catch (Throwable $e) {
+                $completeModel = "$modelNamespace$model";
+                $instance = new $completeModel;
+                $indexConfigurator = $instance->getIndexConfigurator();
+                    Artisan::call(
+                        'elastic:migrate',
+                        [
+                            'model' => "{$modelNamespace}{$model}",
+                            "target-index" => $indexConfigurator->getName() . "_" . Carbon::now()->timestamp
+                        ]
+                    );
+                $this->info(Artisan::output());
+            }
+
             Artisan::call(
-                'elastic:update-mapping',
+                "scout:import",
                 ['model' => "{$modelNamespace}{$model}"]
             );
-            $this->info("The {$model} mapping was updated");
+            $this->info(Artisan::output());
         }
     }
 
