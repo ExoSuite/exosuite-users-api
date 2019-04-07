@@ -24,7 +24,7 @@ class UserProfileController extends Controller
      */
     public function show(User $user): JsonResponse
     {
-        return $this->ok(User::with('profile')->whereId($user->id)->first()->toArray());
+        return $this->ok($user->load('profile'));
     }
 
     /**

@@ -20,9 +20,6 @@ class UpdateRunRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        /* $run = Run::whereId($this->id());
-        TODO : MOVE TO POLICY
-        return $run->firstOrFail()->creator_id === Auth::id();*/
         return true;
     }
 

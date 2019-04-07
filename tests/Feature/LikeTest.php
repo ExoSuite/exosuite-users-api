@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\BindType;
 use App\Enums\LikableEntities;
 use App\Models\Commentary;
 use App\Models\Dashboard;
@@ -48,7 +49,6 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->post(route('post_like_for_Post', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
         ]));
         $response->assertStatus(Response::HTTP_CREATED);
@@ -61,7 +61,6 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->post(route('post_like_for_commentary', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
             'commentary' => $this->comm->id,
         ]));
@@ -75,12 +74,10 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $post_resp = $this->post(route('post_like_for_Post', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
         ]));
         $response = $this->delete(route('delete_like_for_Post', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
         ]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
@@ -92,13 +89,11 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $post_resp = $this->post(route('post_like_for_commentary', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
             'commentary' => $this->comm->id,
         ]));
         $response = $this->delete(route('delete_like_for_commentary', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
             'commentary' => $this->comm->id,
         ]));
@@ -147,7 +142,6 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_likes_from_commentary', [
             'user' => $this->user,
-            'dashboard' => $this->dash->id,
             'post' => $this->post->id,
             'commentary' => $this->comm->id,
         ]));
@@ -182,7 +176,7 @@ class LikeTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->post($this->route('post_like_for_run', [
+        $response = $this->post($this->route('post_like_for_run', [BindType::USER => $this->user->id,
             'run_id' => $this->run->id,
         ]));
         $response->assertStatus(Response::HTTP_CREATED);
@@ -193,10 +187,11 @@ class LikeTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $post_response = $this->post($this->route('post_like_for_run', [
+        $post_response = $this->post($this->route('post_like_for_run', [BindType::USER => $this->user->id,
             'run_id' => $this->run->id,
         ]));
-        $response = $this->delete($this->route('delete_like_for_run', ['run_id' => $this->run->id]));
+        $response = $this->delete($this->route('delete_like_for_run', [BindType::USER => $this->user->id, 'run_id' =>
+            $this->run->id]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('likes', $post_response->decodeResponseJson());
     }
@@ -219,7 +214,7 @@ class LikeTest extends TestCase
             'liker_id' => $user2->id,
         ]);
 
-        $response = $this->get($this->route('get_likes_from_run', [
+        $response = $this->get($this->route('get_likes_from_run', [BindType::USER => $this->user->id,
             'run_id' => $this->run->id,
         ]));
         $response->assertStatus(Response::HTTP_OK);

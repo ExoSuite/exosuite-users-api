@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Abstracts\UuidModel;
 use App\Models\Traits\Uuids;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
@@ -11,19 +11,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @package App\Models
  */
-class Like extends Model
+class Like extends UuidModel
 {
     use Uuids;
 
-    /** @var bool */
-    public $incrementing = false;
-
-    /** @var string */
-    protected $primaryKey = 'like_id';
-
     /** @var string[] */
     protected $fillable = [
-        'like_id',
+        'id',
         'liked_id',
         'liked_type',
         'liker_id',

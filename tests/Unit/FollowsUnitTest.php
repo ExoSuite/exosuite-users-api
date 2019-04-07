@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models\Follow;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -22,9 +21,6 @@ class FollowsUnitTest extends TestCase
     /** @var \App\Models\User */
     private $user;
 
-    /** @var \App\Models\User */
-    private $user1;
-
     /**
      * A basic test example.
      *
@@ -38,31 +34,11 @@ class FollowsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    public function testFollowAFollowedUser(): void
-    {
-        Passport::actingAs($this->user);
-        factory(Follow::class)->create(['user_id' => $this->user->id, 'followed_id' => $this->user1->id]);
-        $response = $this->post(route('post_follow', ['user' => $this->user1->id]));
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
-        $response->assertJson(['message' => "You're already following this user."]);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function testUnfollowWithWrongUser(): void
-    {
-        Passport::actingAs($this->user);
-        $response = $this->delete(route('delete_follow', ['user' => Uuid::generate()->string]));
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-
     public function testUselessUnfollow(): void
     {
         Passport::actingAs($this->user);
-        $response = $this->delete(route('delete_follow', ['user' => $this->user1->id]));
-        $response->assertStatus(Response::HTTP_BAD_REQUEST);
-        $response->assertJson(['message' => "You're not following this user."]);
+        $response = $this->delete(route('delete_follow', ['follow' => Uuid::generate()->string]));
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -90,6 +66,5 @@ class FollowsUnitTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
-        $this->user1 = factory(User::class)->create();
     }
 }

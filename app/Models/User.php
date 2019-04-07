@@ -21,7 +21,7 @@ use function strtolower;
  * Class User
  *
  * @package App\Models
- * @property \Webpatser\Uuid\Uuid $id
+ * @property string $id
  * @property string $first_name
  * @property string $last_name
  * @property string $nick_name
@@ -107,6 +107,7 @@ class User extends \Illuminate\Foundation\Auth\User
 
         static::created(static function (User $user): void {
             $user->profile()->create();
+            $user->dashboard()->create();
         });
     }
 
@@ -171,7 +172,8 @@ class User extends \Illuminate\Foundation\Auth\User
 
     public function runs(): HasMany
     {
-        return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY);
+        return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY)
+            ->with(['checkpoints']);
     }
 
     public function sharedRuns(): MorphToMany
@@ -181,6 +183,11 @@ class User extends \Illuminate\Foundation\Auth\User
             Share::SHARE_RELATION_NAME,
             Share::getTableName()
         )->withTimestamps();
+    }
+
+    public function friendships(string $related_to): HasMany
+    {
+        return $this->hasMany(Friendship::class, $related_to);
     }
 
     public function dashboard(): HasOne
@@ -203,6 +210,11 @@ class User extends \Illuminate\Foundation\Auth\User
         return $this->hasMany(Like::class, 'liker_id');
     }
 
+    public function follows(): HasMany
+    {
+        return $this->hasMany(Follow::class);
+    }
+
     public function groups(): HasManyThrough
     {
         return $this->hasManyThrough(
@@ -213,6 +225,15 @@ class User extends \Illuminate\Foundation\Auth\User
             'id',
             'group_id'
         )->with(['groupMembers', 'latestMessages']);
+    }
+
+    public function postsFromDashboard(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Post::class,
+            Dashboard::class,
+            'owner_id'
+        );
     }
 
     /**

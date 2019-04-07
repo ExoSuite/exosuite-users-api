@@ -31,12 +31,11 @@ class PostTest extends TestCase
      *
      * @return void
      */
-    public function testPost(): void
+    public function testCreatePost(): void
     {
         Passport::actingAs($this->user);
         $response = $this->post(route('post_Post', [
             'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id,
         ]), ['content' => Str::random(10)]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Post)->getFillable());
@@ -54,7 +53,6 @@ class PostTest extends TestCase
         ]);
         $response = $this->patch(route('patch_Post', [
             'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id,
             'post' => $post->id,
         ]), ['content' => $content]);
         $response->assertStatus(Response::HTTP_OK);
@@ -66,17 +64,16 @@ class PostTest extends TestCase
         Passport::actingAs($this->user);
         $postResponse = $this->post(route('post_Post', [
             'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id]), ['content' => Str::random(10)]);
+        ]), ['content' => Str::random(10)]);
         $response = $this->delete(route('delete_Post', [
             'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id,
             'post' => $postResponse->decodeResponseJson('id'),
         ]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('posts', $postResponse->decodeResponseJson());
     }
 
-    public function testGetfromDashboard(): void
+    public function testGetPostsFromDashboard(): void
     {
         Passport::actingAs($this->user);
 
@@ -88,12 +85,11 @@ class PostTest extends TestCase
             ]);
         }
 
-        $response = $this->get(route('get_Posts_by_dashboard_id', [
+        $response = $this->get(route('get_Posts_from_dashboard', [
             'user' => $this->user->id,
-            'dashboard' => $this->dashboard->id,
         ]));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(5, count($response->decodeResponseJson()));
+        $this->assertEquals(5, count($response->decodeResponseJson("data")));
     }
 
     protected function setUp(): void

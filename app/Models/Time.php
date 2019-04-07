@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @package App\Models
  * @property \App\Models\Uuid $id
- * @property int $interval
+ * @property int $current_time
  */
 class Time extends UuidModel
 {
@@ -18,8 +18,8 @@ class Time extends UuidModel
     /** @var string[] */
     protected $fillable = [
         'id',
-        'interval',
-        'checkpoint_id',
+        'current_time',
+        'check_point_id',
         'run_id',
     ];
 

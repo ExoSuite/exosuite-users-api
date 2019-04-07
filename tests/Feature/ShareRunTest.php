@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\BindType;
 use App\Models\Run;
 use App\Models\Share;
 use App\Models\User;
@@ -36,7 +37,7 @@ class ShareRunTest extends TestCase
 
         $response = $this->json(
             Request::METHOD_POST,
-            route('post_share_run'),
+            route('post_share_run', [BindType::USER => $user->id]),
             ['id' => $this->run->id]
         );
 
@@ -46,20 +47,5 @@ class ShareRunTest extends TestCase
             ->assertJsonStructure($expectToSee->toArray());
 
         return $user;
-    }
-
-    /**
-     * @depends testCreateShareOfARun
-     * @param \App\Models\User $user
-     */
-    public function testGetAllSharedRuns(User $user): void
-    {
-        Passport::actingAs($user);
-
-        $response = $this->getJson(
-            route('get_share_run')
-        );
-
-        $response->assertStatus(Response::HTTP_OK);
     }
 }

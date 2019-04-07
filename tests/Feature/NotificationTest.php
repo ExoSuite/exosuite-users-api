@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\BindType;
+use App\Http\Controllers\NotificationController;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -34,15 +35,23 @@ class NotificationTest extends TestCase
         Passport::actingAs($this->user1);
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
         Passport::actingAs($this->user3);
-        $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
+
+        for ($i = 0; $i < 20; $i++) {
+            $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
+        }
+
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route('get_notification'));
-        $notifs = $notifications_req->decodeResponseJson();
+        $notifs = $notifications_req->decodeResponseJson('data');
 
         foreach ($notifs as $notif) {
             $this->assertDatabaseHas('notifications', Arr::except($notif, 'data'));
         }
 
+        $this->assertEquals(
+            NotificationController::GET_PER_PAGE,
+            count($notifications_req->decodeResponseJson('data'))
+        );
         $notifications_req->assertStatus(Response::HTTP_OK);
     }
 
@@ -54,7 +63,7 @@ class NotificationTest extends TestCase
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route('get_notification'));
-        $notification = $notifications_req->decodeResponseJson()[0];
+        $notification = $notifications_req->decodeResponseJson('data')[0];
         $notifications_req = $this->delete($this->route('delete_notification', [
             BindType::NOTIFICATION => $notification['id'],
         ]));
@@ -70,7 +79,7 @@ class NotificationTest extends TestCase
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route('get_notification'));
-        $notification = $notifications_req->decodeResponseJson()[0];
+        $notification = $notifications_req->decodeResponseJson('data')[0];
         $this->patch($this->route('patch_notification', [BindType::NOTIFICATION => $notification['id']]));
         $notifications_req = $this->delete($this->route('delete_notification'));
         $notifications_req->assertStatus(Response::HTTP_NO_CONTENT);
@@ -85,7 +94,7 @@ class NotificationTest extends TestCase
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route('get_notification'));
-        $notification = $notifications_req->decodeResponseJson()[0];
+        $notification = $notifications_req->decodeResponseJson('data')[0];
         $notifications_req = $this->patch($this->route('patch_notification', [
             BindType::NOTIFICATION => $notification['id'],
         ]));
