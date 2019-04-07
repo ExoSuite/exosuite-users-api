@@ -70,7 +70,7 @@ class CreateElasticsearchIndexesCommand extends Command
                         'elastic:migrate',
                         [
                             'model' => "{$modelNamespace}{$model}",
-                            "target-index" => $indexConfigurator->getName() . "_" . Carbon::now()->timestamp
+                            "target-index" => $indexConfigurator->getName() . "_" . Carbon::now()->timestamp,
                         ]
                     );
                 $this->info(Artisan::output());
