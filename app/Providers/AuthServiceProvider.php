@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\PendingRequest;
 use App\Models\Post;
 use App\Models\User;
+use App\Passport\Passport;
 use App\Policies\CommentaryPolicy;
 use App\Policies\GroupPolicy;
 use App\Policies\MessagePolicy;
@@ -16,7 +17,6 @@ use App\Policies\PendingRequestsPolicy;
 use App\Policies\PostPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\App;
-use Laravel\Passport\Passport;
 use function now;
 
 /**
@@ -53,7 +53,10 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
         Passport::routes();
 
         Passport::tokensCan([
-            TokenScope::VIEW_PICTURE => 'access to avatar',
+            TokenScope::VIEW_PICTURE => 'ability to access picture resources',
+            TokenScope::CONNECT_IO => "ability to connect on io server.",
+            TokenScope::GROUP => "ability to interact with group resource",
+            TokenScope::MESSAGE => "ability to interact with message resource",
         ]);
 
         Passport::personalAccessClientId(2);

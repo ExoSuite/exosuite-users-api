@@ -75,6 +75,11 @@ Route::middleware('auth:api')->group(static function (): void {
             });
 
             Route::get('/groups', 'User\UserController@groups')->name('get_my_groups');
+
+            Route::prefix('picture')->group(static function (): void {
+                Route::post('/cover', 'User\UserProfilePictureController@storeCover')->name('post_picture_cover');
+                Route::post('/avatar', 'User\UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
+            });
         });
 
         Route::get('search', 'User\UserController@search')->name('get_users');
@@ -85,12 +90,10 @@ Route::middleware('auth:api')->group(static function (): void {
                     ->name('get_user_profile');
             });
 
-            Route::prefix('picture')->group(static function (): void {
+            Route::prefix('picture')->middleware("scope:view-picture")->group(static function (): void {
                 /*  Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
                 Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');*/
-                Route::post('/avatar', 'User\UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
                 Route::get('/avatar', 'User\UserProfilePictureController@show')->name('get_picture_avatar');
-                Route::post('/cover', 'User\UserProfilePictureController@storeCover')->name('post_picture_cover');
                 Route::get('/cover', 'User\UserProfilePictureController@showCover')->name('get_picture_cover');
             });
 

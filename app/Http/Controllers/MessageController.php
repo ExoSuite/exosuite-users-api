@@ -24,6 +24,11 @@ class MessageController extends Controller
 {
     public const GET_PER_PAGE = 30;
 
+    public function __construct()
+    {
+        $this->middleware("scope:message");
+    }
+
     public function store(CreateMessageRequest $request, Group $group): JsonResponse
     {
         $data = $request->validated();
