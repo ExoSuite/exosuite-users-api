@@ -36,8 +36,6 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::get('/', 'User\UserController@me')
                 ->name('get_user');
 
-            Route::patch('/', 'User\UserController@update')->name('patch_user');
-
             Route::prefix('profile')->namespace('User')->group(static function (): void {
                 Route::patch('/', 'UserProfileController@update')
                     ->name('patch_user_profile');
@@ -45,6 +43,14 @@ Route::middleware('auth:api')->group(static function (): void {
                 Route::prefix('picture')->group(static function (): void {
                     Route::post('/cover', 'UserProfilePictureController@storeCover')->name('post_picture_cover');
                     Route::post('/avatar', 'UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
+                });
+
+                Route::prefix('restrictions')->group(static function (): void {
+                    Route::patch('/', 'UserProfileController@updateRestrictions')
+                        ->name('patch_my_profile_restrictions');
+
+                    Route::get('/', 'UserProfileController@getProfileRestrictions')
+                        ->name('get_my_profile_restrictions');
                 });
             });
 
@@ -112,16 +118,21 @@ Route::middleware('auth:api')->group(static function (): void {
         Route::get('search', 'User\UserController@search')->name('get_users');
 
         Route::prefix('{user}')->group(static function (): void {
-            Route::prefix('profile')->group(static function (): void {
-                Route::get('/', 'User\UserProfileController@show')
+            Route::prefix('profile')->namespace('User')->group(static function (): void {
+                Route::get('/', 'UserProfileController@show')
                     ->name('get_user_profile');
-            });
 
-            Route::prefix('picture')->middleware("scope:view-picture")->group(static function (): void {
-                /*  Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
-                Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');*/
-                Route::get('/avatar', 'User\UserProfilePictureController@show')->name('get_picture_avatar');
-                Route::get('/cover', 'User\UserProfilePictureController@showCover')->name('get_picture_cover');
+                Route::prefix('restrictions')->group(static function (): void {
+                    Route::get('/', 'UserProfileController@getProfileRestrictions')
+                        ->name('get_user_profile_restrictions');
+                });
+
+                Route::prefix('picture')->middleware("scope:view-picture")->group(static function (): void {
+                    /*  Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
+                    Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');*/
+                    Route::get('/avatar', 'UserProfilePictureController@show')->name('get_picture_avatar');
+                    Route::get('/cover', 'UserProfilePictureController@showCover')->name('get_picture_cover');
+                });
             });
 
             //FOLLOWS-----------------------------------------------------------------------------------

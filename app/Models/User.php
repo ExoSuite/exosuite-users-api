@@ -105,6 +105,7 @@ class User extends \Illuminate\Foundation\Auth\User
         static::created(static function (User $user): void {
             $user->profile()->create();
             $user->dashboard()->create();
+            $user->profileRestrictions()->create();
         });
     }
 
@@ -244,5 +245,10 @@ class User extends \Illuminate\Foundation\Auth\User
             'last_name' => $this->last_name,
             'nick_name' => $this->nick_name,
         ];
+    }
+
+    public function profileRestrictions(): HasOne
+    {
+        return $this->hasOne(ProfileRestrictions::class);
     }
 }

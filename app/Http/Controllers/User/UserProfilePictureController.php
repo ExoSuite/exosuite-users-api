@@ -12,7 +12,6 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use function route;
 
 /**
@@ -140,7 +139,7 @@ class UserProfilePictureController extends Controller
         $coverId = $profile->cover_id;
 
         if (!$coverId) {
-            throw new UnprocessableEntityHttpException('Profile Cover id not set.');
+            return $this->localFile("app/default-media/cover.jpg");
         }
 
         return $this->file(
