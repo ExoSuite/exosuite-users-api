@@ -28,7 +28,7 @@ class UpdateProfileRestrictionsRequest extends FormRequest
             "city" => "sometimes|string|in:public,private,followers,friends",
             "birthday" => "sometimes|string|in:public,private,followers,friends",
             "description" => "sometimes|string|in:public,private,followers,friends",
-            "nomination_preference" => "sometimes|string|in:full_name,nickname",
+            "nomination_preference" => "sometimes|string|in:full_name,nick_name",
         ];
     }
 }

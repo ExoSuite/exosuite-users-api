@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
 
         $this->call(DashboardsSeeder::class);
+
+        $this->call(ProfileRestrictionsSeeder::class);
     }
 }

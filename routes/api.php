@@ -36,8 +36,6 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::get('/', 'User\UserController@me')
                 ->name('get_user');
 
-            Route::patch('/', 'User\UserController@update')->name('patch_user');
-
             Route::prefix('profile')->namespace('User')->group(static function (): void {
                 Route::patch('/', 'UserProfileController@update')
                     ->name('patch_user_profile');
@@ -48,10 +46,10 @@ Route::middleware('auth:api')->group(static function (): void {
                 });
 
                 Route::prefix('restrictions')->group(static function (): void {
-                    Route::patch('/', 'User\UserProfileController@updateRestrictions')
+                    Route::patch('/', 'UserProfileController@updateRestrictions')
                         ->name('patch_my_profile_restrictions');
 
-                    Route::get('/', 'User\UserProfileController@getProfileRestrictions')
+                    Route::get('/', 'UserProfileController@getProfileRestrictions')
                         ->name('get_my_profile_restrictions');
                 });
             });

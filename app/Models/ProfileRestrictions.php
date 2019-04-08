@@ -2,15 +2,24 @@
 
 namespace App\Models;
 
-use App\Models\Abstracts\UuidModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ProfileRestrictions extends UuidModel
+class ProfileRestrictions extends Model
 {
+
+    /** @var string */
+    protected $primaryKey = "user_id";
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
 
     /** @var string[] */
     protected $fillable = [
-        'id',
         'user_id',
         'city',
         'description',
@@ -21,6 +30,6 @@ class ProfileRestrictions extends UuidModel
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class);
     }
 }

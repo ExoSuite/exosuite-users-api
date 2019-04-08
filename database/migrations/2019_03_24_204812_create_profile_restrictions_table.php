@@ -16,9 +16,9 @@ class CreateProfileRestrictionsTable extends Migration
     public function up()
     {
         Schema::create('profile_restrictions', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->uuid('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->uuid('user_id')->index();
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade')->onUpdate('cascade');
             $table->string('city')->default(Restriction::FRIENDS);
             $table->string('description')->default(Restriction::FRIENDS);
             $table->string('birthday')->default(Restriction::FRIENDS);

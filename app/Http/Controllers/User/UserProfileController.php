@@ -57,24 +57,16 @@ class UserProfileController extends Controller
             ? $user_profile['nick_name']
             : $user_profile['first_name'] . " " . $user_profile['last_name'];
 
-        $infos = call_user_func(
-            $this->relationsValidation[$restrictions["city"]],
-            $target_id,
-            $infos,
-            "city"
-        );
-        $infos = call_user_func(
-            $this->relationsValidation[$restrictions["description"]],
-            $target_id,
-            $infos,
-            "description"
-        );
-        $infos = call_user_func(
-            $this->relationsValidation[$restrictions["birthday"]],
-            $target_id,
-            $infos,
-            "birthday"
-        );
+        $fields = ['city', 'description', 'birthday'];
+
+        foreach ($fields as $field) {
+            $infos = call_user_func(
+                $this->relationsValidation[$restrictions[$field]],
+                $target_id,
+                $infos,
+                $field
+            );
+        }
 
         return $this->ok($infos);
     }

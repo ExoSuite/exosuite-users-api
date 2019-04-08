@@ -249,6 +249,6 @@ class User extends \Illuminate\Foundation\Auth\User
 
     public function profileRestrictions(): HasOne
     {
-        return $this->hasOne(ProfileRestrictions::class, 'user_id');
+        return $this->hasOne(ProfileRestrictions::class);
     }
 }

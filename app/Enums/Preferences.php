@@ -14,5 +14,5 @@ use BenSampo\Enum\Enum;
 final class Preferences extends Enum
 {
     const FULL_NAME = "full_name";
-    const NICKNAME = "nickname";
+    const NICKNAME = "nick_name";
 }
