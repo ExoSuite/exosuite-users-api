@@ -140,7 +140,7 @@ class UserProfilePictureController extends Controller
         $coverId = $profile->cover_id;
 
         if (!$coverId) {
-            throw new UnprocessableEntityHttpException('Profile Cover id not set.');
+            return $this->localFile("app/default-media/cover.jpg");
         }
 
         return $this->file(

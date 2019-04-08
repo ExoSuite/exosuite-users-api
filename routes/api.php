@@ -118,21 +118,21 @@ Route::middleware('auth:api')->group(static function (): void {
         Route::get('search', 'User\UserController@search')->name('get_users');
 
         Route::prefix('{user}')->group(static function (): void {
-            Route::prefix('profile')->group(static function (): void {
-                Route::get('/', 'User\UserProfileController@show')
+            Route::prefix('profile')->namespace('User')->group(static function (): void {
+                Route::get('/', 'UserProfileController@show')
                     ->name('get_user_profile');
 
                 Route::prefix('restrictions')->group(static function (): void {
-                    Route::get('/', 'User\UserProfileController@getProfileRestrictions')
+                    Route::get('/', 'UserProfileController@getProfileRestrictions')
                         ->name('get_user_profile_restrictions');
                 });
-            });
 
-            Route::prefix('picture')->middleware("scope:view-picture")->group(static function (): void {
-                /*  Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
-                Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');*/
-                Route::get('/avatar', 'User\UserProfilePictureController@show')->name('get_picture_avatar');
-                Route::get('/cover', 'User\UserProfilePictureController@showCover')->name('get_picture_cover');
+                Route::prefix('picture')->middleware("scope:view-picture")->group(static function (): void {
+                    /*  Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
+                    Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');*/
+                    Route::get('/avatar', 'UserProfilePictureController@show')->name('get_picture_avatar');
+                    Route::get('/cover', 'UserProfilePictureController@showCover')->name('get_picture_cover');
+                });
             });
 
             //FOLLOWS-----------------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\TokenScope;
 use App\Models\CheckPoint;
 use App\Models\Commentary;
 use App\Models\Group;
@@ -59,6 +60,15 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
         $this->registerPolicies();
 
         Passport::routes();
+
+        Passport::tokensCan([
+            TokenScope::VIEW_PICTURE => 'ability to access picture resources',
+            TokenScope::CONNECT_IO => "ability to connect on io server.",
+            TokenScope::GROUP => "ability to interact with group resource",
+            TokenScope::MESSAGE => "ability to interact with message resource",
+        ]);
+
+        Passport::personalAccessClientId(1);
 
         if (App::environment('production')) {
             Passport::tokensExpireIn(now()->addHour());
