@@ -6,12 +6,15 @@
       <option name="CUSTOM_RULESET_PATH" value="$PROJECT_DIR$/ruleset.xml" />
       <option name="WARNING_HIGHLIGHT_LEVEL_NAME" value="ERROR" />
       <option name="INSTALLED_PATHS" value="./" />
+      <option name="EXTENSIONS" value="php,js,css,inc" />
     </inspection_tool>
+    <inspection_tool class="PhpFullyQualifiedNameUsageInspection" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="PhpMissingDocCommentInspection" enabled="false" level="WARNING" enabled_by_default="false">
       <option name="CHECK_FIELD" value="true" />
       <option name="SKIP_EMPTY_FUNCTION" value="false" />
       <option name="SKIP_EMPTY_METHOD" value="false" />
     </inspection_tool>
     <inspection_tool class="PhpUndefinedClassInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PhpUnnecessaryFullyQualifiedNameInspection" enabled="false" level="WARNING" enabled_by_default="false" />
   </profile>
 </component>

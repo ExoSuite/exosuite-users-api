@@ -28,12 +28,25 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
     protected function schedule(Schedule $schedule): void
     {
         if (ApiHelper::isProduction() || ApiHelper::isStaging()) {
-            $schedule->command('horizon:snapshot')->everyFiveMinutes();
+            $schedule->command('horizon:snapshot')
+                ->everyFiveMinutes()
+                ->onOneServer();
         } else {
-            $schedule->command('horizon:snapshot')->everyMinute();
+            $schedule->command('horizon:snapshot')
+                ->everyMinute()
+                ->onOneServer();
         }
 
-        $schedule->command('telescope:prune')->daily();
+        if (ApiHelper::isLocal() || ApiHelper::isStaging()) {
+            $schedule->command('telescope:prune')
+                ->everyThirtyMinutes()
+                ->onOneServer();
+        }
+
+        $schedule->command('horizon:failed-jobs')
+            ->everyMinute()
+            ->runInBackground()
+            ->onOneServer();
     }
 
 

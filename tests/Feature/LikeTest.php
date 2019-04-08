@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\BindType;
 use App\Enums\LikableEntities;
 use App\Models\Commentary;
 use App\Models\Dashboard;
@@ -175,7 +176,7 @@ class LikeTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $response = $this->post($this->route('post_like_for_run', [
+        $response = $this->post($this->route('post_like_for_run', [BindType::USER => $this->user->id,
             'run_id' => $this->run->id,
         ]));
         $response->assertStatus(Response::HTTP_CREATED);
@@ -186,10 +187,11 @@ class LikeTest extends TestCase
     {
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
-        $post_response = $this->post($this->route('post_like_for_run', [
+        $post_response = $this->post($this->route('post_like_for_run', [BindType::USER => $this->user->id,
             'run_id' => $this->run->id,
         ]));
-        $response = $this->delete($this->route('delete_like_for_run', ['run_id' => $this->run->id]));
+        $response = $this->delete($this->route('delete_like_for_run', [BindType::USER => $this->user->id, 'run_id' =>
+            $this->run->id]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('likes', $post_response->decodeResponseJson());
     }
@@ -212,7 +214,7 @@ class LikeTest extends TestCase
             'liker_id' => $user2->id,
         ]);
 
-        $response = $this->get($this->route('get_likes_from_run', [
+        $response = $this->get($this->route('get_likes_from_run', [BindType::USER => $this->user->id,
             'run_id' => $this->run->id,
         ]));
         $response->assertStatus(Response::HTTP_OK);

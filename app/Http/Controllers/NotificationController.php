@@ -15,6 +15,8 @@ use function now;
 class NotificationController extends Controller
 {
 
+    public const GET_PER_PAGE = 10;
+
     public function update(?Notification $notification = null): JsonResponse
     {
         if ($notification instanceof Notification) {
@@ -31,9 +33,7 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        $user_notifications = Auth::user()->notifications()->get();
-
-        return $this->ok($user_notifications);
+        return $this->ok(Auth::user()->notifications()->paginate(self::GET_PER_PAGE));
     }
 
     public function destroy(?Notification $notification = null): JsonResponse

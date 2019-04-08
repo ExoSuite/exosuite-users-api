@@ -55,13 +55,13 @@ class User extends \Illuminate\Foundation\Auth\User
     protected $mapping = [
         'properties' => [
             'first_name' => [
-                'type' => 'text',
+                'type' => 'completion',
             ],
             'last_name' => [
-                'type' => 'text',
+                'type' => 'completion',
             ],
             'nick_name' => [
-                'type' => 'text',
+                'type' => 'completion',
             ],
         ],
     ];
@@ -170,7 +170,8 @@ class User extends \Illuminate\Foundation\Auth\User
 
     public function runs(): HasMany
     {
-        return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY);
+        return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY)
+            ->with(['checkpoints']);
     }
 
     public function sharedRuns(): MorphToMany
