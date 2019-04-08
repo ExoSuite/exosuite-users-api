@@ -13,9 +13,12 @@ class Passport extends \Laravel\Passport\Passport
      */
     public static function routes($callback = null, array $options = []): void
     {
-        $callback = $callback ?: static function ($router): void {
-            $router->all();
-        };
+        if (!$callback) {
+            $callback = static function ($router): void {
+                $router->all();
+            };
+        }
+
         $defaultOptions = [
             'prefix' => 'oauth',
             'namespace' => '\Laravel\Passport\Http\Controllers',
