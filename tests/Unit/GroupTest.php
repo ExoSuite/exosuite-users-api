@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Enums\BindType;
+use App\Enums\TokenScope;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -34,7 +35,7 @@ class GroupTest extends TestCase
      */
     public function testCreateBadGroupWithName(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post($this->route('post_group'), [
             'name' => Str::random(100),
             'users' => Uuid::generate()->string,
@@ -48,7 +49,7 @@ class GroupTest extends TestCase
      */
     public function testCreateBadGroupWithoutName(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post($this->route('post_group'), ['users' => Uuid::generate()->string]);
         $response->assertJsonValidationErrors(['users']);
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -59,7 +60,7 @@ class GroupTest extends TestCase
      */
     public function testAddBadNonAdminUserToExistingGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post($this->route('post_group'), [
             'name' => Str::random(100),
             'users' => [$this->user2->id],
@@ -80,7 +81,7 @@ class GroupTest extends TestCase
      */
     public function testAddBadAdminUserToExistingGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post($this->route('post_group'), [
             'name' => Str::random(100),
             'users' => [$this->user2->id],
@@ -102,14 +103,14 @@ class GroupTest extends TestCase
      */
     public function testUpdateGroupWithoutRights(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
         );
         $group_id = $response->decodeResponseJson('id');
         $new_name = 'NameForTest';
-        Passport::actingAs($this->user2);
+        Passport::actingAs($this->user2, [TokenScope::GROUP]);
         $test_req = $this->patch(
             $this->route('patch_group', [BindType::GROUP => $group_id]),
             ['request_type' => 'update_group_name', 'name' => $new_name]
@@ -122,7 +123,7 @@ class GroupTest extends TestCase
      */
     public function testDeleteBadUserFromGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post($this->route('post_group'), [
             'name' => Str::random(100),
             'users' => [$this->user2->id, $this->user3->id],
@@ -143,7 +144,7 @@ class GroupTest extends TestCase
      */
     public function testDeleteBadGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), [
             'name' => Str::random(100),
             'users' => [$this->user2->id, $this->user3->id],
@@ -155,13 +156,13 @@ class GroupTest extends TestCase
 
     public function testDeleteGroupWithoutRights(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id, $this->user3->id]]
         );
         $group_id = $response->decodeResponseJson('id');
-        Passport::actingAs($this->user2);
+        Passport::actingAs($this->user2, [TokenScope::GROUP]);
         $delete_req = $this->delete($this->route('delete_group', [BindType::GROUP => $group_id]));
         $delete_req->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -171,7 +172,7 @@ class GroupTest extends TestCase
      */
     public function testGetBadGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), [
             'name' => Str::random(100),
             'users' => [$this->user2->id, $this->user3->id],

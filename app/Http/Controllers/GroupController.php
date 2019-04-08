@@ -38,6 +38,8 @@ class GroupController extends Controller
             'update_user_rights' => [$this, 'updateUserRights'],
             'update_group_name' => [$this, 'updateGroupName'],
         ];
+
+        $this->middleware("scope:group");
     }
 
     /**

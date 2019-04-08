@@ -10,6 +10,7 @@ use App\Http\Requests\CreateUserProfilePictureCoverRequest;
 use App\Http\Requests\CreateUserProfilePictureRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use function route;
@@ -61,13 +62,12 @@ class UserProfilePictureController extends Controller
      * Store a newly avatar
      *
      * @param \App\Http\Requests\CreateUserProfilePictureAvatarRequest $request
-     * @param \App\Models\User $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function storeAvatar(CreateUserProfilePictureAvatarRequest $request, User $user): JsonResponse
+    public function storeAvatar(CreateUserProfilePictureAvatarRequest $request): JsonResponse
     {
-        /** @var \App\Models\UserProfile $profile */
-        $profile = $user->profile()->first();
+        $user = Auth::user();
+        $profile = $user->profile;
         $profile->addMedia($request->file('picture'))
             ->toMediaCollection(CollectionPicture::AVATAR);
         $profile->update([
@@ -84,17 +84,17 @@ class UserProfilePictureController extends Controller
      * Display the avatar.
      *
      * @param \App\Models\User $user
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    public function show(User $user)
+    public function show(User $user): StreamedResponse
     {
         /** @var \App\Models\UserProfile $profile */
         $profile = $user->profile()->first();
         $avatarId = $profile->avatar_id;
 
         if (!$avatarId) {
-            throw new UnprocessableEntityHttpException('Avatar id not set.');
+            return $this->localFile("app/default-media/avatar.png");
         }
 
         return $this->file(
@@ -109,12 +109,12 @@ class UserProfilePictureController extends Controller
      * Store a newly cover
      *
      * @param \App\Http\Requests\CreateUserProfilePictureCoverRequest $request
-     * @param \App\Models\User $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function storeCover(CreateUserProfilePictureCoverRequest $request, User $user): JsonResponse
+    public function storeCover(CreateUserProfilePictureCoverRequest $request): JsonResponse
     {
-        $profile = $user->profile()->first();
+        $user = Auth::user();
+        $profile = $user->profile;
         $profile->addMedia($request->file('picture'))
             ->toMediaCollection(CollectionPicture::COVER);
         $profile->update([

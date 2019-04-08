@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AddHeaderAccessToken;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckForMaintenanceMode;
 use App\Http\Middleware\EncryptCookies;
@@ -71,6 +72,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         ],
 
         'api' => [
+            AddHeaderAccessToken::class,
             Jsonify::class,
             'throttle:60,1',
             'bindings',

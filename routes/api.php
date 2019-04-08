@@ -38,9 +38,14 @@ Route::middleware('auth:api')->group(static function (): void {
 
             Route::patch('/', 'User\UserController@update')->name('patch_user');
 
-            Route::prefix('profile')->group(static function (): void {
-                Route::patch('/', 'User\UserProfileController@update')
+            Route::prefix('profile')->namespace('User')->group(static function (): void {
+                Route::patch('/', 'UserProfileController@update')
                     ->name('patch_user_profile');
+
+                Route::prefix('picture')->group(static function (): void {
+                    Route::post('/cover', 'UserProfilePictureController@storeCover')->name('post_picture_cover');
+                    Route::post('/avatar', 'UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
+                });
             });
 
             Route::prefix('friendship')->group(static function (): void {
@@ -112,12 +117,10 @@ Route::middleware('auth:api')->group(static function (): void {
                     ->name('get_user_profile');
             });
 
-            Route::prefix('picture')->group(static function (): void {
+            Route::prefix('picture')->middleware("scope:view-picture")->group(static function (): void {
                 /*  Route::get('/', 'User\UserProfilePictureController@index')->name('get_pictures');
                 Route::post('/', 'User\UserProfilePictureController@store')->name('post_picture');*/
-                Route::post('/avatar', 'User\UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
                 Route::get('/avatar', 'User\UserProfilePictureController@show')->name('get_picture_avatar');
-                Route::post('/cover', 'User\UserProfilePictureController@storeCover')->name('post_picture_cover');
                 Route::get('/cover', 'User\UserProfilePictureController@showCover')->name('get_picture_cover');
             });
 
