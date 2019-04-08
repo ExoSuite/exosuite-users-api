@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Enums\Restriction;
 use App\Models\User;
-use App\Models\UserProfile;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -25,14 +25,36 @@ class UserProfileTest extends TestCase
 
     public function testGetProfile(): void
     {
-        $response = $this->get(route('get_user_profile', ['user' => self::$user->id]));
-        $response->assertStatus(Response::HTTP_OK);
-        $expectTo = [
-            'profile' => (new UserProfile)->getFillable(),
-        ];
-        $userProperties = array_diff((new User)->getFillable(), (new User)->getHidden());
-        $expectTo = array_merge($expectTo, $userProperties);
-        $response->assertJsonStructure($expectTo);
+        $user2 = factory(User::class)->create();
+        Passport::actingAs($user2);
+        $this->patch(route('patch_user_profile'), [
+            'description' => 'Ma description test.',
+            'city' => 'Sospel',
+            'birthday' => '1997-10-20',
+        ]);
+        $this->patch(route('patch_my_profile_restrictions'), [
+            'city' => Restriction::PUBLIC,
+            'description' => Restriction::FRIENDS_FOLLOWERS,
+            'birthday' => Restriction::PRIVATE,
+        ]);
+        Passport::actingAs(self::$user);
+        $response1 = $this->get(route('get_user_profile', ['user' => $user2->id]));
+        $response1->assertStatus(Response::HTTP_OK);
+        $response1->assertJson([
+            'name' => $user2->first_name . ' ' . $user2->last_name,
+            "city" => "Sospel",
+            "description" => null,
+            "birthday" => null,
+        ]);
+        $this->post(route('post_follow', ['user' => $user2->id]));
+        $response1 = $this->get(route('get_user_profile', ['user' => $user2->id]));
+        $response1->assertStatus(Response::HTTP_OK);
+        $response1->assertJson([
+            'name' => $user2->first_name . ' ' . $user2->last_name,
+            "city" => "Sospel",
+            "description" => 'Ma description test.',
+            "birthday" => null,
+        ]);
     }
 
     public function testPatchProfileDescription(): void

@@ -41,6 +41,14 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::prefix('profile')->group(static function (): void {
                 Route::patch('/', 'User\UserProfileController@update')
                     ->name('patch_user_profile');
+
+                Route::prefix('restrictions')->group(static function (): void {
+                    Route::patch('/', 'User\UserProfileController@updateRestrictions')
+                        ->name('patch_my_profile_restrictions');
+
+                    Route::get('/', 'User\UserProfileController@getProfileRestrictions')
+                        ->name('get_my_profile_restrictions');
+                });
             });
 
             Route::prefix('friendship')->group(static function (): void {
@@ -81,6 +89,11 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::prefix('profile')->group(static function (): void {
                 Route::get('/', 'User\UserProfileController@show')
                     ->name('get_user_profile');
+
+                Route::prefix('restrictions')->group(static function (): void {
+                    Route::get('/', 'User\UserProfileController@getProfileRestrictions')
+                        ->name('get_user_profile_restrictions');
+                });
             });
 
             Route::prefix('picture')->group(static function (): void {
