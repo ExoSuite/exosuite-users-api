@@ -13,7 +13,7 @@ class Passport extends \Laravel\Passport\Passport
      */
     public static function routes($callback = null, array $options = []): void
     {
-        if (!$callback) {
+        if ($callback === null) {
             $callback = static function ($router): void {
                 $router->all();
             };
