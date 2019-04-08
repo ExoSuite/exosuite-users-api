@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Enums\TokenScope;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -49,13 +48,6 @@ class UserProfilePictureTest extends TestCase
             ['Content-Type' => 'multipart/form-data']
         );
         $response->assertJsonValidationErrors(['picture']);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-
-    public function testGetUserProfilePictureCover(): void
-    {
-        Passport::actingAs($this->user, [TokenScope::VIEW_PICTURE]);
-        $response = $this->get(route('get_picture_cover', ['user' => $this->user]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
