@@ -84,17 +84,17 @@ class UserProfilePictureController extends Controller
      * Display the avatar.
      *
      * @param \App\Models\User $user
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
      */
-    public function show(User $user)
+    public function show(User $user): StreamedResponse
     {
         /** @var \App\Models\UserProfile $profile */
         $profile = $user->profile()->first();
         $avatarId = $profile->avatar_id;
 
         if (!$avatarId) {
-            throw new UnprocessableEntityHttpException('Avatar id not set.');
+            return $this->localFile("app/default-media/avatar.png");
         }
 
         return $this->file(
