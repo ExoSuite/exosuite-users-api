@@ -19,10 +19,9 @@ class RunPolicy
      * Determine whether the user can view the run.
      *
      * @param  \App\Models\User $user
-     * @param \App\Models\Run $run
      * @return mixed
      */
-    public function view(User $user, Run $run)
+    public function view(User $user)
     {
     }
 

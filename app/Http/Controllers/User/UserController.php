@@ -33,7 +33,7 @@ class UserController extends Controller
     public function search(UserSearchRequest $request): JsonResponse
     {
         $userPage = User::search($request->text)
-            ->with('profile:city,birthday,avatar_id')
+            ->with('profile:id,city,description,avatar_id,cover_id')
             ->select(['id', 'first_name', 'last_name', 'nick_name'])
             ->paginate(self::USER_SEARCH_PAGE);
 

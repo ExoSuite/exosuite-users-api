@@ -2,11 +2,11 @@
 
 /** @noinspection PhpUndefinedVariableInspection */
 
-use App\Models\Run;
+use App\Models\Time;
 use Faker\Generator as Faker;
 
-$factory->define(Run::class, function (Faker $faker) {
+$factory->define(Time::class, function (Faker $faker) {
     return [
-        'name' => $faker->streetName,
+        'current_time' => 1543968000, // 05 Dec 2018 00:00:00
     ];
 });

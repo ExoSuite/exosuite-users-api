@@ -2,8 +2,16 @@
 
 namespace App\Http\Requests\Time;
 
+use App\Rules\TimeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class UpdateTimeRequest
+ *
+ * @property \App\Models\Run $run
+ * @property \App\Models\CheckPoint $checkpoint
+ * @package App\Http\Requests\Time
+ */
 class UpdateTimeRequest extends FormRequest
 {
 
@@ -14,9 +22,6 @@ class UpdateTimeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        /*$time = Time::whereId($this->id());
-
-        return $time->firstOrFail()->creator_id === Auth::id();*/
         return true;
     }
 
@@ -28,7 +33,7 @@ class UpdateTimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'interval' => 'required|unsignedTinyInteger|max:255',
+            'current_time' => ['required', 'integer', new TimeRule($this->run, $this->checkpoint)],
         ];
     }
 }
