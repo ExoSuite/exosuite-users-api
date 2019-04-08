@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\BindType;
+use App\Enums\TokenScope;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\Message;
@@ -39,7 +40,7 @@ class GroupTest extends TestCase
     public function testCreateGroupWithName(): void
     {
         Notification::fake();
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
@@ -55,7 +56,7 @@ class GroupTest extends TestCase
     public function testCreateGroupWithoutName(): void
     {
         Notification::fake();
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post($this->route('post_group'), ['users' => [$this->user2->id]]);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure(['name', 'id', 'updated_at', 'created_at', 'group_members']);
@@ -67,7 +68,7 @@ class GroupTest extends TestCase
 
     public function testAddNonAdminUserToExistingGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
@@ -86,7 +87,7 @@ class GroupTest extends TestCase
 
     public function testAddAdminUserToExistingGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
@@ -105,7 +106,7 @@ class GroupTest extends TestCase
 
     public function testUpdateToNonAdminUserRightsToExistingGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
@@ -129,7 +130,7 @@ class GroupTest extends TestCase
 
     public function testUpdateToAdminUserRightsToExistingGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
@@ -153,7 +154,7 @@ class GroupTest extends TestCase
 
     public function testDeleteUserFromGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id, $this->user3->id]]
@@ -174,7 +175,7 @@ class GroupTest extends TestCase
 
     public function testUpdateGroupName(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
@@ -195,7 +196,7 @@ class GroupTest extends TestCase
 
     public function testDeleteGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id, $this->user3->id]]
@@ -216,7 +217,7 @@ class GroupTest extends TestCase
 
     public function testGetGroup(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $members = collect();
         $members->push(new GroupMember(['user_id' => $this->user1->id, 'is_admin' => true]));
         $members->push(new GroupMember(['user_id' => $this->user2->id]));

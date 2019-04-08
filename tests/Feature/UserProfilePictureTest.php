@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\TokenScope;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestResponse;
@@ -34,7 +35,7 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertHeader('Location', $this->route(
             'get_picture_avatar',
-            ['user' => $this->user],
+            ['user' => $this->user->id],
             true
         ));
     }
@@ -42,7 +43,7 @@ class UserProfilePictureTest extends TestCase
     public function testGetUserProfilePictureAvatar(): void
     {
         $this->storeUserProfilePictureAvatar();
-        Passport::actingAs($this->user);
+        Passport::actingAs($this->user, [TokenScope::VIEW_PICTURE]);
         $response = $this->get(route('get_picture_avatar', ['user' => $this->user]));
         $response->assertStatus(Response::HTTP_OK);
     }
@@ -61,7 +62,7 @@ class UserProfilePictureTest extends TestCase
     public function testGetUserProfilePictureCover(): void
     {
         $this->storeUserProfilePictureCover();
-        Passport::actingAs($this->user);
+        Passport::actingAs($this->user, [TokenScope::VIEW_PICTURE]);
         $response = $this->get(route('get_picture_cover', ['user' => $this->user]));
         $response->assertStatus(Response::HTTP_OK);
     }
@@ -71,7 +72,7 @@ class UserProfilePictureTest extends TestCase
         Passport::actingAs($this->user);
 
         return $this->post(
-            $this->route('post_picture_avatar', ['user' => $this->user]),
+            $this->route('post_picture_avatar'),
             ['picture' => UploadedFile::fake()->image('avatar.jpg', 142, 142)],
             ['Content-Type' => 'multipart/form-data']
         );

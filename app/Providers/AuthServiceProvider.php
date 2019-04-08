@@ -21,7 +21,7 @@ use App\Policies\RunPolicy;
 use App\Policies\TimePolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\App;
-use Laravel\Passport\Passport;
+use App\Passport\Passport;
 use function now;
 
 /**

@@ -105,9 +105,9 @@ Route::middleware('auth:api')->group(static function (): void {
 
             Route::get('/groups', 'User\UserController@groups')->name('get_my_groups');
 
-            Route::prefix('picture')->group(static function (): void {
-                Route::post('/cover', 'User\UserProfilePictureController@storeCover')->name('post_picture_cover');
-                Route::post('/avatar', 'User\UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
+            Route::prefix('picture')->namespace('User')->group(static function (): void {
+                Route::post('/cover', 'UserProfilePictureController@storeCover')->name('post_picture_cover');
+                Route::post('/avatar', 'UserProfilePictureController@storeAvatar')->name('post_picture_avatar');
             });
         });
 

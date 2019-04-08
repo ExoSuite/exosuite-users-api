@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\BindType;
+use App\Enums\TokenScope;
 use App\Events\DeletedMessageEvent;
 use App\Events\ModifyMessageEvent;
 use App\Events\NewMessageEvent;
@@ -44,7 +45,7 @@ class MessageTest extends TestCase
         $group->groupMembers()->saveMany($members);
         $group->load('groupMembers');
 
-        Passport::actingAs($this->user);
+        Passport::actingAs($this->user, [TokenScope::MESSAGE]);
         Notification::fake();
         Event::fake([NewMessageEvent::class]);
         $response = $this->post(
@@ -67,7 +68,7 @@ class MessageTest extends TestCase
         $group->groupMembers()->saveMany($members);
         $group->load('groupMembers');
 
-        Passport::actingAs($this->user);
+        Passport::actingAs($this->user, [TokenScope::MESSAGE]);
         $message = factory(Message::class)->create([
             'group_id' => $group['id'],
             'user_id' => $this->user->id,
@@ -93,7 +94,7 @@ class MessageTest extends TestCase
         $group->groupMembers()->saveMany($members);
         $group->load('groupMembers');
 
-        Passport::actingAs($this->user);
+        Passport::actingAs($this->user, [TokenScope::MESSAGE]);
         $response = $this->post(
             $this->route('post_message', [BindType::GROUP => $group->id]),
             ['contents' => Str::random(10)]
@@ -117,7 +118,7 @@ class MessageTest extends TestCase
         $group->groupMembers()->saveMany($members);
         $group->load('groupMembers');
 
-        Passport::actingAs($this->user);
+        Passport::actingAs($this->user, [TokenScope::MESSAGE]);
 
         for ($i = 0; $i < 40; $i++) {
             factory(Message::class)->create([

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Enums\BindType;
+use App\Enums\TokenScope;
 use App\Http\Controllers\NotificationController;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -32,9 +33,9 @@ class NotificationTest extends TestCase
 
     public function testGetUserNotifications(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
-        Passport::actingAs($this->user3);
+        Passport::actingAs($this->user3, [TokenScope::GROUP]);
 
         for ($i = 0; $i < 20; $i++) {
             $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
@@ -57,9 +58,9 @@ class NotificationTest extends TestCase
 
     public function testDeleteOneUserNotification(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
-        Passport::actingAs($this->user3);
+        Passport::actingAs($this->user3, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route('get_notification'));
@@ -73,9 +74,9 @@ class NotificationTest extends TestCase
 
     public function testDeleteAllReadUserNotification(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
-        Passport::actingAs($this->user3);
+        Passport::actingAs($this->user3, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route('get_notification'));
@@ -88,9 +89,9 @@ class NotificationTest extends TestCase
 
     public function testUpdateOneUserNotification(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
-        Passport::actingAs($this->user3);
+        Passport::actingAs($this->user3, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
         Passport::actingAs($this->user2);
         $notifications_req = $this->get($this->route('get_notification'));
@@ -104,9 +105,9 @@ class NotificationTest extends TestCase
 
     public function testUpdateAllUserNotification(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
-        Passport::actingAs($this->user3);
+        Passport::actingAs($this->user3, [TokenScope::GROUP]);
         $this->post($this->route('post_group'), ['name' => Str::random(100), 'users' => [$this->user2->id]]);
         Passport::actingAs($this->user2);
         $this->get($this->route('get_notification'));
