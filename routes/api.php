@@ -246,7 +246,6 @@ Route::middleware('auth:api')->group(static function (): void {
             });
         });
     });
-    Route::get('search', 'User\UserController@search')->name('get_users');
 
     Route::prefix('notification')->group(static function (): void {
         Route::patch('/{notification?}', 'NotificationController@update')->name('patch_notification');
