@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Enums\Preferences;
 use App\Enums\Restriction;
+use App\Enums\Roles;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProfileRestrictionsRequest;
 use App\Http\Requests\User\UserProfileRequest;
@@ -44,31 +45,32 @@ class UserProfileController extends Controller
     {
         $restrictions = $user->profileRestrictions()->first();
         $user_profile = $user->load('profile');
-        $target_id = $user->id;
-        $infos = [
-            'name' => "",
-            'city' => $user_profile["profile"]["city"],
-            'birthday' => $user_profile["profile"]["birthday"],
-            'description' => $user_profile["profile"]["description"],
-        ];
 
-        $infos['name'] = $restrictions['nomination_preference'] === Preferences::NICKNAME
-        && $user_profile['nick_name'] !== null
-            ? $user_profile['nick_name']
-            : $user_profile['first_name'] . " " . $user_profile['last_name'];
+        if (Auth::user()->inRole(Roles::ADMINISTRATOR)) {
+            return $this->ok($user_profile);
+        }
+
+        $target_id = $user->id;
+
+        if ($restrictions['nomination_preference'] === Preferences::NICKNAME && $user_profile['nick_name'] !== null) {
+            $user_profile['first_name'] = null;
+            $user_profile['last_name'] = null;
+        } else {
+            $user_profile['nick_name'] = null;
+        }
 
         $fields = ['city', 'description', 'birthday'];
 
         foreach ($fields as $field) {
-            $infos = call_user_func(
+            $user_profile = call_user_func(
                 $this->relationsValidation[$restrictions[$field]],
                 $target_id,
-                $infos,
+                $user_profile,
                 $field
             );
         }
 
-        return $this->ok($infos);
+        return $this->ok($user_profile);
     }
 
     /**
@@ -98,24 +100,12 @@ class UserProfileController extends Controller
         return $this->ok($user->profileRestrictions()->first());
     }
 
-    /**
-     * @param string $target_id
-     * @param array<mixed> $profile
-     * @param string $field
-     * @return array<mixed>
-     */
-    public function allowPublic(string $target_id, array $profile, string $field): array
+    public function allowPublic(string $target_id, User $profile, string $field): User
     {
         return $profile;
     }
 
-    /**
-     * @param string $target_id
-     * @param array<mixed> $profile
-     * @param string $field
-     * @return array<mixed>
-     */
-    public function checkFriendship(string $target_id, array $profile, string $field): array
+    public function checkFriendship(string $target_id, User $profile, string $field): User
     {
         $user_id = Auth::id();
 
@@ -123,18 +113,12 @@ class UserProfileController extends Controller
             return $profile;
         }
 
-        $profile[$field] = null;
+        $profile['profile'][$field] = null;
 
         return $profile;
     }
 
-    /**
-     * @param string $target_id
-     * @param array<mixed> $profile
-     * @param string $field
-     * @return array<mixed>
-     */
-    public function checkFollow(string $target_id, array $profile, string $field): array
+    public function checkFollow(string $target_id, User $profile, string $field): User
     {
         $user_id = Auth::id();
 
@@ -142,20 +126,14 @@ class UserProfileController extends Controller
             return $profile;
         }
 
-        $profile[$field] = null;
+        $profile['profile'][$field] = null;
 
         return $profile;
     }
 
-    /**
-     * @param string $target_id
-     * @param array<mixed> $profile
-     * @param string $field
-     * @return array<mixed>
-     */
-    public function denyPrivate(string $target_id, array $profile, string $field): array
+    public function denyPrivate(string $target_id, User $profile, string $field): User
     {
-        $profile[$field] = null;
+        $profile['profile'][$field] = null;
 
         return $profile;
     }
