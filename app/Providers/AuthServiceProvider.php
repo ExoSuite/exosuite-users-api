@@ -23,7 +23,6 @@ use App\Policies\PostPolicy;
 use App\Policies\RunPolicy;
 use App\Policies\TimePolicy;
 use App\Policies\UserPolicy;
-use Illuminate\Support\Facades\App;
 use function now;
 
 /**
@@ -71,7 +70,7 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
 
         if (ApiHelper::isLocal()) {
             Passport::personalAccessClientId(1);
-        } else if (ApiHelper::isStaging()) {
+        } elseif (ApiHelper::isStaging()) {
             Passport::personalAccessClientId(25);
         } else {
             Passport::personalAccessClientId(3);
@@ -79,7 +78,7 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
 
         if (ApiHelper::isStaging()) {
             Passport::tokensExpireIn(now()->addMinutes(5));
-        } else if (ApiHelper::isProduction()) {
+        } elseif (ApiHelper::isProduction()) {
             Passport::tokensExpireIn(now()->addMonth());
         } else {
             Passport::tokensExpireIn(now()->addHour());
