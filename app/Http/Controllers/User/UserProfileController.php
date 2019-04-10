@@ -93,8 +93,9 @@ class UserProfileController extends Controller
 
     public function getProfileRestrictions(?User $user = null): JsonResponse
     {
-        return $user === null ? $this->ok(Auth::user()->profileRestrictions()->first())
-            : $this->ok($user->profileRestrictions()->first());
+        $user = $user ?? Auth::user();
+
+        return $this->ok($user->profileRestrictions()->first());
     }
 
     /**
