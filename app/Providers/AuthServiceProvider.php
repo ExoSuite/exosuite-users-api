@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Enums\TokenScope;
+use App\Facades\ApiHelper;
 use App\Models\CheckPoint;
 use App\Models\Commentary;
 use App\Models\Group;
@@ -22,7 +23,6 @@ use App\Policies\PostPolicy;
 use App\Policies\RunPolicy;
 use App\Policies\TimePolicy;
 use App\Policies\UserPolicy;
-use Illuminate\Support\Facades\App;
 use function now;
 
 /**
@@ -68,12 +68,20 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
             TokenScope::MESSAGE => "ability to interact with message resource",
         ]);
 
-        Passport::personalAccessClientId(1);
-
-        if (App::environment('production')) {
-            Passport::tokensExpireIn(now()->addHour());
+        if (ApiHelper::isLocal()) {
+            Passport::personalAccessClientId(1);
+        } elseif (ApiHelper::isStaging()) {
+            Passport::personalAccessClientId(25);
         } else {
+            Passport::personalAccessClientId(3);
+        }
+
+        if (ApiHelper::isStaging()) {
+            Passport::tokensExpireIn(now()->addMinutes(5));
+        } elseif (ApiHelper::isProduction()) {
             Passport::tokensExpireIn(now()->addMonth());
+        } else {
+            Passport::tokensExpireIn(now()->addHour());
         }
     }
 }

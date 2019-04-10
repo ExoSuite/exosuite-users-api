@@ -36,6 +36,8 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::get('/', 'User\UserController@me')
                 ->name('get_user');
 
+            Route::patch('/', 'User\UserController@update')->name('patch_user');
+
             Route::prefix('profile')->namespace('User')->group(static function (): void {
                 Route::patch('/', 'UserProfileController@update')
                     ->name('patch_user_profile');
@@ -244,7 +246,6 @@ Route::middleware('auth:api')->group(static function (): void {
             });
         });
     });
-    Route::get('search', 'User\UserController@search')->name('get_users');
 
     Route::prefix('notification')->group(static function (): void {
         Route::patch('/{notification?}', 'NotificationController@update')->name('patch_notification');

@@ -77,7 +77,7 @@ class UserTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->patch(route('patch_user_profile'), ['first_name', $this->faker->firstName]);
+        $response = $this->patch(route('patch_user'), ['first_name', $this->faker->firstName]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
@@ -85,7 +85,7 @@ class UserTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->patch(route('patch_user_profile'), ['last_name', $this->faker->lastName]);
+        $response = $this->patch(route('patch_user'), ['last_name', $this->faker->lastName]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
@@ -93,7 +93,7 @@ class UserTest extends TestCase
     {
         Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->patch(route('patch_user_profile'), ['nick_name', $this->faker->name]);
+        $response = $this->patch(route('patch_user'), ['nick_name', $this->faker->name]);
         $response->assertStatus(Response::HTTP_NO_CONTENT);
     }
 
