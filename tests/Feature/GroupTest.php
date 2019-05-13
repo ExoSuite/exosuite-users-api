@@ -254,19 +254,19 @@ class GroupTest extends TestCase
         $group = factory(Group::class)->create();
         $group->groupMembers()->saveMany($members);
 
-        for ($i = 0; $i < 15; $i++) {
+        for ($i = 0; $i < 18; $i++) {
             factory(Message::class)->create(['group_id' => $group->id, 'user_id' => $this->user1->id]);
         }
 
-        $members = collect();
-        $members->push(new GroupMember(['user_id' => $this->user1->id, 'is_admin' => true]));
-        $members->push(new GroupMember(['user_id' => $this->user2->id]));
-        $members->push(new GroupMember(['user_id' => $this->user3->id]));
-        $group = factory(Group::class)->create();
-        $group->groupMembers()->saveMany($members);
+        $members2 = collect();
+        $members2->push(new GroupMember(['user_id' => $this->user1->id, 'is_admin' => true]));
+        $members2->push(new GroupMember(['user_id' => $this->user2->id]));
+        $members2->push(new GroupMember(['user_id' => $this->user3->id]));
+        $group2 = factory(Group::class)->create();
+        $group2->groupMembers()->saveMany($members2);
 
-        for ($i = 0; $i < 15; $i++) {
-            factory(Message::class)->create(['group_id' => $group->id, 'user_id' => $this->user1->id]);
+        for ($i = 0; $i < 20; $i++) {
+            factory(Message::class)->create(['group_id' => $group2->id, 'user_id' => $this->user1->id]);
         }
 
         $get_req = $this->get($this->route('get_my_groups'));
