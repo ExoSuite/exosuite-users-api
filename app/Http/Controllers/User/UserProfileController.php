@@ -45,6 +45,15 @@ class UserProfileController extends Controller
     {
         $restrictions = $user->profileRestrictions()->first();
         $user_profile = $user->load('profile');
+        $user_profile['follow'] = ['status' => false];
+        $follow = Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id);
+
+        if ($follow->exists()) {
+            $user_profile['follow'] = [
+                'status' => true,
+                'follow_id' => $follow->first()->id,
+            ];
+        }
 
         if (Auth::user()->inRole(Roles::ADMINISTRATOR)) {
             return $this->ok($user_profile);
