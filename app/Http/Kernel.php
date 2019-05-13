@@ -74,7 +74,7 @@ class Kernel extends \Illuminate\Foundation\Http\Kernel
         'api' => [
             AddHeaderAccessToken::class,
             Jsonify::class,
-            'throttle:60,1',
+            'throttle:500,1',
             'bindings',
         ],
     ];
