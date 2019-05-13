@@ -31,9 +31,14 @@ class FollowsController extends Controller
         return $this->ok(['status' => $status]);
     }
 
-    public function getUserFollowing(User $user): JsonResponse
+    public function getUserFollowers(User $user): JsonResponse
     {
         return $this->ok(Follow::whereFollowedId($user->id)->paginate());
+    }
+
+    public function countFollowers(User $user): JsonResponse
+    {
+        return $this->ok(["total" => Follow::whereUserId($user->id)->count()]);
     }
 
     public function delete(Follow $follow): JsonResponse
