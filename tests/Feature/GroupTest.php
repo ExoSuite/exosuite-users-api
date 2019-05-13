@@ -12,6 +12,7 @@ use App\Notifications\DeletedGroupNotification;
 use App\Notifications\ExpelledFromGroupNotification;
 use App\Notifications\NewGroupNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\TestResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Notification;
@@ -240,6 +241,47 @@ class GroupTest extends TestCase
             count($latest_messages) === Group::MAX_MESSAGE_PER_PAGE
         );
         $this->assertTrue(is_array($get_req->decodeResponseJson('group_members')));
+    }
+
+    public function testGetMyGroups(): void
+    {
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
+        $members = collect();
+        $members->push(new GroupMember(['user_id' => $this->user1->id, 'is_admin' => true]));
+        $members->push(new GroupMember(['user_id' => $this->user2->id]));
+        $members->push(new GroupMember(['user_id' => $this->user3->id]));
+        /** @var \App\Models\Group $group */
+        $group = factory(Group::class)->create();
+        $group->groupMembers()->saveMany($members);
+
+        for ($i = 0; $i < 15; $i++) {
+            factory(Message::class)->create(['group_id' => $group->id, 'user_id' => $this->user1->id]);
+        }
+
+        $members = collect();
+        $members->push(new GroupMember(['user_id' => $this->user1->id, 'is_admin' => true]));
+        $members->push(new GroupMember(['user_id' => $this->user2->id]));
+        $members->push(new GroupMember(['user_id' => $this->user3->id]));
+        $group = factory(Group::class)->create();
+        $group->groupMembers()->saveMany($members);
+
+        for ($i = 0; $i < 15; $i++) {
+            factory(Message::class)->create(['group_id' => $group->id, 'user_id' => $this->user1->id]);
+        }
+
+        $get_req = $this->get($this->route('get_my_groups'));
+        $get_req->assertStatus(Response::HTTP_OK);
+        $this->assertEquals(2, count($get_req->decodeResponseJson('data')));
+        $group_json_part = $get_req->decodeResponseJson('data')[0];
+        $response = Response::create($group_json_part);
+        $test = TestResponse::fromBaseResponse($response);
+        $test->assertJsonStructure((new Group)->getFillable());
+        $latest_messages = $test->decodeResponseJson('latest_messages');
+        $this->assertTrue(
+            is_array($latest_messages) &&
+            count($latest_messages) === Group::MAX_MESSAGE_PER_PAGE
+        );
+        $this->assertTrue(is_array($test->decodeResponseJson('group_members')));
     }
 
     protected function setUp(): void

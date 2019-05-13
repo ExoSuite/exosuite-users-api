@@ -50,7 +50,8 @@ class UserController extends Controller
         return $this->ok(
             Auth::user()
                 ->groups()
-                ->paginate()
+                ->latest()
+                ->paginate(self::USER_SEARCH_PAGE)
         );
     }
 }
