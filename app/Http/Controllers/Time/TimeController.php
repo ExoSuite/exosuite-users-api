@@ -26,7 +26,7 @@ class TimeController extends Controller
      */
     public function index(?User $user, Run $run, CheckPoint $checkPoint): JsonResponse
     {
-        return $this->ok($checkPoint->times()->paginate(self::GET_PER_PAGE));
+        return $this->ok($checkPoint->times()->latest()->paginate(self::GET_PER_PAGE));
     }
 
     /**

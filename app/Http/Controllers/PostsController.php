@@ -28,7 +28,7 @@ class PostsController extends Controller
 
     public function getPostsFromDashboard(User $user): JsonResponse
     {
-        return $this->ok($user->postsFromDashboard()->paginate());
+        return $this->ok($user->postsFromDashboard()->latest()->paginate());
     }
 
 

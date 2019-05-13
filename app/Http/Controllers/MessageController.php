@@ -63,7 +63,7 @@ class MessageController extends Controller
      */
     public function index(Group $group)
     {
-        return $this->ok($group->messages()->paginate(self::GET_PER_PAGE));
+        return $this->ok($group->messages()->latest()->paginate(self::GET_PER_PAGE));
     }
 
     public function destroy(Group $group, Message $message): JsonResponse
