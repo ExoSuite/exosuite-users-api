@@ -258,20 +258,9 @@ class GroupTest extends TestCase
             factory(Message::class)->create(['group_id' => $group->id, 'user_id' => $this->user1->id]);
         }
 
-        $members2 = collect();
-        $members2->push(new GroupMember(['user_id' => $this->user1->id, 'is_admin' => true]));
-        $members2->push(new GroupMember(['user_id' => $this->user2->id]));
-        $members2->push(new GroupMember(['user_id' => $this->user3->id]));
-        $group2 = factory(Group::class)->create();
-        $group2->groupMembers()->saveMany($members2);
-
-        for ($i = 0; $i < 20; $i++) {
-            factory(Message::class)->create(['group_id' => $group2->id, 'user_id' => $this->user1->id]);
-        }
-
         $get_req = $this->get($this->route('get_my_groups'));
         $get_req->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(2, count($get_req->decodeResponseJson('data')));
+        $this->assertEquals(1, count($get_req->decodeResponseJson('data')));
         $group_json_part = $get_req->decodeResponseJson('data')[0];
         $response = Response::create($group_json_part);
         $test = TestResponse::fromBaseResponse($response);
