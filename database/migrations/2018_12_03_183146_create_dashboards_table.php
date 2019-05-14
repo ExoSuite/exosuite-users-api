@@ -22,8 +22,9 @@ class CreateDashboardsTable extends Migration
             $table->uuid('id')->primary();
             $table->uuid('owner_id');
             $table->foreign('owner_id')->references('id')->on('users');
-            $table->string('visibility')->default(Restriction::FRIENDS_FOLLOWERS);
-            $table->string('writing_restriction')->default(Restriction::FRIENDS);
+            //$table->string('visibility')->default(Restriction::FRIENDS_FOLLOWERS);
+            //$table->string('writing_restriction')->default(Restriction::FRIENDS);
+            $table->string('restriction')->default(Restriction::FRIENDS);
 
             $table->timestamps();
         });
