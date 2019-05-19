@@ -45,7 +45,7 @@ class CheckPointController extends Controller
      */
     public function index(?User $user, Run $run): JsonResponse
     {
-        return $this->ok($run->checkpoints()->paginate(self::GET_PER_PAGE));
+        return $this->ok($run->checkpoints()->latest()->paginate(self::GET_PER_PAGE));
     }
 
     /**

@@ -31,7 +31,7 @@ class RunController extends Controller
             $user = Auth::user();
         }
 
-        return $this->ok($user->runs()->paginate(self::GET_PER_PAGE));
+        return $this->ok($user->runs()->latest()->paginate(self::GET_PER_PAGE));
     }
 
     /**

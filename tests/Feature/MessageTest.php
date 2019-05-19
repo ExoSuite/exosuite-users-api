@@ -120,10 +120,11 @@ class MessageTest extends TestCase
 
         Passport::actingAs($this->user, [TokenScope::MESSAGE]);
 
-        for ($i = 0; $i < 40; $i++) {
+        for ($i = 0; $i < 31; $i++) {
             factory(Message::class)->create([
                 'group_id' => $group->id,
                 'user_id' => $this->user->id,
+                'contents' => $i,
             ]);
         }
 
