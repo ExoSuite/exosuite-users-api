@@ -210,7 +210,12 @@ class User extends \Illuminate\Foundation\Auth\User
 
     public function follows(): HasMany
     {
-        return $this->hasMany(Follow::class);
+        return $this->hasMany(Follow::class, 'user_id');
+    }
+
+    public function followers(): HasMany
+    {
+        return $this->hasMany(Follow::class, 'followed_id');
     }
 
     public function groups(): HasManyThrough
