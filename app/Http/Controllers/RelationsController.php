@@ -69,7 +69,15 @@ class RelationsController extends Controller
 
     public function getMyFriendships(): JsonResponse
     {
-        return $this->ok(Auth::user()->friendships("user_id")->get());
+        $friends = Auth::user()->friendships("user_id")->paginate();
+
+        foreach ($friends->items() as $relation) {
+            $user_associated = User::whereId($relation['friend_id'])->first();
+            $relation['first_name'] = $user_associated->first_name;
+            $relation['last_name'] = $user_associated->last_name;
+        }
+
+        return $this->ok($friends);
     }
 
     public function getFriendships(User $user): JsonResponse

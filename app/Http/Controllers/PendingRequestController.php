@@ -38,14 +38,20 @@ class PendingRequestController extends Controller
 
     public function getMyPendings(): JsonResponse
     {
-        $requests = PendingRequest::whereTargetId(Auth::user()->id)->get();
+        $requests = Auth::user()->pendingRequests("target_id")->paginate();
+
+        foreach ($requests->items() as $request) {
+            $user_associated = User::whereId($request['requester_id'])->first();
+            $request['first_name'] = $user_associated->first_name;
+            $request['last_name'] = $user_associated->last_name;
+        }
 
         return $this->ok($requests);
     }
 
     public function deletePending(PendingRequest $pendingRequest): JsonResponse
     {
-        PendingRequest::whereRequestId($pendingRequest->request_id)->delete();
+        $pendingRequest->delete();
 
         return $this->noContent();
     }

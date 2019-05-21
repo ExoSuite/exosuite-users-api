@@ -213,6 +213,11 @@ class User extends \Illuminate\Foundation\Auth\User
         return $this->hasMany(Follow::class);
     }
 
+    public function pendingRequests(string $related_to): HasMany
+    {
+        return $this->hasMany(PendingRequest::class, $related_to);
+    }
+
     public function groups(): HasManyThrough
     {
         return $this->hasManyThrough(
