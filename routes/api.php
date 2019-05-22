@@ -35,6 +35,7 @@ Route::middleware('auth:api')->group(static function (): void {
         Route::prefix('me')->group(static function (): void {
             Route::get('/', 'User\UserController@me')
                 ->name('get_user');
+            Route::patch('/', 'User\UserController@update')->name('patch_user_infos');
 
             Route::patch('/', 'User\UserController@update')->name('patch_user');
 
@@ -140,8 +141,9 @@ Route::middleware('auth:api')->group(static function (): void {
             //FOLLOWS-----------------------------------------------------------------------------------
             Route::prefix('follows')->group(static function (): void {
                 Route::post('/', 'FollowsController@store')->name('post_follow');
-                Route::get('/followers', 'FollowsController@getUserFollowing')->name('get_followers');
+                Route::get('/followers', 'FollowsController@getUserFollowers')->name('get_followers');
                 Route::get('/', 'FollowsController@amIFollowing')->name('get_am_i_following');
+                Route::get('/count', 'FollowsController@countFollowers')->name('get_followers_number');
             });
 
             //FRIENDSHIPS-----------------------------------------------------------------------------------

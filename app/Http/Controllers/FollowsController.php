@@ -17,11 +17,13 @@ class FollowsController extends Controller
 
     public function store(User $user): JsonResponse
     {
-        if ($user->follows()->whereFollowedId($user->id)->exists()) {
+        $requerant = Auth::user();
+
+        if ($user->follows()->whereUserId($requerant->id)->whereFollowedId($user->id)->exists()) {
             return $this->noContent();
         }
 
-        return $this->created(Auth::user()->follows()->create(['followed_id' => $user->id]));
+        return $this->created($requerant->follows()->create(['followed_id' => $user->id]));
     }
 
     public function amIFollowing(User $user): JsonResponse
@@ -31,9 +33,28 @@ class FollowsController extends Controller
         return $this->ok(['status' => $status]);
     }
 
-    public function getUserFollowing(User $user): JsonResponse
+    public function getUserFollowers(User $user): JsonResponse
     {
-        return $this->ok(Follow::whereFollowedId($user->id)->paginate());
+        $followers = $user->followers()->paginate();
+
+        foreach ($followers->items() as $follow) {
+            $user_attached = User::whereId($follow['user_id'])->first();
+            $public_profile = $user_attached->getPublicProfile();
+
+            if ($public_profile['nick_name'] !== null) {
+                $follow['nick_name'] = $user_attached->nick_name;
+            } else {
+                $follow['first_name'] = $user_attached->first_name;
+                $follow['last_name'] = $user_attached->last_name;
+            }
+        }
+
+        return $this->ok($followers);
+    }
+
+    public function countFollowers(User $user): JsonResponse
+    {
+        return $this->ok(["total" => $user->followers()->count()]);
     }
 
     public function delete(Follow $follow): JsonResponse

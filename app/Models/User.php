@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\Preferences;
+use App\Enums\Restriction;
+use App\Enums\Roles;
 use App\Models\Indexes\UserIndexConfigurator;
 use App\Models\SearchRules\UserSearchRule;
 use App\Pivots\RoleUser;
@@ -11,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use ScoutElastic\Searchable;
@@ -35,6 +39,9 @@ class User extends \Illuminate\Foundation\Auth\User
     use HasApiTokens;
     use Searchable;
     use Notifiable;
+
+    /** @var array<mixed> */
+    protected $relationsValidation;
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -109,9 +116,74 @@ class User extends \Illuminate\Foundation\Auth\User
         });
     }
 
+    /**
+     * User constructor.
+     *
+     * @param array<mixed> $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->initPointersArray();
+    }
+
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class, $this->primaryKey);
+    }
+
+    public function initPointersArray(): void
+    {
+        $this->relationsValidation = [
+            Restriction::PUBLIC => [$this, 'allowPublic'],
+            Restriction::FRIENDS_FOLLOWERS => [$this, 'checkFollow'],
+            Restriction::FRIENDS => [$this, 'checkFriendship'],
+            Restriction::PRIVATE => [$this, 'denyPrivate'],
+        ];
+    }
+
+    public function getPublicProfile(?User $user = null): User
+    {
+        if (!$user) {
+            $user = Auth::user();
+        }
+
+        $restrictions = $this->profileRestrictions()->first();
+        $profile = $this->load('profile');
+        $profile['follow'] = ['status' => false];
+        $follow = Follow::whereUserId($user->id)->whereFollowedId($this->id);
+
+        if ($follow->exists()) {
+            $profile['follow'] = [
+                'status' => true,
+                'follow_id' => $follow->first()->id,
+            ];
+        }
+
+        if ($user->inRole(Roles::ADMINISTRATOR)) {
+            return $profile;
+        }
+
+        if ($restrictions['nomination_preference'] === Preferences::NICKNAME && $profile['nick_name'] !== null) {
+            $profile['first_name'] = null;
+            $profile['last_name'] = null;
+        } else {
+            $profile['nick_name'] = null;
+
+        }
+
+        $fields = ['city', 'description', 'birthday'];
+
+        foreach ($fields as $field) {
+            $profile = call_user_func(
+                $this->relationsValidation[$restrictions[$field]],
+                $user->id,
+                $profile,
+                $field
+            );
+        }
+
+        return $profile;
     }
 
     /**
@@ -210,7 +282,12 @@ class User extends \Illuminate\Foundation\Auth\User
 
     public function follows(): HasMany
     {
-        return $this->hasMany(Follow::class);
+        return $this->hasMany(Follow::class, 'user_id');
+    }
+
+    public function followers(): HasMany
+    {
+        return $this->hasMany(Follow::class, 'followed_id');
     }
 
     public function pendingRequests(string $related_to): HasMany
@@ -256,4 +333,39 @@ class User extends \Illuminate\Foundation\Auth\User
     {
         return $this->hasOne(ProfileRestrictions::class);
     }
+
+    public function allowPublic(string $claimer_id, User $profile, string $field): User
+    {
+        return $profile;
+    }
+
+    public function checkFriendship(string $claimer_id, User $profile, string $field): User
+    {
+        if (Friendship::whereUserId($this->id)->whereFriendId($claimer_id)->exists()) {
+            return $profile;
+        }
+
+        $profile['profile'][$field] = null;
+
+        return $profile;
+    }
+
+    public function checkFollow(string $claimer_id, User $profile, string $field): User
+    {
+        if (Follow::whereFollowedId($this->id)->whereUserId($claimer_id)->exists()) {
+            return $profile;
+        }
+
+        $profile['profile'][$field] = null;
+
+        return $profile;
+    }
+
+    public function denyPrivate(string $claimer_id, User $profile, string $field): User
+    {
+        $profile['profile'][$field] = null;
+
+        return $profile;
+    }
+
 }
