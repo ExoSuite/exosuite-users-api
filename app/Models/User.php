@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use ScoutElastic\Searchable;
@@ -115,6 +116,17 @@ class User extends \Illuminate\Foundation\Auth\User
         });
     }
 
+    /**
+     * User constructor.
+     *
+     * @param array<mixed> $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->initPointersArray();
+    }
+
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class, $this->primaryKey);
@@ -130,9 +142,12 @@ class User extends \Illuminate\Foundation\Auth\User
         ];
     }
 
-    public function getPublicProfile(User $user): User
+    public function getPublicProfile(?User $user = null): User
     {
-        $this->initPointersArray();
+        if (!$user) {
+            $user = Auth::user();
+        }
+
         $restrictions = $this->profileRestrictions()->first();
         $profile = $this->load('profile');
         $profile['follow'] = ['status' => false];
