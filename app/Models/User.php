@@ -158,6 +158,7 @@ class User extends \Illuminate\Foundation\Auth\User
         }
 
         $fields = ['city', 'description', 'birthday'];
+
         foreach ($fields as $field) {
             $profile = call_user_func(
                 $this->relationsValidation[$restrictions[$field]],
