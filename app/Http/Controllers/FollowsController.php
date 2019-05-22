@@ -39,8 +39,14 @@ class FollowsController extends Controller
 
         foreach ($followers->items() as $follow) {
             $user_attached = User::whereId($follow['user_id'])->first();
-            $follow['first_name'] = $user_attached->first_name;
-            $follow['last_name'] = $user_attached->last_name;
+            $public_profile = $user_attached->getPublicProfile(Auth::user());
+
+            if ($public_profile['nick_name'] !== null) {
+                $follow['nick_name'] = $user_attached->nick_name;
+            } else {
+                $follow['first_name'] = $user_attached->first_name;
+                $follow['last_name'] = $user_attached->last_name;
+            }
         }
 
         return $this->ok($followers);
