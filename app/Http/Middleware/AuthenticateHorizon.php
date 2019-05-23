@@ -27,7 +27,7 @@ class AuthenticateHorizon
      */
     public function handle(Request $request, Closure $next)
     {
-        /** @var boolean $authenticated */
+        /** @var mixed $authenticated */
         $authenticated = AdministratorServices::handleAuth($request);
 
         // check if HorizonService::handleAuth has return a boolean
