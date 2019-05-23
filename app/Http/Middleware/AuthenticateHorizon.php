@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Facades\AdministratorServices;
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Horizon\Horizon;
 use function is_bool;
@@ -34,6 +35,10 @@ class AuthenticateHorizon
             Horizon::auth(static function ($request) use ($authenticated) {
                 return $authenticated;
             });
+        }
+
+        if ($authenticated instanceof RedirectResponse) {
+            return $authenticated;
         }
 
         return $next($request);
