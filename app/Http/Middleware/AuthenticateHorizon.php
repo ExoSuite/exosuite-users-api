@@ -35,9 +35,7 @@ class AuthenticateHorizon
             Horizon::auth(static function ($request) use ($authenticated) {
                 return $authenticated;
             });
-        }
-
-        if ($authenticated instanceof RedirectResponse) {
+        } else {
             return $authenticated;
         }
 
