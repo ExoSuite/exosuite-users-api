@@ -79,6 +79,7 @@ trait JsonResponses
 
     protected function localFile(string $path): StreamedResponse
     {
+        /** @var array[string]string $fileinfo */
         $fileinfo = pathinfo($path);
         $extension = $fileinfo["extension"];
         $filename = $fileinfo["basename"];
