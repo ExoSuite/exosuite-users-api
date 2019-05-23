@@ -3,16 +3,11 @@
 namespace App\Providers;
 
 use App\Enums\Roles;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
-use function app;
 
-/**
- * Class HorizonServiceProvider
- *
- * @package \App\Providers
- */
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
 
@@ -28,15 +23,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
         // Horizon::routeSmsNotificationsTo('15556667777');
         // Horizon::routeMailNotificationsTo('example@example.com');
         // Horizon::routeSlackNotificationsTo('slack-webhook-url', '#channel');
-    }
 
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register(): void
-    {
         Horizon::night();
     }
 
@@ -49,7 +36,7 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewHorizon', static function ($user) {
+        Gate::define('viewHorizon', static function (?User $user = null) {
             if (app()->runningUnitTests()) {
                 return true;
             }
