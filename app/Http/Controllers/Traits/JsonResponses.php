@@ -79,6 +79,11 @@ trait JsonResponses
 
     protected function localFile(string $path): StreamedResponse
     {
+        /** @var array[string]string $fileinfo */
+        $fileinfo = pathinfo($path);
+        $extension = $fileinfo["extension"];
+        $filename = $fileinfo["basename"];
+
         return Response::stream(static function () use ($path): void {
             $stream = Storage::disk('local')->readStream($path);
 
@@ -91,9 +96,9 @@ trait JsonResponses
             fclose($stream);
         }, 200, [
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Content-Type' => "image/png",
+            'Content-Type' => "image/$extension",
             'Content-Length' => Storage::disk('local')->size($path),
-            'Content-Disposition' => "attachment; filename='avatar.png'",
+            'Content-Disposition' => "attachment; filename=$filename",
             'Pragma' => 'public',
         ]);
     }

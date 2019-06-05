@@ -67,6 +67,20 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
     }
 
+    public function testGetUserDefaultCover(): void
+    {
+        Passport::actingAs($this->user, [TokenScope::VIEW_PICTURE]);
+        $response = $this->get(route('get_picture_cover', ['user' => $this->user]));
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
+    public function testGetUserDefaultAvatar(): void
+    {
+        Passport::actingAs($this->user, [TokenScope::VIEW_PICTURE]);
+        $response = $this->get(route('get_picture_avatar', ['user' => $this->user]));
+        $response->assertStatus(Response::HTTP_OK);
+    }
+
     private function storeUserProfilePictureAvatar(): TestResponse
     {
         Passport::actingAs($this->user);
