@@ -25,7 +25,7 @@ class UserProfileController extends Controller
      */
     public function show(User $user): JsonResponse
     {
-        return $this->ok($user->getPublicProfile());
+        return $this->ok($user->load('profile'));
     }
 
     /**

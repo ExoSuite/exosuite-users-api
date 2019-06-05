@@ -38,13 +38,9 @@ class PendingRequestController extends Controller
 
     public function getMyPendings(): JsonResponse
     {
-        $requests = Auth::user()->pendingRequests("target_id")->paginate();
+        $me = Auth::user();
 
-        foreach ($requests->items() as $request) {
-            $user_associated = User::whereId($request['requester_id'])->first();
-            $request['first_name'] = $user_associated->first_name;
-            $request['last_name'] = $user_associated->last_name;
-        }
+        $requests = $me->pendingRequests("target_id")->with('user')->paginate();
 
         return $this->ok($requests);
     }

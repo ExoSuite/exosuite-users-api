@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Abstracts\UuidModel;
 use App\Models\Traits\Uuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Follow
@@ -34,5 +35,15 @@ class Follow extends UuidModel
 
             $follow->delete();
         });
+    }
+
+    public function followers(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function following(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'followed_id');
     }
 }

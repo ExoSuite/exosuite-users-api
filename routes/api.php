@@ -58,7 +58,7 @@ Route::middleware('auth:api')->group(static function (): void {
             });
 
             Route::prefix('friendship')->group(static function (): void {
-                Route::get('/', 'RelationsController@getMyFriendships')->name('get_my_friendships');
+                Route::get('/', 'RelationsController@getFriendsList')->name('get_my_friendships');
                 Route::delete('{friendship}', 'RelationsController@deleteFriendships')->name('delete_friendship');
             });
 
@@ -77,6 +77,16 @@ Route::middleware('auth:api')->group(static function (): void {
 
             Route::prefix('follows')->group(static function (): void {
                 Route::delete('{follow}', 'FollowsController@delete')->name('delete_follow');
+
+                Route::prefix('followers')->group(static function (): void {
+                    Route::get('/', 'FollowsController@getUserFollowers')->name('get_my_followers');
+                    Route::get('/count', 'FollowsController@countFollowers')->name('get_my_followers_number');
+                });
+
+                Route::prefix('following')->group(static function (): void {
+                    Route::get('/', 'FollowsController@getFollows')->name('get_my_follows');
+                    Route::get('/count', 'FollowsController@countFollows')->name('get_my_follows_number');
+                });
             });
 
             Route::prefix('run')->group(static function (): void {
@@ -141,16 +151,23 @@ Route::middleware('auth:api')->group(static function (): void {
             //FOLLOWS-----------------------------------------------------------------------------------
             Route::prefix('follows')->group(static function (): void {
                 Route::post('/', 'FollowsController@store')->name('post_follow');
-                Route::get('/followers', 'FollowsController@getUserFollowers')->name('get_followers');
                 Route::get('/', 'FollowsController@amIFollowing')->name('get_am_i_following');
-                Route::get('/count', 'FollowsController@countFollowers')->name('get_followers_number');
+
+                Route::prefix('followers')->group(static function (): void {
+                    Route::get('/', 'FollowsController@getUserFollowers')->name('get_followers');
+                    Route::get('/count', 'FollowsController@countFollowers')->name('get_followers_number');
+                });
+
+                Route::prefix('following')->group(static function (): void {
+                    Route::get('/', 'FollowsController@getFollows')->name('get_follows');
+                    Route::get('/count', 'FollowsController@countFollows')->name('get_follows_number');
+                });
             });
 
             //FRIENDSHIPS-----------------------------------------------------------------------------------
             Route::prefix('friendship/')->group(static function (): void {
                 Route::post('/', 'RelationsController@sendFriendshipRequest')->name('post_friendship_request');
-
-                Route::get('/', 'RelationsController@getFriendships')->name('get_friendships');
+                Route::get('/', 'RelationsController@getFriendsList')->name('get_friendships');
             });
 
             //DASHBOARDS-----------------------------------------------------------------------------------------

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 /**
@@ -30,14 +29,17 @@ class Post extends UuidModel
         return $this->belongsTo(Dashboard::class);
     }
 
-    public function user(): BelongsTo
+    public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author_id');
     }
 
-    public function commentaries(): HasMany
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany|\Illuminate\Database\Query\Builder
+     */
+    public function commentaries()
     {
-        return $this->hasMany(Commentary::class);
+        return $this->hasMany(Commentary::class)->latest()->take(3)->with('author');
     }
 
     public function likeFromUser(): HasOneThrough
