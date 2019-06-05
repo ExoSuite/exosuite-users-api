@@ -133,6 +133,7 @@ class User extends \Illuminate\Foundation\Auth\User
     public function getNickNameAttribute(?string $value): ?string
     {
         $owner_restrictions = $this->profileRestrictions()->first();
+
         $user = Auth::user();
 
         if ($user && array_key_exists('id', $this->attributes)) {
