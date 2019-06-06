@@ -29,11 +29,7 @@ class PostsController extends Controller
 
     public function getPostsFromDashboard(User $user): JsonResponse
     {
-        $posts = $user->postsFromDashboard()->latest()->with('author', 'commentaries')->paginate();
-
-        //        foreach ($posts->items() as $post) {
-        //            $post['comments'] = Commentary::wherePostId($post->id)->latest()->paginate(3);
-        //        }
+        $posts = $user->postsFromDashboard()->latest()->with('author', 'commentaries.author')->paginate();
 
         return $this->ok($posts);
     }
