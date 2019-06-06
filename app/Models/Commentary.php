@@ -26,12 +26,12 @@ class Commentary extends UuidModel
 
     public function post(): BelongsTo
     {
-        return $this->belongsTo(Post::class, 'id');
+        return $this->belongsTo(Post::class, 'post_id');
     }
 
-    public function user(): BelongsTo
+    public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function likeFromUser(): HasOneThrough

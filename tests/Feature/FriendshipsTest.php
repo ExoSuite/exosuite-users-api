@@ -43,12 +43,13 @@ class FriendshipsTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $send_resp = $this->post(route('post_friendship_request', ['user' => $this->user->id]));
+        $send_resp->assertStatus(Response::HTTP_CREATED);
 
         Passport::actingAs($this->user);
         $response = $this->post(
             route(
                 'post_accept_friendship_request',
-                ['request' => $send_resp->decodeResponseJson('request_id')]
+                ['request' => $send_resp->decodeResponseJson('id')]
             )
         );
         $response->assertStatus(Response::HTTP_OK);
@@ -61,12 +62,13 @@ class FriendshipsTest extends TestCase
     {
         Passport::actingAs($this->user1);
         $send_resp = $this->post(route('post_friendship_request', ['user' => $this->user->id]));
+        $send_resp->assertStatus(Response::HTTP_CREATED);
 
         Passport::actingAs($this->user);
         $response = $this->post(
             route(
                 'post_decline_friendship_request',
-                ['user' => $this->user->id, 'request' => $send_resp->decodeResponseJson('request_id')]
+                ['user' => $this->user->id, 'request' => $send_resp->decodeResponseJson('id')]
             )
         );
         $response->assertStatus(Response::HTTP_NO_CONTENT);
@@ -84,7 +86,12 @@ class FriendshipsTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_my_friendships'));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(3, count($response->decodeResponseJson()));
+        $response->assertJsonFragment([
+            "user_id" => $this->user->id,
+            "friend_id" => $this->user1->id,
+            "first_name" => $this->user1->first_name,
+            "last_name" => $this->user1->last_name,
+        ]);
     }
 
     public function testGetSomeonesFriends(): void
@@ -98,7 +105,12 @@ class FriendshipsTest extends TestCase
         Passport::actingAs($this->user1);
         $response = $this->get(route('get_friendships', ['user' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(3, count($response->decodeResponseJson()));
+        $response->assertJsonFragment([
+            "user_id" => $this->user->id,
+            "friend_id" => $this->user1->id,
+            "first_name" => $this->user1->first_name,
+            "last_name" => $this->user1->last_name,
+        ]);
     }
 
     public function testDeleteFriendship(): void
@@ -109,7 +121,7 @@ class FriendshipsTest extends TestCase
         $accept_resp = $this->post(
             route(
                 'post_accept_friendship_request',
-                ['request' => $send_resp->decodeResponseJson('request_id')]
+                ['request' => $send_resp->decodeResponseJson('id')]
             )
         );
         $this->assertDatabaseHas('friendships', $accept_resp->decodeResponseJson());

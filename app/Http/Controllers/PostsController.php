@@ -7,6 +7,7 @@ use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class PostsController
@@ -28,7 +29,9 @@ class PostsController extends Controller
 
     public function getPostsFromDashboard(User $user): JsonResponse
     {
-        return $this->ok($user->postsFromDashboard()->latest()->paginate());
+        $posts = $user->postsFromDashboard()->latest()->with('author', 'commentaries.author')->paginate();
+
+        return $this->ok($posts);
     }
 
 
@@ -46,7 +49,7 @@ class PostsController extends Controller
      */
     private function createPost(array $data, User $user): Post
     {
-        $data['author_id'] = $user->id;
+        $data['author_id'] = Auth::user()->id;
         $data['dashboard_id'] = $user->dashboard->id;
 
         return $user->dashboard->posts()->create($data);

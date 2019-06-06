@@ -26,7 +26,7 @@ class CommentaryController extends Controller
 
     public function getCommsFromPost(User $user, Post $post): JsonResponse
     {
-        return $this->ok($post->commentaries()->paginate());
+        return $this->ok($post->commentaries()->with('author')->latest()->paginate());
     }
 
     public function updateComm(

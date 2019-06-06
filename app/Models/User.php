@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\Preferences;
-use App\Enums\Restriction;
 use App\Enums\Roles;
 use App\Models\Indexes\UserIndexConfigurator;
 use App\Models\SearchRules\UserSearchRule;
@@ -124,7 +123,6 @@ class User extends \Illuminate\Foundation\Auth\User
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        $this->initPointersArray();
     }
 
     public function profile(): HasOne
@@ -132,58 +130,69 @@ class User extends \Illuminate\Foundation\Auth\User
         return $this->hasOne(UserProfile::class, $this->primaryKey);
     }
 
-    public function initPointersArray(): void
+    public function getNickNameAttribute(?string $value): ?string
     {
-        $this->relationsValidation = [
-            Restriction::PUBLIC => [$this, 'allowPublic'],
-            Restriction::FRIENDS_FOLLOWERS => [$this, 'checkFollow'],
-            Restriction::FRIENDS => [$this, 'checkFriendship'],
-            Restriction::PRIVATE => [$this, 'denyPrivate'],
-        ];
+        $owner_restrictions = $this->profileRestrictions()->first();
+
+        $user = Auth::user();
+
+        if ($user && array_key_exists('id', $this->attributes)) {
+            if ($user->id === $this->attributes['id'] || $user->inRole(Roles::ADMINISTRATOR)) {
+                return $value;
+            }
+        }
+
+        if ($owner_restrictions) {
+            if ($owner_restrictions->nomination_preference === Preferences::FULL_NAME) {
+                return null;
+            }
+        }
+
+        return $value;
     }
 
-    public function getPublicProfile(?User $user = null): User
+    public function getFirstNameAttribute(?string $value): ?string
     {
-        if (!$user) {
-            $user = Auth::user();
+        $owner_restrictions = $this->profileRestrictions()->first();
+        $user = Auth::user();
+
+        if ($user && array_key_exists('id', $this->attributes)) {
+            if ($user->id === $this->attributes['id'] || $user->inRole(Roles::ADMINISTRATOR)) {
+                return $value;
+            }
         }
 
-        $restrictions = $this->profileRestrictions()->first();
-        $profile = $this->load('profile');
-        $profile['follow'] = ['status' => false];
-        $follow = Follow::whereUserId($user->id)->whereFollowedId($this->id);
-
-        if ($follow->exists()) {
-            $profile['follow'] = [
-                'status' => true,
-                'follow_id' => $follow->first()->id,
-            ];
+        if ($owner_restrictions) {
+            if (array_key_exists("nick_name", $this->attributes)
+                && $this->attributes['nick_name']
+                && ($owner_restrictions->nomination_preference === Preferences::NICKNAME)) {
+                return null;
+            }
         }
 
-        if ($user->inRole(Roles::ADMINISTRATOR)) {
-            return $profile;
+        return $value;
+    }
+
+    public function getLastNameAttribute(?string $value): ?string
+    {
+        $owner_restrictions = $this->profileRestrictions()->first();
+        $user = Auth::user();
+
+        if ($user && array_key_exists('id', $this->attributes)) {
+            if ($user->id === $this->attributes['id'] || $user->inRole(Roles::ADMINISTRATOR)) {
+                return $value;
+            }
         }
 
-        if ($restrictions['nomination_preference'] === Preferences::NICKNAME && $profile['nick_name'] !== null) {
-            $profile['first_name'] = null;
-            $profile['last_name'] = null;
-        } else {
-            $profile['nick_name'] = null;
-
+        if ($owner_restrictions) {
+            if (array_key_exists("nick_name", $this->attributes)
+                && $this->attributes['nick_name']
+                && ($owner_restrictions->nomination_preference === Preferences::NICKNAME)) {
+                return null;
+            }
         }
 
-        $fields = ['city', 'description', 'birthday'];
-
-        foreach ($fields as $field) {
-            $profile = call_user_func(
-                $this->relationsValidation[$restrictions[$field]],
-                $user->id,
-                $profile,
-                $field
-            );
-        }
-
-        return $profile;
+        return $value;
     }
 
     /**
@@ -290,6 +299,11 @@ class User extends \Illuminate\Foundation\Auth\User
         return $this->hasMany(Follow::class, 'followed_id');
     }
 
+    public function pendingRequests(string $related_to): HasMany
+    {
+        return $this->hasMany(PendingRequest::class, $related_to);
+    }
+
     public function groups(): HasManyThrough
     {
         return $this->hasManyThrough(
@@ -327,40 +341,6 @@ class User extends \Illuminate\Foundation\Auth\User
     public function profileRestrictions(): HasOne
     {
         return $this->hasOne(ProfileRestrictions::class);
-    }
-
-    public function allowPublic(string $claimer_id, User $profile, string $field): User
-    {
-        return $profile;
-    }
-
-    public function checkFriendship(string $claimer_id, User $profile, string $field): User
-    {
-        if (Friendship::whereUserId($this->id)->whereFriendId($claimer_id)->exists()) {
-            return $profile;
-        }
-
-        $profile['profile'][$field] = null;
-
-        return $profile;
-    }
-
-    public function checkFollow(string $claimer_id, User $profile, string $field): User
-    {
-        if (Follow::whereFollowedId($this->id)->whereUserId($claimer_id)->exists()) {
-            return $profile;
-        }
-
-        $profile['profile'][$field] = null;
-
-        return $profile;
-    }
-
-    public function denyPrivate(string $claimer_id, User $profile, string $field): User
-    {
-        $profile['profile'][$field] = null;
-
-        return $profile;
     }
 
 }
