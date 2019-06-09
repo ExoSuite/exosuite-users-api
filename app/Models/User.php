@@ -113,6 +113,12 @@ class User extends \Illuminate\Foundation\Auth\User
             $user->dashboard()->create();
             $user->profileRestrictions()->create();
         });
+
+        static::deleting(
+            static function (User $user): void {
+                $user->dashboard()->delete();
+            }
+        );
     }
 
     /**

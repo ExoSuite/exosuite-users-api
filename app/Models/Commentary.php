@@ -24,6 +24,16 @@ class Commentary extends UuidModel
         'updated_at',
     ];
 
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::deleting(
+            static function (Commentary $commentary): void {
+                $commentary->likeFromUser()->delete();
+            }
+        );
+    }
+
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class, 'post_id');

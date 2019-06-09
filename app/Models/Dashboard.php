@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Uuids;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -12,9 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @package App\Models
  */
-class Dashboard extends Model
+class Dashboard extends UuidModel
 {
-    use Uuids;
 
     /** @var bool */
     public $incrementing = false;
@@ -31,6 +29,16 @@ class Dashboard extends Model
         'created_at',
         'updated_at',
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::deleting(
+            static function (Dashboard $dashboard): void {
+                $dashboard->posts()->delete();
+            }
+        );
+    }
 
     public function user(): BelongsTo
     {
