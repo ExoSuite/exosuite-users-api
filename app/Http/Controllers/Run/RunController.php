@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Run;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Run\CreateRunRequest;
+use App\Http\Requests\Run\SearchRunRequest;
 use App\Http\Requests\Run\UpdateRunRequest;
 use App\Models\Run;
 use App\Models\User;
@@ -81,5 +82,10 @@ class RunController extends Controller
         $run->delete();
 
         return $this->noContent();
+    }
+
+    public function search(SearchRunRequest $request): JsonResponse
+    {
+        $runPage = Run::search($request->text);
     }
 }

@@ -4,12 +4,17 @@ namespace App\Models;
 
 use App\Enums\Visibility;
 use App\Models\Abstracts\UuidModel;
+use App\Models\Indexes\RunIndexConfigurator;
+use App\Models\SearchRules\RunSearchRule;
 use App\Models\Traits\Shareable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use ScoutElastic\Searchable;
 
 /**
  * Class Run
@@ -24,11 +29,38 @@ use Illuminate\Support\Facades\Auth;
 class Run extends UuidModel
 {
     use Shareable;
+    use Searchable;
 
     /**
      * define relation key
      */
     public const USER_FOREIGN_KEY = 'creator_id';
+
+    /** @var string[] */
+    public static $SearchableFields = ["id", "description", "name"];
+
+    /** @var string */
+    protected $indexConfigurator = RunIndexConfigurator::class;
+
+    /** @var string[] */
+    protected $searchRules = [
+        RunSearchRule::class,
+    ];
+
+    /** @var array<string, array<string, array<string, string>>> */
+    protected $mapping = [
+        'properties' => [
+            'name' => [
+                'type' => 'completion',
+            ],
+            'description' => [
+                'type' => 'completion',
+            ],
+            "nick_name" => [
+                'type' => 'completion',
+            ],
+        ],
+    ];
 
     /** @var string[] */
     protected $fillable = [
@@ -96,6 +128,17 @@ class Run extends UuidModel
             Like::class,
             'liked_id'
         );
+    }
+
+
+    /**
+     * @return mixed[]
+     */
+    public function toSearchableArray(): array
+    {
+        $data = $this->only(self::$SearchableFields);
+
+        return array_merge($data, $this->user()->first()->only(["nick_name", "first_name", "last_name"]));
     }
 
 }
