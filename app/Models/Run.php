@@ -37,7 +37,7 @@ class Run extends UuidModel
     public const USER_FOREIGN_KEY = 'creator_id';
 
     /** @var string[] */
-    public static $SearchableFields = ["id", "description", "name"];
+    private static $SearchableFields = ["id", "description", "name"];
 
     /** @var string */
     protected $indexConfigurator = RunIndexConfigurator::class;
@@ -72,6 +72,14 @@ class Run extends UuidModel
         'updated_at',
         'created_at',
     ];
+
+    /**
+     * @return string[]
+     */
+    public static function getSearchableFields(): array
+    {
+        return self::$SearchableFields;
+    }
 
     /**
      * if no visibility is provided set to private
