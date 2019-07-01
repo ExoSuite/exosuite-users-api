@@ -21,6 +21,7 @@ class Time extends UuidModel
         'current_time',
         'check_point_id',
         'run_id',
+        'user_run_id',
     ];
 
     public function checkPoint(): BelongsTo
@@ -31,5 +32,10 @@ class Time extends UuidModel
     public function run(): BelongsTo
     {
         return $this->belongsTo(Run::class);
+    }
+
+    public function userRun(): BelongsTo
+    {
+        return $this->belongsTo(UserRun::class);
     }
 }

@@ -24,6 +24,9 @@ class TimeTest extends TestCase
     {
         Passport::actingAs($this->user);
         $run = factory(Run::class)->create();
+        $user_run = $this->post(
+            $this->route("post_user_run", [BindType::RUN => $run['id']])
+        );
         $checkpoint = factory(CheckPoint::class)->create([
             'run_id' => $run['id'],
             'type' => 'start',
@@ -31,7 +34,7 @@ class TimeTest extends TestCase
         $response = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint['id']]),
             // Timestamp value 1540382400 is equivalent to 24th November 2018, 12:00:00
-            ['current_time' => "1540382400"]
+            ['current_time' => "1540382400", "user_run_id" => $user_run->decodeResponseJson('id')]
         );
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Time)->getFillable());
@@ -42,6 +45,9 @@ class TimeTest extends TestCase
     {
         Passport::actingAs($this->user);
         $run = factory(Run::class)->create();
+        $user_run = $this->post(
+            $this->route("post_user_run", [BindType::RUN => $run['id']])
+        );
         $checkpoint = factory(CheckPoint::class)->create([
             'run_id' => $run['id'],
             'type' => 'start',
@@ -49,7 +55,7 @@ class TimeTest extends TestCase
         $response = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint['id']]),
             // Timestamp value 1540382400 is equivalent to 24th November 2018, 12:00:00
-            ['current_time' => "1540382400"]
+            ['current_time' => "1540382400", "user_run_id" => $user_run->decodeResponseJson('id')]
         );
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Time)->getFillable());
@@ -63,7 +69,7 @@ class TimeTest extends TestCase
         $response = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint_id]),
             // Timestamp value 1540382434 is equivalent to 24th November 2018, 12:00:34, so 34 seconds after
-            ['current_time' => "1540382434"]
+            ['current_time' => "1540382434", "user_run_id" => $user_run->decodeResponseJson('id')]
         );
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Time)->getFillable());
@@ -77,7 +83,7 @@ class TimeTest extends TestCase
         $response = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint_id]),
             // Timestamp value 1540382434 is equivalent to 24th November 2018, 12:00:55, so 21 seconds after
-            ['current_time' => "1540382455"]
+            ['current_time' => "1540382455", "user_run_id" => $user_run->decodeResponseJson('id')]
         );
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure((new Time)->getFillable());
@@ -88,6 +94,9 @@ class TimeTest extends TestCase
     {
         Passport::actingAs($this->user);
         $run = factory(Run::class)->create();
+        $user_run = $this->post(
+            $this->route("post_user_run", [BindType::RUN => $run['id']])
+        );
         $checkpoint = factory(CheckPoint::class)->create([
             'run_id' => $run['id'],
             'type' => 'start',
@@ -95,7 +104,7 @@ class TimeTest extends TestCase
         $time = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint['id']]),
             // Timestamp value 1540382400 is equivalent to 24th November 2018, 12:00:00
-            ['current_time' => "1540382400"]
+            ['current_time' => "1540382400", "user_run_id" => $user_run->decodeResponseJson('id')]
         )->decodeResponseJson();
         $response = $this->delete($this->route("delete_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT =>
             $checkpoint['id'], BindType::TIME => $time['id']]));
@@ -107,6 +116,9 @@ class TimeTest extends TestCase
     {
         Passport::actingAs($this->user);
         $run = factory(Run::class)->create();
+        $user_run = $this->post(
+            $this->route("post_user_run", [BindType::RUN => $run['id']])
+        );
         $checkpoint = factory(CheckPoint::class)->create([
             'run_id' => $run['id'],
             'type' => 'start',
@@ -114,6 +126,7 @@ class TimeTest extends TestCase
         $time = factory(Time::class)->create([
             'check_point_id' => $checkpoint['id'],
             'run_id' => $run['id'],
+            'user_run_id' => $user_run->decodeResponseJson('id'),
         ]);
         $response = $this->get($this->route("get_my_time_by_id", [BindType::RUN => $run['id'], BindType::CHECKPOINT =>
             $checkpoint['id'], BindType::TIME => $time['id']]));
@@ -128,6 +141,9 @@ class TimeTest extends TestCase
         $targeted_user = factory(User::class)->create();
         Passport::actingAs($targeted_user);
         $run = factory(Run::class)->create();
+        $user_run = $this->post(
+            $this->route("post_user_run", [BindType::RUN => $run['id']])
+        );
         $checkpoint = factory(CheckPoint::class)->create([
             'run_id' => $run['id'],
             'type' => 'start',
@@ -135,6 +151,7 @@ class TimeTest extends TestCase
         $time = factory(Time::class)->create([
             'check_point_id' => $checkpoint['id'],
             'run_id' => $run['id'],
+            'user_run_id' => $user_run->decodeResponseJson('id'),
         ]);
         Passport::actingAs($this->user);
         $response = $this->get($this->route("get_time_by_id", [BindType::USER => $targeted_user->id, BindType::RUN
@@ -150,6 +167,9 @@ class TimeTest extends TestCase
     {
         Passport::actingAs($this->user);
         $run = factory(Run::class)->create();
+        $user_run = $this->post(
+            $this->route("post_user_run", [BindType::RUN => $run['id']])
+        );
         $checkpoint = factory(CheckPoint::class)->create([
             'run_id' => $run['id'],
             'type' => 'start',
@@ -162,6 +182,7 @@ class TimeTest extends TestCase
                 'current_time' => $fake_timestamp,
                 'check_point_id' => $checkpoint['id'],
                 'run_id' => $run['id'],
+                'user_run_id' => $user_run->decodeResponseJson('id'),
             ]);
         }
 
@@ -180,6 +201,9 @@ class TimeTest extends TestCase
         $targeted_user = factory(User::class)->create();
         Passport::actingAs($targeted_user);
         $run = factory(Run::class)->create();
+        $user_run = $this->post(
+            $this->route("post_user_run", [BindType::RUN => $run['id']])
+        );
         $checkpoint = factory(CheckPoint::class)->create([
             'run_id' => $run['id'],
             'type' => 'start',
@@ -192,6 +216,7 @@ class TimeTest extends TestCase
                 'current_time' => $fake_timestamp,
                 'check_point_id' => $checkpoint['id'],
                 'run_id' => $run['id'],
+                'user_run_id' => $user_run->decodeResponseJson('id'),
             ]);
         }
 
