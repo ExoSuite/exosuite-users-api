@@ -57,6 +57,7 @@ class Run extends UuidModel
 
     /** @var string[] */
     private static $SearchableFields = ["id", "description", "name"];
+    private static $UserSearchableFields = ["nick_name", "first_name", "last_name"];
 
     /** @var string */
     protected $indexConfigurator = RunIndexConfigurator::class;
@@ -98,6 +99,14 @@ class Run extends UuidModel
     public static function getSearchableFields(): array
     {
         return self::$SearchableFields;
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getUserSearchableFields(): array
+    {
+        return self::$UserSearchableFields;
     }
 
     /**
@@ -165,7 +174,7 @@ class Run extends UuidModel
     {
         $data = $this->only(self::$SearchableFields);
 
-        return array_merge($data, $this->user()->first()->only(["nick_name", "first_name", "last_name"]));
+        return array_merge($data, $this->user()->first()->only(self::$UserSearchableFields));
     }
 
 }

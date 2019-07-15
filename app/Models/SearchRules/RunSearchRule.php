@@ -25,7 +25,7 @@ class RunSearchRule extends SearchRule
             'must'  => [
                 'multi_match'   => [
                     'query'     => $query,
-                    'fields'    => Arr::add(Run::getSearchableFields(), "user", ["nick_name"]),
+                    'fields'    => array_merge(Run::getSearchableFields(), Run::getUserSearchableFields()),
                     'type'      => 'phrase_prefix',
                 ],
             ],
