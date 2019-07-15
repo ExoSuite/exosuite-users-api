@@ -11,9 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use ScoutElastic\Searchable;
 
 /**
@@ -57,6 +55,8 @@ class Run extends UuidModel
 
     /** @var string[] */
     private static $SearchableFields = ["id", "description", "name"];
+
+    /** @var string[] */
     private static $UserSearchableFields = ["nick_name", "first_name", "last_name"];
 
     /** @var string */

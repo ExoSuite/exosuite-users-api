@@ -3,7 +3,6 @@
 namespace App\Models\SearchRules;
 
 use App\Models\Run;
-use Illuminate\Support\Arr;
 use ScoutElastic\SearchRule;
 
 /**
