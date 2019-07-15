@@ -20,11 +20,30 @@ use ScoutElastic\Searchable;
  * Class Run
  *
  * @package App\Models
- * @property \App\Models\Uuid $id
- * @property string $description
+ * @property string $id
  * @property string $creator_id
- * @property \App\Enums\Visibility $visibility
  * @property string $name
+ * @property string|null $description
+ * @property string $visibility
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CheckPoint[] $checkpoints
+ * @property \ScoutElastic\Highlight|null $highlight
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Like[] $likes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Share[] $share
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Time[] $timesThroughCheckpoints
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereCreatorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereVisibility($value)
+ * @mixin \Eloquent
  */
 class Run extends UuidModel
 {

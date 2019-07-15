@@ -10,6 +10,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class Friendship
  *
  * @package App\Models
+ * @property string $id
+ * @property string $user_id
+ * @property string $friend_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $friend
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Friendship newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Friendship newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Friendship query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Friendship whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Friendship whereFriendId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Friendship whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Friendship whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Friendship whereUserId($value)
+ * @mixin \Eloquent
  */
 class Friendship extends UuidModel
 {

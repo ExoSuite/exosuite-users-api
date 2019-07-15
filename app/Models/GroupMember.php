@@ -10,6 +10,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property bool $is_admin
  * @package App\Models
+ * @property string $id
+ * @property string $group_id
+ * @property string $user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Group $group
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupMember newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupMember newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupMember query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupMember whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupMember whereGroupId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupMember whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupMember whereIsAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupMember whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\GroupMember whereUserId($value)
+ * @mixin \Eloquent
  */
 class GroupMember extends UuidModel
 {

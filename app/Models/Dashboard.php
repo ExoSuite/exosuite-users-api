@@ -10,6 +10,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Class Dashboard
  *
  * @package App\Models
+ * @property string $id
+ * @property string $owner_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $visibility
+ * @property string $writing_restriction
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard whereOwnerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard whereVisibility($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard whereWritingRestriction($value)
+ * @mixin \Eloquent
  */
 class Dashboard extends UuidModel
 {

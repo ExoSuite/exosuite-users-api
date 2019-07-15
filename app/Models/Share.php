@@ -10,6 +10,23 @@ use Illuminate\Support\Facades\Auth;
  * Class Share
  *
  * @package App\Models
+ * @property string $id
+ * @property string $user_id
+ * @property string $shareable_id
+ * @property string $shareable_type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Share[] $shareable
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Share newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Share newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Share query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Share whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Share whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Share whereShareableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Share whereShareableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Share whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Share whereUserId($value)
+ * @mixin \Eloquent
  */
 class Share extends UuidModel
 {

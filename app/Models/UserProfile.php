@@ -21,6 +21,24 @@ use Spatie\MediaLibrary\Models\Media;
  * @property \Carbon\Carbon $birthday
  * @property string $city
  * @property string $description
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $avatar_id
+ * @property string|null $cover_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Media[] $media
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereAvatarId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereBirthday($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereCoverId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class UserProfile extends Model implements HasMedia
 {

@@ -32,6 +32,39 @@ use function strtolower;
  * @property string $password
  * @property string $remember_token
  * @property string $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commentary[] $commentaries
+ * @property-read \App\Models\Dashboard $dashboard
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Follow[] $followers
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Follow[] $follows
+ * @property \ScoutElastic\Highlight|null $highlight
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Group[] $groups
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Like[] $likes
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $postsFromDashboard
+ * @property-read \App\Models\UserProfile $profile
+ * @property-read \App\Models\ProfileRestrictions $profileRestrictions
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Role[] $roles
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Run[] $runs
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Run[] $sharedRuns
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereNickName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class User extends \Illuminate\Foundation\Auth\User
 {
