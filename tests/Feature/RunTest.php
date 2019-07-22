@@ -149,9 +149,14 @@ class RunTest extends TestCase
             $checkpoint = factory(CheckPoint::class)->create([
                 'run_id' => $run['id'],
             ]);
+            $user_run = $this->post(
+                $this->route("post_user_run", [BindType::RUN => $run['id']])
+            );
+            $user_run_id = $user_run->decodeResponseJson('id');
             factory(Time::class)->create([
                 'check_point_id' => $checkpoint['id'],
                 'run_id' => $run['id'],
+                "user_run_id" => $user_run_id,
             ]);
         }
 
@@ -180,12 +185,17 @@ class RunTest extends TestCase
             $run = factory(Run::class)->create([
                 'visibility' => 'public',
             ]);
+            $user_run = $this->post(
+                $this->route("post_user_run", [BindType::RUN => $run['id']])
+            );
+            $user_run_id = $user_run->decodeResponseJson('id');
             $checkpoint = factory(CheckPoint::class)->create([
                 'run_id' => $run['id'],
             ]);
             factory(Time::class)->create([
                 'check_point_id' => $checkpoint['id'],
                 'run_id' => $run['id'],
+                "user_run_id" => $user_run_id,
             ]);
         }
 
