@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateUserRunRequest;
 use App\Http\Requests\UpdateUserRunRequest;
 use App\Models\Run;
 use App\Models\User;
@@ -34,20 +33,18 @@ class UserRunController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\CreateUserRunRequest $request
      * @param \App\Models\Run $run
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateUserRunRequest $request, Run $run): JsonResponse
+    public function store(Run $run): JsonResponse
     {
-        $data = $request->validated();
-        $data['final_time'] = 0;
-        $data['user_id'] = Auth::user()->id;
-        $data['run_id'] = $run->id;
-
-        $user_run = UserRun::create($data);
-
-        return $this->created($user_run);
+        return $this->created(
+            UserRun::create([
+                "final_time" => 0,
+                "user_id" => Auth::user()->id,
+                "run_id" => $run->id,
+            ])
+        );
     }
 
     /**
