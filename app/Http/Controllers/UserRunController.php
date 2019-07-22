@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateUserRunRequest;
 use App\Models\Run;
 use App\Models\User;
 use App\Models\UserRun;
@@ -66,21 +65,20 @@ class UserRunController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UpdateUserRunRequest $request
      * @param \App\Models\Run $run
      * @param \App\Models\UserRun $userRun
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateUserRunRequest $request, Run $run, UserRun $userRun): JsonResponse
+    public function update(Run $run, UserRun $userRun): JsonResponse
     {
-        $data = $request->validated();
         $last_time = $userRun->times()->get()->last();
         $last_time_timestamp = $last_time->current_time;
         $first_time = $userRun->times()->get()->first();
         $first_time_timestamp = $first_time->current_time;
         $total_time = $last_time_timestamp - $first_time_timestamp;
-        $data['final_time'] = $total_time;
-        $userRun->update($data);
+        $userRun->update([
+            "final_time" => $total_time,
+        ]);
 
         return $this->ok($userRun);
     }
