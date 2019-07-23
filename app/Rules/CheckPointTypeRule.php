@@ -41,11 +41,17 @@ class CheckPointTypeRule implements Rule
                 return $this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
             }
             else if ($value === CheckPointType::ARRIVAL) {
-                // if the value if found checkPointTypeIntegrity will return false so we need to invert the result
+                // if a start checkpoint is found, checkPointTypeIntegrity will return false
                 $isStartHere = !$this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
                 if ($isStartHere === false)
                     return false;
                 return $this->checkPointTypeIntegrity($checkpoints, CheckPointType::ARRIVAL);
+            }
+            else {
+                // if a start checkpoint is found, checkPointTypeIntegrity will return false
+                $isStartHere = !$this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
+                if ($isStartHere === false)
+                    return false;
             }
         }
         return true;
@@ -68,7 +74,6 @@ class CheckPointTypeRule implements Rule
                 return false;
             }
         }
-
         return true;
     }
 }

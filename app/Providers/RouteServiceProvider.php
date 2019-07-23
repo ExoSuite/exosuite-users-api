@@ -16,6 +16,7 @@ use App\Models\Post;
 use App\Models\Run;
 use App\Models\Time;
 use App\Models\User;
+use App\Models\UserRun;
 use Illuminate\Support\Facades\Route;
 use function base_path;
 
@@ -58,6 +59,7 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
         Route::model(BindType::RUN, Run::class);
         Route::model(BindType::CHECKPOINT, CheckPoint::class);
         Route::model(BindType::TIME, Time::class);
+        Route::model(BindType::USER_RUN, UserRun::class);
     }
 
 

@@ -34,6 +34,7 @@ class CreateTimeRequest extends FormRequest
     {
         return [
             'current_time' => ['required', 'integer', new TimeRule($this->run, $this->checkpoint)],
+            'user_run_id' => 'required|uuid|exists:user_runs,id',
         ];
     }
 }

@@ -26,4 +26,5 @@ final class BindType extends Enum
     const RUN = 'run';
     const CHECKPOINT = 'checkpoint';
     const TIME = 'time';
+    const USER_RUN = "user_run";
 }

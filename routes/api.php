@@ -101,6 +101,14 @@ Route::middleware('auth:api')->group(static function (): void {
                 Route::delete('/{run}', 'Run\RunController@destroy')
                     ->name('delete_run');
 
+                Route::prefix('/{run}/user_run')->group(static function (): void {
+                    Route::post('/', 'UserRunController@store')->name('post_user_run');
+                    Route::delete('/{user_run}', 'UserRunController@destroy')->name('delete_user_run');
+                    Route::patch('/{user_run}', 'UserRunController@update')->name('patch_user_run');
+                    Route::get('/', 'UserRunController@index')->name('get_my_user_runs');
+                    Route::get('/{user_run}', 'UserRunController@show')->name('get_my_user_run_by_id');
+                });
+
                 Route::prefix('/{run}/checkpoint')->group(static function (): void {
                     Route::post('/', 'CheckPoint\CheckPointController@store')->name('post_checkpoint');
                     Route::delete('/{checkpoint}', 'CheckPoint\CheckPointController@destroy')
@@ -250,6 +258,11 @@ Route::middleware('auth:api')->group(static function (): void {
                         Route::post('/', 'LikesController@storeRun')->name('post_like_for_run');
                         Route::delete('/', 'LikesController@deleteRun')->name('delete_like_for_run');
                         Route::get('/', 'LikesController@getLikesFromRun')->name('get_likes_from_run');
+                    });
+
+                    Route::prefix('/user_run')->group(static function (): void {
+                        Route::get('/', 'UserRunController@index')->name('get_user_runs');
+                        Route::get('/{user_run}', 'UserRunController@show')->name('get_user_run_by_id');
                     });
 
                     Route::prefix('/checkpoint')->group(static function (): void {
