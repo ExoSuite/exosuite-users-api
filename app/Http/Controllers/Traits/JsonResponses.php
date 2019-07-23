@@ -56,6 +56,12 @@ trait JsonResponses
             ->setStatusCode(HttpResponse::HTTP_OK);
     }
 
+    /**
+     * @param \App\Models\Media $media
+     * @param string $conversionName
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     * @throws \Spatie\MediaLibrary\Exceptions\InvalidConversion
+     */
     protected function file(Media $media, string $conversionName = ''): StreamedResponse
     {
         return Response::stream(static function () use ($media, $conversionName): void {
@@ -69,6 +75,32 @@ trait JsonResponses
 
             fclose($stream);
         }, 200, $media->toStreamHeaders($conversionName));
+    }
+
+    protected function localFile(string $path): StreamedResponse
+    {
+        /** @var array[string]string $fileinfo */
+        $fileinfo = pathinfo($path);
+        $extension = $fileinfo["extension"];
+        $filename = $fileinfo["basename"];
+
+        return Response::stream(static function () use ($path): void {
+            $stream = Storage::disk('local')->readStream($path);
+
+            fpassthru($stream);
+
+            if (!is_resource($stream)) {
+                return;
+            }
+
+            fclose($stream);
+        }, 200, [
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-Type' => "image/$extension",
+            'Content-Length' => Storage::disk('local')->size($path),
+            'Content-Disposition' => "attachment; filename=$filename",
+            'Pragma' => 'public',
+        ]);
     }
 
     /**

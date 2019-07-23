@@ -2,30 +2,32 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Uuids;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Abstracts\UuidModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class PendingRequest
  *
  * @package App\Models
  */
-class PendingRequest extends Model
+class PendingRequest extends UuidModel
 {
-
-    use Uuids;
-
-    /** @var bool */
-    public $incrementing = false;
-
-    /** @var string */
-    protected $primaryKey = 'request_id';
 
     /** @var string[] */
     protected $fillable = [
-        'request_id',
+        'id',
         'requester_id',
         'type',
         'target_id',
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'requester_id');
+    }
+
+    public function target(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'target_id');
+    }
 }

@@ -24,14 +24,24 @@ class Commentary extends UuidModel
         'updated_at',
     ];
 
-    public function post(): BelongsTo
+    protected static function boot(): void
     {
-        return $this->belongsTo(Post::class, 'id');
+        parent::boot();
+        static::deleting(
+            static function (Commentary $commentary): void {
+                $commentary->likeFromUser()->delete();
+            }
+        );
     }
 
-    public function user(): BelongsTo
+    public function post(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(Post::class, 'post_id');
+    }
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function likeFromUser(): HasOneThrough

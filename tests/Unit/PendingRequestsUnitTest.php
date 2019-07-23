@@ -81,7 +81,7 @@ class PendingRequestsUnitTest extends TestCase
             'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
         ]);
         $response = $this->delete(route('delete_pending_request', [
-            'request' => $post_response->decodeResponseJson('request_id'),
+            'request' => $post_response->decodeResponseJson('id'),
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }

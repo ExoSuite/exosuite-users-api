@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Abstracts\UuidModel;
 use App\Models\Traits\Uuids;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Friendship
@@ -36,5 +37,15 @@ class Friendship extends UuidModel
             $relation1->delete();
             $relation2->delete();
         });
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function friend(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'friend_id');
     }
 }

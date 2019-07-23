@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Preferences;
+use App\Enums\Roles;
 use App\Models\Indexes\UserIndexConfigurator;
 use App\Models\SearchRules\UserSearchRule;
 use App\Pivots\RoleUser;
@@ -11,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use ScoutElastic\Searchable;
@@ -36,6 +39,9 @@ class User extends \Illuminate\Foundation\Auth\User
     use Searchable;
     use Notifiable;
 
+    /** @var array<mixed> */
+    protected $relationsValidation;
+
     /**
      * Indicates if the IDs are auto-incrementing.
      *
@@ -55,13 +61,13 @@ class User extends \Illuminate\Foundation\Auth\User
     protected $mapping = [
         'properties' => [
             'first_name' => [
-                'type' => 'text',
+                'type' => 'completion',
             ],
             'last_name' => [
-                'type' => 'text',
+                'type' => 'completion',
             ],
             'nick_name' => [
-                'type' => 'text',
+                'type' => 'completion',
             ],
         ],
     ];
@@ -105,12 +111,94 @@ class User extends \Illuminate\Foundation\Auth\User
         static::created(static function (User $user): void {
             $user->profile()->create();
             $user->dashboard()->create();
+            $user->profileRestrictions()->create();
         });
+
+        static::deleting(
+            static function (User $user): void {
+                $user->dashboard()->delete();
+            }
+        );
+    }
+
+    /**
+     * User constructor.
+     *
+     * @param array<mixed> $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
     }
 
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class, $this->primaryKey);
+    }
+
+    public function getNickNameAttribute(?string $value): ?string
+    {
+        $owner_restrictions = $this->profileRestrictions()->first();
+
+        $user = Auth::user();
+
+        if ($user && array_key_exists('id', $this->attributes)) {
+            if ($user->id === $this->attributes['id'] || $user->inRole(Roles::ADMINISTRATOR)) {
+                return $value;
+            }
+        }
+
+        if ($owner_restrictions) {
+            if ($owner_restrictions->nomination_preference === Preferences::FULL_NAME) {
+                return null;
+            }
+        }
+
+        return $value;
+    }
+
+    public function getFirstNameAttribute(?string $value): ?string
+    {
+        $owner_restrictions = $this->profileRestrictions()->first();
+        $user = Auth::user();
+
+        if ($user && array_key_exists('id', $this->attributes)) {
+            if ($user->id === $this->attributes['id'] || $user->inRole(Roles::ADMINISTRATOR)) {
+                return $value;
+            }
+        }
+
+        if ($owner_restrictions) {
+            if (array_key_exists("nick_name", $this->attributes)
+                && $this->attributes['nick_name']
+                && ($owner_restrictions->nomination_preference === Preferences::NICKNAME)) {
+                return null;
+            }
+        }
+
+        return $value;
+    }
+
+    public function getLastNameAttribute(?string $value): ?string
+    {
+        $owner_restrictions = $this->profileRestrictions()->first();
+        $user = Auth::user();
+
+        if ($user && array_key_exists('id', $this->attributes)) {
+            if ($user->id === $this->attributes['id'] || $user->inRole(Roles::ADMINISTRATOR)) {
+                return $value;
+            }
+        }
+
+        if ($owner_restrictions) {
+            if (array_key_exists("nick_name", $this->attributes)
+                && $this->attributes['nick_name']
+                && ($owner_restrictions->nomination_preference === Preferences::NICKNAME)) {
+                return null;
+            }
+        }
+
+        return $value;
     }
 
     /**
@@ -169,7 +257,8 @@ class User extends \Illuminate\Foundation\Auth\User
 
     public function runs(): HasMany
     {
-        return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY);
+        return $this->hasMany(Run::class, Run::USER_FOREIGN_KEY)
+            ->with(['checkpoints']);
     }
 
     public function sharedRuns(): MorphToMany
@@ -208,7 +297,17 @@ class User extends \Illuminate\Foundation\Auth\User
 
     public function follows(): HasMany
     {
-        return $this->hasMany(Follow::class);
+        return $this->hasMany(Follow::class, 'user_id');
+    }
+
+    public function followers(): HasMany
+    {
+        return $this->hasMany(Follow::class, 'followed_id');
+    }
+
+    public function pendingRequests(string $related_to): HasMany
+    {
+        return $this->hasMany(PendingRequest::class, $related_to);
     }
 
     public function groups(): HasManyThrough
@@ -244,4 +343,10 @@ class User extends \Illuminate\Foundation\Auth\User
             'nick_name' => $this->nick_name,
         ];
     }
+
+    public function profileRestrictions(): HasOne
+    {
+        return $this->hasOne(ProfileRestrictions::class);
+    }
+
 }

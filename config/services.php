@@ -34,5 +34,14 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    //    'google' => [
+    //        'client_id' => env('GOOGLE_CLIENT_ID'),
+    //        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+    //        'redirect' => env('GOOGLE_REDIRECT_URI'),
+    //    ],
+    'twitter' => [
+        'client_id' => 'xdi8Y359o6gxjpOWLDBCtZeUT',
+        'client_secret' => 'LQzjtk1ji7htA0ed8kwqblx3lLQGVJDbvQDjC6Wkk9YsOimYgF',
+        'redirect' => env("APP_URL") . "/auth/login/twitter/callback",
+    ],
 ];

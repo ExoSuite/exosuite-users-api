@@ -39,13 +39,6 @@ class UserProfilePictureTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    public function testGetUserProfilePictureAvatar(): void
-    {
-        Passport::actingAs($this->user);
-        $response = $this->get(route('get_picture_avatar', ['user' => $this->user]));
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-
     public function testStoreUserProfilePictureCover(): void
     {
         Passport::actingAs($this->user);
@@ -55,13 +48,6 @@ class UserProfilePictureTest extends TestCase
             ['Content-Type' => 'multipart/form-data']
         );
         $response->assertJsonValidationErrors(['picture']);
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-
-    public function testGetUserProfilePictureCover(): void
-    {
-        Passport::actingAs($this->user);
-        $response = $this->get(route('get_picture_cover', ['user' => $this->user]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

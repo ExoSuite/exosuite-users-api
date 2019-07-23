@@ -25,14 +25,25 @@ class Post extends UuidModel
         'updated_at',
     ];
 
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::deleting(
+            static function (Post $post): void {
+                $post->commentaries()->delete();
+                $post->likeFromUser()->delete();
+            }
+        );
+    }
+
     public function dashboard(): BelongsTo
     {
         return $this->belongsTo(Dashboard::class);
     }
 
-    public function user(): BelongsTo
+    public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function commentaries(): HasMany

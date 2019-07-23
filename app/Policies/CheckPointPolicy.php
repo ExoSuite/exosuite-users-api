@@ -40,24 +40,24 @@ class CheckPointPolicy
      * Determine whether the user can update the check point.
      *
      * @param  \App\Models\User $user
-     * @param \App\Models\CheckPoint $checkpoint
+     * @param \App\Models\CheckPoint $checkPoint
      * @return mixed
      */
-    public function update(User $user, CheckPoint $checkpoint)
+    public function update(User $user, CheckPoint $checkPoint)
     {
-        // return $user->id === $checkpoint->run()->first()->creator_id;
+        return $user->id === $checkPoint->run->creator_id;
     }
 
     /**
      * Determine whether the user can delete the check point.
      *
      * @param  \App\Models\User $user
-     * @param \App\Models\CheckPoint $checkpoint
+     * @param \App\Models\CheckPoint $checkPoint
      * @return mixed
      */
-    public function delete(User $user, CheckPoint $checkpoint)
+    public function delete(User $user, CheckPoint $checkPoint)
     {
-        // return $user->id === $checkpoint->run()->get()->creator_id;
+        return $user->id === $checkPoint->run->creator_id;
     }
 
     /**

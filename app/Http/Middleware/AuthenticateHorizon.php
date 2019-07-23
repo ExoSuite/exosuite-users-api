@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Facades\AdministratorServices;
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Horizon\Horizon;
 use function is_bool;
@@ -26,7 +27,7 @@ class AuthenticateHorizon
      */
     public function handle(Request $request, Closure $next)
     {
-        /** @var boolean $authenticated */
+        /** @var mixed $authenticated */
         $authenticated = AdministratorServices::handleAuth($request);
 
         // check if HorizonService::handleAuth has return a boolean
@@ -34,6 +35,8 @@ class AuthenticateHorizon
             Horizon::auth(static function ($request) use ($authenticated) {
                 return $authenticated;
             });
+        } else {
+            return $authenticated;
         }
 
         return $next($request);

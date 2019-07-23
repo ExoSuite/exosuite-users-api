@@ -55,7 +55,7 @@ class FriendshipsUnitTest extends TestCase
         Passport::actingAs($this->user);
         $post_resp = $this->post(route('post_friendship_request', ['user' => $this->user1->id]));
         $response = $this->post(
-            route('post_accept_friendship_request', ['request' => $post_resp->decodeResponseJson('request_id')])
+            route('post_accept_friendship_request', ['request' => $post_resp->decodeResponseJson('id')])
         );
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -77,7 +77,7 @@ class FriendshipsUnitTest extends TestCase
         $response = $this->post(
             route(
                 'post_decline_friendship_request',
-                ['request' => $post_resp->decodeResponseJson('request_id')]
+                ['request' => $post_resp->decodeResponseJson('id')]
             )
         );
         $response->assertStatus(Response::HTTP_FORBIDDEN);

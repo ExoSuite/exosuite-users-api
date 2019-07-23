@@ -2,8 +2,16 @@
 
 namespace App\Http\Requests\Time;
 
+use App\Rules\TimeRule;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class CreateTimeRequest
+ *
+ * @property \App\Models\Run $run
+ * @property \App\Models\CheckPoint $checkpoint
+ * @package App\Http\Requests\Time
+ */
 class CreateTimeRequest extends FormRequest
 {
 
@@ -25,9 +33,8 @@ class CreateTimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'run_id' => 'required|uuid|exists:run,id',
-            'interval' => 'required|unsignedTinyInteger|max:255',
-            'checkpoint_id' => 'required|uuid|exist:check_points,id',
+            'current_time' => ['required', 'integer', new TimeRule($this->run, $this->checkpoint)],
+            'user_run_id' => 'required|uuid|exists:user_runs,id',
         ];
     }
 }

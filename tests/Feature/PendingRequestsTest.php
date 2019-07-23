@@ -68,7 +68,13 @@ class PendingRequestsTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->get(route('get_my_pending_request'));
         $response->assertStatus(Response::HTTP_OK);
-        $this->assertEquals(3, count($response->decodeResponseJson()));
+        $response->assertJsonFragment([
+            'requester_id' => $this->user1->id,
+            'type' => RequestTypesEnum::FRIENDSHIP_REQUEST,
+            'target_id' => $this->user->id,
+            'first_name' => $this->user1->first_name,
+            'last_name' => $this->user1->last_name,
+        ]);
     }
 
     public function testDeletePendingRequest(): void
@@ -82,7 +88,7 @@ class PendingRequestsTest extends TestCase
         $response = $this->delete(
             route(
                 'delete_pending_request',
-                ['request' => $post_resp->decodeResponseJson('request_id')]
+                ['request' => $post_resp->decodeResponseJson('id')]
             )
         );
         $response->assertStatus(Response::HTTP_NO_CONTENT);

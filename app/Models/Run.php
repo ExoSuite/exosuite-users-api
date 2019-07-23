@@ -7,6 +7,7 @@ use App\Models\Abstracts\UuidModel;
 use App\Models\Traits\Shareable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
  * @package App\Models
  * @property \App\Models\Uuid $id
  * @property string $description
- * @property \App\Models\Uuid $creator_id
+ * @property string $creator_id
  * @property \App\Enums\Visibility $visibility
  * @property string $name
  */
@@ -57,7 +58,19 @@ class Run extends UuidModel
 
     public function checkpoints(): HasMany
     {
-        return $this->hasMany(CheckPoint::class);
+        return $this->hasMany(CheckPoint::class)->with(['times']);
+    }
+
+    public function timesThroughCheckpoints(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Time::class,
+            CheckPoint::class,
+            'run_id',
+            'check_point_id',
+            'id',
+            'id'
+        );
     }
 
     public function user(): BelongsTo
@@ -84,4 +97,10 @@ class Run extends UuidModel
             'liked_id'
         );
     }
+
+    public function userRuns(): HasMany
+    {
+        return $this->hasMany(UserRun::class)->with(['times']);
+    }
+
 }

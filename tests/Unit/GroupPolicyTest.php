@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Enums\BindType;
+use App\Enums\TokenScope;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -30,14 +31,14 @@ class GroupPolicyTest extends TestCase
 
     public function testPatchGroupWithoutAdminRights(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
         );
         $group_id = $response->decodeResponseJson('id');
         $new_name = 'NameForTest';
-        Passport::actingAs($this->user2);
+        Passport::actingAs($this->user2, [TokenScope::GROUP]);
         $test_req = $this->patch(
             $this->route('patch_group', [BindType::GROUP => $group_id]),
             ['request_type' => 'update_group_name', 'name' => $new_name]
@@ -47,26 +48,26 @@ class GroupPolicyTest extends TestCase
 
     public function testDeleteGroupWithoutAdminRights(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
         );
         $group_id = $response->decodeResponseJson('id');
-        Passport::actingAs($this->user2);
+        Passport::actingAs($this->user2, [TokenScope::GROUP]);
         $delete_req = $this->delete($this->route('delete_group', [BindType::GROUP => $group_id]));
         $delete_req->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function testPostGroupMessageWithoutRights(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
         );
         $group_id = $response->decodeResponseJson('id');
-        Passport::actingAs($this->user3);
+        Passport::actingAs($this->user3, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_message', [BindType::GROUP => $group_id]),
             ['contents' => Str::random(10)]
@@ -76,13 +77,13 @@ class GroupPolicyTest extends TestCase
 
     public function testViewGroupMessagesWithoutRights(): void
     {
-        Passport::actingAs($this->user1);
+        Passport::actingAs($this->user1, [TokenScope::GROUP]);
         $response = $this->post(
             $this->route('post_group'),
             ['name' => Str::random(100), 'users' => [$this->user2->id]]
         );
         $group_id = $response->decodeResponseJson('id');
-        Passport::actingAs($this->user3);
+        Passport::actingAs($this->user3, [TokenScope::GROUP]);
         $response = $this->get($this->route('get_message', [BindType::GROUP => $group_id]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }

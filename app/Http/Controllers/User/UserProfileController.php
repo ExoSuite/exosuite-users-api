@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateProfileRestrictionsRequest;
 use App\Http\Requests\User\UserProfileRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -38,5 +39,19 @@ class UserProfileController extends Controller
         Auth::user()->profile()->update($request->validated());
 
         return $this->noContent();
+    }
+
+    public function updateRestrictions(UpdateProfileRestrictionsRequest $request): JsonResponse
+    {
+        Auth::user()->profileRestrictions()->update($request->validated());
+
+        return $this->noContent();
+    }
+
+    public function getProfileRestrictions(?User $user = null): JsonResponse
+    {
+        $user = $user ?? Auth::user();
+
+        return $this->ok($user->profileRestrictions()->first());
     }
 }

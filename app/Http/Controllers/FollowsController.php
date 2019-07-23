@@ -17,23 +17,64 @@ class FollowsController extends Controller
 
     public function store(User $user): JsonResponse
     {
-        if ($user->follows()->whereFollowedId($user->id)->exists()) {
+        $requerant = Auth::user();
+
+        if ($user->follows()->whereUserId($requerant->id)->whereFollowedId($user->id)->exists()) {
             return $this->noContent();
         }
 
-        return $this->created(Auth::user()->follows()->create(['followed_id' => $user->id]));
+        return $this->created($requerant->follows()->create(['followed_id' => $user->id]));
     }
 
     public function amIFollowing(User $user): JsonResponse
     {
-        $status = Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id)->exists();
+        $follow = Follow::whereUserId(Auth::user()->id)->whereFollowedId($user->id);
 
-        return $this->ok(['status' => $status]);
+        if ($follow->exists()) {
+            return $this->ok($follow->first());
+        }
+
+        return $this->noContent();
     }
 
-    public function getUserFollowing(User $user): JsonResponse
+    public function getUserFollowers(?User $user = null): JsonResponse
     {
-        return $this->ok(Follow::whereFollowedId($user->id)->paginate());
+        if (!$user) {
+            $user = Auth::user();
+        }
+
+        $followers = $user->followers()->with('followers')->paginate();
+
+        return $this->ok($followers);
+    }
+
+    public function getFollows(?User $user = null): JsonResponse
+    {
+        if (!$user) {
+            $user = Auth::user();
+        }
+
+        $follows = $user->follows()->with('following')->paginate();
+
+        return $this->ok($follows);
+    }
+
+    public function countFollowers(?User $user = null): JsonResponse
+    {
+        if (!$user) {
+            $user = Auth::user();
+        }
+
+        return $this->ok(["total" => $user->followers()->count()]);
+    }
+
+    public function countFollows(?User $user = null): JsonResponse
+    {
+        if (!$user) {
+            $user = Auth::user();
+        }
+
+        return $this->ok(['total' => $user->follows()->count()]);
     }
 
     public function delete(Follow $follow): JsonResponse

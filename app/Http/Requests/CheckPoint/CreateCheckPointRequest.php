@@ -9,6 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Class CreateCheckPointRequest
  *
+ * @property \App\Models\Run $run
  * @package App\Http\Requests\CheckPoint
  */
 class CreateCheckPointRequest extends FormRequest
@@ -32,7 +33,7 @@ class CreateCheckPointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => ['required', 'string', new CheckPointTypeRule],
+            'type' => ['required', 'string', new CheckPointTypeRule($this->run)],
             'location' => ['required', new PolygonRule],
         ];
     }

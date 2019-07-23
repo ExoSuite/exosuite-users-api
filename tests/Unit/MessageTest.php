@@ -63,12 +63,10 @@ class MessageTest extends TestCase
         $group->load('groupMembers');
 
         Passport::actingAs($this->user);
-        $response = $this->post($this->route('post_message', [
-            BindType::GROUP => $group->id,
-        ]), [
-            'contents' => Str::random(10),
+        factory(Message::class)->create([
+            'group_id' => $group['id'],
+            'user_id' => $this->user->id,
         ]);
-        $response->assertStatus(Response::HTTP_CREATED);
         $test = $this->patch($this->route('patch_message', [
             BindType::GROUP => $group->id,
             BindType::MESSAGE => Uuid::generate()->string,
@@ -91,12 +89,10 @@ class MessageTest extends TestCase
         $group->load('groupMembers');
 
         Passport::actingAs($this->user);
-        $response = $this->post($this->route('post_message', [
-            BindType::GROUP => $group->id,
-        ]), [
-            'contents' => Str::random(10),
+        factory(Message::class)->create([
+            'group_id' => $group['id'],
+            'user_id' => $this->user->id,
         ]);
-        $response->assertStatus(Response::HTTP_CREATED);
         $test = $this->delete($this->route('delete_message', [
             BindType::GROUP => $group->id,
             BindType::MESSAGE => Uuid::generate()->string,
@@ -119,7 +115,10 @@ class MessageTest extends TestCase
         Passport::actingAs($this->user);
 
         for ($i = 0; $i < 5; $i++) {
-            factory(Message::class)->create(['group_id' => $group->id, 'user_id' => $this->user->id]);
+            factory(Message::class)->create([
+                'group_id' => $group->id,
+                'user_id' => $this->user->id,
+            ]);
         }
 
         $response = $this->get($this->route('get_message', [BindType::GROUP => Uuid::generate()->string]));

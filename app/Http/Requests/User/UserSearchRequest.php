@@ -31,7 +31,7 @@ class UserSearchRequest extends RouteParamRequest
     public function rules(): array
     {
         return [
-            'text' => 'required|string',
+            'text' => 'required|string|max:100|min:1',
         ];
     }
 }

@@ -39,7 +39,7 @@ class Media extends \Spatie\MediaLibrary\Models\Media
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type' => $this->mime_type,
             'Content-Length' => $contentLength,
-            'Content-Disposition' => "attachment; filename='$fileName'",
+            'Content-Disposition' => "attachment; filename=$fileName",
             'Pragma' => 'public',
         ];
     }
