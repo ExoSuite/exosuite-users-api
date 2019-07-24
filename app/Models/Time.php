@@ -27,6 +27,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time whereRunId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $user_run_id
+ * @property-read \App\Models\UserRun $userRun
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time whereUserRunId($value)
  */
 class Time extends UuidModel
 {

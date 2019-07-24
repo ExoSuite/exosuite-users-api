@@ -87,5 +87,6 @@ class RunController extends Controller
     public function search(SearchRunRequest $request): JsonResponse
     {
         $runPage = Run::search($request->text);
+        dd($runPage);
     }
 }

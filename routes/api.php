@@ -245,6 +245,7 @@ Route::middleware('auth:api')->group(static function (): void {
                     ->name('get_runs');
                 Route::get('/{run}', 'Run\RunController@show')
                     ->name('get_run_by_id');
+                Route::get('search', 'Run\RunController@search')->name("search_run");
                 Route::prefix('share')->group(static function (): void {
                     Route::post('/', 'Run\ShareRunController@store')
                         ->name('post_share_run');
