@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Auth;
+use ScoutElastic\Searchable;
 
 /**
  * Class Run
@@ -43,6 +44,7 @@ use Illuminate\Support\Facades\Auth;
 class Run extends UuidModel
 {
     use Shareable;
+    use Searchable;
 
     /**
      * define relation key
