@@ -42,6 +42,7 @@ use ScoutElastic\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereVisibility($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserRun[] $userRuns
  */
 class Run extends UuidModel
 {
