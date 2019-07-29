@@ -90,6 +90,8 @@ Route::middleware('auth:api')->group(static function (): void {
             });
 
             Route::prefix('run')->group(static function (): void {
+                Route::get('/search', "Run\RunController@search")->name('search_run');
+
                 Route::post('/', 'Run\RunController@store')
                     ->name('post_run');
                 Route::patch('/{run}', 'Run\RunController@update')
@@ -197,7 +199,7 @@ Route::middleware('auth:api')->group(static function (): void {
                         Route::delete('/', 'PostsController@delete')->name('delete_Post')
                             ->middleware('can:deletePost,post,user');
 
-                        //LIKES From Posts---------------------------------------------------------------------------------------------------
+                        //LIKES From Posts-------------------------------------------------------------------------------------------------
                         Route::prefix('/likes')->group(static function (): void {
                             Route::post('/', 'LikesController@store')->name('post_like_for_Post');
                             Route::delete('/', 'LikesController@delete')->name('delete_like_for_Post');
@@ -241,6 +243,7 @@ Route::middleware('auth:api')->group(static function (): void {
             });
 
             Route::prefix('run')->group(static function (): void {
+                Route::get('/search', "Run\RunController@search")->name('search_run');
                 Route::get('/', 'Run\RunController@index')
                     ->name('get_runs');
                 Route::get('/{run}', 'Run\RunController@show')

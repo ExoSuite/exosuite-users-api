@@ -192,46 +192,12 @@ class User extends \Illuminate\Foundation\Auth\User
 
     public function getFirstNameAttribute(?string $value): ?string
     {
-        $owner_restrictions = $this->profileRestrictions()->first();
-        $user = Auth::user();
-
-        if ($user && array_key_exists('id', $this->attributes)) {
-            if ($user->id === $this->attributes['id'] || $user->inRole(Roles::ADMINISTRATOR)) {
-                return $value;
-            }
-        }
-
-        if ($owner_restrictions) {
-            if (array_key_exists("nick_name", $this->attributes)
-                && $this->attributes['nick_name']
-                && ($owner_restrictions->nomination_preference === Preferences::NICKNAME)) {
-                return null;
-            }
-        }
-
-        return $value;
+        return $this->restrictionLogic($value);
     }
 
     public function getLastNameAttribute(?string $value): ?string
     {
-        $owner_restrictions = $this->profileRestrictions()->first();
-        $user = Auth::user();
-
-        if ($user && array_key_exists('id', $this->attributes)) {
-            if ($user->id === $this->attributes['id'] || $user->inRole(Roles::ADMINISTRATOR)) {
-                return $value;
-            }
-        }
-
-        if ($owner_restrictions) {
-            if (array_key_exists("nick_name", $this->attributes)
-                && $this->attributes['nick_name']
-                && ($owner_restrictions->nomination_preference === Preferences::NICKNAME)) {
-                return null;
-            }
-        }
-
-        return $value;
+        return $this->restrictionLogic($value);
     }
 
     /**
@@ -380,6 +346,28 @@ class User extends \Illuminate\Foundation\Auth\User
     public function profileRestrictions(): HasOne
     {
         return $this->hasOne(ProfileRestrictions::class);
+    }
+
+    private function restrictionLogic(?string $value): ?string
+    {
+        $owner_restrictions = $this->profileRestrictions()->first();
+        $user = Auth::user();
+
+        if ($user && array_key_exists('id', $this->attributes)) {
+            if ($user->id === $this->attributes['id'] || $user->inRole(Roles::ADMINISTRATOR)) {
+                return $value;
+            }
+        }
+
+        if ($owner_restrictions) {
+            if (array_key_exists("nick_name", $this->attributes)
+                && $this->attributes['nick_name']
+                && ($owner_restrictions->nomination_preference === Preferences::NICKNAME)) {
+                return null;
+            }
+        }
+
+        return $value;
     }
 
 }

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Run;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Generic\SearchRequest;
 use App\Http\Requests\Run\CreateRunRequest;
-use App\Http\Requests\Run\SearchRunRequest;
 use App\Http\Requests\Run\UpdateRunRequest;
 use App\Models\Run;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -84,9 +85,17 @@ class RunController extends Controller
         return $this->noContent();
     }
 
-    public function search(SearchRunRequest $request): JsonResponse
+    public function search(SearchRequest $request, ?User $user): JsonResponse
     {
-        $runPage = Run::search($request->text);
-        dd($runPage);
+        $user_id = $user->id ?: Auth::id();
+
+        // where query will not work with search engine
+        $runPage = Run::search($request->text)->paginate(self::GET_PER_PAGE);
+
+        $runs = $runPage->getCollection()->filter(static function (Run $run) use ($user_id) {
+            return $run->creator_id === $user_id;
+        });
+
+        return $this->ok(new LengthAwarePaginator($runs, $runPage->total(), self::GET_PER_PAGE));
     }
 }
