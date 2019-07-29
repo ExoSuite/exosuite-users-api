@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Generic\SearchRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-use App\Http\Requests\User\UserSearchRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -30,14 +30,14 @@ class UserController extends Controller
         return $this->noContent();
     }
 
-    public function search(UserSearchRequest $request): JsonResponse
+    public function search(SearchRequest $request): JsonResponse
     {
-        $userPage = User::search($request->text)
-            ->with('profile:id,city,description,avatar_id,cover_id')
-            ->select(['id', 'first_name', 'last_name', 'nick_name'])
-            ->paginate(self::USER_SEARCH_PAGE);
-
-        return $this->ok($userPage);
+        return $this->ok(
+            User::search($request->text)
+                ->with('profile:id,city,description,avatar_id,cover_id')
+                ->select(['id', 'first_name', 'last_name', 'nick_name'])
+                ->paginate(self::USER_SEARCH_PAGE)
+        );
     }
 
     /**

@@ -34,3 +34,7 @@ graph.svg
 storage/medialibrary/
 uploads
 .idea/php.xml
+.idea/exosuite-users-api.iml
+.idea/php-test-framework.xml
+.idea/composerJson.xml
+

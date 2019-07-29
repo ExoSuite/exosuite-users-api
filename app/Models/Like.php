@@ -10,6 +10,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Class Like
  *
  * @package App\Models
+ * @property string $id
+ * @property string $liked_id
+ * @property string $liked_type
+ * @property string $liker_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like whereLikedId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like whereLikedType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like whereLikerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Like whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Like extends UuidModel
 {

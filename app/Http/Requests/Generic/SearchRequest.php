@@ -1,16 +1,17 @@
 <?php declare(strict_types = 1);
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Generic;
+
 
 use App\Http\Requests\Abstracts\RouteParamRequest;
 
 /**
- * Class UserSearchRequest
+ * Class SearchRequest
  *
- * @property string $text
- * @package App\Http\Requests
+ * @property-read string $text
+ * @package App\Http\Requests\Generic
  */
-class UserSearchRequest extends RouteParamRequest
+class SearchRequest extends RouteParamRequest
 {
 
     /**

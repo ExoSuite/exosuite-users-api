@@ -16,6 +16,23 @@ use Phaza\LaravelPostgis\Eloquent\PostgisTrait;
  * @property \Webpatser\Uuid\Uuid $id
  * @property \App\Enums\CheckPointType $type
  * @property \Phaza\LaravelPostgis\Geometries\Polygon $location
+ * @property string $run_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $previous_checkpoint_id
+ * @property-read \App\Models\Run $run
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Time[] $times
+ * @method static \Phaza\LaravelPostgis\Eloquent\Builder|\App\Models\CheckPoint newModelQuery()
+ * @method static \Phaza\LaravelPostgis\Eloquent\Builder|\App\Models\CheckPoint newQuery()
+ * @method static \Phaza\LaravelPostgis\Eloquent\Builder|\App\Models\CheckPoint query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CheckPoint whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CheckPoint whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CheckPoint whereLocation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CheckPoint wherePreviousCheckpointId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CheckPoint whereRunId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CheckPoint whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CheckPoint whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class CheckPoint extends UuidModel
 {

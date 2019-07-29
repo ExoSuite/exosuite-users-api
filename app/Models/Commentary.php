@@ -10,6 +10,24 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
  * Class Commentary
  *
  * @package App\Models
+ * @property string $id
+ * @property string $post_id
+ * @property string $content
+ * @property string $author_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $author
+ * @property-read \App\Models\Post $post
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Commentary newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Commentary newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Commentary query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Commentary whereAuthorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Commentary whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Commentary whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Commentary whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Commentary wherePostId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Commentary whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Commentary extends UuidModel
 {

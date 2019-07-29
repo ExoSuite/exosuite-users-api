@@ -30,7 +30,7 @@
     </rule>
     <rule ref="Generic.Files.LineLength">
         <properties>
-            <property name="lineLimit" value="120"/>
+            <property name="lineLimit" value="140"/>
             <property name="absoluteLineLimit" value="0"/>
         </properties>
     </rule>
@@ -275,7 +275,6 @@
     <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma" />
     <rule ref="SlevomatCodingStandard.Classes.SuperfluousAbstractClassNaming"/>
     <rule ref="SlevomatCodingStandard.Classes.SuperfluousTraitNaming"/>
-    <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
 
 	<!-- END SlevomatCodingStandard END -->
 

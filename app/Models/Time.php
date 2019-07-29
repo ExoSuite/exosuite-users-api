@@ -11,6 +11,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @package App\Models
  * @property \App\Models\Uuid $id
  * @property int $current_time
+ * @property string $check_point_id
+ * @property string $run_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\CheckPoint $checkPoint
+ * @property-read \App\Models\Run $run
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time whereCheckPointId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time whereCurrentTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time whereRunId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time whereUpdatedAt($value)
+ * @mixin \Eloquent
+ * @property string $user_run_id
+ * @property-read \App\Models\UserRun $userRun
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Time whereUserRunId($value)
  */
 class Time extends UuidModel
 {

@@ -11,6 +11,25 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
  * Class Post
  *
  * @package App\Models
+ * @property string $id
+ * @property string $dashboard_id
+ * @property string $content
+ * @property string $author_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $author
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Commentary[] $commentaries
+ * @property-read \App\Models\Dashboard $dashboard
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereAuthorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereDashboardId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Post extends UuidModel
 {
