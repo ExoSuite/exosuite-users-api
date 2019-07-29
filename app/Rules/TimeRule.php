@@ -55,7 +55,7 @@ class TimeRule implements Rule
         $date = Carbon::createFromTimeStamp((int)$value);
 
         if ($checkPointType->isArrivalOrDefault()) {
-            $last_checkpoint = CheckPoint::findOrFail($this->checkPoint->previous_checkpoint_id)->first();
+            $last_checkpoint = CheckPoint::whereId($this->checkPoint->previous_checkpoint_id)->first();
             $last_checkpoint_time = $last_checkpoint->times()->latest()->first();
             $last_checkpoint_time_timestamp = Time::findOrFail($last_checkpoint_time->id)->first();
             return (
