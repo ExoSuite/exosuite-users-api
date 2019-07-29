@@ -8,7 +8,7 @@ use App\Http\Requests\Abstracts\RouteParamRequest;
 /**
  * Class SearchRequest
  *
- * @property-read string text
+ * @property-read string $text
  * @package App\Http\Requests\Generic
  */
 class SearchRequest extends RouteParamRequest
