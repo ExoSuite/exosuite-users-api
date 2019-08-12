@@ -56,7 +56,7 @@ class TimeRule implements Rule
 
         if ($checkPointType->isArrivalOrDefault()) {
             $last_checkpoint = CheckPoint::whereId($this->checkPoint->previous_checkpoint_id)->first();
-            $last_checkpoint_time = $last_checkpoint->times()->latest()->first();
+            $last_checkpoint_time = $last_checkpoint->times()->latest()->firstOrFail();
             $last_checkpoint_time_timestamp = Time::findOrFail($last_checkpoint_time->id)->first();
             return (
                 $date->gt($min) &&
