@@ -128,6 +128,13 @@ return [
             'arrowtail' => 'none',
             'fontsize' => 42,
         ],
+        'MorphToMany' => [
+            'dir' => 'both',
+            'color' => '#C9CAFF',
+            'arrowhead' => 'crow',
+            'arrowtail' => 'none',
+            'fontsize' => 42,
+        ],
         'MorphTo' => [
             'dir' => 'both',
             'color' => '#844185',
