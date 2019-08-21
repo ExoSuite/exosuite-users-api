@@ -35,7 +35,7 @@ class MessageController extends Controller
         $current_user_id = Auth::id();
         $data['user_id'] = $current_user_id;
         /** @var \App\Models\Message $message */
-        $message = $group->messages()->create($data);
+        $message = $group->messages()->create($data)->load("user");
         broadcast(new NewMessageEvent($group, $message));
         $users = static::collectionFilterWithExcept(
             $group->users()->get(),
@@ -51,6 +51,7 @@ class MessageController extends Controller
     public function update(UpdateMessageRequest $request, Group $group, Message $message): JsonResponse
     {
         $data = $request->validated();
+        $message = $message->load("user");
         $message->update($data);
         broadcast(new ModifyMessageEvent($group, $message));
 
@@ -63,14 +64,15 @@ class MessageController extends Controller
      */
     public function index(Group $group)
     {
-        return $this->ok($group->messages()->latest()->paginate(self::GET_PER_PAGE));
+        return $this->ok($group->messages()->latest()->with(['user'])->paginate(self::GET_PER_PAGE));
     }
 
     public function destroy(Group $group, Message $message): JsonResponse
     {
+        $message = $message->load("user");
         $message->delete();
         broadcast(new DeletedMessageEvent($group, $message));
 
-        return $this->noContent();
+        return $this->ok($message);
     }
 }

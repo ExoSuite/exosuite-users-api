@@ -32,6 +32,9 @@ class Message extends UuidModel
 {
 
     /** @var string[] */
+    private static $PublicUserFields = ['id', "first_name", "last_name", "nick_name"];
+
+    /** @var string[] */
     protected $fillable = [
         'id',
         'contents',
@@ -41,6 +44,14 @@ class Message extends UuidModel
         'updated_at',
     ];
 
+    /**
+     * @return string[]
+     */
+    public static function getPublicUserFields(): array
+    {
+        return self::$PublicUserFields;
+    }
+
     public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class);
@@ -48,6 +59,6 @@ class Message extends UuidModel
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->select(self::$PublicUserFields);
     }
 }
