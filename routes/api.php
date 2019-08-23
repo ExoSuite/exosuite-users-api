@@ -1,9 +1,7 @@
 <?php declare(strict_types = 1);
 
 use App\Models\User;
-use App\Notifications\FollowNotification;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -321,7 +319,7 @@ if (!App::environment('production')) {
 }
 
 if (App::environment('local')) {
-    Route::get('test', static function () {
+    Route::get('test', static function (): void {
         for ($i = 0; $i < 1000; $i++) {
             factory(User::class)->create();
         }
