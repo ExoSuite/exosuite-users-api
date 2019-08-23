@@ -16,6 +16,9 @@ parameters:
         - '#Illuminate\\Support\\Facades\\Notification::assertTimesSent#'
         - '#Illuminate\\Support\\Facades\\Notification::assertSentTo#'
         - '#Illuminate\\Support\\Facades\\Notification::assertNotSentTo#'
+        - '#undefined method App\\Providers\\AppServiceProvider::forPage#'
+        - '#undefined method App\\Providers\\AppServiceProvider::count#'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model|ScoutElastic\\Searchable#'
         - '#parameters()#'
     paths:
         - %rootDir%/../../../app

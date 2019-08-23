@@ -58,7 +58,7 @@ class CreateElasticsearchIndexesCommand extends Command
             $indexName = substr($index, 1);
             list($model) = explode(self::INDEX_PREFIX, $indexName);
             $completeModel = "$modelNamespace$model";
-            /** @var \Illuminate\Database\Eloquent\Model $instance */
+            /** @var \Illuminate\Database\Eloquent\Model|\ScoutElastic\Searchable $instance */
             $instance = new $completeModel;
 
             try {
