@@ -322,11 +322,8 @@ if (!App::environment('production')) {
 
 if (App::environment('local')) {
     Route::get('test', static function () {
-        Notification::send(
-            User::all(),
-            new FollowNotification
-        );
-
-        return ['SENT!'];
+        for ($i = 0; $i < 1000; $i++) {
+            factory(User::class)->create();
+        }
     });
 }
