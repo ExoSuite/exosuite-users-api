@@ -20,6 +20,8 @@ class CreateElasticsearchIndexesCommand extends Command
 
     private const INDEX_PREFIX = "IndexConfigurator";
 
+    private const PER_PAGE = 50;
+
     /**
      * The name and signature of the console command.
      *
@@ -55,6 +57,9 @@ class CreateElasticsearchIndexesCommand extends Command
             $index = strrchr($index, "\\");
             $indexName = substr($index, 1);
             list($model) = explode(self::INDEX_PREFIX, $indexName);
+            $completeModel = "$modelNamespace$model";
+            /** @var \Illuminate\Database\Eloquent\Model|\ScoutElastic\Searchable $instance */
+            $instance = new $completeModel;
 
             try {
                 Artisan::call(
@@ -63,8 +68,6 @@ class CreateElasticsearchIndexesCommand extends Command
                 );
                 $this->info("The {$model} mapping was updated");
             } catch (Throwable $e) {
-                $completeModel = "$modelNamespace$model";
-                $instance = new $completeModel;
                 $indexConfigurator = $instance->getIndexConfigurator();
                     Artisan::call(
                         'elastic:migrate',
@@ -76,11 +79,18 @@ class CreateElasticsearchIndexesCommand extends Command
                 $this->info(Artisan::output());
             }
 
-            Artisan::call(
-                "scout:import",
-                ['model' => "{$modelNamespace}{$model}"]
-            );
-            $this->info(Artisan::output());
+            /** @var \Illuminate\Pagination\LengthAwarePaginator $models */
+            $models = $instance->all()->paginate(self::PER_PAGE);
+            $total = $models->total();
+            $currentPage = $models->currentPage();
+            $lastPage = $models->lastPage();
+
+            while ($currentPage <= $lastPage) {
+                $this->info("{$completeModel}: Processing page {$currentPage} of {$lastPage}");
+                $models->searchable();
+                $models = $instance->all()->paginate(self::PER_PAGE, $total, $currentPage);
+                $currentPage++;
+            }
         }
     }
 
