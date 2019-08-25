@@ -71,9 +71,10 @@ class UserRunController extends Controller
      */
     public function update(Run $run, UserRun $userRun): JsonResponse
     {
-        $last_time = $userRun->times()->get()->last();
+        $curr_times = $userRun->times()->get();
+        $last_time = $curr_times->last();
         $last_time_timestamp = $last_time->current_time;
-        $first_time = $userRun->times()->get()->first();
+        $first_time = $curr_times->first();
         $first_time_timestamp = $first_time->current_time;
         $total_time = $last_time_timestamp - $first_time_timestamp;
         $userRun->update([

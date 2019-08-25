@@ -13,6 +13,7 @@ use App\Models\Message;
 use App\Models\Notification;
 use App\Models\PendingRequest;
 use App\Models\Post;
+use App\Models\Record;
 use App\Models\Run;
 use App\Models\Time;
 use App\Models\User;
@@ -60,6 +61,7 @@ class RouteServiceProvider extends \Illuminate\Foundation\Support\Providers\Rout
         Route::model(BindType::CHECKPOINT, CheckPoint::class);
         Route::model(BindType::TIME, Time::class);
         Route::model(BindType::USER_RUN, UserRun::class);
+        Route::model(BindType::RECORD, Record::class);
     }
 
 

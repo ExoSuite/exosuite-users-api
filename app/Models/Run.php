@@ -10,6 +10,7 @@ use App\Models\Traits\Shareable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Auth;
 use ScoutElastic\Searchable;
@@ -43,6 +44,7 @@ use ScoutElastic\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereVisibility($value)
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserRun[] $userRuns
+ * @property-read \App\Models\Record $record
  */
 class Run extends UuidModel
 {
@@ -183,5 +185,10 @@ class Run extends UuidModel
     public function userRuns(): HasMany
     {
         return $this->hasMany(UserRun::class)->with(['times']);
+    }
+
+    public function record(): HasOne
+    {
+        return $this->hasOne(Record::class);
     }
 }
