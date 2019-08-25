@@ -107,7 +107,7 @@ class RecordController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param \App\Http\Controllers\User|null $user
+     * @param \App\Models\User|null $user
      * @param \App\Models\Run $run
      * @return \Illuminate\Http\JsonResponse
      */
