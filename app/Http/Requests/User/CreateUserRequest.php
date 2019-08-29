@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Rules\PasswordRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
@@ -33,7 +34,7 @@ class CreateUserRequest extends FormRequest
             'first_name' => 'required|string|max:255|min:1',
             'last_name' => 'required|string|max:255|min:1',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|max:64|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+            'password' => ['required','string', 'min:8', 'max:64', 'confirmed', new PasswordRule],
             'nick_name' => 'sometimes|max:16|min:4',
             'with_user' => 'sometimes|boolean',
         ];

@@ -61,6 +61,20 @@ class RegisterUserUnitTest extends TestCase
         $this->request(['password'], $userData);
     }
 
+    public function testBadPasswordFormat(): void
+    {
+        /** @var \App\Models\User $userData */
+        $user = factory(User::class)->make();
+        /** @var array $userData */
+        $userData = $user->toArray();
+        $userData['password'] = "aozkeaope";
+        $userData['password_confirmation'] = "aozkeaope";
+
+        $response = $this->json(Request::METHOD_POST, route('register'), $userData);
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->assertEquals($response->decodeResponseJson("errors")["password"][0], trans("passwords.bad"));
+    }
+
     /**
      * @param string[] $expected
      * @param string[] $data
