@@ -68,14 +68,6 @@ class AuthServiceProvider extends \Illuminate\Foundation\Support\Providers\AuthS
             TokenScope::MESSAGE => "ability to interact with message resource",
         ]);
 
-        if (ApiHelper::isLocal()) {
-            Passport::personalAccessClientId(1);
-        } elseif (ApiHelper::isStaging()) {
-            Passport::personalAccessClientId(25);
-        } else {
-            Passport::personalAccessClientId(3);
-        }
-
         if (ApiHelper::isStaging()) {
             Passport::tokensExpireIn(now()->addMinutes(5));
         } elseif (ApiHelper::isProduction()) {
