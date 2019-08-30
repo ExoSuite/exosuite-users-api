@@ -25,7 +25,7 @@ class RecordTest extends TestCase
     {
         Passport::actingAs($this->user);
         $run = factory(Run::class)->create();
-        $checkpoint = factory(CheckPoint::class)->create([
+        factory(CheckPoint::class)->create([
             'run_id' => $run['id'],
             'type' => 'start',
         ]);
@@ -246,24 +246,24 @@ class RecordTest extends TestCase
             $this->route("post_user_run", [BindType::RUN => $run['id']])
         );
         $user_run_id = $user_run->decodeResponseJson('id');
-        $time1 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $cp1['id']]),
             // Timestamp value 1540382400 is equivalent to 24th November 2018, 12:00:00
             ['current_time' => "1540382500", "user_run_id" => $user_run_id]
         );
-        $time2 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint2_id]),
             ['current_time' => "1540382509", "user_run_id" => $user_run_id]
         );
-        $time3 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint3_id]),
             ['current_time' => "1540382514", "user_run_id" => $user_run_id]
         );
-        $time4 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint4_id]),
             ['current_time' => "1540382526", "user_run_id" => $user_run_id]
         );
-        $time5 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint5_id]),
             ['current_time' => "1540382562", "user_run_id" => $user_run_id]
         );
@@ -363,24 +363,24 @@ class RecordTest extends TestCase
             $this->route("post_user_run", [BindType::RUN => $run['id']])
         );
         $user_run_id = $user_run->decodeResponseJson('id');
-        $time1 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $cp1['id']]),
             // Timestamp value 1540382400 is equivalent to 24th November 2018, 12:00:00
             ['current_time' => "1540382500", "user_run_id" => $user_run_id]
         );
-        $time2 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint2_id]),
             ['current_time' => "1540382512", "user_run_id" => $user_run_id]
         );
-        $time3 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint3_id]),
             ['current_time' => "1540382519", "user_run_id" => $user_run_id]
         );
-        $time4 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint4_id]),
             ['current_time' => "1540382530", "user_run_id" => $user_run_id]
         );
-        $time5 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint5_id]),
             ['current_time' => "1540382549", "user_run_id" => $user_run_id]
         );
@@ -441,24 +441,24 @@ class RecordTest extends TestCase
             $this->route("post_user_run", [BindType::RUN => $run['id']])
         );
         $user_run_id = $user_run->decodeResponseJson('id');
-        $time1 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $cp1['id']]),
             // Timestamp value 1540382400 is equivalent to 24th November 2018, 12:00:00
             ['current_time' => "1540382400", "user_run_id" => $user_run_id]
         );
-        $time2 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint2_id]),
             ['current_time' => "1540382415", "user_run_id" => $user_run_id]
         );
-        $time3 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint3_id]),
             ['current_time' => "1540382421", "user_run_id" => $user_run_id]
         );
-        $time4 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint4_id]),
             ['current_time' => "1540382434", "user_run_id" => $user_run_id]
         );
-        $time5 = $this->post(
+        $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint5_id]),
             ['current_time' => "1540382456", "user_run_id" => $user_run_id]
         );
