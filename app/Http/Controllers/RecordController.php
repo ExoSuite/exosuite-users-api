@@ -47,6 +47,7 @@ class RecordController extends Controller
         }
 
         $final_segments_data = explode(",", $record->best_segments);
+        $record->sum_of_best = 0;
 
         for ($i = 0; $i !== count($final_segments_data); $i++) {
             if ((int) $final_segments_data[$i] <= $curr_segments[$i] && (int) $final_segments_data[$i] !== -1) {
@@ -54,6 +55,7 @@ class RecordController extends Controller
             }
 
             $final_segments_data[$i] = $curr_segments[$i];
+            $record->sum_of_best += $final_segments_data[$i];
         }
 
         $record->best_segments = implode(",", $final_segments_data);
@@ -113,7 +115,7 @@ class RecordController extends Controller
      */
     public function index(?User $user, Run $run): JsonResponse
     {
-        $data = $run->record()->latest()->get();
+        $data = $run->record()->first();
 
         return $this->ok($data);
     }
@@ -128,7 +130,7 @@ class RecordController extends Controller
      */
     public function destroy(Run $run, Record $record): JsonResponse
     {
-        UserRun::whereId($record->id)->delete();
+        $record->delete();
 
         return $this->noContent();
     }
