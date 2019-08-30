@@ -150,6 +150,7 @@ class User extends \Illuminate\Foundation\Auth\User
         static::deleting(
             static function (User $user): void {
                 $user->dashboard()->delete();
+                $user->runs()->delete();
             }
         );
     }

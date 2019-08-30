@@ -133,7 +133,7 @@ class CheckPointController extends Controller
      */
     public function destroy(Run $run, CheckPoint $checkpoint): JsonResponse
     {
-        CheckPoint::whereId($checkpoint->id)->delete();
+        $checkpoint->delete();
 
         return $this->noContent();
     }

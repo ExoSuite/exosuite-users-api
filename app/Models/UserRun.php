@@ -40,6 +40,14 @@ class UserRun extends UuidModel
         "final_time",
     ];
 
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::deleting(static function (self $userRun): void {
+            $userRun->times->each->delete();
+        });
+    }
+
     public function run(): BelongsTo
     {
         return $this->belongsTo(Run::class);

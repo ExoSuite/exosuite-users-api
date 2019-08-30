@@ -65,6 +65,9 @@ class CheckPoint extends UuidModel
 
             $checkPoint->type = CheckPointType::DEFAULT;
         });
+        static::deleting(static function (self $checkpoint): void {
+            $checkpoint->times->each->delete();
+        });
     }
 
     public function run(): BelongsTo
