@@ -123,6 +123,10 @@ class Run extends UuidModel
 
             $run->creator_id = Auth::id();
         });
+        static::deleting(static function (self $run): void {
+            $run->userRuns->each->delete();
+            $run->checkpoints->each->delete();
+        });
     }
 
     public function checkpoints(): HasMany

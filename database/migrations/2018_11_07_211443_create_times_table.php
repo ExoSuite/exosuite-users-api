@@ -24,7 +24,6 @@ class CreateTimesTable extends Migration
             $table->foreign('checkpoint_id')
                 ->references('id')
                 ->on('check_points')
-                ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->uuid('run_id');
@@ -32,7 +31,6 @@ class CreateTimesTable extends Migration
             $table->foreign('run_id')
                 ->references('id')
                 ->on('runs')
-                ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->timestamps();
