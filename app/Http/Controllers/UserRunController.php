@@ -94,7 +94,7 @@ class UserRunController extends Controller
      */
     public function destroy(Run $run, UserRun $userRun): JsonResponse
     {
-        UserRun::whereId($userRun->id)->delete();
+        $userRun->delete();
 
         return $this->noContent();
     }

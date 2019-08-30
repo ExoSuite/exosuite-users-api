@@ -13,5 +13,7 @@ return [
     |
     */
 
-    'new_group' => 'Vous avez été ajouté à un nouveau groupe :group_name par :user_name .',
+    'new_group' => 'Vous avez été ajouté à un nouveau groupe :group_name par :user_name.',
+    'deleted_group' => "Le groupe :group_name a été dissous par :user_name.",
+    'expelled_from_group' => 'Vous avez été expulsé du groupe :group_name par :user_name.'
 ];
