@@ -38,13 +38,8 @@ class ApiHelper implements ApiHelperInterface
     public static function getDomain(): string
     {
         $parsed_url = parse_url(env('APP_URL') ?? config('app.url'));
-        $domain = substr($parsed_url['host'], strpos($parsed_url['host'], '.') + 1);
 
-        if (config('app.env') === 'staging') {
-            $domain = "website.{$domain}";
-        }
-
-        return $domain;
+        return substr($parsed_url['host'], strpos($parsed_url['host'], '.') + 1);
     }
 
     public static function getHttpScheme(): string
