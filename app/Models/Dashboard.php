@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard whereVisibility($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Dashboard whereWritingRestriction($value)
  * @mixin \Eloquent
+ * @property-read int|null $posts_count
  */
 class Dashboard extends UuidModel
 {

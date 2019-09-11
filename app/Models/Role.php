@@ -28,6 +28,7 @@ use function strtolower;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read int|null $users_count
  */
 class Role extends Model
 {

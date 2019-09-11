@@ -65,6 +65,19 @@ use function strtolower;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read int|null $clients_count
+ * @property-read int|null $commentaries_count
+ * @property-read int|null $followers_count
+ * @property-read int|null $follows_count
+ * @property-read int|null $groups_count
+ * @property-read int|null $likes_count
+ * @property-read int|null $notifications_count
+ * @property-read int|null $posts_count
+ * @property-read int|null $posts_from_dashboard_count
+ * @property-read int|null $roles_count
+ * @property-read int|null $runs_count
+ * @property-read int|null $shared_runs_count
+ * @property-read int|null $tokens_count
  */
 class User extends \Illuminate\Foundation\Auth\User
 {

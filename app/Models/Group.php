@@ -26,6 +26,10 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Group whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Group whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read int|null $group_members_count
+ * @property-read int|null $latest_messages_count
+ * @property-read int|null $messages_count
+ * @property-read int|null $users_count
  */
 class Group extends UuidModel
 {

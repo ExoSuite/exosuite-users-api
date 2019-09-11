@@ -61,7 +61,7 @@ return [
             'driver' => 'redis',
             'connection' => 'default',
             'queue' => 'default',
-            'retry_after' => 1200, // Run for max 20 minutes
+            'retry_after' => 60, // Run for max 1 minute
             'block_for' => null,
         ],
 

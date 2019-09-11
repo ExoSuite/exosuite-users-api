@@ -183,7 +183,6 @@ return [
                 'balance' => 'simple',
                 'processes' => 5,
                 'tries' => 3,
-                'timeout' => 900, // Timeout after 15 minutes
             ],
             'supervisor-mail' => [
                 'connection' => 'redis',
