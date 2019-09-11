@@ -28,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRun whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserRun whereUserId($value)
  * @mixin \Eloquent
+ * @property-read int|null $times_count
  */
 class UserRun extends UuidModel
 {
