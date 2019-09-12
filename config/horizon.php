@@ -100,9 +100,11 @@ return [
 
     'trim' => [
         'recent' => 60,
+        'recent_failed' => 10080,
         'failed' => 10080,
         'monitored' => 10080,
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -130,7 +132,7 @@ return [
     |
     */
 
-    'memory_limit' => 256,
+    'memory_limit' => 64,
 
     /*
     |--------------------------------------------------------------------------
@@ -148,30 +150,34 @@ return [
             'supervisor-default' => [
                 'connection' => 'redis',
                 'queue' => [Queue::DEFAULT],
-                'balance' => 'simple',
-                'processes' => 5,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
                 'timeout' => 900, // Timeout after 15 minutes
             ],
             'supervisor-mail' => [
                 'connection' => 'redis',
                 'queue' => [Queue::MAIL],
-                'balance' => 'simple',
-                'processes' => 5,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
             'supervisor-notifications' => [
                 'connection' => 'redis',
                 'queue' => [Queue::NOTIFICATION],
-                'balance' => 'simple',
-                'processes' => 10,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
             'supervisor-messages' => [
                 'connection' => 'redis',
                 'queue' => [Queue::MESSAGE],
-                'balance' => 'simple',
-                'processes' => 10,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
         ],
@@ -180,29 +186,33 @@ return [
             'supervisor-default' => [
                 'connection' => 'redis',
                 'queue' => [Queue::DEFAULT],
-                'balance' => 'simple',
-                'processes' => 5,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
             'supervisor-mail' => [
                 'connection' => 'redis',
                 'queue' => [Queue::MAIL],
-                'balance' => 'simple',
-                'processes' => 5,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
             'supervisor-notifications' => [
                 'connection' => 'redis',
                 'queue' => [Queue::NOTIFICATION],
-                'balance' => 'simple',
-                'processes' => 10,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
             'supervisor-messages' => [
                 'connection' => 'redis',
                 'queue' => [Queue::MESSAGE],
-                'balance' => 'simple',
-                'processes' => 10,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
         ],
@@ -211,29 +221,33 @@ return [
             'supervisor-default' => [
                 'connection' => 'redis',
                 'queue' => [Queue::DEFAULT],
-                'balance' => 'simple',
-                'processes' => 3,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
             'supervisor-mail' => [
                 'connection' => 'redis',
                 'queue' => [Queue::MAIL],
-                'balance' => 'simple',
-                'processes' => 3,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
             'supervisor-notifications' => [
                 'connection' => 'redis',
                 'queue' => [Queue::NOTIFICATION],
-                'balance' => 'simple',
-                'processes' => 3,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
             'supervisor-messages' => [
                 'connection' => 'redis',
                 'queue' => [Queue::MESSAGE],
-                'balance' => 'simple',
-                'processes' => 3,
+                'balance' => 'auto',
+                'minProcesses' => 1,
+                'maxProcesses' => 10,
                 'tries' => 3,
             ],
         ],
