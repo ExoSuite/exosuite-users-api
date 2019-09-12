@@ -152,16 +152,15 @@ return [
                 'queue' => [Queue::DEFAULT],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
-                'timeout' => 900, // Timeout after 15 minutes
             ],
             'supervisor-mail' => [
                 'connection' => 'redis',
                 'queue' => [Queue::MAIL],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
             'supervisor-notifications' => [
@@ -169,7 +168,7 @@ return [
                 'queue' => [Queue::NOTIFICATION],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
             'supervisor-messages' => [
@@ -177,7 +176,7 @@ return [
                 'queue' => [Queue::MESSAGE],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
         ],
@@ -188,7 +187,7 @@ return [
                 'queue' => [Queue::DEFAULT],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
             'supervisor-mail' => [
@@ -196,7 +195,7 @@ return [
                 'queue' => [Queue::MAIL],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
             'supervisor-notifications' => [
@@ -204,7 +203,7 @@ return [
                 'queue' => [Queue::NOTIFICATION],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
             'supervisor-messages' => [
@@ -212,7 +211,7 @@ return [
                 'queue' => [Queue::MESSAGE],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
         ],
@@ -223,7 +222,7 @@ return [
                 'queue' => [Queue::DEFAULT],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
             'supervisor-mail' => [
@@ -231,7 +230,7 @@ return [
                 'queue' => [Queue::MAIL],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
             'supervisor-notifications' => [
@@ -239,7 +238,7 @@ return [
                 'queue' => [Queue::NOTIFICATION],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
             'supervisor-messages' => [
@@ -247,7 +246,7 @@ return [
                 'queue' => [Queue::MESSAGE],
                 'balance' => 'auto',
                 'minProcesses' => 1,
-                'maxProcesses' => 10,
+                'maxProcesses' => 5,
                 'tries' => 3,
             ],
         ],
