@@ -91,7 +91,7 @@ class PostsUnitTest extends TestCase
         $response = $this->delete(route('delete_Post', [
             'user' => $this->user->id,
             'dashboard' => $this->dashboard->id,
-            'post_id' => Uuid::generate()->string,
+            'post' => Uuid::generate()->string,
         ]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -106,7 +106,7 @@ class PostsUnitTest extends TestCase
         Passport::actingAs($this->user);
         $response = $this->delete(route('delete_Post', [
             'user' => $this->user1->id,
-            'post_id' => $post->id,
+            'post' => $post->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }

@@ -147,7 +147,7 @@ class CommentariesUnitTest extends TestCase
             'user' => $this->user->id,
             'dashboard' => $this->dash->id,
             'post' => $this->post->id,
-            'commentary_id' => Uuid::generate()->string,
+            'commentary' => Uuid::generate()->string,
         ]));
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
@@ -163,7 +163,7 @@ class CommentariesUnitTest extends TestCase
         $response = $this->delete(route('delete_commentary', [
             'user' => $this->user->id,
             'post' => $this->post->id,
-            'commentary_id' => $comm->id,
+            'commentary' => $comm->id,
         ]));
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }

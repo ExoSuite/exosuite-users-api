@@ -167,7 +167,7 @@ class LikeTest extends TestCase
         ]);
 
         Passport::actingAs($this->user);
-        $response = $this->get(route('get_likes_from_liker', ['user_id' => $this->user->id]));
+        $response = $this->get(route('get_likes_from_liker', ['user' => $this->user->id]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(2, count($response->decodeResponseJson()));
     }
@@ -177,7 +177,7 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
         $response = $this->post($this->route('post_like_for_run', [BindType::USER => $this->user->id,
-            'run_id' => $this->run->id,
+            'run' => $this->run->id,
         ]));
         $response->assertStatus(Response::HTTP_CREATED);
         $this->assertDatabaseHas('likes', $response->decodeResponseJson());
@@ -188,10 +188,11 @@ class LikeTest extends TestCase
         Passport::actingAs($this->user);
         $this->run = factory(Run::class)->create();
         $post_response = $this->post($this->route('post_like_for_run', [BindType::USER => $this->user->id,
-            'run_id' => $this->run->id,
+            'run' => $this->run->id,
         ]));
-        $response = $this->delete($this->route('delete_like_for_run', [BindType::USER => $this->user->id, 'run_id' =>
-            $this->run->id]));
+        $response = $this->delete($this->route('delete_like_for_run', [BindType::USER => $this->user->id,
+            'run' => $this->run->id,
+        ]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('likes', $post_response->decodeResponseJson());
     }
@@ -215,7 +216,7 @@ class LikeTest extends TestCase
         ]);
 
         $response = $this->get($this->route('get_likes_from_run', [BindType::USER => $this->user->id,
-            'run_id' => $this->run->id,
+            'run' => $this->run->id,
         ]));
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(2, count($response->decodeResponseJson()));

@@ -233,7 +233,9 @@ Route::middleware('auth:api')->group(static function (): void {
                 });
             });
 
-            Route::get('/', 'LikesController@getLikesFromLiker')->name('get_likes_from_liker');
+            Route::prefix("likes")->group(static function (): void {
+                Route::get('/', 'LikesController@getLikesFromLiker')->name('get_likes_from_liker');
+            });
 
             //PENDING REQUESTS-----------------------------------------------------------------------------------
             Route::prefix('pending_requests')->group(static function (): void {
