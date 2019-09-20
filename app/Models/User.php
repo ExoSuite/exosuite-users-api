@@ -14,10 +14,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use ScoutElastic\Searchable;
-use Webpatser\Uuid\Uuid;
 use function strtolower;
 
 /**
@@ -85,8 +83,12 @@ class User extends \Illuminate\Foundation\Auth\User
     use Searchable;
     use Notifiable;
 
-    /** @var array<mixed> */
-    protected $relationsValidation;
+    /**
+     * The "type" of the primary key ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -143,30 +145,6 @@ class User extends \Illuminate\Foundation\Auth\User
         'email_verified_at',
         'remember_token',
     ];
-
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::creating(
-            static function (User $user): void {
-                $user->password = Hash::make($user->password);
-                $user->{$user->getKeyName()} = Uuid::generate()->string;
-            }
-        );
-
-        static::created(static function (User $user): void {
-            $user->profile()->create();
-            $user->dashboard()->create();
-            $user->profileRestrictions()->create();
-        });
-
-        static::deleting(
-            static function (User $user): void {
-                $user->dashboard()->delete();
-                $user->runs()->delete();
-            }
-        );
-    }
 
     /**
      * User constructor.

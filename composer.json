@@ -27,7 +27,7 @@
         "laravel/telescope": "^2.0",
         "laravel/tinker": "^1.0",
         "league/flysystem-cached-adapter": "^1.0",
-        "phaza/laravel-postgis": "^3.5",
+        "phaza/laravel-postgis": "^4.0",
         "spatie/laravel-medialibrary": "^7.10",
         "webpatser/laravel-uuid": "^3.0"
     },

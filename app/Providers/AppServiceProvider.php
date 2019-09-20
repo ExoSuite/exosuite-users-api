@@ -8,6 +8,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
+use App\Models\User;
+use App\Observers\UserObserver;
 
 /**
  * Class AppServiceProvider
@@ -39,6 +41,8 @@ class AppServiceProvider extends ServiceProvider
                 ]
             );
         });
+
+        User::observe(UserObserver::class);
     }
 
 
