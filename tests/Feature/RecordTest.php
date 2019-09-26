@@ -291,30 +291,30 @@ class RecordTest extends TestCase
         $cp1 = factory(CheckPoint::class)->create([
             'run_id' => $run['id'],
             'type' => 'start',
-            "location" => CheckPointController::createPolygonFromArray([[0.0, 0.0], [0.0, 1.0], [1.0, 1.0], [1.0, 0.0], [0.0, 0.0]]),
+            "location" => CheckPointController::createPolygonFromArray([[0.0, 0.0], [0.0, 0.001], [0.001, 0.001], [0.001, 0.0], [0.0, 0.0]]),
         ]);
         $cp2 = $this->post(
             $this->route("post_checkpoint", [BindType::RUN => $run['id']]),
             ["type" => CheckPointType::DEFAULT,
-                "location" => [[1.0, 1.0], [1.0, 2.0], [2.0, 2.0], [2.0, 1.0], [1.0, 1.0]]]
+                "location" => [[0.001, 0.001], [0.001, 0.002], [0.002, 0.002], [0.002, 0.001], [0.001, 0.001]]]
         );
         $checkpoint2_id = $cp2->decodeResponseJson('id');
         $cp3 = $this->post(
             $this->route("post_checkpoint", [BindType::RUN => $run['id']]),
             ["type" => CheckPointType::DEFAULT,
-                "location" => [[2.0, 2.0], [2.0, 3.0], [3.0, 3.0], [3.0, 2.0], [2.0, 2.0]]]
+                "location" => [[0.002, 0.002], [0.002, 0.003], [0.003, 0.003], [0.003, 0.002], [0.002, 0.002]]]
         );
         $checkpoint3_id = $cp3->decodeResponseJson('id');
         $cp4 = $this->post(
             $this->route("post_checkpoint", [BindType::RUN => $run['id']]),
             ["type" => CheckPointType::DEFAULT,
-                "location" => [[3.0, 3.0], [3.0, 4.0], [4.0, 4.0], [4.0, 3.0], [3.0, 3.0]]]
+                "location" => [[0.003, 0.003], [0.003, 0.004], [0.004, 0.004], [0.004, 0.003], [0.003, 0.003]]]
         );
         $checkpoint4_id = $cp4->decodeResponseJson('id');
         $cp5 = $this->post(
             $this->route("post_checkpoint", [BindType::RUN => $run['id']]),
             ["type" => CheckPointType::ARRIVAL,
-                "location" => [[4.0, 4.0], [4.0, 5.0], [5.0, 5.0], [5.0, 4.0], [4.0, 4.0]]]
+                "location" => [[0.004, 0.004], [0.004, 0.005], [0.005, 0.005], [0.005, 0.004], [0.004, 0.004]]]
         );
         $checkpoint5_id = $cp5->decodeResponseJson('id');
 
@@ -330,19 +330,19 @@ class RecordTest extends TestCase
         );
         $time2 = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint2_id]),
-            ['current_time' => "1540382415", "user_run_id" => $user_run_id]
+            ['current_time' => "1540382436", "user_run_id" => $user_run_id]
         );
         $time3 = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint3_id]),
-            ['current_time' => "1540382421", "user_run_id" => $user_run_id]
+            ['current_time' => "1540382488", "user_run_id" => $user_run_id]
         );
         $time4 = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint4_id]),
-            ['current_time' => "1540382434", "user_run_id" => $user_run_id]
+            ['current_time' => "1540382519", "user_run_id" => $user_run_id]
         );
         $time5 = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint5_id]),
-            ['current_time' => "1540382456", "user_run_id" => $user_run_id]
+            ['current_time' => "1540382561", "user_run_id" => $user_run_id]
         );
         $response = $this->patch(
             $this->route("patch_user_run", [BindType::RUN => $run['id'], BindType::USER_RUN =>
@@ -353,7 +353,7 @@ class RecordTest extends TestCase
             ["user_run_id" => $user_run_id]
         );
         $record_id = $response->decodeResponseJson("id");
-        $response = $this->patch(
+        $record1 = $this->patch(
             $this->route("patch_record", [BindType::RUN => $run['id'], BindType::RECORD => $record_id]),
             ["user_run_id" => $user_run_id]
         );
@@ -366,29 +366,29 @@ class RecordTest extends TestCase
         $time1 = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $cp1['id']]),
             // Timestamp value 1540382400 is equivalent to 24th November 2018, 12:00:00
-            ['current_time' => "1540382500", "user_run_id" => $user_run_id]
+            ['current_time' => "1540382600", "user_run_id" => $user_run_id]
         );
         $time2 = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint2_id]),
-            ['current_time' => "1540382512", "user_run_id" => $user_run_id]
+            ['current_time' => "1540382631", "user_run_id" => $user_run_id]
         );
         $time3 = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint3_id]),
-            ['current_time' => "1540382519", "user_run_id" => $user_run_id]
+            ['current_time' => "1540382675", "user_run_id" => $user_run_id]
         );
         $time4 = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint4_id]),
-            ['current_time' => "1540382530", "user_run_id" => $user_run_id]
+            ['current_time' => "1540382702", "user_run_id" => $user_run_id]
         );
         $time5 = $this->post(
             $this->route("post_time", [BindType::RUN => $run['id'], BindType::CHECKPOINT => $checkpoint5_id]),
-            ['current_time' => "1540382549", "user_run_id" => $user_run_id]
+            ['current_time' => "1540382743", "user_run_id" => $user_run_id]
         );
         $response = $this->patch(
             $this->route("patch_user_run", [BindType::RUN => $run['id'], BindType::USER_RUN =>
                 $user_run_id])
         );
-        $response = $this->patch(
+        $record2 = $this->patch(
             $this->route("patch_record", [BindType::RUN => $run['id'], BindType::RECORD => $record_id]),
             ["user_run_id" => $user_run_id]
         );

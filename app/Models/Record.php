@@ -26,6 +26,17 @@ class Record extends UuidModel
         'sum_of_best',
         'user_id',
         'best_segments',
+        'total_distance',
+        'average_speed_on_best_time',
+        'distance_between_cps',
+        'best_speed_between_cps',
+    ];
+
+    /** @var string[] */
+    protected $casts = [
+        'best_segments' => 'array',
+        'best_speed_between_cps' => 'array',
+        'distance_between_cps' => 'array',
     ];
 
     public function run(): BelongsTo

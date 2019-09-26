@@ -128,13 +128,16 @@ class RunTest extends TestCase
     {
         $targeted_user = factory(User::class)->create();
         Passport::actingAs($targeted_user);
-        $this->run = factory(Run::class)->create();
+        $this->run = factory(Run::class)->create([
+            'visibility' => 'public',
+        ]);
         $run_id = $this->run['id'];
         Passport::actingAs($this->user);
         $response = $this->get($this->route('get_run_by_id', [
             BindType::USER => $targeted_user->id,
             BindType::RUN => $run_id,
         ]));
+        dd($response->decodeResponseJson());
         $response->assertStatus(Response::HTTP_OK);
         $run = Run::find($run_id)->first();
         $this->assertForeignKeyIsExpectedID($targeted_user->id, $run->creator_id);
@@ -145,7 +148,9 @@ class RunTest extends TestCase
         Passport::actingAs($this->user);
 
         for ($i = 0; $i < 20; $i++) {
-            $run = factory(Run::class)->create();
+            $run = factory(Run::class)->create([
+                'visibility' => 'public',
+            ]);
             $checkpoint = factory(CheckPoint::class)->create([
                 'run_id' => $run['id'],
             ]);
@@ -201,6 +206,7 @@ class RunTest extends TestCase
 
         Passport::actingAs($this->user);
         $response = $this->get($this->route('get_runs', [BindType::USER => $targeted_user->id]));
+        dd($response->decodeResponseJson());
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(RunController::GET_PER_PAGE, count($response->decodeResponseJson('data')));
         $this->assertForeignKeyInArray(

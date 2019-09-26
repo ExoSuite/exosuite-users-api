@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateRecordRequest;
 use App\Http\Requests\UpdateRecordRequest;
+use App\Models\CheckPoint;
 use App\Models\Record;
 use App\Models\Run;
 use App\Models\User;
@@ -20,6 +21,38 @@ class RecordController extends Controller
 {
 
     /**
+     * @param float $degrees
+     * @return float|int
+     */
+    public function degreesToRadians(float $degrees)
+    {
+        return $degrees * pi() / 180;
+    }
+
+    /**
+     * @param float $lat1
+     * @param float $lon1
+     * @param float $lat2
+     * @param float $lon2
+     * @return float|int
+     */
+    public function distanceInKmBetweenEarthCoordinates(float $lat1, float $lon1, float $lat2, float $lon2)
+    {
+        $earthRadiusKm = 6371;
+
+        $dLat = $this->degreesToRadians($lat2 - $lat1);
+        $dLon = $this->degreesToRadians($lon2 - $lon1);
+
+        $lat1 = $this->degreesToRadians($lat1);
+        $lat2 = $this->degreesToRadians($lat2);
+
+        $a = sin($dLat / 2) * sin($dLat / 2) +
+            sin($dLon / 2) * sin($dLon / 2) * cos($lat1) * cos($lat2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        return $earthRadiusKm * $c;
+    }
+    /**
      * @param array<string> $data
      * @param \App\Models\Record $record
      * @return \App\Models\Record
@@ -28,37 +61,69 @@ class RecordController extends Controller
     {
         $user_run = UserRun::findOrFail($data['user_run_id']);
         $curr_times = $user_run->times()->get();
+        $distances = Run::findOrFail($user_run->run_id)->checkpoints()->get();
         $last_time = $curr_times->last();
         $last_time_timestamp = $last_time->current_time;
         $first_time = $curr_times->first();
         $first_time_timestamp = $first_time->current_time;
         $total_time = $last_time_timestamp - $first_time_timestamp;
+        $update_avg_speed_flag = false;
 
         if ($record->best_time === -1 || $record->best_time > $total_time) {
             $record->best_time = $total_time;
             $record->best_time_user_run_id = $data['user_run_id'];
+            $update_avg_speed_flag = true;
         }
 
         $curr_segments = [];
+        $km_between_cps = [];
+        $speed_between_cps = [];
 
         for ($i = 0; $i !== count($curr_times) - 1; $i++) {
+
             $time = $curr_times[$i + 1]->current_time - $curr_times[$i]->current_time;
             array_push($curr_segments, $time);
         }
 
-        $final_segments_data = explode(",", $record->best_segments);
+        $final_segments_data = json_decode($record->best_segments);
+        $record->total_distance = 0;
         $record->sum_of_best = 0;
 
         for ($i = 0; $i !== count($final_segments_data); $i++) {
-            if ((int) $final_segments_data[$i] <= $curr_segments[$i] && (int) $final_segments_data[$i] !== -1) {
+            $dist1 = CheckPoint::findOrFail($distances[$i]['id'])->location->jsonSerialize()->getCoordinates()[0][$i];
+            $dist2 = CheckPoint::findOrFail($distances[$i]['id'])->location->jsonSerialize()->getCoordinates()[0][$i
+            + 1];
+            $segment_distance = $this->distanceInKmBetweenEarthCoordinates(
+                $dist1[0],
+                $dist1[1],
+                $dist2[0],
+                $dist2[1]
+            );
+            array_push($km_between_cps, $segment_distance);
+
+            if ($final_segments_data[$i] <= $curr_segments[$i] && $final_segments_data[$i] !== -1) {
+                $segment_speed = $segment_distance / ($final_segments_data[$i] / 3600);
+                array_push($speed_between_cps, $segment_speed);
+                $record->sum_of_best += $final_segments_data[$i];
+                $record->total_distance += $segment_distance;
+
                 continue;
             }
 
             $final_segments_data[$i] = $curr_segments[$i];
+            $segment_speed = $segment_distance / ($final_segments_data[$i] / 3600);
+            array_push($speed_between_cps, $segment_speed);
             $record->sum_of_best += $final_segments_data[$i];
+            $record->total_distance += $segment_distance;
         }
 
-        $record->best_segments = implode(",", $final_segments_data);
+        $record->best_segments = json_encode($final_segments_data);
+        $record->distance_between_cps = json_encode($km_between_cps);
+        $record->best_speed_between_cps = json_encode($speed_between_cps);
+
+        if ($update_avg_speed_flag)
+            $record->average_speed_on_best_time = $record->total_distance / ($record->best_time / 3600);
+
         $record->save();
 
         return $record;
@@ -90,9 +155,9 @@ class RecordController extends Controller
     {
         $request->validated();
         $start_user_run_id = $request->get('user_run_id');
-        $cp_nbr = $run->checkpoints()->count() - 1;
-        $array = array_fill(0, $cp_nbr, -1);
-        $segments_str = implode(",", $array);
+        $cps = $run->checkpoints()->get();
+        $cp_count = count($cps);
+        $array = array_fill(0, $cp_count - 1, -1);
 
         return $this->created(
             Record::create([
@@ -101,7 +166,11 @@ class RecordController extends Controller
                 "best_time_user_run_id" => $start_user_run_id,
                 "sum_of_best" => -1,
                 "user_id" => Auth::user()->id,
-                "best_segments" => $segments_str,
+                "best_segments" => json_encode($array),
+                'total_distance' => -1,
+                'average_speed_on_best_time' => -1,
+                'distance_between_cps' => json_encode($array),
+                'best_speed_between_cps' => json_encode($array),
             ])
         );
     }
