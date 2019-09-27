@@ -39,19 +39,21 @@ class CheckPointTypeRule implements Rule
         } else {
             if ($value === CheckPointType::START) {
                 return $this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
-            }
-            else if ($value === CheckPointType::ARRIVAL) {
-                // if a start checkpoint is found, checkPointTypeIntegrity will return false
-                $isStartHere = !$this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
-                if ($isStartHere === false)
-                    return false;
-                return $this->checkPointTypeIntegrity($checkpoints, CheckPointType::ARRIVAL);
-            }
-            else {
-                // if a start checkpoint is found, checkPointTypeIntegrity will return false
-                $isStartHere = !$this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
-                if ($isStartHere === false)
-                    return false;
+            } else {
+                if ($value === CheckPointType::ARRIVAL) {
+                    // if a start checkpoint is found, checkPointTypeIntegrity will return false
+                    $isStartHere = !$this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
+                    if ($isStartHere === false) {
+                        return false;
+                    }
+                    return $this->checkPointTypeIntegrity($checkpoints, CheckPointType::ARRIVAL);
+                } else {
+                    // if a start checkpoint is found, checkPointTypeIntegrity will return false
+                    $isStartHere = !$this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
+                    if ($isStartHere === false) {
+                        return false;
+                    }
+                }
             }
         }
         return true;

@@ -153,7 +153,7 @@ class UserProfilePictureController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
      * @return void
      */
     public function destroy(int $id): void

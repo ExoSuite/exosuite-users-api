@@ -10,6 +10,7 @@ use App\Models\Traits\Shareable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Auth;
 use ScoutElastic\Searchable;
@@ -48,6 +49,7 @@ use ScoutElastic\Searchable;
  * @property-read int|null $share_count
  * @property-read int|null $times_through_checkpoints_count
  * @property-read int|null $user_runs_count
+ * @property-read \App\Models\Record $record
  */
 class Run extends UuidModel
 {
@@ -192,5 +194,10 @@ class Run extends UuidModel
     public function userRuns(): HasMany
     {
         return $this->hasMany(UserRun::class)->with(['times']);
+    }
+
+    public function record(): HasOne
+    {
+        return $this->hasOne(Record::class);
     }
 }

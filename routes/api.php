@@ -109,6 +109,13 @@ Route::middleware('auth:api')->group(static function (): void {
                     Route::get('/{user_run}', 'UserRunController@show')->name('get_my_user_run_by_id');
                 });
 
+                Route::prefix('/{run}/record')->group(static function (): void {
+                    Route::post('/', 'RecordController@store')->name('post_record');
+                    Route::delete('/{record}', 'RecordController@destroy')->name('delete_record');
+                    Route::patch('/{record}', 'RecordController@update')->name('patch_record');
+                    Route::get('/', 'RecordController@index')->name('get_my_records');
+                });
+
                 Route::prefix('/{run}/checkpoint')->group(static function (): void {
                     Route::post('/', 'CheckPoint\CheckPointController@store')->name('post_checkpoint');
                     Route::delete('/{checkpoint}', 'CheckPoint\CheckPointController@destroy')
@@ -265,6 +272,10 @@ Route::middleware('auth:api')->group(static function (): void {
                     Route::prefix('/user_run')->group(static function (): void {
                         Route::get('/', 'UserRunController@index')->name('get_user_runs');
                         Route::get('/{user_run}', 'UserRunController@show')->name('get_user_run_by_id');
+                    });
+
+                    Route::prefix('/record')->group(static function (): void {
+                        Route::get('/', 'RecordController@index')->name('get_user_records');
                     });
 
                     Route::prefix('/checkpoint')->group(static function (): void {

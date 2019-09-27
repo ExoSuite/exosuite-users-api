@@ -9,15 +9,17 @@ class AddHeaderAccessToken
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         $accessToken = $request->query('token');
-        if (is_string($accessToken))
+        if (is_string($accessToken)) {
             $request->headers->set('Authorization', "Bearer $accessToken");
+        }
         return $next($request);
     }
 }

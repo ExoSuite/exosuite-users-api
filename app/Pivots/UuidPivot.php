@@ -29,10 +29,10 @@ abstract class UuidPivot extends Pivot
     /**
      * Create a new pivot model from raw values returned from a query.
      *
-     * @param  \Illuminate\Database\Eloquent\Model $parent
-     * @param  array $attributes
-     * @param  string $table
-     * @param  bool $exists
+     * @param \Illuminate\Database\Eloquent\Model $parent
+     * @param array $attributes
+     * @param string $table
+     * @param bool $exists
      *
      * @return \Illuminate\Database\Eloquent\Relations\Pivot
      * @throws \Exception

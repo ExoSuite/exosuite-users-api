@@ -20,6 +20,9 @@ parameters:
         - '#undefined method App\\Providers\\AppServiceProvider::count#'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model|ScoutElastic\\Searchable#'
         - '#parameters()#'
+        - '#::getLocation()#'
+        - '#::checkpoints()#'
+        - '#of parent class App\\Models\\Abstracts\\UuidModel#'
     paths:
         - %rootDir%/../../../app
         - %rootDir%/../../../routes

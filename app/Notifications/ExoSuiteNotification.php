@@ -19,7 +19,7 @@ abstract class ExoSuiteNotification extends Notification
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
      * @return string[]
      */
     public function via($notifiable): array
@@ -30,7 +30,7 @@ abstract class ExoSuiteNotification extends Notification
     /**
      * Get the broadcastable representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
      * @return \Illuminate\Notifications\Messages\BroadcastMessage
      */
     public function toBroadcast($notifiable): BroadcastMessage

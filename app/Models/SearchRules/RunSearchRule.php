@@ -21,11 +21,11 @@ class RunSearchRule extends SearchRule
         $query = $this->builder->query;
 
         return [
-            'must'  => [
-                'multi_match'   => [
-                    'query'     => $query,
-                    'fields'    => array_merge(Run::getSearchableFields(), Run::getUserSearchableFields()),
-                    'type'      => 'phrase_prefix',
+            'must' => [
+                'multi_match' => [
+                    'query' => $query,
+                    'fields' => array_merge(Run::getSearchableFields(), Run::getUserSearchableFields()),
+                    'type' => 'phrase_prefix',
                 ],
             ],
         ];

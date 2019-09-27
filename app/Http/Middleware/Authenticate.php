@@ -16,9 +16,9 @@ class Authenticate extends \Illuminate\Auth\Middleware\Authenticate
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @param  string[] ...$guards
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param string[] ...$guards
      *
      * @return mixed
      */
@@ -32,8 +32,8 @@ class Authenticate extends \Illuminate\Auth\Middleware\Authenticate
     /**
      * Determine if the user is logged in to any of the given guards.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  array $guards
+     * @param \Illuminate\Http\Request $request
+     * @param array $guards
      *
      * @return void
      */

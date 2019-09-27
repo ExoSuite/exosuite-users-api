@@ -8,6 +8,7 @@ use App\Models\Abstracts\UuidModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Phaza\LaravelPostgis\Eloquent\PostgisTrait;
+use Phaza\LaravelPostgis\Geometries\Polygon;
 
 /**
  * Class CheckPoint
@@ -69,6 +70,11 @@ class CheckPoint extends UuidModel
         static::deleting(static function (self $checkpoint): void {
             $checkpoint->times->each->delete();
         });
+    }
+
+    public function getLocation(): Polygon
+    {
+        return $this->location;
     }
 
     public function run(): BelongsTo
