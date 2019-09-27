@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 return [
 
@@ -54,9 +54,7 @@ return [
     |
     */
 
-    'ignored_solution_providers' => [
-        //
-    ],
+    'ignored_solution_providers' => [],
 
     /*
     |--------------------------------------------------------------------------

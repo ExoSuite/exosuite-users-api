@@ -3,13 +3,13 @@
 namespace App\Providers;
 
 use App\Facades\ApiHelper;
+use App\Models\User;
+use App\Observers\UserObserver;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
-use App\Models\User;
-use App\Observers\UserObserver;
 
 /**
  * Class AppServiceProvider
