@@ -22,7 +22,7 @@ parameters:
         - '#parameters()#'
         - '#::getLocation()#'
         - '#::checkpoints()#'
-        - '#property $run of parent class#'
+        - '#of parent class App\\Models\\Abstracts\\UuidModel#'
     paths:
         - %rootDir%/../../../app
         - %rootDir%/../../../routes

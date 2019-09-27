@@ -52,6 +52,7 @@ class RecordController extends Controller
 
         return $earthRadiusKm * $c;
     }
+
     /**
      * @param array<string> $data
      * @param \App\Models\Record $record
@@ -83,9 +84,10 @@ class RecordController extends Controller
         $record->sum_of_best = 0;
 
         for ($i = 0; $i !== count($final_segments_data); $i++) {
-            $dist1 = CheckPoint::findOrFail($distances[$i]['id'])->getLocation()->jsonSerialize()->getCoordinates()[0][$i];
-            $dist2 = CheckPoint::findOrFail($distances[$i]['id'])->getLocation()->jsonSerialize()->getCoordinates()[0][$i
-            + 1];
+            $dist1 = CheckPoint::findOrFail($distances[$i]['id'])
+                ->getLocation()->jsonSerialize()->getCoordinates()[0][$i];
+            $dist2 = CheckPoint::findOrFail($distances[$i]['id'])
+                ->getLocation()->jsonSerialize()->getCoordinates()[0][$i + 1];
             $segment_distance = $this->distanceInKmBetweenEarthCoordinates(
                 $dist1[0],
                 $dist1[1],

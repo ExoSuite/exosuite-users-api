@@ -20,11 +20,11 @@ class UserSearchRule extends SearchRule
         $query = $this->builder->query;
 
         return [
-            'must'  => [
-                'multi_match'   => [
-                    'query'     => $query,
-                    'fields'    => ['first_name', 'last_name', 'nick_name'],
-                    'type'      => 'phrase_prefix',
+            'must' => [
+                'multi_match' => [
+                    'query' => $query,
+                    'fields' => ['first_name', 'last_name', 'nick_name'],
+                    'type' => 'phrase_prefix',
                 ],
             ],
         ];

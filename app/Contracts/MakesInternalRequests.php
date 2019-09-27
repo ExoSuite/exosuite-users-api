@@ -22,10 +22,10 @@ interface MakesInternalRequests
     /**
      * Make an internal request
      *
-     * @param  string $method The HTTP verb to use.
-     * @param  string $uri The API uri to look up.
-     * @param  string[] $data The request body.
-     * @param  string[] $headers Additional headers
+     * @param string $method The HTTP verb to use.
+     * @param string $uri The API uri to look up.
+     * @param string[] $data The request body.
+     * @param string[] $headers Additional headers
      * @return \Illuminate\Http\Response
      */
     public function request(

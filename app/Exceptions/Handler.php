@@ -38,7 +38,7 @@ class Handler extends \Illuminate\Foundation\Exceptions\Handler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception $exception
+     * @param \Exception $exception
      *
      * @return void
      * @throws \Exception

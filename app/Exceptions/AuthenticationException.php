@@ -30,8 +30,8 @@ class AuthenticationException extends HttpException
     /**
      * Create a new authentication exception.
      *
-     * @param  string $message
-     * @param  string[] $guards
+     * @param string $message
+     * @param string[] $guards
      */
     public function __construct(string $message = 'Unauthenticated.', array $guards = [])
     {

@@ -69,13 +69,13 @@ class CreateElasticsearchIndexesCommand extends Command
                 $this->info("The {$model} mapping was updated");
             } catch (Throwable $e) {
                 $indexConfigurator = $instance->getIndexConfigurator();
-                    Artisan::call(
-                        'elastic:migrate',
-                        [
-                            'model' => "{$modelNamespace}{$model}",
-                            "target-index" => $indexConfigurator->getName() . "_" . Carbon::now()->timestamp,
-                        ]
-                    );
+                Artisan::call(
+                    'elastic:migrate',
+                    [
+                        'model' => "{$modelNamespace}{$model}",
+                        "target-index" => $indexConfigurator->getName() . "_" . Carbon::now()->timestamp,
+                    ]
+                );
                 $this->info(Artisan::output());
             }
 

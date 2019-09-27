@@ -18,7 +18,7 @@ class CheckPointPolicy
     /**
      * Determine whether the user can view the check point.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\CheckPoint $checkPoint
      * @return mixed
      */
@@ -29,7 +29,7 @@ class CheckPointPolicy
     /**
      * Determine whether the user can create check points.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @return mixed
      */
     public function create(User $user)
@@ -39,7 +39,7 @@ class CheckPointPolicy
     /**
      * Determine whether the user can update the check point.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\CheckPoint $checkPoint
      * @return mixed
      */
@@ -51,7 +51,7 @@ class CheckPointPolicy
     /**
      * Determine whether the user can delete the check point.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\CheckPoint $checkPoint
      * @return mixed
      */
@@ -63,7 +63,7 @@ class CheckPointPolicy
     /**
      * Determine whether the user can restore the check point.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\CheckPoint $checkpoint
      * @return mixed
      */
@@ -74,7 +74,7 @@ class CheckPointPolicy
     /**
      * Determine whether the user can permanently delete the check point.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\CheckPoint $checkpoint
      * @return mixed
      */

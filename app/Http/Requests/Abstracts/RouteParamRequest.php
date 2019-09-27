@@ -22,7 +22,7 @@ abstract class RouteParamRequest extends FormRequest
     /**
      * Get all of the input and files for the request.
      *
-     * @param  mixed[]|mixed  $keys
+     * @param mixed[]|mixed $keys
      * @return mixed[]
      */
     public function all($keys = null): array
