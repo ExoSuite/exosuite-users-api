@@ -39,6 +39,7 @@ use Spatie\MediaLibrary\Models\Media;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\UserProfile whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read int|null $media_count
  */
 class UserProfile extends Model implements HasMedia
 {

@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Post whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read int|null $commentaries_count
  */
 class Post extends UuidModel
 {

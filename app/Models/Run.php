@@ -44,6 +44,11 @@ use ScoutElastic\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereVisibility($value)
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\UserRun[] $userRuns
+ * @property-read int|null $checkpoints_count
+ * @property-read int|null $likes_count
+ * @property-read int|null $share_count
+ * @property-read int|null $times_through_checkpoints_count
+ * @property-read int|null $user_runs_count
  * @property-read \App\Models\Record $record
  */
 class Run extends UuidModel

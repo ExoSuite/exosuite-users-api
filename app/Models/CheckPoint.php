@@ -33,6 +33,7 @@ use Phaza\LaravelPostgis\Eloquent\PostgisTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CheckPoint whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\CheckPoint whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read int|null $times_count
  */
 class CheckPoint extends UuidModel
 {
