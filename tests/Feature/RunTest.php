@@ -137,7 +137,6 @@ class RunTest extends TestCase
             BindType::USER => $targeted_user->id,
             BindType::RUN => $run_id,
         ]));
-        dd($response->decodeResponseJson());
         $response->assertStatus(Response::HTTP_OK);
         $run = Run::find($run_id)->first();
         $this->assertForeignKeyIsExpectedID($targeted_user->id, $run->creator_id);
@@ -206,7 +205,6 @@ class RunTest extends TestCase
 
         Passport::actingAs($this->user);
         $response = $this->get($this->route('get_runs', [BindType::USER => $targeted_user->id]));
-        dd($response->decodeResponseJson());
         $response->assertStatus(Response::HTTP_OK);
         $this->assertEquals(RunController::GET_PER_PAGE, count($response->decodeResponseJson('data')));
         $this->assertForeignKeyInArray(

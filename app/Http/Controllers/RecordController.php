@@ -67,13 +67,6 @@ class RecordController extends Controller
         $first_time = $curr_times->first();
         $first_time_timestamp = $first_time->current_time;
         $total_time = $last_time_timestamp - $first_time_timestamp;
-        $update_avg_speed_flag = false;
-
-        if ($record->best_time === -1 || $record->best_time > $total_time) {
-            $record->best_time = $total_time;
-            $record->best_time_user_run_id = $data['user_run_id'];
-            $update_avg_speed_flag = true;
-        }
 
         $curr_segments = [];
         $km_between_cps = [];
@@ -85,13 +78,13 @@ class RecordController extends Controller
             array_push($curr_segments, $time);
         }
 
-        $final_segments_data = json_decode($record->best_segments);
+        $final_segments_data = $record->best_segments;
         $record->total_distance = 0;
         $record->sum_of_best = 0;
 
         for ($i = 0; $i !== count($final_segments_data); $i++) {
-            $dist1 = CheckPoint::findOrFail($distances[$i]['id'])->location->jsonSerialize()->getCoordinates()[0][$i];
-            $dist2 = CheckPoint::findOrFail($distances[$i]['id'])->location->jsonSerialize()->getCoordinates()[0][$i
+            $dist1 = CheckPoint::findOrFail($distances[$i]['id'])->getLocation()->jsonSerialize()->getCoordinates()[0][$i];
+            $dist2 = CheckPoint::findOrFail($distances[$i]['id'])->getLocation()->jsonSerialize()->getCoordinates()[0][$i
             + 1];
             $segment_distance = $this->distanceInKmBetweenEarthCoordinates(
                 $dist1[0],
@@ -117,13 +110,15 @@ class RecordController extends Controller
             $record->total_distance += $segment_distance;
         }
 
-        $record->best_segments = json_encode($final_segments_data);
-        $record->distance_between_cps = json_encode($km_between_cps);
-        $record->best_speed_between_cps = json_encode($speed_between_cps);
-
-        if ($update_avg_speed_flag)
+        if ($record->best_time === -1 || $record->best_time > $total_time) {
+            $record->best_time = $total_time;
+            $record->best_time_user_run_id = $data['user_run_id'];
             $record->average_speed_on_best_time = $record->total_distance / ($record->best_time / 3600);
+        }
 
+        $record->best_segments = $final_segments_data;
+        $record->distance_between_cps = $km_between_cps;
+        $record->best_speed_between_cps = $speed_between_cps;
         $record->save();
 
         return $record;
@@ -166,11 +161,11 @@ class RecordController extends Controller
                 "best_time_user_run_id" => $start_user_run_id,
                 "sum_of_best" => -1,
                 "user_id" => Auth::user()->id,
-                "best_segments" => json_encode($array),
+                "best_segments" => $array,
                 'total_distance' => -1,
                 'average_speed_on_best_time' => -1,
-                'distance_between_cps' => json_encode($array),
-                'best_speed_between_cps' => json_encode($array),
+                'distance_between_cps' => $array,
+                'best_speed_between_cps' => $array,
             ])
         );
     }

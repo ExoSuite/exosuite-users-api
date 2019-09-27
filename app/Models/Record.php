@@ -35,8 +35,8 @@ class Record extends UuidModel
     /** @var string[] */
     protected $casts = [
         'best_segments' => 'array',
-        'best_speed_between_cps' => 'array',
         'distance_between_cps' => 'array',
+        'best_speed_between_cps' => 'array',
     ];
 
     public function run(): BelongsTo
