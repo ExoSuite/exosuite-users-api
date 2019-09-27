@@ -20,7 +20,7 @@ class MessagePolicy
     /**
      * Determine whether the user can view the message.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\Message $message
      * @return mixed
      */
@@ -31,7 +31,7 @@ class MessagePolicy
     /**
      * Determine whether the user can create messages.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\Group $group
      * @return mixed
      */
@@ -42,7 +42,7 @@ class MessagePolicy
     /**
      * Determine whether the user can update the message.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\Message $message
      * @return mixed
      */
@@ -54,7 +54,7 @@ class MessagePolicy
     /**
      * Determine whether the user can delete the message.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\Message $message
      * @return mixed
      */
@@ -66,7 +66,7 @@ class MessagePolicy
     /**
      * Determine whether the user can restore the message.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\Message $message
      * @return mixed
      */
@@ -77,7 +77,7 @@ class MessagePolicy
     /**
      * Determine whether the user can permanently delete the message.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\Message $message
      * @return mixed
      */

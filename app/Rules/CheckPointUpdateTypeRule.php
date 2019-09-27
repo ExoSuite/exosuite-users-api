@@ -34,8 +34,9 @@ class CheckPointUpdateTypeRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
@@ -46,13 +47,15 @@ class CheckPointUpdateTypeRule implements Rule
         } else {
             if ($value === CheckPointType::START) {
                 return $this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
-            }
-            else if ($value === CheckPointType::ARRIVAL) {
-                // if the value if found checkPointTypeIntegrity will return false so we need to invert the result
-                $isStartHere = !$this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
-                if ($isStartHere === false)
-                    return false;
-                return $this->checkPointTypeIntegrity($checkpoints, CheckPointType::ARRIVAL);
+            } else {
+                if ($value === CheckPointType::ARRIVAL) {
+                    // if the value if found checkPointTypeIntegrity will return false so we need to invert the result
+                    $isStartHere = !$this->checkPointTypeIntegrity($checkpoints, CheckPointType::START);
+                    if ($isStartHere === false) {
+                        return false;
+                    }
+                    return $this->checkPointTypeIntegrity($checkpoints, CheckPointType::ARRIVAL);
+                }
             }
         }
         return true;
@@ -71,8 +74,9 @@ class CheckPointUpdateTypeRule implements Rule
     private function checkPointTypeIntegrity(array $checkpoints, string $checkPointType): bool
     {
         foreach ($checkpoints as $checkpt) {
-            if ($checkpt['id'] === $this->checkPoint->id)
+            if ($checkpt['id'] === $this->checkPoint->id) {
                 continue;
+            }
 
             if ($checkpt['type'] === $checkPointType) {
                 return false;

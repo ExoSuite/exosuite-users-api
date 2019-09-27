@@ -34,7 +34,7 @@ class NewGroupNotification extends ExoSuiteNotification
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
      * @return  array<string, array<string, \App\Models\Group|string>|string>
      */
     public function toArray($notifiable): array

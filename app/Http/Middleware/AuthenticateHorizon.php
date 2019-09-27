@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Facades\AdministratorServices;
 use Closure;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Horizon\Horizon;
 use function is_bool;
@@ -20,8 +19,8 @@ class AuthenticateHorizon
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      *
      * @return mixed
      */

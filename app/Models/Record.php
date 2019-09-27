@@ -13,6 +13,32 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record query()
  * @mixin \Eloquent
+ * @property string $id
+ * @property string $run_id
+ * @property int $best_time
+ * @property string $best_time_user_run_id
+ * @property int $sum_of_best
+ * @property string $user_id
+ * @property array $best_segments
+ * @property float $total_distance
+ * @property float $average_speed_on_best_time
+ * @property array $distance_between_cps
+ * @property array $best_speed_between_cps
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereAverageSpeedOnBestTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereBestSegments($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereBestSpeedBetweenCps($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereBestTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereBestTimeUserRunId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereDistanceBetweenCps($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereRunId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereSumOfBest($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereTotalDistance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Record whereUserId($value)
  */
 class Record extends UuidModel
 {

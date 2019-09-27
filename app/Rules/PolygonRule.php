@@ -2,12 +2,7 @@
 
 namespace App\Rules;
 
-use App\Models\CheckPoint;
 use Illuminate\Contracts\Validation\Rule;
-use GuzzleHttp\Client;
-use Phaza\LaravelPostgis\Geometries\Polygon;
-use Phaza\LaravelPostgis\Geometries\Point;
-use Phaza\LaravelPostgis\Geometries\LineString;
 
 /**
  * Class PolygonRule
@@ -28,8 +23,8 @@ class PolygonRule implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string $attribute
-     * @param  mixed $value
+     * @param string $attribute
+     * @param mixed $value
      *
      * @return bool
      */

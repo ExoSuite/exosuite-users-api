@@ -18,7 +18,7 @@ class RunPolicy
     /**
      * Determine whether the user can view the run.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @return mixed
      */
     public function view(User $user)
@@ -28,7 +28,7 @@ class RunPolicy
     /**
      * Determine whether the user can create runs.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @return mixed
      */
     public function create(User $user)
@@ -38,7 +38,7 @@ class RunPolicy
     /**
      * Determine whether the user can update the run.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\Run $run
      * @return mixed
      */
@@ -50,7 +50,7 @@ class RunPolicy
     /**
      * Determine whether the user can delete the run.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\Run $run
      * @return mixed
      */
@@ -62,7 +62,7 @@ class RunPolicy
     /**
      * Determine whether the user can restore the run.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\Run $run
      * @return mixed
      */
@@ -73,7 +73,7 @@ class RunPolicy
     /**
      * Determine whether the user can permanently delete the run.
      *
-     * @param  \App\Models\User $user
+     * @param \App\Models\User $user
      * @param \App\Models\Run $run
      * @return mixed
      */

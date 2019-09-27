@@ -75,8 +75,8 @@ class ShareRunController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return void
      */
     public function update(Request $request, int $id): void
@@ -86,7 +86,7 @@ class ShareRunController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
      * @return void
      */
     public function destroy(int $id): void
