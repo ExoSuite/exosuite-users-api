@@ -60,8 +60,9 @@ class RecordController extends Controller
     public function checkForUpdates(array $data, Record $record): Record
     {
         $user_run = UserRun::findOrFail($data['user_run_id']);
+        $run_id = $user_run->getRunId();
         $curr_times = $user_run->times()->get();
-        $distances = Run::findOrFail($user_run->run)->checkpoints()->get();
+        $distances = Run::findOrFail($run_id)->checkpoints()->get();
         $last_time = $curr_times->last();
         $last_time_timestamp = $last_time->current_time;
         $first_time = $curr_times->first();
@@ -83,9 +84,8 @@ class RecordController extends Controller
         $record->sum_of_best = 0;
 
         for ($i = 0; $i !== count($final_segments_data); $i++) {
-            $dist1 = CheckPoint::findOrFail($distances[$i]['id'])->getLocation()->jsonSerialize()->getCoordinates()[0][$i];
-            $dist2 = CheckPoint::findOrFail($distances[$i]['id'])->getLocation()->jsonSerialize()->getCoordinates()[0][$i
-            + 1];
+            $dist1 = $distances[$i]->getLocation()->jsonSerialize()->getCoordinates()[0][$i];
+            $dist2 = $distances[$i]->getLocation()->jsonSerialize()->getCoordinates()[0][$i + 1];
             $segment_distance = $this->distanceInKmBetweenEarthCoordinates(
                 $dist1[0],
                 $dist1[1],
@@ -95,19 +95,19 @@ class RecordController extends Controller
             array_push($km_between_cps, $segment_distance);
 
             if ($final_segments_data[$i] <= $curr_segments[$i] && $final_segments_data[$i] !== -1) {
-                $segment_speed = $segment_distance / ($final_segments_data[$i] / 3600);
+                $segment_speed = $km_between_cps[$i] / ($final_segments_data[$i] / 3600);
                 array_push($speed_between_cps, $segment_speed);
                 $record->sum_of_best += $final_segments_data[$i];
-                $record->total_distance += $segment_distance;
+                $record->total_distance += $km_between_cps[$i];
 
                 continue;
             }
 
             $final_segments_data[$i] = $curr_segments[$i];
-            $segment_speed = $segment_distance / ($final_segments_data[$i] / 3600);
+            $segment_speed = $km_between_cps[$i] / ($final_segments_data[$i] / 3600);
             array_push($speed_between_cps, $segment_speed);
             $record->sum_of_best += $final_segments_data[$i];
-            $record->total_distance += $segment_distance;
+            $record->total_distance += $km_between_cps[$i];
         }
 
         if ($record->best_time === -1 || $record->best_time > $total_time) {

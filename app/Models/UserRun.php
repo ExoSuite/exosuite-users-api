@@ -49,6 +49,11 @@ class UserRun extends UuidModel
         });
     }
 
+    public function getRunId(): string
+    {
+        return $this->run_id;
+    }
+
     public function run(): BelongsTo
     {
         return $this->belongsTo(Run::class);
