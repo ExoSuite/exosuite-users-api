@@ -61,7 +61,7 @@ class RecordController extends Controller
     {
         $user_run = UserRun::findOrFail($data['user_run_id']);
         $curr_times = $user_run->times()->get();
-        $distances = Run::findOrFail($user_run->run_id)->checkpoints()->get();
+        $distances = Run::findOrFail($user_run->run)->checkpoints()->get();
         $last_time = $curr_times->last();
         $last_time_timestamp = $last_time->current_time;
         $first_time = $curr_times->first();
