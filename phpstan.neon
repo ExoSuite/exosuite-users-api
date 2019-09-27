@@ -22,7 +22,7 @@ parameters:
         - '#parameters()#'
         - '#CheckPoint)::getLocation()#'
         - '#Run)::checkpoints()#'
-        - '#App\Models\Abstracts\UuidModel#
+        - '#App\Models\Abstracts\UuidModel#'
     paths:
         - %rootDir%/../../../app
         - %rootDir%/../../../routes
