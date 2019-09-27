@@ -412,6 +412,7 @@ class RecordTest extends TestCase
             $this->route("get_my_records", [BindType::RUN => $run['id']])
         );
 
+        dd($record2->decodeResponseJson());
         $record2->assertStatus(Response::HTTP_OK);
         $record2->assertJsonStructure((new Record)->getFillable());
         $keys_to_rm = ["best_segments", "distance_between_cps", "best_speed_between_cps"];
