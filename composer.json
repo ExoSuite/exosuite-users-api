@@ -88,7 +88,7 @@
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:generate; fi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:meta; fi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models -W; fi",
-            "@cp -R ./hacks/laravel-er-diagram-generator/* ./vendor/beyondcode/laravel-er-diagram-generator/src"
+            "cp -R ./hacks/laravel-er-diagram-generator/* ./vendor/beyondcode/laravel-er-diagram-generator/src"
         ],
         "reformat": "./vendor/bin/phpcbf --standard='./ruleset.xml'",
         "analyze": "./vendor/bin/phpcs --standard='ruleset.xml'"
