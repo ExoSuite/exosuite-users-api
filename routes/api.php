@@ -224,7 +224,7 @@ Route::middleware('auth:api')->group(static function (): void {
                                 ->name('delete_commentary')
                                 ->middleware('can:deleteCommentary,commentary,post');
 
-                            //LIKES From Commentaries---------------------------------------------------------------------------------------------------
+                            //LIKES From Commentaries--------------------------------------------
                             Route::prefix('{commentary}')->group(static function (): void {
                                 Route::prefix('/likes')->group(static function (): void {
                                     Route::post('/', 'LikesController@store')
