@@ -34,7 +34,7 @@
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
         "beyondcode/laravel-dump-server": "^1.0",
-        "beyondcode/laravel-er-diagram-generator": "^1.2",
+        "beyondcode/laravel-er-diagram-generator": "^1.3.0",
         "codedungeon/phpunit-result-printer": "^0.26.2",
         "exosuite/coding-standard": "^1.1",
         "facade/ignition": "^1.4",
@@ -87,7 +87,8 @@
             "@php artisan package:discover --ansi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:generate; fi",
             "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:meta; fi",
-            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models -W; fi"
+            "if [ -f ./vendor/bin/phpunit ]; then php artisan ide-helper:models -W; fi",
+            "@cp -R ./hacks/laravel-er-diagram-generator/* ./vendor/beyondcode/laravel-er-diagram-generator/src"
         ],
         "reformat": "./vendor/bin/phpcbf --standard='./ruleset.xml'",
         "analyze": "./vendor/bin/phpcs --standard='ruleset.xml'"
