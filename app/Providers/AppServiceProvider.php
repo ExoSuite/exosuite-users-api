@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Facades\ApiHelper;
+use App\Models\User;
+use App\Observers\UserObserver;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -39,6 +41,8 @@ class AppServiceProvider extends ServiceProvider
                 ]
             );
         });
+
+        User::observe(UserObserver::class);
     }
 
 
