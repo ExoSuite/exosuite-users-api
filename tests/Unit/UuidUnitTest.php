@@ -2,36 +2,31 @@
 
 namespace Tests\Unit;
 
-
+use App\Enums\BindType;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
+use Webpatser\Uuid\Uuid;
 
-/**
- * Class UuidUnitTest
- *
- * @package Tests\Unit
- */
 class UuidUnitTest extends TestCase
 {
+    use RefreshDatabase;
 
-    /** @var \App\Models\User|\Illuminate\Database\Eloquent\Model|null */
-    private static $user = null;
-
-    public function testInvalidUuidMustThrow422(): void
+    public function testInvalidUuidMustThrowHTTP422(): void
     {
-        Passport::actingAs(self::$user);
+        Passport::actingAs(factory(User::class)->create());
 
-        $response = $this->get($this->route("get_user_profile"), ['user' => 42]);
-        dd($response->decodeResponseJson());
+        $response = $this->get($this->route("get_user_profile", [BindType::USER => 42]));
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    protected function setUp(): void
+    public function testValidUuidButNotInDBMustThrowHTTP422(): void
     {
-        if (self::$user) {
-            return;
-        }
+        Passport::actingAs(factory(User::class)->create());
 
-        self::$user = User::create();
+        $response = $this->get($this->route("get_user_profile", [BindType::USER => Uuid::generate()->string]));
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

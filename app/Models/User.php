@@ -6,6 +6,7 @@ use App\Enums\Preferences;
 use App\Enums\Roles;
 use App\Models\Indexes\UserIndexConfigurator;
 use App\Models\SearchRules\UserSearchRule;
+use App\Models\Traits\UuidRouteBinding;
 use App\Pivots\RoleUser;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -82,6 +83,7 @@ class User extends \Illuminate\Foundation\Auth\User
     use HasApiTokens;
     use Searchable;
     use Notifiable;
+    use UuidRouteBinding;
 
     /**
      * The "type" of the primary key ID.
