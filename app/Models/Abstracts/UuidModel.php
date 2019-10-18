@@ -9,6 +9,7 @@
 
 namespace App\Models\Abstracts;
 
+use App\Models\Traits\UuidRouteBinding;
 use App\Models\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 abstract class UuidModel extends Model
 {
     use Uuids;
+    use UuidRouteBinding;
 
     /**
      * The "type" of the primary key ID.
@@ -39,4 +41,5 @@ abstract class UuidModel extends Model
     {
         return (new static)->getTable();
     }
+
 }
