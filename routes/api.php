@@ -22,6 +22,17 @@ Route::prefix('auth')->group(static function (): void {
         Route::post('/email', 'Auth\PreFlightCheckController@emailIsAlreadyRegistered')
             ->name('preflight_is_mail_available');
     });
+
+    Route::prefix('password')->group(static function (): void {
+        Route::prefix('reset')->group(static function (): void {
+            Route::get('/', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+            Route::get('/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+            Route::post('', 'Auth\ResetPasswordController@reset')->name('password.update');
+        });
+
+        Route::post('/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+
+    });
 });
 
 Route::prefix('monitoring')->group(static function (): void {

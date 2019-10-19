@@ -18,6 +18,7 @@ use function config;
  * @package App\Facades
  * @method \App\Services\OAuth OAuth()
  * @method \Illuminate\Http\RedirectResponse redirectToLogin($redirectUrl = null)
+ * @method \Illuminate\Http\RedirectResponse redirectToWebsiteHome()
  */
 class ApiHelper extends Facade
 {

@@ -10,3 +10,17 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::prefix('auth')->group(static function (): void {
+    Route::prefix('password')->group(static function (): void {
+        Route::prefix('reset')->group(static function (): void {
+            Route::get('/', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+            Route::get('/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+            Route::post('', 'Auth\ResetPasswordController@reset')->name('password.update');
+        });
+
+        Route::post('/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    });
+});
+
+Route::get('/', "RedirectToWebsiteController@redirect");

@@ -76,4 +76,12 @@ class ApiHelper implements ApiHelperInterface
         return redirect()
             ->to("{$scheme}://{$domain}/login?redirect_uri={$redirectBack}");
     }
+
+    public function redirectToWebsiteHome(): RedirectResponse
+    {
+        $scheme = self::getHttpScheme();
+        $domain = self::getDomain();
+
+        return redirect()->to("{$scheme}://{$domain}");
+    }
 }
