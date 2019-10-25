@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Mot de passe oublié</title>
+    <title>{{ trans("passwords.reset") }}</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -468,53 +468,39 @@
 <div class="md:flex min-h-screen">
     <div class="w-full md:w-1/2 bg-white flex items-center justify-center">
         <div class="max-w-sm m-8">
-            @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-            @endif
 
             <div style="margin-bottom: 5em">
                 <div class="text-black text-5xl md:text-15xl font-black">
-                    {{ trans("passwords.header") }}
+                    {{ trans("passwords.reset") }}
                 </div>
 
                 <div class="w-16 h-1 bg-purple-light my-3 md:my-6"></div>
 
+                @php
+                    $scheme = \App\Facades\ApiHelper::getHttpScheme();
+                    $domain = \App\Facades\ApiHelper::getDomain();
+                    $location = "{$scheme}://{$domain}"
+                @endphp
+
+                <button id="action" onclick="location.href = '{{$location}}/login'"
+                        class="btn btn-outline-dark text-grey-darkest font-bold uppercase tracking-wide py-3 px-6
+                        border-2 rounded-lg"
+                        style="width: 100%"
+                >
+                    {{ trans("auth.login") }}
+                </button>
+
             </div>
-
-            <form class="form-group" method="POST" action="{{ route('password.email') }}">
-                @csrf
-
-                <div class="form-group">
-                    <input
-                        name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
-                        class="form-control  @error('email') is-invalid @enderror text-grey-darker text-2xl
-                        md:text-3xl font-light mb-8 leading-normal transparent-input"
-                        placeholder="Email"
-                    >
-                    @error('email')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <button type="submit" class="btn btn-outline-dark text-grey-darkest font-bold uppercase
-                            tracking-wide py-3 px-6 border-2 rounded-lg" style="width: 100%">
-                        {{ trans("passwords.send") }}
-                    </button>
-                </div>
-
-            </form>
 
         </div>
     </div>
 
     <div class="relative pb-full md:flex md:pb-0 md:min-h-screen w-full md:w-1/2">
-        <div style="background-image: url({{ asset('/svg/403.svg') }});" class="absolute pin bg-cover bg-no-repeat md:bg-left lg:bg-center"></div>
+        <div style="background-image: url({{ asset('/svg/500.svg') }});" class="absolute pin bg-cover bg-no-repeat
+        md:bg-left lg:bg-center"></div>
     </div>
 </div>
+
+
 </body>
 </html>
