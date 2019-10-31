@@ -23,6 +23,7 @@ parameters:
         - '#::getLocation()#'
         - '#::checkpoints()#'
         - '#of parent class App\\Models\\Abstracts\\UuidModel#'
+        - '#Strict comparison using === between Illuminate\\Database\\Eloquent\\Collection#'
     paths:
         - %rootDir%/../../../app
         - %rootDir%/../../../routes

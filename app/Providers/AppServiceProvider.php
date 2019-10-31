@@ -45,7 +45,6 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
     }
 
-
     /**
      * Register any application services.
      *

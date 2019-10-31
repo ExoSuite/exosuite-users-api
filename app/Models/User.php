@@ -7,6 +7,7 @@ use App\Enums\Roles;
 use App\Models\Indexes\UserIndexConfigurator;
 use App\Models\SearchRules\UserSearchRule;
 use App\Models\Traits\UuidRouteBinding;
+use App\Notifications\ResetPasswordNotification;
 use App\Pivots\RoleUser;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -342,6 +343,18 @@ class User extends \Illuminate\Foundation\Auth\User
         return $this->hasOne(ProfileRestrictions::class);
     }
 
+    /**
+     * Send the password reset notification.
+     *
+     * @param  mixed  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
+
     private function restrictionLogic(?string $value): ?string
     {
         $owner_restrictions = $this->profileRestrictions()->first();
@@ -363,5 +376,4 @@ class User extends \Illuminate\Foundation\Auth\User
 
         return $value;
     }
-
 }
