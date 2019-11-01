@@ -497,6 +497,7 @@
                         md:text-3xl font-light mb-8 leading-normal transparent-input"
                         placeholder="Email"
                         type="email"
+                        autocapitalize="none"
                     >
                     @error('email')
                     <span class="invalid-feedback" role="alert">
@@ -513,6 +514,7 @@
                         md:text-3xl font-light mb-8 leading-normal transparent-input"
                         placeholder="{{ trans("passwords.password") }}"
                         type="password"
+                        autocapitalize="none"
                     >
                     @error('password')
                         <span class="invalid-feedback" role="alert">
@@ -529,6 +531,7 @@
                         md:text-3xl font-light mb-8 leading-normal transparent-input"
                         placeholder="{{ trans("passwords.password_confirmation") }}"
                         type="password"
+                        autocapitalize="none"
                     >
                     @error('password_confirmation')
                         <span class="invalid-feedback" role="alert">
