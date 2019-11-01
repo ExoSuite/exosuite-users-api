@@ -492,6 +492,7 @@
                         class="form-control  @error('email') is-invalid @enderror text-grey-darker text-2xl
                         md:text-3xl font-light mb-8 leading-normal transparent-input"
                         placeholder="Email"
+                        autocapitalize="none"
                     >
                     @error('email')
                         <span class="invalid-feedback" role="alert">
