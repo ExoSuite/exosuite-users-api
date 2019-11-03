@@ -30,10 +30,11 @@ class RelationsController extends Controller
 
             $friendship = Friendship::whereFriendId($target->id)->whereUserId($authUserId)->first();
 
-            if ($friendship)
-
+            if ($friendship) {
                 return $this->ok(['value' => 'true']);
+            }
         }
+
         return $this->ok(['value' => 'false']);
     }
 
