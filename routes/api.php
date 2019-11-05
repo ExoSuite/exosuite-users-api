@@ -183,6 +183,7 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::prefix('friendship/')->group(static function (): void {
                 Route::post('/', 'RelationsController@sendFriendshipRequest')->name('post_friendship_request');
                 Route::get('/', 'RelationsController@getFriendsList')->name('get_friendships');
+                Route::get('/existingFriendship', 'RelationsController@getMyFriendshipWith')->name('get_my_friendship_with');
             });
 
             //DASHBOARDS-----------------------------------------------------------------------------------------

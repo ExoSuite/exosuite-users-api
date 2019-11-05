@@ -19,6 +19,25 @@ class RelationsController extends Controller
 {
     use JsonResponses;
 
+    public function getMyFriendshipWith(User $target): JsonResponse
+    {
+        /** @var string $authUserId */
+        $authUserId = Auth::id();
+        $isThereAPendingRequest = PendingRequest::whereTargetId($target->id)
+            ->whereType(RequestTypesEnum::FRIENDSHIP_REQUEST)->first();
+
+        if (!$isThereAPendingRequest) {
+
+            $friendship = Friendship::whereFriendId($target->id)->whereUserId($authUserId)->first();
+
+            if ($friendship) {
+                return $this->ok(['value' => 'true']);
+            }
+        }
+
+        return $this->ok(['value' => 'false']);
+    }
+
     public function sendFriendshipRequest(User $user): JsonResponse
     {
         /** @var string $authUserId */

@@ -25,11 +25,6 @@ class FriendshipsTest extends TestCase
     /** @var \App\Models\User */
     private $user1;
 
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
     public function testSendRequest(): void
     {
         Passport::actingAs($this->user);
@@ -128,6 +123,21 @@ class FriendshipsTest extends TestCase
         $response = $this->delete(route('delete_friendship', ['friendship' => $accept_resp->decodeResponseJson('id')]));
         $response->assertStatus(Response::HTTP_NO_CONTENT);
         $this->assertDatabaseMissing('friendships', $accept_resp->decodeResponseJson());
+    }
+
+    public function testGetMyFriendship(): void
+    {
+        Passport::actingAs($this->user1);
+        $send_resp = $this->post(route('post_friendship_request', ['user' => $this->user->id]));
+        Passport::actingAs($this->user);
+        $this->post(
+            route(
+                'post_accept_friendship_request',
+                ['request' => $send_resp->decodeResponseJson('id')]
+            )
+        );
+        $response = $this->get($this->route('get_my_friendship_with', ['user' => $this->user1->id]));
+        $this->assertEquals($response->decodeResponseJson('value'), 'true');
     }
 
     protected function setUp(): void
