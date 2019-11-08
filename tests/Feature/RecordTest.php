@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Tests\Feature;
 
@@ -524,8 +524,8 @@ class RecordTest extends TestCase
         Passport::actingAs($this->user2);
         $record = $this->get(
             $this->route("get_user_record_by_id", [BindType::USER => $this->user2, BindType::RUN => $run['id'],
-        BindType::RECORD
-        => $record_id])
+                BindType::RECORD
+                => $record_id])
         );
         $record->assertStatus(Response::HTTP_OK);
         $record->assertJsonStructure((new Record)->getFillable());
