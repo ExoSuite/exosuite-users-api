@@ -100,13 +100,22 @@ class FriendshipsUnitTest extends TestCase
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
-    public function testGetMyNonExistantFriendshipWith(): void
+    public function testGetMyNonExistantFriendshipBecauseFriendshipRequestWasNotAccepted(): void
     {
         Passport::actingAs($this->user1);
         $this->post(route('post_friendship_request', ['user' => $this->user->id]));
         Passport::actingAs($this->user);
         $response = $this->get($this->route('get_my_friendship_with', ['user' => $this->user1->id]));
         $this->assertEquals($response->decodeResponseJson('value'), 'false');
+        $this->assertEquals($response->decodeResponseJson('friendship_entity'), null);
+    }
+
+    public function testGetMyNonExistantFriendshipBecauseNoFriendshipRequestWasSent(): void
+    {
+        Passport::actingAs($this->user);
+        $response = $this->get($this->route('get_my_friendship_with', ['user' => $this->user1->id]));
+        $this->assertEquals($response->decodeResponseJson('value'), 'true');
+        $this->assertEquals($response->decodeResponseJson('friendship_entity'), null);
     }
 
     protected function setUp(): void

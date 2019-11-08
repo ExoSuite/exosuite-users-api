@@ -10,7 +10,6 @@ use App\Models\Traits\Shareable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\Auth;
 use ScoutElastic\Searchable;
@@ -196,8 +195,8 @@ class Run extends UuidModel
         return $this->hasMany(UserRun::class)->with(['times']);
     }
 
-    public function record(): HasOne
+    public function records(): HasMany
     {
-        return $this->hasOne(Record::class);
+        return $this->hasMany(Record::class);
     }
 }

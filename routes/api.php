@@ -114,6 +114,7 @@ Route::middleware('auth:api')->group(static function (): void {
                     Route::delete('/{record}', 'RecordController@destroy')->name('delete_record');
                     Route::patch('/{record}', 'RecordController@update')->name('patch_record');
                     Route::get('/', 'RecordController@index')->name('get_my_records');
+                    Route::get('/{record}', 'RecordController@show')->name('get_my_record_by_id');
                 });
 
                 Route::prefix('/{run}/checkpoint')->group(static function (): void {
@@ -183,7 +184,7 @@ Route::middleware('auth:api')->group(static function (): void {
             Route::prefix('friendship/')->group(static function (): void {
                 Route::post('/', 'RelationsController@sendFriendshipRequest')->name('post_friendship_request');
                 Route::get('/', 'RelationsController@getFriendsList')->name('get_friendships');
-                Route::get('/existingFriendship', 'RelationsController@getMyFriendshipWith')->name('get_my_friendship_with');
+                Route::get('/existingFriendship', 'RelationsController@canWeSendFriendshipRequestToUser')->name('get_my_friendship_with');
             });
 
             //DASHBOARDS-----------------------------------------------------------------------------------------
@@ -279,6 +280,7 @@ Route::middleware('auth:api')->group(static function (): void {
 
                     Route::prefix('/record')->group(static function (): void {
                         Route::get('/', 'RecordController@index')->name('get_user_records');
+                        Route::get('/{record}', 'RecordController@show')->name('get_user_record_by_id');
                     });
 
                     Route::prefix('/checkpoint')->group(static function (): void {

@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class RecordController extends Controller
 {
+    public const GET_PER_PAGE = 15;
 
     /**
      * @param float $degrees
@@ -173,6 +174,21 @@ class RecordController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param \App\Models\User|null $user
+     * @param \App\Models\Run $run
+     * @param \App\Models\Record $record
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(?User $user, Run $run, Record $record): JsonResponse
+    {
+        $record = Record::findOrFail($record->id);
+
+        return $this->ok($record);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @param \App\Models\User|null $user
@@ -181,9 +197,7 @@ class RecordController extends Controller
      */
     public function index(?User $user, Run $run): JsonResponse
     {
-        $data = $run->record()->first();
-
-        return $this->ok($data);
+        return $this->ok($run->records()->latest()->paginate(self::GET_PER_PAGE));
     }
 
     /**
