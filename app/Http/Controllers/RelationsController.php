@@ -19,23 +19,36 @@ class RelationsController extends Controller
 {
     use JsonResponses;
 
-    public function getMyFriendshipWith(User $target): JsonResponse
+    public function canWeSendFriendshipRequestToUser(User $target): JsonResponse
     {
         /** @var string $authUserId */
         $authUserId = Auth::id();
-        $isThereAPendingRequest = PendingRequest::whereTargetId($target->id)
+        $isThereAPendingRequestOnActualUser = PendingRequest::whereTargetId($target->id)
             ->whereType(RequestTypesEnum::FRIENDSHIP_REQUEST)->first();
 
-        if (!$isThereAPendingRequest) {
+        $isThereAPendingRequestOnTargetedUser = PendingRequest::whereTargetId($authUserId)
+            ->whereType(RequestTypesEnum::FRIENDSHIP_REQUEST)->first();
 
-            $friendship = Friendship::whereFriendId($target->id)->whereUserId($authUserId)->first();
+        if (!$isThereAPendingRequestOnActualUser && !$isThereAPendingRequestOnTargetedUser) {
 
-            if ($friendship) {
-                return $this->ok(['value' => 'true']);
+            $friendshipWithActualUserAsFriendId = Friendship::whereFriendId($authUserId)->whereUserId($target->id)
+                ->first();
+
+            $friendshipWithTargetUserAsFriendId = Friendship::whereFriendId($target->id)->whereUserId($authUserId)
+                ->first();
+
+            if ($friendshipWithActualUserAsFriendId) {
+                return $this->ok(['value' => 'false', 'friendship_entity' => $friendshipWithActualUserAsFriendId]);
             }
+
+            if ($friendshipWithTargetUserAsFriendId) {
+                return $this->ok(['value' => 'false', 'friendship_entity' => $friendshipWithTargetUserAsFriendId]);
+            }
+
+            return $this->ok(['value' => 'true', 'friendship_entity' => null]);
         }
 
-        return $this->ok(['value' => 'false']);
+        return $this->ok(['value' => 'false', 'friendship_entity' => null]);
     }
 
     public function sendFriendshipRequest(User $user): JsonResponse

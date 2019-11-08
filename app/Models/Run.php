@@ -196,8 +196,8 @@ class Run extends UuidModel
         return $this->hasMany(UserRun::class)->with(['times']);
     }
 
-    public function record(): HasOne
+    public function records(): HasMany
     {
-        return $this->hasOne(Record::class);
+        return $this->hasMany(Record::class);
     }
 }
