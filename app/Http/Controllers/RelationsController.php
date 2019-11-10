@@ -38,17 +38,17 @@ class RelationsController extends Controller
                 ->first();
 
             if ($friendshipWithActualUserAsFriendId) {
-                return $this->ok(['value' => 'false', 'friendship_entity' => $friendshipWithActualUserAsFriendId]);
+                return $this->ok(['value' => false, 'friendship_entity' => $friendshipWithActualUserAsFriendId]);
             }
 
             if ($friendshipWithTargetUserAsFriendId) {
-                return $this->ok(['value' => 'false', 'friendship_entity' => $friendshipWithTargetUserAsFriendId]);
+                return $this->ok(['value' => false, 'friendship_entity' => $friendshipWithTargetUserAsFriendId]);
             }
 
-            return $this->ok(['value' => 'true', 'friendship_entity' => null]);
+            return $this->ok(['value' => true, 'friendship_entity' => null]);
         }
 
-        return $this->ok(['value' => 'false', 'friendship_entity' => null]);
+        return $this->ok(['value' => false, 'friendship_entity' => null]);
     }
 
     public function sendFriendshipRequest(User $user): JsonResponse

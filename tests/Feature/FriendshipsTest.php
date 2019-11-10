@@ -138,7 +138,7 @@ class FriendshipsTest extends TestCase
         );
         Passport::actingAs($this->user1);
         $response = $this->get($this->route('get_my_friendship_with', ['user' => $this->user->id]));
-        $this->assertEquals($response->decodeResponseJson('value'), 'false');
+        $this->assertEquals($response->decodeResponseJson('value'), false);
         $this->assertEquals($response->decodeResponseJson('friendship_entity'), $friendship->decodeResponseJson());
     }
 
