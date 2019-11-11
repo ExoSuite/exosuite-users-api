@@ -40,7 +40,7 @@ class RelationsController extends Controller
             if ($friendshipWithActualUserAsFriendId && $friendshipWithTargetUserAsFriendId) {
                 return $this->ok([
                     'value' => false,
-                    'friendship_entity_user' => $friendshipWithActualUserAsFriendId,
+                    'friendship_entity' => $friendshipWithActualUserAsFriendId,
                     'friendship_entity_target' => $friendshipWithTargetUserAsFriendId,
                 ]);
             }
