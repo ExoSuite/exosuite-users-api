@@ -119,6 +119,7 @@ Route::middleware('auth:api')->group(static function (): void {
 
                 Route::prefix('/{run}/checkpoint')->group(static function (): void {
                     Route::post('/', 'CheckPoint\CheckPointController@store')->name('post_checkpoint');
+                    Route::post('/checkpoints', 'CheckPoint\CheckPointController@createOrderedCPSet')->name('post_checkpoints');
                     Route::delete('/{checkpoint}', 'CheckPoint\CheckPointController@destroy')
                         ->name('delete_checkpoint');
                     Route::put('/{checkpoint}', 'CheckPoint\CheckPointController@update')->name('put_checkpoint');

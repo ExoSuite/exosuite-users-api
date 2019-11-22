@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CheckPoint;
 use App\Enums\CheckPointType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckPoint\CreateCheckPointRequest;
+use App\Http\Requests\CheckPoint\CreateOrderedCVSetRequest;
 use App\Http\Requests\CheckPoint\UpdateCheckPointRequest;
 use App\Models\CheckPoint;
 use App\Models\Run;
@@ -46,6 +47,39 @@ class CheckPointController extends Controller
     public function index(?User $user, Run $run): JsonResponse
     {
         return $this->ok($run->checkpoints()->latest()->paginate(self::GET_PER_PAGE));
+    }
+
+    public function createOrderedCPSet(CreateOrderedCVSetRequest $request, Run $run): JsonResponse
+    {
+        $data = $request->validated();
+        $collection = collect($data["data"]);
+        $collection_size = $collection->count();
+        $sorted = $collection->sortBy('id');
+        $run_id = $run->id;
+
+        $i = 0;
+        $previous_cp_id = null;
+        $final_data = null;
+        $sorted->each(static function ($item) use (&$i, &$previous_cp_id, &$final_data, $collection_size, $run_id): void {
+            if ($i === 0) {
+                $final_data['previous_checkpoint_id'] = null;
+                $final_data['type'] = "start";
+            } else {
+                $final_data['type'] = $collection_size - 1 === $i
+                    ? "arrival"
+                    : "checkpoint";
+
+                $final_data['previous_checkpoint_id'] = $previous_cp_id;
+            }
+
+            $final_data['location'] = self::createPolygonFromArray($item["location"]);
+            $final_data['run_id'] = $run_id;
+            $checkpoint = CheckPoint::create($final_data);
+            $previous_cp_id = $checkpoint->id;
+            $i++;
+        });
+
+        return $this->noContent();
     }
 
     /**
