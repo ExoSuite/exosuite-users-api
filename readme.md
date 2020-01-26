@@ -22,6 +22,3 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 See: [Getting Started](https://confluence.teamexosuite.cloud/display/EXOSUITE/Getting+started)
 
-### Create a pull request
-
-Go To: [ExoSuite Users API create pull request](https://bitbucket.teamexosuite.cloud/projects/ESAPI/repos/exosuite-users-api/pull-requests?create)
